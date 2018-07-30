@@ -1,0 +1,42 @@
+﻿@page "{projectId:int}/{topicId:int}"
+@model Resurgam.Web.Admin.Pages.TopicModel
+@{
+    ViewData["Title"] = "TopicView";
+}
+
+@section HeaderNav {
+    <partial name="Shared/HeaderNavPartial" model="Model.HeaderNav" />
+}
+
+<h2>@Model.Topic.Name</h2>
+@{
+    switch (Model.Topic.TopicTypeID)
+    {
+        case 1:
+            <partial name="TopicPartials/ContentTopic" model="Model.Topic" />
+            break;
+        case 2:
+            <partial name="TopicPartials/CollectionTopic" model="Model.Topic" />
+            break;
+    }
+}
+
+<div style="border: 1px solid blue">
+    <b>Tags</b>
+    <div>
+        @foreach (var tag in Model.Topic.Tags)
+        {
+            <div>@tag.TagName</div>
+        }
+    </div>
+</div>
+<div style="border: 1px solid blue">
+    <b>Related Topics</b>
+    <div>
+        @foreach (var rt in Model.Topic.RelatedTopics)
+        {
+            var topicLink = $"/topic/{rt.ProjectId}/{rt.TopicId}";
+            <a href="@topicLink">@rt.TopicName</a>
+        }
+    </div>
+</div>

@@ -1,0 +1,14 @@
+﻿@model Resurgam.Web.Admin.ViewModels.HeaderNavViewModel
+
+<nav class="navbar navbar-inverse navbar-fixed-top">
+    <div class="container">
+        <div class="navbar-header">
+            <a asp-page="/Customer" asp-route-customerId="@Model.CustomerId" >
+                <img src="/api/customerlogo/@Model.CustomerId/@Model.CustomerLogoURL" alt="@Model.CustomerName" style="max-height:46px;margin-top:2px;" />
+            </a>
+            <a asp-page="/Project" asp-route-projectId="@Model.ProjectId" >
+                <img src="/api/projectlogo/@Model.ProjectId/@Model.ProjectLogoURL" alt="@Model.ProjectName" style="max-height:46px;margin-top:2px;" />
+            </a>
+        </div>
+    </div>
+</nav>

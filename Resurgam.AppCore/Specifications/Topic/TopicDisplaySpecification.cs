@@ -1,0 +1,20 @@
+﻿using System;
+using System.Collections.Generic;
+using System.Text;
+using Resurgam.AppCore.Entities;
+using Resurgam.AppCore.Entities.Interfaces;
+
+namespace Resurgam.AppCore.Specifications
+{
+    public class TopicDisplaySpecification : BaseSpecification<Topic>
+    {
+        public TopicDisplaySpecification(int projectId, int topicId) : base(x => x.ProjectId == projectId && x.Id == topicId)
+        {
+            AddInclude(x => x.Tags);
+            AddInclude(x => x.RelatedTopics);
+            AddInclude($"{nameof(Topic.RelatedTopics)}.{nameof(IReferencedTopic.ChildTopic)}");
+            AddInclude(x => x.CollectionElements);
+            AddInclude($"{nameof(Topic.CollectionElements)}.{nameof(CollectionElement.ElementTopics)}");
+        }
+    }
+}

@@ -1,0 +1,17 @@
+﻿
+@model Resurgam.Web.Admin.ViewModels.TopicDisplayViewModel
+
+@{
+
+    foreach (var element in Model.CollectionElements)
+    {
+        <div style="border: 1px solid blue">
+            <b>@element.CollectionElementName</b>
+            @foreach (var topic in element.Topics)
+            {
+                var topicLink = $"/topic/{topic.ProjectId}/{topic.TopicId}";
+                <div><a href="@topicLink">@topic.Name</a></div>
+            }
+        </div>
+    }
+}

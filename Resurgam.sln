@@ -1,0 +1,55 @@
+﻿
+Microsoft Visual Studio Solution File, Format Version 12.00
+# Visual Studio 15
+VisualStudioVersion = 15.0.27705.2000
+MinimumVisualStudioVersion = 10.0.40219.1
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "SolutionItems", "SolutionItems", "{70B36D70-C8AF-4FCE-8EED-3954D01E0BF8}"
+EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "src", "src", "{19AF4248-CCCA-4E09-8A95-6AD838C59A61}"
+EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "tests", "tests", "{358B564B-5204-4C00-89BF-89FD8CAFFC48}"
+EndProject
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Resurgam.AppCore", "Resurgam.AppCore\Resurgam.AppCore.csproj", "{FEE3A4AF-573B-47BA-85EA-7F75819B65C0}"
+EndProject
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Resurgam.Infrastructure", "Resurgam.Infrastructure\Resurgam.Infrastructure.csproj", "{D0FD6FF9-ADEB-45E8-95E6-5FBFE58BAB99}"
+EndProject
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Resurgam.Web.Admin", "Resurgam.Web.Admin\Resurgam.Web.Admin.csproj", "{622A7154-7FF4-4C2E-B9D2-8A79BB182474}"
+EndProject
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Resurgam.AppCore.Tests", "Resurgam.AppCore.Tests\Resurgam.AppCore.Tests.csproj", "{1CB685CD-0E89-4483-9976-26893DA988C3}"
+EndProject
+Global
+	GlobalSection(SolutionConfigurationPlatforms) = preSolution
+		Debug|Any CPU = Debug|Any CPU
+		Release|Any CPU = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(ProjectConfigurationPlatforms) = postSolution
+		{FEE3A4AF-573B-47BA-85EA-7F75819B65C0}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{FEE3A4AF-573B-47BA-85EA-7F75819B65C0}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{FEE3A4AF-573B-47BA-85EA-7F75819B65C0}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{FEE3A4AF-573B-47BA-85EA-7F75819B65C0}.Release|Any CPU.Build.0 = Release|Any CPU
+		{D0FD6FF9-ADEB-45E8-95E6-5FBFE58BAB99}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{D0FD6FF9-ADEB-45E8-95E6-5FBFE58BAB99}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{D0FD6FF9-ADEB-45E8-95E6-5FBFE58BAB99}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{D0FD6FF9-ADEB-45E8-95E6-5FBFE58BAB99}.Release|Any CPU.Build.0 = Release|Any CPU
+		{622A7154-7FF4-4C2E-B9D2-8A79BB182474}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{622A7154-7FF4-4C2E-B9D2-8A79BB182474}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{622A7154-7FF4-4C2E-B9D2-8A79BB182474}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{622A7154-7FF4-4C2E-B9D2-8A79BB182474}.Release|Any CPU.Build.0 = Release|Any CPU
+		{1CB685CD-0E89-4483-9976-26893DA988C3}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{1CB685CD-0E89-4483-9976-26893DA988C3}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{1CB685CD-0E89-4483-9976-26893DA988C3}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{1CB685CD-0E89-4483-9976-26893DA988C3}.Release|Any CPU.Build.0 = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(SolutionProperties) = preSolution
+		HideSolutionNode = FALSE
+	EndGlobalSection
+	GlobalSection(NestedProjects) = preSolution
+		{FEE3A4AF-573B-47BA-85EA-7F75819B65C0} = {19AF4248-CCCA-4E09-8A95-6AD838C59A61}
+		{D0FD6FF9-ADEB-45E8-95E6-5FBFE58BAB99} = {19AF4248-CCCA-4E09-8A95-6AD838C59A61}
+		{622A7154-7FF4-4C2E-B9D2-8A79BB182474} = {19AF4248-CCCA-4E09-8A95-6AD838C59A61}
+		{1CB685CD-0E89-4483-9976-26893DA988C3} = {358B564B-5204-4C00-89BF-89FD8CAFFC48}
+	EndGlobalSection
+	GlobalSection(ExtensibilityGlobals) = postSolution
+		SolutionGuid = {C9DA6E14-0EAE-4061-A046-A84CDD961ADE}
+	EndGlobalSection
+EndGlobal
