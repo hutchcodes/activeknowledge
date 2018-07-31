@@ -20,6 +20,9 @@
   </ItemGroup>
 
   <ItemGroup>
+    <Content Update="Pages\Partials\CategoryTree.cshtml">
+      <Pack>$(IncludeRazorContentInPack)</Pack>
+    </Content>
     <Content Update="Pages\Project.cshtml">
       <Pack>$(IncludeRazorContentInPack)</Pack>
     </Content>

@@ -7,9 +7,10 @@ namespace Resurgam.AppCore.Specifications
 {
     public class CategoryListSpecification : BaseSpecification<Category>
     {
-        public CategoryListSpecification(int projectId) : base(x => x.Id == projectId)
+        public CategoryListSpecification(int projectId) : base(x => x.ProjectId == projectId && x.ParentCategoryId == null)
         {
-            //this.Includes.Add(x => x.Cat);
+            this.Includes.Add(x => x.Categories);
+            this.Includes.Add(x => x.Topics);
         }
     }
 }

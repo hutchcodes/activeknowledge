@@ -22,12 +22,16 @@ namespace Resurgam.Infrastructure.Data
         protected override void OnConfiguring(DbContextOptionsBuilder optionsBuilder)
         {
             optionsBuilder.UseLoggerFactory(_myConsoleLoggerFactory);
+#if DEBUG
+            optionsBuilder.EnableSensitiveDataLogging(true);
+#endif
             base.OnConfiguring(optionsBuilder);
         }
 
         protected override void OnModelCreating(ModelBuilder builder)
         {
             builder.Entity<Category>(ConfigureCategory);
+            builder.Entity<CategoryTopic>(ConfigureCategoryTopic);
             builder.Entity<Customer>(ConfigureCustomer);
             builder.Entity<Project>(ConfigureProject);
             builder.Entity<Tag>(ConfigureTag);
@@ -35,6 +39,7 @@ namespace Resurgam.Infrastructure.Data
             builder.Entity<Topic>(ConfigureTopic);
             builder.Entity<RelatedTopic>(ConfigureRelatedTopic);
             builder.Entity<ReferencedFragment>(ConfigureReferencedfragment);
+
         }
         public DbSet<Category> Categories { get; set; }
         public DbSet<Customer> Customers { get; set; }
@@ -50,8 +55,23 @@ namespace Resurgam.Infrastructure.Data
             builder.Property(x => x.Id)
                 .ForSqlServerUseSequenceHiLo("category_hilo");
 
-            var navigation = builder.Metadata.FindNavigation(nameof(Category.Topics));
+            IMutableNavigation navigation;
 
+            navigation = builder.Metadata.FindNavigation(nameof(Category.Topics));
+            navigation.SetPropertyAccessMode(PropertyAccessMode.Field);
+
+            navigation = builder.Metadata.FindNavigation(nameof(Category.Categories));
+            navigation.SetPropertyAccessMode(PropertyAccessMode.Field);
+        }
+
+        private void ConfigureCategoryTopic(EntityTypeBuilder<CategoryTopic> builder)
+        {
+            builder.ToTable("CategoryTopic");
+            builder.HasKey(x => new { x.ProjectId, x.ParentCategoryId, x.TopicId });
+
+            IMutableNavigation navigation;
+
+            navigation = builder.Metadata.FindNavigation(nameof(CategoryTopic.Topic));
             navigation.SetPropertyAccessMode(PropertyAccessMode.Field);
         }
         private void ConfigureCustomer(EntityTypeBuilder<Customer> builder)

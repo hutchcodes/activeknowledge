@@ -9,10 +9,10 @@ using Microsoft.AspNetCore.Mvc.RazorPages;
 
 namespace Resurgam.Web.Admin.Pages
 {
-    public class ProjectModel : ResurgamPage
+    public class ProjectModel : ResurgamProjectPage
     {
         private readonly ITopicService _topicService;
-        public ProjectModel(IHeaderService headerService, ITopicService topicService) : base(headerService)
+        public ProjectModel(IHeaderService headerService, ITopicService topicService, ICategoryService categoryService) : base(headerService, categoryService)
         {
             _topicService = topicService;
         }

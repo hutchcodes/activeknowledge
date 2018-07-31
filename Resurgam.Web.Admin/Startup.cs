@@ -65,7 +65,7 @@ namespace Resurgam.Web.Admin
                 {
                     var message = ex.Message;
                 }
-            });           
+            });
 
             ConfigureServices(services);
         }
@@ -87,6 +87,7 @@ namespace Resurgam.Web.Admin
             services.AddScoped<IProjectService, ProjectService>();
             services.AddScoped<ITopicService, TopicService>();
             services.AddScoped<IFileStorageRepository, BlobStorageRepository>();
+            services.AddScoped<ICategoryService, CategoryService>();
 
             services.AddMvc().SetCompatibilityVersion(CompatibilityVersion.Version_2_1);
 

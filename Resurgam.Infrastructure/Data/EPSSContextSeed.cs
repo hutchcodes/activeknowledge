@@ -39,16 +39,17 @@ namespace Resurgam.Infrastructure.Data
                     await resurgamContext.SaveChangesAsync();
                 }
 
-                if (!resurgamContext.Categories.Any())
-                {
-                    resurgamContext.Categories.AddRange(GetPreconfiguredCategories());
-                    await resurgamContext.SaveChangesAsync();
-                }
-
                 if (!resurgamContext.Topics.Any())
                 {
                     var topics = GetPreconfiguredTopics();
                     resurgamContext.AddRange(topics);
+                    await resurgamContext.SaveChangesAsync();
+                }
+
+                if (!resurgamContext.Categories.Any())
+                {
+                    var cats = GetPreconfiguredCategories();
+                    resurgamContext.Categories.AddRange(cats);
                     await resurgamContext.SaveChangesAsync();
                 }
             }
@@ -82,11 +83,23 @@ namespace Resurgam.Infrastructure.Data
 
         static IEnumerable<Category> GetPreconfiguredCategories()
         {
+            var cat1 = new Category() { Id = 1, Name = "Category1", ProjectId = 1234, Order = 1 };
+            var cat2 = new Category() { Id = 2, Name = "Category2", ProjectId = 1234, Order = 2 };
+            var cat3 = new Category() { Id = 3, Name = "Category3", ProjectId = 1234, Order = 3 };
+            var cat1Sub1 = new Category() { Id = 4, Name = "Category1Sub1", ProjectId = 1234, Order = 1 };
+
+            cat1.AddReferencedCategory(cat1Sub1, 1);
+            cat1.AddReferencedTopic(111, 1);
+            //cat1.AddReferencedTopic(222, 2);
+
+            //cat1Sub1.AddReferencedTopic(333, 1);
+
             return new List<Category>()
             {
-                new Category() { Id=1, Name = "Category1", ProjectId = 1234},
-                new Category() { Id=2, Name = "Category2", ProjectId = 1234 },
-                new Category() { Id=3, Name = "Category3", ProjectId = 1234 },
+                cat1,
+                cat2,
+                cat3,
+              //  cat1Sub1
             };
         }
 

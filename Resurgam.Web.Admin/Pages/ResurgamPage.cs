@@ -19,7 +19,6 @@ namespace Resurgam.Web.Admin.Pages
             _headerService = headerService;
         }
         public HeaderNavViewModel HeaderNav { get; set; }
-
         public async Task GetHeaderNav(int? customerId, int? projectId)
         {
             if (projectId.HasValue)
@@ -30,6 +29,6 @@ namespace Resurgam.Web.Admin.Pages
             {
                 HeaderNav = await _headerService.GetHeaderForCustomerAsync(customerId.Value);
             }
-        }        
+        }
     }
 }

@@ -68,5 +68,36 @@
       </favorites>
     </Folder>
   </folders>
-  <favorites />
+  <favorites>
+    <Favorite>
+      <name>Startup.cs</name>
+      <path>Resurgam.Web.Admin\Startup.cs</path>
+      <absolutePath>C:\code\Resurgam\Resurgam.Web.Admin\Startup.cs</absolutePath>
+      <position>
+        <line>1</line>
+        <column>1</column>
+        <lineHash>+C3wS7Ft5DyHeLCyPV9r1wsaOWkxFdQYa1IzhmbnvNw=</lineHash>
+      </position>
+    </Favorite>
+    <Favorite>
+      <name>CategoryService.cs</name>
+      <path>Resurgam.Web.Admin\Services\CategoryService.cs</path>
+      <absolutePath>C:\code\Resurgam\Resurgam.Web.Admin\Services\CategoryService.cs</absolutePath>
+      <position>
+        <line>30</line>
+        <column>1</column>
+        <lineHash>ECtRuXZaVqPomffPDuOOUlH5xQOzV7MwpJGD63sVVgQ=</lineHash>
+      </position>
+    </Favorite>
+    <Favorite>
+      <name>EPSSContextSeed.cs</name>
+      <path>Resurgam.Infrastructure\Data\EPSSContextSeed.cs</path>
+      <absolutePath>C:\code\Resurgam\Resurgam.Infrastructure\Data\EPSSContextSeed.cs</absolutePath>
+      <position>
+        <line>117</line>
+        <column>218</column>
+        <lineHash>TTYxX/9B2mGcEl+EpzgeGrvIfWgv2gStm0EaRx2YmXQ=</lineHash>
+      </position>
+    </Favorite>
+  </favorites>
 </Favorites>

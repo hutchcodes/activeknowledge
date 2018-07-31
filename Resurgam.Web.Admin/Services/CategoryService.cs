@@ -13,7 +13,7 @@ using System.Threading.Tasks;
 
 namespace Resurgam.Web.Admin.Services
 {
-    public class CategoryService : ITopicService
+    public class CategoryService : ICategoryService
     {
         private readonly ILogger<CategoryService> _logger;
         private readonly IAsyncRepository<Category> _categoryRepo;
@@ -23,25 +23,15 @@ namespace Resurgam.Web.Admin.Services
             _categoryRepo = categoryRepo;
         }
 
-        public async Task<TopicDisplayViewModel> GetTopicForDisplayAsync(int projectId, int topicId)
+        public async Task<CategoryTreeViewModel> GetCategoryTreeAsync(int projectId, int? categoryId, int? topicId)
         {
-            var spec = new TopicDisplaySpecification(projectId, 1);
-            var topic = new Topic();// await _categoryRepo.GetAsync(spec);
+            var spec = new CategoryListSpecification(projectId);
+            var category = await _categoryRepo.ListAsync(spec);
 
-            var topicVM = new TopicDisplayViewModel(topic);
-            return topicVM;
+            var catTreeVM = new CategoryTreeViewModel(category);
+            return catTreeVM;
         }
 
-        public async Task<List<TopicListViewModel>> GetTopicListForProject(int projectId)
-        {
-            var spec = new TopicListSpecification(projectId);
-            var topics = await _categoryRepo.ListAsync(null);
 
-            var topicsVM = new List<TopicListViewModel>();
-
-            //topicsVM.AddRange(topics.ConvertAll(x => new TopicListViewModel(x)));
-
-            return topicsVM;
-        }
     }
 }

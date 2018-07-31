@@ -16,7 +16,7 @@ namespace Resurgam.AppCore.Entities
         [Required, MaxLength(50)]
         public string Name { get; set; }
         public int Order { get; set; }
-        public int ParentCategoryId { get; set; }
+        public int? ParentCategoryId { get; set; }
 
         private Func<CategoryTopic, bool> GetCategoryTopicByTopicIdSpec(int topicId)
         {
@@ -31,6 +31,8 @@ namespace Resurgam.AppCore.Entities
             {
                 _topics.Add(new CategoryTopic()
                 {
+                    ProjectId = ProjectId,
+                    ParentCategoryId = Id,
                     TopicId = topicId,
                     Order = order,
                 });
@@ -46,27 +48,39 @@ namespace Resurgam.AppCore.Entities
             }
         }
 
-        //private readonly List<Category> _categories = new List<Category>();
-        //public IReadOnlyCollection<Category> Categories => _topics.AsReadOnly();
-        //public void AddReferencedCategory(int categoryId, int order)
-        //{
-        //    if (!_topics.Any(GetCategoryTopicByTopicIdSpec(categoryId)))
-        //    {
-        //        _topics.Add(new Category()
-        //        {
-        //            TopicId = categoryId,
-        //            Order = order,
-        //        });
-        //        return;
-        //    }
-        //}
-        //public void RemoveReferencedCategory(int categoryId)
-        //{
-        //    var referencedCategory = _categories.FirstOrDefault(GetCategoryTopicByTopicIdSpec(categoryId));
-        //    if (referencedCategory != null)
-        //    {
-        //        _categories.Remove(referencedCategory);
-        //    }
-        //}
+        private readonly List<Category> _categories = new List<Category>();
+        public IReadOnlyCollection<Category> Categories => _categories.AsReadOnly();
+        public void AddReferencedCategory(Category category, int order)
+        {
+            if (!_categories.Any(x => x.Id == category.Id))
+            {
+                category.ParentCategoryId = Id;
+                category.Order = order;
+                _categories.Add(category);
+                return;
+            }
+        }
+        public void AddReferencedCategory(int categoryId, int order)
+        {
+            if (!_categories.Any(x => x.Id == categoryId))
+            {
+                _categories.Add(new Category()
+                {
+                    ProjectId = ProjectId,
+                    ParentCategoryId = Id,
+                    Id = categoryId,
+                    Order = order,                    
+                });
+                return;
+            }
+        }
+        public void RemoveReferencedCategory(int categoryId)
+        {
+            var referencedCategory = _categories.FirstOrDefault(x=> x.Id == categoryId);
+            if (referencedCategory != null)
+            {
+                _categories.Remove(referencedCategory);
+            }
+        }
     }
 }

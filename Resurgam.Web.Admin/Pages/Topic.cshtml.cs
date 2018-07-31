@@ -9,10 +9,10 @@ using Microsoft.AspNetCore.Mvc.RazorPages;
 
 namespace Resurgam.Web.Admin.Pages
 {
-    public class TopicModel : ResurgamPage
+    public class TopicModel : ResurgamProjectPage
     {
         private readonly ITopicService _topicService;
-        public TopicModel(IHeaderService projectService, ITopicService topciService) : base(projectService)
+        public TopicModel(IHeaderService projectService, ITopicService topciService, ICategoryService categoryService) : base(projectService, categoryService)
         {
             _topicService = topciService;
         }
@@ -22,8 +22,9 @@ namespace Resurgam.Web.Admin.Pages
         {
             var getHeaderTask = GetHeaderNav(null, projectId);
             var getTopicTask = _topicService.GetTopicForDisplayAsync(projectId, topicId);
+            var getCategoryTreeTask = GetCategoryTree(projectId);
 
-            await Task.WhenAll(getHeaderTask, getTopicTask);
+            await Task.WhenAll(getHeaderTask, getTopicTask, getCategoryTreeTask);
             Topic = getTopicTask.Result;
         }
     }
