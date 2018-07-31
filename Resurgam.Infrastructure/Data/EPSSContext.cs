@@ -34,7 +34,7 @@ namespace Resurgam.Infrastructure.Data
             builder.Entity<CollectionElement>(ConfigureCollectionElement);
             builder.Entity<Topic>(ConfigureTopic);
             builder.Entity<RelatedTopic>(ConfigureRelatedTopic);
-            //builder.Entity<ReferencedFragment>(ConfigureReferencedfragment);
+            builder.Entity<ReferencedFragment>(ConfigureReferencedfragment);
         }
         public DbSet<Category> Categories { get; set; }
         public DbSet<Customer> Customers { get; set; }
@@ -148,6 +148,9 @@ namespace Resurgam.Infrastructure.Data
             navigation.SetPropertyAccessMode(PropertyAccessMode.Field);
 
             navigation = builder.Metadata.FindNavigation(nameof(Topic.CollectionElements));
+            navigation.SetPropertyAccessMode(PropertyAccessMode.Field);
+
+            navigation = builder.Metadata.FindNavigation(nameof(Topic.ReferencedFragments));
             navigation.SetPropertyAccessMode(PropertyAccessMode.Field);
         }
 

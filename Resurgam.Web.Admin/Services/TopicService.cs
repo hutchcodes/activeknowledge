@@ -27,6 +27,8 @@ namespace Resurgam.Web.Admin.Services
             var spec = new TopicDisplaySpecification(projectId, topicId);
             var topic = await _topicRepo.GetAsync(spec);
 
+
+
             var topicVM = new TopicDisplayViewModel(topic);
             return topicVM;
         }

@@ -10,7 +10,7 @@
             @foreach (var topic in element.Topics)
             {
                 var topicLink = $"/topic/{topic.ProjectId}/{topic.TopicId}";
-                <div><a href="@topicLink">@topic.Name</a></div>
+                <div><a href="@topicLink">@topic.TopicName</a></div>
             }
         </div>
     }

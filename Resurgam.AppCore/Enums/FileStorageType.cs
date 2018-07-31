@@ -8,10 +8,16 @@ namespace Resurgam.AppCore.Enums
     {
         [StringValue("projectlogos")]
         ProjectLogos,
+
         [StringValue("customerlogos")]
         CustomerLogos,
+
+        [StringValue("projectimages")]
+        ProjectImages,
+
         [StringValue("contentimages")]
         ContentImages,
+
         [StringValue("contentdocuments")]
         ContentDocuments
     }

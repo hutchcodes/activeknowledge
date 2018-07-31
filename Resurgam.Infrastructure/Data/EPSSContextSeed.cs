@@ -102,11 +102,13 @@ namespace Resurgam.Infrastructure.Data
 
         static IEnumerable<Topic> GetPreconfiguredTopics()
         {
-            var content1 = new Topic() { Id = 111, Name = "Content Topic 1", ProjectId = 1234, TopicContent = "<h2>Some Header Content</h2><p>Some body Content1</p><ul><li>A list item</li><li>Another list item</li><ul>", Description = "Content Topic1 Desc", DefaultCategoryId = 1, TopicTypeId = TopicTypes.ContentTopic.Id };
-            var content2 = new Topic() { Id = 222, Name = "Content Topic 2", ProjectId = 1234, TopicContent = "Some Content2", Description = "Content Topic2 Desc", DefaultCategoryId = 2, TopicTypeId = TopicTypes.ContentTopic.Id };
-            var fragment1 = new Topic() { Id = 333, Name = "Fragment", ProjectId = 1234, TopicContent = "Fragment Content", Description = "Fragment Desc", DefaultCategoryId = 2, TopicTypeId = TopicTypes.FragmentTopic.Id };
+            var content1 = new Topic() { Id = 111, Name = "Content Topic 1", ProjectId = 1234, TopicContent = "<h2>Some Header Content</h2><p>Some body Content1</p><ul><li>A list item</li><li>Another list item</li></ul><p><img src='/api/ContentImage/{{projectId}}/111/789/puppy.jpg' /><p><img src='/api/ProjectImage/{{projectId}}/987/kitty.jpg' />", Description = "Content Topic1 Desc", DefaultCategoryId = 1, TopicTypeId = TopicTypes.ContentTopic.Id };
+            var content2 = new Topic() { Id = 222, Name = "Content Topic 2", ProjectId = 1234, TopicContent = "Some Content2 <p><fragment topicId='333'></fragment>", Description = "Content Topic2 Desc", DefaultCategoryId = 2, TopicTypeId = TopicTypes.ContentTopic.Id };
+            var fragment1 = new Topic() { Id = 333, Name = "Fragment", ProjectId = 1234, TopicContent = "This part is fragment content", Description = "Fragment Desc", DefaultCategoryId = 2, TopicTypeId = TopicTypes.FragmentTopic.Id };
             var document1 = new Topic() { Id = 444, Name = "Document Topic", ProjectId = 1234, Description = "Document Desc", DefaultCategoryId = 3, TopicTypeId = TopicTypes.DocumentTopic.Id };
             var collection1 = new Topic() { Id = 555, Name = "Collection Topic", ProjectId = 1234, Description = "Collection Desc", DefaultCategoryId = 3, TopicTypeId = TopicTypes.CollectionTopic.Id };
+
+            content2.AddReferencedFragments(new ReferencedFragment() { ProjectId = content2.ProjectId, ParentTopicId = 222, ChildTopicId = 333 });
 
             collection1.AddTag(111, "Tag1");
             collection1.AddTag(112, "Tag2");

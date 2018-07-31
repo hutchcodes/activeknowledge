@@ -16,7 +16,10 @@ namespace Resurgam.Web.Admin.ViewModels
             Content = topic.TopicContent;
             TopicTypeID = topic.TopicTypeId;
 
-            foreach(var ce in topic.CollectionElements)
+            ReplaceFragmentContents(topic);
+            CleanTopicContent();
+
+            foreach (var ce in topic.CollectionElements)
             {
                 CollectionElements.Add(new CollectionElementViewModel(ce));
             }
@@ -31,6 +34,43 @@ namespace Resurgam.Web.Admin.ViewModels
                 RelatedTopics.Add(new TopicLinkViewModel(refTopic));
             }
         }
+
+        private void CleanTopicContent()
+        {
+            if (string.IsNullOrWhiteSpace(Content))
+            {
+                return;
+            }
+            var topicContent = Content.Replace("{{projectId}}", ProjectId.ToString());
+
+            Content = topicContent;
+        }
+
+        private void ReplaceFragmentContents(Topic topic)
+        {
+            if (string.IsNullOrEmpty(Content))
+            {
+                return;
+            }
+            var contentHtml = new HtmlAgilityPack.HtmlDocument();
+            contentHtml.LoadHtml(this.Content);
+
+            foreach(var frag in topic.ReferencedFragments)
+            {
+                var fragmentNodes = contentHtml.DocumentNode.SelectNodes($"//fragment[@topicid='{frag.ChildTopicId}']");
+                if(fragmentNodes == null)
+                {
+                    continue;
+                }
+                foreach (var fragNode in fragmentNodes)
+                {
+                    fragNode.InnerHtml = frag.ChildTopic.TopicContent;
+                }
+            }
+
+            this.Content = contentHtml.DocumentNode.OuterHtml;
+        }
+
         public int ProjectId { get; set; }
         public int TopicId { get; set; }
         public int TopicTypeID { get; set; }

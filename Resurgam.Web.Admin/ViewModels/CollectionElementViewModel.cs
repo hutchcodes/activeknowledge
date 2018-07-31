@@ -16,12 +16,12 @@ namespace Resurgam.Web.Admin.ViewModels
 
             foreach(var t in collectionElement.ElementTopics)
             {
-                Topics.Add(new TopicDisplayViewModel(t));
+                Topics.Add(new TopicLinkViewModel(t));
             }
         }
         public int ProjectId { get; set; }
         public int CollectionElementId { get; set; }
         public string CollectionElementName { get; set; }
-        public List<TopicDisplayViewModel> Topics { get; } = new List<TopicDisplayViewModel>();
+        public List<TopicLinkViewModel> Topics { get; } = new List<TopicLinkViewModel>();
     }
 }
