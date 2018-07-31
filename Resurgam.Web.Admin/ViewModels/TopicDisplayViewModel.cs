@@ -15,6 +15,7 @@ namespace Resurgam.Web.Admin.ViewModels
             Name = topic.Name;
             Content = topic.TopicContent;
             TopicTypeID = topic.TopicTypeId;
+            DocumentName = topic.DocumentName;
 
             ReplaceFragmentContents(topic);
             CleanTopicContent();
@@ -75,7 +76,7 @@ namespace Resurgam.Web.Admin.ViewModels
         public int TopicId { get; set; }
         public int TopicTypeID { get; set; }
         public string Name { get; set; }
-
+        public string DocumentName { get; set; }
         public string Content { get; set; }
 
         public List<TopicLinkViewModel> RelatedTopics { get; } = new List<TopicLinkViewModel>();

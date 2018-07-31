@@ -13,10 +13,13 @@
     switch (Model.Topic.TopicTypeID)
     {
         case 1:
-            <partial name="TopicPartials/ContentTopic" model="Model.Topic" />
+            <partial name="Partials/ContentTopic" model="Model.Topic" />
             break;
         case 2:
-            <partial name="TopicPartials/CollectionTopic" model="Model.Topic" />
+            <partial name="Partials/CollectionTopic" model="Model.Topic" />
+            break;
+        case 3:
+            <partial name="Partials/DocumentTopic" model="Model.Topic" />
             break;
     }
 }

@@ -1,0 +1,7 @@
+﻿
+@model Resurgam.Web.Admin.ViewModels.TopicDisplayViewModel
+
+@{
+var documentLink = $"/api/ContentDocument/{Model.ProjectId}/{Model.TopicId}/{Model.DocumentName}";
+}
+<div><a href="@documentLink">@Model.DocumentName</a></div>

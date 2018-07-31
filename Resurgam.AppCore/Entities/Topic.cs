@@ -15,7 +15,7 @@ namespace Resurgam.AppCore.Entities
         public Guid? ImageResourceId { get; set; }
         public string TopicContent { get; set; }
         public Guid? FileResourceId { get; set; }
-        public string Url { get; set; }
+        public string DocumentName { get; set; }
 
         public int? DefaultCategoryId { get; set; }
 
