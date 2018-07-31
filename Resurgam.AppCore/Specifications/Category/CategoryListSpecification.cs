@@ -9,8 +9,10 @@ namespace Resurgam.AppCore.Specifications
     {
         public CategoryListSpecification(int projectId) : base(x => x.ProjectId == projectId && x.ParentCategoryId == null)
         {
-            this.Includes.Add(x => x.Categories);
-            this.Includes.Add(x => x.Topics);
+            AddInclude($"{nameof(Category.Topics)}.{nameof(CategoryTopic.Topic)}");
+            AddInclude($"{nameof(Category.Categories)}.{nameof(Category.Topics)}.{nameof(CategoryTopic.Topic)}");
+            AddInclude($"{nameof(Category.Categories)}.{nameof(Category.Categories)}.{nameof(Category.Topics)}.{nameof(CategoryTopic.Topic)}");
+            AddInclude($"{nameof(Category.Categories)}.{nameof(Category.Categories)}.{nameof(Category.Categories)}.{nameof(Category.Topics)}.{nameof(CategoryTopic.Topic)}");
         }
     }
 }

@@ -5,7 +5,7 @@ using Resurgam.AppCore.Entities.Interfaces;
 
 namespace Resurgam.AppCore.Entities
 {
-    public class CategoryTopic : BaseEntity
+    public class CategoryTopic 
     {
         public int ProjectId { get; set; }
         public int ParentCategoryId { get; set; }

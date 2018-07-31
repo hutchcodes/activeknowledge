@@ -99,5 +99,15 @@
         <lineHash>TTYxX/9B2mGcEl+EpzgeGrvIfWgv2gStm0EaRx2YmXQ=</lineHash>
       </position>
     </Favorite>
+    <Favorite>
+      <name>EPSSContext.cs</name>
+      <path>Resurgam.Infrastructure\Data\EPSSContext.cs</path>
+      <absolutePath>C:\Code\Resurgam\Resurgam.Infrastructure\Data\EPSSContext.cs</absolutePath>
+      <position>
+        <line>1</line>
+        <column>1</column>
+        <lineHash>FLXyjPQ/DCx1JrtYw+HReZcpmoRCx2bbTkq+Tgi7J1g=</lineHash>
+      </position>
+    </Favorite>
   </favorites>
 </Favorites>

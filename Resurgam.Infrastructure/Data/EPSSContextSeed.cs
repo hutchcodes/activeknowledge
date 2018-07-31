@@ -87,19 +87,19 @@ namespace Resurgam.Infrastructure.Data
             var cat2 = new Category() { Id = 2, Name = "Category2", ProjectId = 1234, Order = 2 };
             var cat3 = new Category() { Id = 3, Name = "Category3", ProjectId = 1234, Order = 3 };
             var cat1Sub1 = new Category() { Id = 4, Name = "Category1Sub1", ProjectId = 1234, Order = 1 };
+            var cat1Sub1Sub2 = new Category() { Id = 5, Name = "Category1Sub1Sub2", ProjectId = 1234, Order = 1 };
 
             cat1.AddReferencedCategory(cat1Sub1, 1);
+            cat1Sub1.AddReferencedCategory(cat1Sub1Sub2, 1);
             cat1.AddReferencedTopic(111, 1);
-            //cat1.AddReferencedTopic(222, 2);
-
-            //cat1Sub1.AddReferencedTopic(333, 1);
+            cat1Sub1.AddReferencedTopic(222, 1);
+            cat1Sub1Sub2.AddReferencedTopic(444, 1);
 
             return new List<Category>()
             {
                 cat1,
                 cat2,
                 cat3,
-              //  cat1Sub1
             };
         }
 

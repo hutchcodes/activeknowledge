@@ -24,6 +24,10 @@ namespace Resurgam.Web.Admin.Pages
             var getTopicTask = _topicService.GetTopicForDisplayAsync(projectId, topicId);
             var getCategoryTreeTask = GetCategoryTree(projectId);
 
+            await getHeaderTask;
+            await getTopicTask;
+            await getCategoryTreeTask;
+
             await Task.WhenAll(getHeaderTask, getTopicTask, getCategoryTreeTask);
             Topic = getTopicTask.Result;
         }
