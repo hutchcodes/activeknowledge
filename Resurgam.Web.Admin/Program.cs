@@ -11,6 +11,7 @@ using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Logging;
 using Microsoft.EntityFrameworkCore;
 using Resurgam.AppCore.Entities;
+using Resurgam.Infrastructure.Data.Security;
 
 namespace Resurgam.Web.Admin
 {
@@ -28,30 +29,15 @@ namespace Resurgam.Web.Admin
                 {
                     var resurgamContext = services.GetRequiredService<ResurgamContext>();
                     ResurgamContextSeed.SeedAsync(resurgamContext, loggerFactory).Wait();
+                    var securityContext = services.GetRequiredService<SecurityContext>();
+                    SecurityContextSeed.SeedAsync(securityContext, loggerFactory).Wait();
                 }
                 catch (Exception ex)
                 {
                     var logger = loggerFactory.CreateLogger<Program>();
                     logger.LogError(ex, "An error occured seeding the DB.");
                 }
-            }
-
-            var resurgamContext2 = host.Services.CreateScope().ServiceProvider.GetRequiredService<ResurgamContext>();
-            //var top = from t in resurgamContext2.Topics
-            //    .Include($"{nameof(Topic.ReferencedTopics)}.{nameof(RelatedTopic.ReferencedTopic)}")
-            //    .Include($"{nameof(Topic.CollectionElements)}.{nameof(CollectionElement.ElementTopics)}")
-            //          where t.Id == 555
-            //          select t;
-
-            var topSpec = new AppCore.Specifications.TopicDisplaySpecification(1234, 555);
-            var includes = topSpec.IncludeStrings;
-            var top2 = resurgamContext2.Topics
-                .Include(topSpec.Includes[1])
-                //.Include(topSpec.Includes[1])
-                //.Include(topSpec.Includes[2])
-                .FirstOrDefault(topSpec.CompiledCriteria);
-
-            top2 = null;
+            }           
 
             host.Run();
         }

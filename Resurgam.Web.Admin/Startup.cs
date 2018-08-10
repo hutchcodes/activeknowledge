@@ -1,35 +1,119 @@
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-using Resurgam.AppCore.Entities;
-using Resurgam.AppCore.Interfaces;
-using Resurgam.Infrastructure.Data;
-using Resurgam.Web.Admin.Caching;
-using Resurgam.Web.Admin.Interfaces;
-using Resurgam.Web.Admin.Services;
+using Microsoft.AspNetCore.Authentication;
+using Microsoft.AspNetCore.Authentication.Cookies;
+using Microsoft.AspNetCore.Authentication.OpenIdConnect;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.AspNetCore.Http;
-using Microsoft.AspNetCore.HttpsPolicy;
 using Microsoft.AspNetCore.Mvc;
+using Microsoft.AspNetCore.Mvc.Authorization;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
+using Resurgam.AppCore.Interfaces;
 using Resurgam.Infrastructure.Blobs;
+using Resurgam.Infrastructure.Data;
+using Resurgam.Infrastructure.Data.Security;
+using Resurgam.Web.Admin.Caching;
+using Resurgam.Web.Admin.Interfaces;
+using Resurgam.Web.Admin.Security;
+using Resurgam.Web.Admin.Services;
+using System;
+using System.Text;
+using System.Threading.Tasks;
 
 namespace Resurgam.Web.Admin
 {
     public class Startup
     {
         private IServiceCollection _services;
+
         public Startup(IConfiguration configuration)
         {
             Configuration = configuration;
         }
 
         public IConfiguration Configuration { get; }
+
+        // This method gets called by the runtime. Use this method to add services to the container.
+        public void ConfigureServices(IServiceCollection services)
+        {
+            services.Configure<CookiePolicyOptions>(options =>
+            {
+                // This lambda determines whether user consent for non-essential cookies is needed for a given request.
+                options.CheckConsentNeeded = context => true;
+                options.MinimumSameSitePolicy = SameSiteMode.None;
+            });
+
+            services.AddAuthentication(sharedOptions =>
+            {
+                sharedOptions.DefaultScheme = CookieAuthenticationDefaults.AuthenticationScheme;
+                sharedOptions.DefaultChallengeScheme = OpenIdConnectDefaults.AuthenticationScheme;
+            })
+            .AddAzureAd(options => Configuration.Bind("AzureAd", options))
+            .AddCookie(options => options.Events = new CustomCookieEvents());
+
+            services.AddMvc(options =>
+            {
+                var policy = new AuthorizationPolicyBuilder()
+                    .RequireAuthenticatedUser()
+                    .Build();
+                options.Filters.Add(new AuthorizeFilter(policy));
+            })
+            .AddRazorPagesOptions(options =>
+            {
+                options.Conventions.AllowAnonymousToFolder("/Account");
+            });
+
+            //Configure DI
+            ConfigureDI(services);
+
+            services.AddMvc().SetCompatibilityVersion(CompatibilityVersion.Version_2_1);
+
+            // Add memory cache services
+            services.AddMemoryCache();
+
+            _services = services;
+        }
+
+        private void ConfigureDI(IServiceCollection services)
+        {
+            services.AddSingleton<IConfiguration>(Configuration);
+
+            services.AddScoped<ISecurityRepository, SecurityRepository>();
+            services.AddScoped<PermissionsManager, PermissionsManager>();
+
+            services.AddScoped(typeof(IAsyncRepository<>), typeof(EfRepository<>));
+            services.AddScoped<HeaderService>();
+            services.AddScoped<IHeaderService, HeaderCacheService>();
+            services.AddScoped<IProjectService, ProjectService>();
+            services.AddScoped<ITopicService, TopicService>();
+            services.AddScoped<IFileStorageRepository, BlobStorageRepository>();
+            services.AddScoped<ICategoryService, CategoryService>();
+        }
+
+        // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.
+        public void Configure(IApplicationBuilder app, IHostingEnvironment env)
+        {
+            if (env.IsDevelopment())
+            {
+                //app.UseBrowserLink();
+                app.UseDeveloperExceptionPage();
+                ListAllRegisteredServices(app);
+                app.UseDatabaseErrorPage();
+            }
+            else
+            {
+                app.UseExceptionHandler("/Error");
+            }
+
+            app.UseHttpsRedirection();
+            app.UseStaticFiles();
+            app.UseCookiePolicy();
+            app.UseAuthentication();
+
+            app.UseMvc();
+        }
 
         public void ConfigureDevelopmentServices(IServiceCollection services)
         {
@@ -46,6 +130,9 @@ namespace Resurgam.Web.Admin
             // use in-memory database
             services.AddDbContext<ResurgamContext>(c =>
                 c.UseInMemoryDatabase("ResurgamDB"));
+
+            services.AddDbContext<SecurityContext>(c =>
+                c.UseInMemoryDatabase("SecurityDB"));
 
             ConfigureServices(services);
         }
@@ -69,55 +156,7 @@ namespace Resurgam.Web.Admin
 
             ConfigureServices(services);
         }
-        // This method gets called by the runtime. Use this method to add services to the container.
-        public void ConfigureServices(IServiceCollection services)
-        {
-            services.Configure<CookiePolicyOptions>(options =>
-            {
-                // This lambda determines whether user consent for non-essential cookies is needed for a given request.
-                options.CheckConsentNeeded = context => true;
-                options.MinimumSameSitePolicy = SameSiteMode.None;
-            });
-
-            services.AddSingleton<IConfiguration>(Configuration);
-
-            services.AddScoped(typeof(IAsyncRepository<>), typeof(EfRepository<>));
-            services.AddScoped<HeaderService>();
-            services.AddScoped<IHeaderService, HeaderCacheService>();
-            services.AddScoped<IProjectService, ProjectService>();
-            services.AddScoped<ITopicService, TopicService>();
-            services.AddScoped<IFileStorageRepository, BlobStorageRepository>();
-            services.AddScoped<ICategoryService, CategoryService>();
-
-            services.AddMvc().SetCompatibilityVersion(CompatibilityVersion.Version_2_1);
-
-            // Add memory cache services
-            services.AddMemoryCache();
-
-            _services = services;
-        }
-
-        // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.
-        public void Configure(IApplicationBuilder app, IHostingEnvironment env)
-        {
-            if (env.IsDevelopment())
-            {
-                app.UseDeveloperExceptionPage();
-                ListAllRegisteredServices(app);
-                app.UseDatabaseErrorPage();
-            }
-            else
-            {
-                app.UseExceptionHandler("/Error");
-                app.UseHsts();
-            }
-
-            app.UseHttpsRedirection();
-            app.UseStaticFiles();
-            app.UseCookiePolicy();
-
-            app.UseMvc();
-        }
+        
 
         private void ListAllRegisteredServices(IApplicationBuilder app)
         {

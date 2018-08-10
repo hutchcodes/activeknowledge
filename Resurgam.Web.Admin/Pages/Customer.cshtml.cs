@@ -9,7 +9,7 @@ using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.RazorPages;
 
 namespace Resurgam.Web.Admin.Pages
-{
+{    
     public class CustomerModel : ResurgamPage
     {
         private readonly IProjectService _projectService;

@@ -8,11 +8,14 @@ using Resurgam.Web.Admin.Interfaces;
 using Resurgam.Web.Admin.ViewModels;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.RazorPages;
+using Microsoft.AspNetCore.Authorization;
 
 namespace Resurgam.Web.Admin.Pages
 {
+    [AllowAnonymous]
     public class IndexModel : PageModel
     {
+        public object HeaderNav { get; set; } = new HeaderNavViewModel();
         public void OnGet()
         {
         }

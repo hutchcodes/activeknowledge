@@ -8,6 +8,7 @@ namespace Resurgam.Web.Admin.ViewModels
 {
     public class HeaderNavViewModel
     {
+        public HeaderNavViewModel() { }
         public HeaderNavViewModel(Customer customer)
         {
             BuildFromCustomer(customer);
