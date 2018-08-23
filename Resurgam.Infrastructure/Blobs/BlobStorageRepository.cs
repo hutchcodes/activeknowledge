@@ -14,7 +14,7 @@ namespace Resurgam.Infrastructure.Blobs
 {
     public class BlobStorageRepository : IFileStorageRepository
     {
-        IConfiguration _config;
+        private readonly IConfiguration _config;
 
         public BlobStorageRepository(IConfiguration config)
         {

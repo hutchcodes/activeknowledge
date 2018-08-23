@@ -1,0 +1,19 @@
+﻿
+@model Resurgam.Infrastructure.ViewModels.TopicEditViewModel
+
+@{
+
+    foreach (var element in Model.CollectionElements)
+    {
+    <div style="border: 1px solid blue">
+        <input name="CollectionElements[CollectionElementId]" value="@element.CollectionElementId" />
+        <b>@element.CollectionElementName</b>
+
+        @foreach (var topic in element.Topics)
+            {
+                var topicLink = $"/topic/{topic.ProjectId}/{topic.TopicId}";
+        <div><a href="@topicLink">@topic.TopicName</a></div>
+            }
+    </div>
+    }
+}

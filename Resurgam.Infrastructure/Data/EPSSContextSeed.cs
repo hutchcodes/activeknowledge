@@ -116,15 +116,23 @@ namespace Resurgam.Infrastructure.Data
         static IEnumerable<Topic> GetPreconfiguredTopics()
         {
             var content1 = new Topic() { Id = 111, Name = "Content Topic 1", ProjectId = 1234, TopicContent = "<h2>Some Header Content</h2><p>Some body Content1</p><ul><li>A list item</li><li>Another list item</li></ul><p><img src='/api/ContentImage/{{projectId}}/111/789/puppy.jpg' /><p><img src='/api/ProjectImage/{{projectId}}/987/kitty.jpg' />", Description = "Content Topic1 Desc", DefaultCategoryId = 1, TopicTypeId = TopicTypes.ContentTopic.Id };
-            var content2 = new Topic() { Id = 222, Name = "Content Topic 2", ProjectId = 1234, TopicContent = "Some Content2 <p><fragment topicId='333'></fragment>", Description = "Content Topic2 Desc", DefaultCategoryId = 2, TopicTypeId = TopicTypes.ContentTopic.Id };
+            var content2 = new Topic() { Id = 222, Name = "Content Topic 2", ProjectId = 1234, TopicContent = "Some Content2 <p><fragment contenteditable='false' topicId='333' style='border: blue 1px solid;padding-right: 2px;padding-left: 2px;margin: 1px;'></fragment>", Description = "Content Topic2 Desc", DefaultCategoryId = 2, TopicTypeId = TopicTypes.ContentTopic.Id };
             var fragment1 = new Topic() { Id = 333, Name = "Fragment", ProjectId = 1234, TopicContent = "This part is fragment content", Description = "Fragment Desc", DefaultCategoryId = 2, TopicTypeId = TopicTypes.FragmentTopic.Id };
             var document1 = new Topic() { Id = 444, Name = "Document Topic", ProjectId = 1234, Description = "Document Desc", DefaultCategoryId = 3, TopicTypeId = TopicTypes.DocumentTopic.Id, DocumentName = "Invoice_1003_2018-06-27.pdf" };
             var collection1 = new Topic() { Id = 555, Name = "Collection Topic", ProjectId = 1234, Description = "Collection Desc", DefaultCategoryId = 3, TopicTypeId = TopicTypes.CollectionTopic.Id };
+            var content3 = new Topic() { Id = 666, Name = "Video Topic", ProjectId = 1234, TopicContent = "<div id='kaltura_player_1533934464' style='width: 896px; height: 534px;' itemprop='video' itemscope itemtype='http://schema.org/VideoObject'><span itemprop='name' content='PTRBOA002_ATE_SAbrams_Q01_Final.mp4'></span><span itemprop='description' content='null'></span><span itemprop='duration' content='39'></span><span itemprop='thumbnailUrl' content='http://cdnsecakmi.kaltura.com/p/1284141/sp/128414100/thumbnail/entry_id/1_obxueqhl/version/100012'></span><span itemprop='uploadDate' content='2018-08-10T19:45:14.000Z'></span><span itemprop='width' content='896'></span><span itemprop='height' content='534'></span></div><script src='https://cdnapisec.kaltura.com/p/1284141/sp/128414100/embedIframeJs/uiconf_id/29136211/partner_id/1284141?autoembed=true&entry_id=1_obxueqhl&playerId=kaltura_player_1533934464&cache_st=1533934464&width=896&height=534&flashvars[streamerType]=auto'></script>", Description = "Video Embed from Katura", DefaultCategoryId = 2, TopicTypeId = TopicTypes.ContentTopic.Id };
 
             content2.AddReferencedFragments(new ReferencedFragment() { ProjectId = content2.ProjectId, ParentTopicId = 222, ChildTopicId = 333 });
 
-            collection1.AddTag(111, "Tag1");
-            collection1.AddTag(112, "Tag2");
+            content2.AddTag(111, "Tag1");
+            content2.AddTag(112, "Tag2");
+
+            content2.AddRelatedTopic(new RelatedTopic() { Id = 2, ProjectId = collection1.ProjectId, ChildTopicId = 111, ParentTopicId = 222 });
+            content2.AddRelatedTopic(new RelatedTopic() { Id = 3, ProjectId = collection1.ProjectId, ChildTopicId = 444, ParentTopicId = 222 });
+
+            collection1.AddTag(113, "Tag1");
+            collection1.AddTag(114, "Tag2");
+
 
             var collectionElement1 = new CollectionElement { Id = 99, Name = "Element1", ProjectId = 1234, TopicId = 555 };//, Topic = collection1 };
             var collectionElement2 = new CollectionElement { Id = 98, Name = "Element2", ProjectId = 1234, TopicId = 555 };//, Topic = collection1 };
@@ -135,7 +143,7 @@ namespace Resurgam.Infrastructure.Data
             collection1.AddCollectionElement(collectionElement1);
             collection1.AddCollectionElement(collectionElement2);
 
-            collection1.AddRelatedTopic(new RelatedTopic() { ProjectId = collection1.ProjectId, ChildTopicId = 444, ParentTopicId = 555 });
+            collection1.AddRelatedTopic(new RelatedTopic() { Id = 1, ProjectId = collection1.ProjectId, ChildTopicId = 444, ParentTopicId = 555 });
 
             return new List<Topic>()
             {
@@ -143,7 +151,8 @@ namespace Resurgam.Infrastructure.Data
                 content2,
                 fragment1,
                 document1,
-                collection1
+                collection1,
+                content3
             };
         }
     }

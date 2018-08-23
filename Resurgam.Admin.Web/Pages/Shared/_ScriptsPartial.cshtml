@@ -1,0 +1,65 @@
+﻿<script src="~/lib/jquery/dist/jquery.js"></script>
+<environment include="Development">
+    <script src="~/lib/jquery-validation/dist/jquery.validate.js"></script>
+    <script src="~/lib/jquery-validation-unobtrusive/jquery.validate.unobtrusive.js"></script>
+</environment>
+<environment exclude="Development">
+    <script src="https://ajax.aspnetcdn.com/ajax/jquery.validate/1.17.0/jquery.validate.min.js"
+            asp-fallback-src="~/lib/jquery-validation/dist/jquery.validate.min.js"
+            asp-fallback-test="window.jQuery && window.jQuery.validator"
+            crossorigin="anonymous"
+            integrity="sha384-rZfj/ogBloos6wzLGpPkkOr/gpkBNLZ6b6yLy4o+ok+t/SAKlL5mvXLr0OXNi1Hp">
+    </script>
+    <script src="https://ajax.aspnetcdn.com/ajax/jquery.validation.unobtrusive/3.2.9/jquery.validate.unobtrusive.min.js"
+            asp-fallback-src="~/lib/jquery-validation-unobtrusive/jquery.validate.unobtrusive.min.js"
+            asp-fallback-test="window.jQuery && window.jQuery.validator && window.jQuery.validator.unobtrusive"
+            crossorigin="anonymous"
+            integrity="sha384-ifv0TYDWxBHzvAk2Z0n8R434FL1Rlv/Av18DXE43N/1rvHyOG4izKst0f2iSLdds">
+    </script>
+</environment>
+
+<!-- Include Font Awesome. -->
+<link href="~/css/font-awesome.css" rel="stylesheet" type="text/css" />
+<!-- Include Froala Editor styles -->
+<link rel="stylesheet" href="~/lib/froala/css/froala_editor.min.css" />
+<link rel="stylesheet" href="~/lib/froala/css/froala_style.min.css" />
+<link rel="stylesheet" href="~/lib/froala/css/themes/gray.css" />
+<!-- Include Froala Editor Plugins styles -->
+<link rel="stylesheet" href="~/lib/froala/css/plugins/char_counter.css">
+<link rel="stylesheet" href="~/lib/froala/css/plugins/code_view.css">
+<link rel="stylesheet" href="~/lib/froala/css/plugins/colors.css">
+<link rel="stylesheet" href="~/lib/froala/css/plugins/emoticons.css">
+<link rel="stylesheet" href="~/lib/froala/css/plugins/file.css">
+<link rel="stylesheet" href="~/lib/froala/css/plugins/fullscreen.css">
+<link rel="stylesheet" href="~/lib/froala/css/plugins/image_manager.css">
+<link rel="stylesheet" href="~/lib/froala/css/plugins/image.css">
+<link rel="stylesheet" href="~/lib/froala/css/plugins/line_breaker.css">
+<link rel="stylesheet" href="~/lib/froala/css/plugins/table.css">
+<link rel="stylesheet" href="~/lib/froala/css/plugins/video.css">
+<!-- Include Froala Editor -->
+<script src="~/lib/froala/js/froala_editor.min.js"></script>
+<!-- Include Froala Editor Plugins -->
+<script src="~/lib/froala/js/plugins/align.min.js"></script>
+<script src="~/lib/froala/js/plugins/char_counter.min.js"></script>
+<script src="~/lib/froala/js/plugins/code_beautifier.min.js"></script>
+<script src="~/lib/froala/js/plugins/code_view.min.js"></script>
+<script src="~/lib/froala/js/plugins/colors.min.js"></script>
+<script src="~/lib/froala/js/plugins/emoticons.min.js"></script>
+<script src="~/lib/froala/js/plugins/entities.min.js"></script>
+<script src="~/lib/froala/js/plugins/file.min.js"></script>
+<script src="~/lib/froala/js/plugins/font_family.min.js"></script>
+<script src="~/lib/froala/js/plugins/font_size.min.js"></script>
+<script src="~/lib/froala/js/plugins/fullscreen.min.js"></script>
+<script src="~/lib/froala/js/plugins/image.min.js"></script>
+<script src="~/lib/froala/js/plugins/image_manager.min.js"></script>
+<script src="~/lib/froala/js/plugins/inline_style.min.js"></script>
+<script src="~/lib/froala/js/plugins/line_breaker.min.js"></script>
+<script src="~/lib/froala/js/plugins/link.min.js"></script>
+<script src="~/lib/froala/js/plugins/lists.min.js"></script>
+<script src="~/lib/froala/js/plugins/paragraph_format.min.js"></script>
+<script src="~/lib/froala/js/plugins/paragraph_style.min.js"></script>
+<script src="~/lib/froala/js/plugins/quote.min.js"></script>
+<script src="~/lib/froala/js/plugins/save.min.js"></script>
+<script src="~/lib/froala/js/plugins/table.min.js"></script>
+<script src="~/lib/froala/js/plugins/video.min.js"></script>
+<!-- End Froala -->

@@ -1,0 +1,10 @@
+{
+  "version": "1.0",
+  "defaultProvider": "cdnjs",
+  "libraries": [
+    {
+      "library": "froala-editor@2.8.4",
+      "destination": "wwwroot/lib/froala/" 
+    }
+  ]
+}
