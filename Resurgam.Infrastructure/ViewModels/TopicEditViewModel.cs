@@ -53,7 +53,9 @@ namespace Resurgam.Infrastructure.ViewModels
 
             foreach (var ce in CollectionElements)
             {
-                var collectionElement = new CollectionElement();
+                var collectionElement = ce.ToCollectionElement();
+                collectionElement.Topic = topic;
+                collectionElement.TopicId = topic.Id;
                 topic.AddCollectionElement(collectionElement);
             }
 

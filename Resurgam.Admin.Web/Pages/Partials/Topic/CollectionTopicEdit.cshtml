@@ -1,19 +1,7 @@
 ﻿
-@model Resurgam.Infrastructure.ViewModels.TopicEditViewModel
+@model Resurgam.Admin.Web.Pages.TopicEditModel
 
 @{
-
-    foreach (var element in Model.CollectionElements)
-    {
-    <div style="border: 1px solid blue">
-        <input name="CollectionElements[CollectionElementId]" value="@element.CollectionElementId" />
-        <b>@element.CollectionElementName</b>
-
-        @foreach (var topic in element.Topics)
-            {
-                var topicLink = $"/topic/{topic.ProjectId}/{topic.TopicId}";
-        <div><a href="@topicLink">@topic.TopicName</a></div>
-            }
-    </div>
-    }
+    <button onclick="" >Add Element</button>
+    @Html.EditorFor(x=> x.Topic.CollectionElements);
 }

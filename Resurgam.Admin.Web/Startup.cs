@@ -21,6 +21,7 @@ using System;
 using System.Text;
 using System.Threading.Tasks;
 using Resurgam.Admin.Web.Security;
+using Resurgam.AppCore.Entities;
 
 namespace Resurgam.Admin.Web
 {
@@ -69,7 +70,7 @@ namespace Resurgam.Admin.Web
             ConfigureDI(services);
 
             services.AddMvc().SetCompatibilityVersion(CompatibilityVersion.Version_2_1);
-
+            services.AddKendo();
             // Add memory cache services
             services.AddMemoryCache();
 
@@ -84,6 +85,8 @@ namespace Resurgam.Admin.Web
             services.AddScoped<PermissionsManager, PermissionsManager>();
 
             services.AddScoped(typeof(IAsyncRepository<>), typeof(EfRepository<>));
+            services.AddScoped<IAsyncRepository<Topic>, TopicRepository>();
+
             services.AddScoped<HeaderService>();
             services.AddScoped<IHeaderService, HeaderCacheService>();
             services.AddScoped<IProjectService, ProjectService>();

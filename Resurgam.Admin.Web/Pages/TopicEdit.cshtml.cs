@@ -50,7 +50,7 @@ namespace Resurgam.Admin.Web.Pages
 
         public async Task<IActionResult> OnPost(TopicEditViewModel topic)
         {
-            //await _topicService.SaveTopicAsync(topic);
+            await _topicService.SaveTopicAsync(topic);
             return await OnGet(topic.ProjectId, topic.TopicId);
         }
     }

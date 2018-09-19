@@ -1,17 +1,28 @@
 ﻿
 @model Resurgam.Infrastructure.ViewModels.TopicDisplayViewModel
+@addTagHelper *, Kendo.Mvc
+@addTagHelper *, Microsoft.AspNetCore.Mvc.TagHelpers
+@using Kendo.Mvc.UI
 
 @{
-
-    foreach (var element in Model.CollectionElements)
-    {
-        <div style="border: 1px solid blue">
-            <b>@element.CollectionElementName</b>
-            @foreach (var topic in element.Topics)
+    <kendo-tabstrip name="tabstrip">
+        <popup-animation>
+            <open effects="fade:in" />
+        </popup-animation>
+        <items>
+            @foreach (var element in Model.CollectionElements)
             {
-                var topicLink = $"/topic/{topic.ProjectId}/{topic.TopicId}";
-                <div><a href="@topicLink">@topic.TopicName</a></div>
+            <tabstrip-item text="@element.CollectionElementName">
+                <content>
+                    @foreach (var topic in element.Topics)
+                    {
+
+                        var topicLink = $"/topic/{topic.ProjectId}/{topic.TopicId}";
+                        <div><a href="@topicLink">@topic.TopicName</a></div>
+                    }
+                </content>
+            </tabstrip-item>
             }
-        </div>
-    }
+        </items>
+    </kendo-tabstrip>
 }

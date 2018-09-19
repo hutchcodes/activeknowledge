@@ -13,8 +13,14 @@
 <form method="post">
     <button type="submit">Save</button>
 
-    <label for="topicName">Topic Name</label>
-    <input id="topicName" name="topicName" type="text" value="@Model.Topic.TopicName" />
+    @Html.HiddenFor(x => x.Topic.TopicId)
+    @Html.HiddenFor(x => x.Topic.ProjectId)
+    @Html.HiddenFor(x => x.Topic.TopicTypeID)
+    @Html.LabelFor(x => x.Topic.TopicName)
+    @Html.EditorFor(x => x.Topic.TopicName)
+
+    @Html.LabelFor(x => x.Topic.TopicDescription)
+    @Html.EditorFor(x => x.Topic.TopicDescription)
     <label for="topicDescription">Topic Description</label>
     <input id="topicDescription" name="topicDescription" type="text" value="@Model.Topic.TopicDescription" />
 
@@ -22,10 +28,11 @@
         switch (Model.Topic.TopicTypeID)
         {
             case 1:
+
                 <partial name="Partials/Topic/ContentTopicEdit" model="Model.Topic" />
                 break;
             case 2:
-                <partial name="Partials/Topic/CollectionTopicEdit" model="Model.Topic" />
+                <partial name="Partials/Topic/CollectionTopicEdit" />
                 break;
             case 3:
                 <partial name="Partials/Topic/DocumentTopicEdit" model="Model.Topic" />
