@@ -1,0 +1,47 @@
+﻿@page "/edit/topic/{projectId:guid}/{topicId:guid}"
+@inherits TopicModel
+
+@if (Topic == null)
+{
+<p><em>Loading...</em></p>
+}
+else
+{
+    @*<partial name="Partials/CategoryTree" model="Model.CategoryTree" />*@
+
+    <h2>@Topic.TopicName</h2>
+    @*@{
+            switch (Topic.TopicTypeID)
+            {
+                case 1:
+                    <partial name="Partials/Topic/ContentTopic" model="Model.Topic" />
+                    break;
+                case 2:
+                    <partial name="Partials/Topic/CollectionTopic" model="Model.Topic" />
+                    break;
+                case 3:
+                    <partial name="Partials/Topic/DocumentTopic" model="Model.Topic" />
+                    break;
+            }
+        }*@
+
+    @*<div style="border: 1px solid blue">
+            <b>Tags</b>
+            <div>
+                @foreach (var tag in Topic.Tags)
+                {
+                    <div>@tag.TagName</div>
+                }
+            </div>
+        </div>
+        <div style="border: 1px solid blue">
+            <b>Related Topics</b>
+            @foreach (var rt in Topic.RelatedTopics)
+            {
+                var topicLink = $"/topic/{rt.ProjectId}/{rt.TopicId}";
+                <div>
+                    <a href="@topicLink">@rt.TopicName</a>
+                </div>
+            }
+        </div>*@
+}

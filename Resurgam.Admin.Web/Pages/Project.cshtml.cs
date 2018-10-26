@@ -21,7 +21,7 @@ namespace Resurgam.Admin.Web.Pages
 
         public ITopicService TopicService => _topicService;
 
-        public async Task OnGet(int projectId)
+        public async Task OnGet(Guid projectId)
         {
             var pageTasks = new List<Task>();
             pageTasks.Add(GetHeaderNav(null, projectId));

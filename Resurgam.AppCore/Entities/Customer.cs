@@ -9,6 +9,8 @@ namespace Resurgam.AppCore.Entities
     [Table("Customer")]
     public class Customer : BaseEntity
     {
+        public Guid CustomerId { get; set; }
+
         [Required, MaxLength(50)]
         public string Name { get; set; }
 

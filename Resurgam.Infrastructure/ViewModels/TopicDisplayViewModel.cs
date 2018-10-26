@@ -12,7 +12,7 @@ namespace Resurgam.Infrastructure.ViewModels
         public TopicDisplayViewModel(Topic topic)
         {
             ProjectId = topic.ProjectId;
-            TopicId = topic.Id;
+            TopicId = topic.TopicId;
             TopicName = topic.Name;
             Content = topic.TopicContent;
             TopicTypeID = topic.TopicTypeId;
@@ -37,8 +37,8 @@ namespace Resurgam.Infrastructure.ViewModels
             }
         }
 
-        public int ProjectId { get; set; }
-        public int TopicId { get; set; }
+        public Guid ProjectId { get; set; }
+        public Guid TopicId { get; set; }
         public int TopicTypeID { get; set; }
         public string TopicName { get; set; }
         public string TopicDescription { get;set; }
@@ -89,7 +89,7 @@ namespace Resurgam.Infrastructure.ViewModels
         {
             var topic = new Topic();
             topic.ProjectId = ProjectId;
-            topic.Id = TopicId;
+            topic.TopicId = TopicId;
             topic.Name = TopicName;
             topic.Description = TopicDescription;
             topic.TopicContent = Content;
@@ -109,7 +109,7 @@ namespace Resurgam.Infrastructure.ViewModels
 
             foreach (var refTopic in RelatedTopics)
             {
-                topic.AddRelatedTopic(refTopic.ToRelatedTopic());
+                //topic.AddRelatedTopic(refTopic.ToRelatedTopic());
             }
 
             return topic;

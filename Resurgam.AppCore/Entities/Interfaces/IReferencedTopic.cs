@@ -1,11 +1,13 @@
-﻿namespace Resurgam.AppCore.Entities.Interfaces
+﻿using System;
+
+namespace Resurgam.AppCore.Entities.Interfaces
 {
-    public interface IReferencedTopic : IBaseEntity
+    public interface IReferencedTopic 
     {
-        int ProjectId { get; set; }
-        int ParentTopicId { get; set; }
+        Guid ProjectId { get; set; }
+        Guid ParentTopicId { get; set; }
         Topic ParentTopic { get; set; }
-        int ChildTopicId { get; set; }
+        Guid ChildTopicId { get; set; }
         Topic ChildTopic { get; set; }
     }
 }

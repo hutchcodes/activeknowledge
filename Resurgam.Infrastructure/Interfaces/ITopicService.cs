@@ -8,9 +8,9 @@ namespace Resurgam.Infrastructure.Interfaces
 {
     public interface ITopicService
     {
-        Task<TopicDisplayViewModel> GetTopicForDisplayAsync(int projectId, int topicId);
-        Task<TopicEditViewModel> GetTopicForEditAsync(int projectId, int topicId);
-        Task<List<TopicListViewModel>> GetTopicListForProject(int projectId);
+        Task<TopicDisplayViewModel> GetTopicForDisplayAsync(Guid projectId, Guid topicId);
+        Task<TopicEditViewModel> GetTopicForEditAsync(Guid projectId, Guid topicId);
+        Task<List<TopicListViewModel>> GetTopicListForProject(Guid projectId);
         Task SaveTopicAsync(TopicEditViewModel topicVM);
     }
 }

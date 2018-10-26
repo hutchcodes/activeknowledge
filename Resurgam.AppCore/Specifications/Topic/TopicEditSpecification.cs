@@ -8,7 +8,7 @@ namespace Resurgam.AppCore.Specifications
 {
     public class TopicEditSpecification : BaseSpecification<Topic>
     {
-        public TopicEditSpecification(int projectId, int topicId) : base(x => x.ProjectId == projectId && x.Id == topicId)
+        public TopicEditSpecification(Guid projectId, Guid topicId) : base(x => x.ProjectId == projectId && x.TopicId == topicId)
         {
             AddInclude(x => x.Tags);
 

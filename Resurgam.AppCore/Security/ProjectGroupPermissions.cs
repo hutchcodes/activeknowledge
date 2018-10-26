@@ -6,7 +6,7 @@ namespace Resurgam.AppCore.Security
 {
     public class ProjectGroupPermissions
     {
-        public int ProjectId { get; set; }
+        public Guid ProjectId { get; set; }
         public Guid GroupId { get; set; }
         public bool CanView { get; set; }
         public bool CanSearch { get; set; }

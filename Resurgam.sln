@@ -19,6 +19,10 @@ Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Resurgam.Admin.Api", "Resur
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Resurgam.Admin.Web", "Resurgam.Admin.Web\Resurgam.Admin.Web.csproj", "{4ED03A8F-4BCC-44E6-8C5D-BF1F67EBCB11}"
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Resurgam.Blazor.Server", "Resurgam.Blazor.Server\Resurgam.Blazor.Server.csproj", "{489F696F-8127-4147-901E-3D2592B1D3C3}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Resurgam.Blazor.App", "Resurgam.Blazor.App\Resurgam.Blazor.App.csproj", "{CC247B5D-EE3A-482A-86AE-1414F5F8453C}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -45,6 +49,14 @@ Global
 		{4ED03A8F-4BCC-44E6-8C5D-BF1F67EBCB11}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{4ED03A8F-4BCC-44E6-8C5D-BF1F67EBCB11}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{4ED03A8F-4BCC-44E6-8C5D-BF1F67EBCB11}.Release|Any CPU.Build.0 = Release|Any CPU
+		{489F696F-8127-4147-901E-3D2592B1D3C3}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{489F696F-8127-4147-901E-3D2592B1D3C3}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{489F696F-8127-4147-901E-3D2592B1D3C3}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{489F696F-8127-4147-901E-3D2592B1D3C3}.Release|Any CPU.Build.0 = Release|Any CPU
+		{CC247B5D-EE3A-482A-86AE-1414F5F8453C}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{CC247B5D-EE3A-482A-86AE-1414F5F8453C}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{CC247B5D-EE3A-482A-86AE-1414F5F8453C}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{CC247B5D-EE3A-482A-86AE-1414F5F8453C}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
@@ -55,6 +67,8 @@ Global
 		{1CB685CD-0E89-4483-9976-26893DA988C3} = {358B564B-5204-4C00-89BF-89FD8CAFFC48}
 		{B25C17F2-67A3-424C-984D-2E78A477B6AE} = {19AF4248-CCCA-4E09-8A95-6AD838C59A61}
 		{4ED03A8F-4BCC-44E6-8C5D-BF1F67EBCB11} = {19AF4248-CCCA-4E09-8A95-6AD838C59A61}
+		{489F696F-8127-4147-901E-3D2592B1D3C3} = {19AF4248-CCCA-4E09-8A95-6AD838C59A61}
+		{CC247B5D-EE3A-482A-86AE-1414F5F8453C} = {19AF4248-CCCA-4E09-8A95-6AD838C59A61}
 	EndGlobalSection
 	GlobalSection(ExtensibilityGlobals) = postSolution
 		SolutionGuid = {C9DA6E14-0EAE-4061-A046-A84CDD961ADE}

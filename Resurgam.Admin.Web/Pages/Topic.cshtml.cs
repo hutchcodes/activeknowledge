@@ -28,7 +28,7 @@ namespace Resurgam.Admin.Web.Pages
         }
         public TopicDisplayViewModel Topic { get; set; }
 
-        public async Task<IActionResult> OnGet(int projectId, int topicId)
+        public async Task<IActionResult> OnGet(Guid projectId, Guid topicId)
         {
             if (!await _permissionsManager.CanUserViewProject(HttpContext.User, projectId))
             {

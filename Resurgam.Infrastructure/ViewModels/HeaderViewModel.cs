@@ -21,7 +21,7 @@ namespace Resurgam.Infrastructure.ViewModels
 
         private void BuildFromCustomer(Customer customer)
         {
-            CustomerId = customer.Id;
+            CustomerId = customer.CustomerId;
             CustomerName = customer.Name;
             CustomerLogoURL = customer.LogoFileName.ToString();
         }
@@ -29,15 +29,15 @@ namespace Resurgam.Infrastructure.ViewModels
         private void BuildFromProject(Project project)
         {
             BuildFromCustomer(project.Customer);
-            ProjectId = project.Id;
+            ProjectId = project.ProjectId;
             ProjectName = project.Name;
             ProjectLogoURL = project.LogoFileName.ToString();
         }
 
-        public int CustomerId { get; set; }
+        public Guid CustomerId { get; set; }
         public string CustomerName { get; set; }
         public string CustomerLogoURL { get; set; }
-        public int? ProjectId { get; set; }
+        public Guid? ProjectId { get; set; }
         public string ProjectName { get; set; }
         public string ProjectLogoURL { get; set; }        
     }

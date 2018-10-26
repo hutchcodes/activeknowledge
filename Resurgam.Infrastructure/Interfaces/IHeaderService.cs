@@ -8,7 +8,7 @@ namespace Resurgam.Infrastructure.Interfaces
 {
     public interface IHeaderService
     {
-        Task<HeaderNavViewModel> GetHeaderForProjectAsync(int projectId);
-        Task<HeaderNavViewModel> GetHeaderForCustomerAsync(int customerId);
+        Task<HeaderNavViewModel> GetHeaderForProjectAsync(Guid projectId);
+        Task<HeaderNavViewModel> GetHeaderForCustomerAsync(Guid customerId);
     }
 }

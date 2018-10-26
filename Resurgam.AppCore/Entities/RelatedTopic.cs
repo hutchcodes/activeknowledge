@@ -5,12 +5,12 @@ using System.Text;
 
 namespace Resurgam.AppCore.Entities
 {
-    public class RelatedTopic : BaseEntity, IReferencedTopic
+    public class RelatedTopic : IReferencedTopic
     {
-        public int ProjectId { get; set; }
-        public int ParentTopicId { get; set; }
+        public Guid ProjectId { get; set; }
+        public Guid ParentTopicId { get; set; }
         public Topic ParentTopic { get; set; }
-        public int ChildTopicId { get; set; }
+        public Guid ChildTopicId { get; set; }
         public Topic ChildTopic { get; set; }
     }
 }

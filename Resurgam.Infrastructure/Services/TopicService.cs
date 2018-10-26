@@ -22,7 +22,7 @@ namespace Resurgam.Infrastructure.Services
             _logger = loggerFactory.CreateLogger<TopicService>();
             _topicRepo = topicRepo;
         }
-        public async Task<TopicDisplayViewModel> GetTopicForDisplayAsync(int projectId, int topicId)
+        public async Task<TopicDisplayViewModel> GetTopicForDisplayAsync(Guid projectId, Guid topicId)
         {
             var spec = new TopicDisplaySpecification(projectId, topicId);
             var topic = await _topicRepo.GetAsync(spec);
@@ -31,7 +31,7 @@ namespace Resurgam.Infrastructure.Services
             return topicVM;
         }
 
-        public async Task<TopicEditViewModel> GetTopicForEditAsync(int projectId, int topicId)
+        public async Task<TopicEditViewModel> GetTopicForEditAsync(Guid projectId, Guid topicId)
         {
             var spec = new TopicEditSpecification(projectId, topicId);
             var topic = await _topicRepo.GetAsync(spec);
@@ -40,7 +40,7 @@ namespace Resurgam.Infrastructure.Services
             return topicVM;
         }
 
-        public async Task<List<TopicListViewModel>> GetTopicListForProject(int projectId)
+        public async Task<List<TopicListViewModel>> GetTopicListForProject(Guid projectId)
         {
             var spec = new TopicListSpecification(projectId);
             var topics = await _topicRepo.ListAsync(spec);

@@ -10,10 +10,10 @@ namespace Resurgam.Infrastructure.ViewModels
     {
         public ProjectListViewModel(Project project)
         {
-            ProjectId = project.Id;
+            ProjectId = project.ProjectId;
             ProjectName = project.Name;
         }
-        public int ProjectId { get; set; }
+        public Guid ProjectId { get; set; }
         public string ProjectName { get; set; }
     }
 }

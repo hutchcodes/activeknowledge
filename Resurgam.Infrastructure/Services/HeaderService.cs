@@ -23,7 +23,7 @@ namespace Resurgam.Infrastructure.Services
             _projectRepo = projectRepo;
         }
 
-        public async Task<HeaderNavViewModel> GetHeaderForProjectAsync(int projectId)
+        public async Task<HeaderNavViewModel> GetHeaderForProjectAsync(Guid projectId)
         {
             var spec = new ProjectHeaderSpecification(projectId);
             var project = await _projectRepo.GetAsync(spec);
@@ -33,7 +33,7 @@ namespace Resurgam.Infrastructure.Services
             return projectVM;
         }
 
-        public async Task<HeaderNavViewModel> GetHeaderForCustomerAsync(int customerId)
+        public async Task<HeaderNavViewModel> GetHeaderForCustomerAsync(Guid customerId)
         {
             var spec = new CustomerHeaderSpecification(customerId);
             var customer = await _customerRepo.GetAsync(spec);

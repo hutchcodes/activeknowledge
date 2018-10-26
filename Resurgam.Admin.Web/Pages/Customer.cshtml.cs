@@ -20,7 +20,7 @@ namespace Resurgam.Admin.Web.Pages
 
         public List<ProjectListViewModel> Projects { get; set; }
 
-        public async Task OnGet(int customerId)
+        public async Task OnGet(Guid customerId)
         {
             var pageTasks = new List<Task>();
             pageTasks.Add(GetHeaderNav(customerId, null));

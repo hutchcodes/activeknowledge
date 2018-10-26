@@ -17,14 +17,14 @@ namespace Resurgam.AppCore.Tests.Specifications
         public void ShouldFilterByTopicAndProject()
         {
             //Test Data
-            var projectId = 123;
-            var topicId = 1234;
+            var projectId = new Guid(123, 0, 0, new byte[8]);
+            var topicId = new Guid(1234, 0, 0, new byte[8]);
 
             var topics = new List<Topic>
             {
-                new Topic {ProjectId = 123, Id = 1234},
-                new Topic {ProjectId = 12, Id = 1234},
-                new Topic {ProjectId = 123, Id = 123}
+                new Topic {ProjectId = projectId, TopicId = topicId},
+                new Topic {ProjectId = new Guid(12, 0, 0, new byte[8]), TopicId = topicId},
+                new Topic {ProjectId = projectId, TopicId = topicId}
             };
 
             var spec = new TopicDisplaySpecification(projectId, topicId);
@@ -34,7 +34,7 @@ namespace Resurgam.AppCore.Tests.Specifications
             Assert.AreEqual(1, filteredTopics.Count());
             var topic = filteredTopics.First();
             Assert.AreEqual(projectId, topic.ProjectId);
-            Assert.AreEqual(topicId, topic.Id);
+            Assert.AreEqual(topicId, topic.TopicId);
 
         }
 
@@ -42,16 +42,16 @@ namespace Resurgam.AppCore.Tests.Specifications
         public void ShouldIncludeTags()
         {
             //Test Data
-            var projectId = 123;
-            var topicId = 1234;
+            var projectId = new Guid(123, 0, 0, new byte[8]);
+            var topicId = new Guid(1234, 0, 0, new byte[8]);
 
-            var expectedTopic = new Topic { ProjectId = 123, Id = 1234 };
-            expectedTopic.AddTag(1, "Tag1");
+            var expectedTopic = new Topic { ProjectId = projectId, TopicId = topicId };
+            expectedTopic.AddTag(Guid.NewGuid(), "Tag1");
             var topics = new List<Topic>
             {
                 expectedTopic,
-                new Topic {ProjectId = 12, Id = 1234},
-                new Topic {ProjectId = 123, Id = 123}
+                new Topic {ProjectId = new Guid(12, 0, 0, new byte[8]), TopicId = topicId},
+                new Topic {ProjectId = projectId, TopicId = topicId}
             };
 
             var spec = new TopicDisplaySpecification(projectId, topicId);

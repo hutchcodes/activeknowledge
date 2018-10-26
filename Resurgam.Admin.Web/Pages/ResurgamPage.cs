@@ -19,7 +19,7 @@ namespace Resurgam.Admin.Web.Pages
             _headerService = headerService;
         }
         public HeaderNavViewModel HeaderNav { get; set; }
-        public async Task GetHeaderNav(int? customerId, int? projectId)
+        public async Task GetHeaderNav(Guid? customerId, Guid? projectId)
         {
             if (projectId.HasValue)
             {

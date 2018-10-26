@@ -11,13 +11,13 @@ namespace Resurgam.Infrastructure.ViewModels
         public TopicListViewModel(Topic topic)
         {
             ProjectId = topic.ProjectId;
-            TopicID = topic.Id;
+            TopicID = topic.TopicId;
             TopicName = topic.Name;
             TopicDesription = topic.Description;
         }
 
-        public int ProjectId { get; set; }
-        public int TopicID { get; set; }
+        public Guid ProjectId { get; set; }
+        public Guid TopicID { get; set; }
         public string TopicName { get; set; }
         public string TopicDesription { get; set; }
 

@@ -7,7 +7,7 @@ namespace Resurgam.AppCore.Specifications
 {
     public class CustomerHeaderSpecification : BaseSpecification<Customer>
     {
-        public CustomerHeaderSpecification(int customerId) : base(x => x.Id == customerId)
+        public CustomerHeaderSpecification(Guid customerId) : base(x => x.CustomerId == customerId)
         {
         }
     }

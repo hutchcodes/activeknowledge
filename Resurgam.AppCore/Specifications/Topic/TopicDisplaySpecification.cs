@@ -8,18 +8,18 @@ namespace Resurgam.AppCore.Specifications
 {
     public class TopicDisplaySpecification : BaseSpecification<Topic>
     {
-        public TopicDisplaySpecification(int projectId, int topicId) : base(x => x.ProjectId == projectId && x.Id == topicId)
+        public TopicDisplaySpecification(Guid projectId, Guid topicId) : base(x => x.ProjectId == projectId && x.TopicId == topicId)
         {
-            AddInclude(x => x.Tags);
+            //AddInclude(x => x.Tags);
 
-            AddInclude(x => x.RelatedTopics);
-            AddInclude($"{nameof(Topic.RelatedTopics)}.{nameof(IReferencedTopic.ChildTopic)}");
+            //AddInclude(x => x.RelatedTopics);
+            //AddInclude($"{nameof(Topic.RelatedTopics)}.{nameof(IReferencedTopic.ChildTopic)}");
 
-            AddInclude(x => x.CollectionElements);
-            AddInclude($"{nameof(Topic.CollectionElements)}.{nameof(CollectionElement.ElementTopics)}");
+            //AddInclude(x => x.CollectionElements);
+            //AddInclude($"{nameof(Topic.CollectionElements)}.{nameof(CollectionElement.ElementTopics)}");
 
-            AddInclude(x => x.ReferencedFragments);
-            AddInclude($"{nameof(Topic.ReferencedFragments)}.{nameof(IReferencedTopic.ChildTopic)}");
+            //AddInclude(x => x.ReferencedFragments);
+            //AddInclude($"{nameof(Topic.ReferencedFragments)}.{nameof(IReferencedTopic.ChildTopic)}");
         }
     }
 }

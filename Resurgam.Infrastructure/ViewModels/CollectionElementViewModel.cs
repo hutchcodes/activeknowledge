@@ -12,7 +12,7 @@ namespace Resurgam.Infrastructure.ViewModels
         public CollectionElementViewModel(CollectionElement collectionElement)
         {
             ProjectId = collectionElement.ProjectId;
-            CollectionElementId = collectionElement.Id;
+            CollectionElementId = collectionElement.CollectionElementId;
             CollectionElementName = collectionElement.Name;
 
             foreach(var t in collectionElement.ElementTopics)
@@ -20,8 +20,8 @@ namespace Resurgam.Infrastructure.ViewModels
                 Topics.Add(new TopicDisplayViewModel(t));
             }
         }
-        public int ProjectId { get; set; }
-        public int CollectionElementId { get; set; }
+        public Guid ProjectId { get; set; }
+        public Guid CollectionElementId { get; set; }
         public string CollectionElementName { get; set; }
         public List<TopicDisplayViewModel> Topics { get; } = new List<TopicDisplayViewModel>();
 
@@ -29,7 +29,7 @@ namespace Resurgam.Infrastructure.ViewModels
         {
             var collectionElement = new CollectionElement();
 
-            collectionElement.Id = CollectionElementId;
+            collectionElement.CollectionElementId = CollectionElementId;
             collectionElement.ProjectId = ProjectId;
             collectionElement.Name = CollectionElementName;
 

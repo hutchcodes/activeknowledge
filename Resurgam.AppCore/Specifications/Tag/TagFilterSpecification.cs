@@ -7,11 +7,11 @@ namespace Resurgam.AppCore.Specifications
 {
     public class TagFilterSpecification : BaseSpecification<Tag>
     {
-        public TagFilterSpecification(int projectId, int tagId) : base(x => x.ProjectId == projectId && x.Id == tagId)
+        public TagFilterSpecification(Guid projectId, Guid tagId) : base(x => x.ProjectId == projectId && x.TagId == tagId)
         {
         }
 
-        public TagFilterSpecification(int projectId, string tagName) : base(x => x.ProjectId == projectId && x.Name == tagName)
+        public TagFilterSpecification(Guid projectId, string tagName) : base(x => x.ProjectId == projectId && x.Name == tagName)
         {
         }
     }

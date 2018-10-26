@@ -22,7 +22,7 @@ namespace Resurgam.Admin.Web.Caching
             _projectService = projectService;
 
         }
-        public async Task<HeaderNavViewModel> GetHeaderForProjectAsync(int projectId)
+        public async Task<HeaderNavViewModel> GetHeaderForProjectAsync(Guid projectId)
         {
             var cacheKey = string.Format(_projectKeyTemplate, projectId);
             return await _cache.GetOrCreateAsync(cacheKey, async entry =>
@@ -32,7 +32,7 @@ namespace Resurgam.Admin.Web.Caching
             });
         }
 
-        public async Task<HeaderNavViewModel> GetHeaderForCustomerAsync(int customerId)
+        public async Task<HeaderNavViewModel> GetHeaderForCustomerAsync(Guid customerId)
         {
             var cacheKey = string.Format(_customerKeyTemplate, customerId);
             return await _cache.GetOrCreateAsync(cacheKey, async entry =>

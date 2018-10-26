@@ -8,6 +8,6 @@ namespace Resurgam.Infrastructure.Interfaces
 {
     public interface IProjectService
     {
-        Task<List<ProjectListViewModel>> GetProjetListForDisplayAsync(int customerId);
+        Task<List<ProjectListViewModel>> GetProjetListForDisplayAsync(Guid customerId);
     }
 }

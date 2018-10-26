@@ -7,9 +7,9 @@ namespace Resurgam.AppCore.Entities
 {
     public class CategoryCategory : BaseEntity
     {
-        public int ParentCategoryId { get; set; }
+        public Guid ParentCategoryId { get; set; }
         public int Order { get; set; }
-        public int CategoryId { get; set; }
+        public Guid CategoryId { get; set; }
         public Category Category { get; set; }
     }
 }

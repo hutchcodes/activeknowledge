@@ -4,9 +4,10 @@ using System.Text;
 
 namespace Resurgam.AppCore.Entities
 {
-    public class Tag : BaseEntity
+    public class Tag 
     {
-        public int ProjectId { get; set; }
+        public Guid TagId { get; set; }
+        public Guid ProjectId { get; set; }
         public string Name { get; set; }
     }
 }

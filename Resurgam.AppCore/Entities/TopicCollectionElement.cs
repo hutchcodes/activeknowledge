@@ -7,12 +7,14 @@ using System.Text;
 
 namespace Resurgam.AppCore.Entities
 {
-    public class CollectionElement : BaseEntity
+    public class CollectionElement 
     {
         public CollectionElement() { }
 
-        public int ProjectId { get; set; }
-        public int TopicId { get; set; }
+        public Guid CollectionElementId { get; set; }
+
+        public Guid ProjectId { get; set; }
+        public Guid TopicId { get; set; }
         public Topic Topic { get; set; }
         public string Name { get; set; }
 
@@ -20,12 +22,12 @@ namespace Resurgam.AppCore.Entities
         public List<Topic> ElementTopics => _elementTopics;
         public void AddTopic(Topic topic)
         {
-            if (!_elementTopics.Any(new TopicByIdSpecification(topic.ProjectId, topic.Id).CompiledCriteria))
+            if (!_elementTopics.Any(new TopicByIdSpecification(topic.ProjectId, topic.TopicId).CompiledCriteria))
             {
                 _elementTopics.Add(topic);
             }
         }
-        public void RemoveTopic(int projectId, int topicId)
+        public void RemoveTopic(Guid projectId, Guid topicId)
         {
             var tag = _elementTopics.FirstOrDefault(new TopicByIdSpecification(projectId, topicId).CompiledCriteria);
             if (tag != null)

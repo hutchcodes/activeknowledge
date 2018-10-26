@@ -27,7 +27,7 @@ namespace Resurgam.Admin.Api.Controllers
 
         // GET: api/Topic/1234/555
         [HttpGet("{projectId:int}/{topicId:int}", Name = "Get")]
-        public async Task< TopicEditViewModel> Get(int projectId, int topicId)
+        public async Task< TopicEditViewModel> Get(Guid projectId, Guid topicId)
         {
             return await _topicService.GetTopicForEditAsync(projectId, topicId);
         }

@@ -12,11 +12,11 @@ namespace Resurgam.Infrastructure.ViewModels
         public TagViewModel(Tag tag)
         {
             ProjectId = tag.ProjectId;
-            TagId = tag.Id;
+            TagId = tag.TagId;
             TagName = tag.Name;
         }
-        public int ProjectId { get; set; }
-        public int TagId { get; set; }
+        public Guid ProjectId { get; set; }
+        public Guid TagId { get; set; }
         public string TagName { get; set; }
     }
 }

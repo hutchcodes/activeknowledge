@@ -1,0 +1,29 @@
+﻿@page "/project/{projectId:guid}"
+@inherits ProjectModel
+
+<h1>Project</h1>
+
+@if (Topics == null)
+{
+<p><em>Loading...</em></p>
+}
+else
+{
+<table class="table">
+    <thead>
+        <tr>
+            <td>Name</td>
+            <td>Description</td>
+        </tr>
+    </thead>
+    <tbody>
+        @foreach (var topic in Topics)
+        {
+        <tr>
+            <td><a href="@($"edit/topic/{topic.ProjectId}/{topic.TopicID}")">@topic.TopicName</a> </td>
+            <td>@topic.TopicDesription</td>
+        </tr>
+        }
+    </tbody>
+</table>
+}

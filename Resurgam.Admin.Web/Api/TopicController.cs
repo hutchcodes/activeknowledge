@@ -26,8 +26,8 @@ namespace Resurgam.Admin.Web.Api
         }
 
         // GET: api/Topic/1234/555
-        [HttpGet("{projectId:int}/{topicId:int}", Name = "Get")]
-        public async Task< TopicEditViewModel> Get(int projectId, int topicId)
+        [HttpGet("{projectId:Guid}/{topicId:Guid}", Name = "Get")]
+        public async Task< TopicEditViewModel> Get(Guid projectId, Guid topicId)
         {
             return await _topicService.GetTopicForEditAsync(projectId, topicId);
         }
@@ -40,15 +40,15 @@ namespace Resurgam.Admin.Web.Api
         }
 
         // PUT: api/Topic/1234/555
-        [HttpPut("{projectId:int}/{topicId:int}", Name = "Put")]
+        [HttpPut("{projectId:Guid}/{topicId:Guid}", Name = "Put")]
         public async Task Put([FromBody] TopicEditViewModel topic)
         {
             await _topicService.SaveTopicAsync(topic);
         }
 
         // DELETE: api/Topic/1234/555
-        [HttpDelete("{projectId:int}/{topicId:int}")]
-        public void Delete(int projectId, int topicId)
+        [HttpDelete("{projectId:Guid}/{topicId:Guid}")]
+        public void Delete(Guid projectId, Guid topicId)
         {
         }
     }

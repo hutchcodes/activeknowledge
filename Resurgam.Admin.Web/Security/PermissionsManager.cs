@@ -35,7 +35,7 @@ namespace Resurgam.Admin.Web.Security
             return user.Groups.SelectMany(x => x.ProjectPermissions).ToList();
         }
 
-        internal async Task<bool> CanUserViewProject(ClaimsPrincipal claimsPrincipal, int projectId)
+        internal async Task<bool> CanUserViewProject(ClaimsPrincipal claimsPrincipal, Guid projectId)
         {
             var userId = Guid.Parse(claimsPrincipal.Claims.First(x => x.Type.Equals(ObjectIdentifier)).Value);
 

@@ -22,7 +22,7 @@ namespace Resurgam.Infrastructure.Services
             _logger = loggerFactory.CreateLogger<ProjectService>();
             _projectRepo = projectRepo;
         }
-        public async Task<List<ProjectListViewModel>> GetProjetListForDisplayAsync(int customerId)
+        public async Task<List<ProjectListViewModel>> GetProjetListForDisplayAsync(Guid customerId)
         {
             var spec = new ProjectListSpecification(customerId);
             var projects = await _projectRepo.ListAsync(spec);

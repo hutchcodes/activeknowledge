@@ -61,7 +61,7 @@ namespace Resurgam.Infrastructure.Data.Security
                 {
                     Id = Guid.Parse("ce4c5ef2-a3f7-4d14-a6fa-e0f328e6362e"),
                     Name = "Project1 Viewer",
-                    ProjectPermissions = new List<ProjectGroupPermissions> { new ProjectGroupPermissions { ProjectId = 1234, CanView = true}}
+                    ProjectPermissions = new List<ProjectGroupPermissions> { new ProjectGroupPermissions { ProjectId = new Guid(1234, 0, 0, new byte[8]), CanView = true}}
                 }
             };
         }

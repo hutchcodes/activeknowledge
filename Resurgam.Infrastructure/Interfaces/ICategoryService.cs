@@ -8,6 +8,6 @@ namespace Resurgam.Infrastructure.Interfaces
 {
     public interface ICategoryService
     {
-        Task<CategoryTreeViewModel> GetCategoryTreeAsync(int projectId, int? categoryId = null, int? topicId = null);
+        Task<CategoryTreeViewModel> GetCategoryTreeAsync(Guid projectId, Guid? categoryId = null, Guid? topicId = null);
     }
 }

@@ -7,10 +7,10 @@ namespace Resurgam.AppCore.Entities
 {
     public class CategoryTopic 
     {
-        public int ProjectId { get; set; }
-        public int ParentCategoryId { get; set; }
+        public Guid ProjectId { get; set; }
+        public Guid ParentCategoryId { get; set; }
         public int Order { get; set; }
-        public int TopicId { get; set; }
+        public Guid TopicId { get; set; }
         public Topic Topic { get; set; }
     }
 }

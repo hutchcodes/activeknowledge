@@ -7,7 +7,7 @@ namespace Resurgam.AppCore.Specifications
 {
     public class ProjectListSpecification : BaseSpecification<Project>
     {
-        public ProjectListSpecification(int customerId) : base(x => x.CustomerId == customerId)
+        public ProjectListSpecification(Guid customerId) : base(x => x.CustomerId == customerId)
         {
         }
     }

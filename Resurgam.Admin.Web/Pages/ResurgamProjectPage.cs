@@ -20,7 +20,7 @@ namespace Resurgam.Admin.Web.Pages
         }
         public CategoryTreeViewModel CategoryTree { get; set; }
 
-        public async Task GetCategoryTree(int projectId)
+        public async Task GetCategoryTree(Guid projectId)
         {
             CategoryTree = await _categoryService.GetCategoryTreeAsync(projectId);
         }

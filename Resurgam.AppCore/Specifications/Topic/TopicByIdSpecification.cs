@@ -7,7 +7,7 @@ namespace Resurgam.AppCore.Specifications
 {
     public class TopicByIdSpecification : BaseSpecification<Topic>
     {
-        public TopicByIdSpecification(int projectId, int topicId) : base(x => x.ProjectId == projectId && x.Id == topicId)
+        public TopicByIdSpecification(Guid projectId, Guid topicId) : base(x => x.ProjectId == projectId && x.TopicId == topicId)
         {
             this.Includes.Add(x => x.Tags);
             this.Includes.Add(x => x.RelatedTopics);

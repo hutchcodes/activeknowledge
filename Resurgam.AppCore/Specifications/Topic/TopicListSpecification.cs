@@ -7,7 +7,7 @@ namespace Resurgam.AppCore.Specifications
 {
     public class TopicListSpecification : BaseSpecification<Topic>
     {
-        public TopicListSpecification(int projectId) : base(x => x.ProjectId == projectId)
+        public TopicListSpecification(Guid projectId) : base(x => x.ProjectId == projectId)
         {
         }
     }

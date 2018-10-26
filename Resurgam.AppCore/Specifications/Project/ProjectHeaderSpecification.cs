@@ -7,7 +7,7 @@ namespace Resurgam.AppCore.Specifications
 {
     public class ProjectHeaderSpecification : BaseSpecification<Project>
     {
-        public ProjectHeaderSpecification(int projectId) : base(x => x.Id == projectId)
+        public ProjectHeaderSpecification(Guid projectId) : base(x => x.ProjectId == projectId)
         {
             this.Includes.Add(x => x.Customer);
         }

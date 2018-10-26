@@ -20,12 +20,12 @@ namespace Resurgam.Infrastructure.ViewModels
         public TopicLinkViewModel(Topic referencedTopic)
         {
             ProjectId = referencedTopic.ProjectId;
-            TopicId = referencedTopic.Id;
+            TopicId = referencedTopic.TopicId;
             TopicName = referencedTopic.Name;
         }
 
-        public int ProjectId { get; set; }
-        public int TopicId { get; set; }
+        public Guid ProjectId { get; set; }
+        public Guid TopicId { get; set; }
         public string TopicName { get; set; }
 
         public RelatedTopic ToRelatedTopic()

@@ -37,8 +37,8 @@ namespace Resurgam.Infrastructure.Data
             builder.Entity<Tag>(ConfigureTag);
             builder.Entity<CollectionElement>(ConfigureCollectionElement);
             builder.Entity<Topic>(ConfigureTopic);
-            builder.Entity<RelatedTopic>(ConfigureRelatedTopic);
-            builder.Entity<ReferencedFragment>(ConfigureReferencedfragment);
+            //builder.Entity<RelatedTopic>(ConfigureRelatedTopic);
+            //builder.Entity<ReferencedFragment>(ConfigureReferencedfragment);
 
         }
         public DbSet<Category> Categories { get; set; }
@@ -51,9 +51,6 @@ namespace Resurgam.Infrastructure.Data
         private void ConfigureCategory(EntityTypeBuilder<Category> builder)
         {
             builder.ToTable("Category");
-
-            builder.Property(x => x.Id)
-                .ForSqlServerUseSequenceHiLo("category_hilo");
 
             IMutableNavigation navigation;
 
@@ -78,10 +75,6 @@ namespace Resurgam.Infrastructure.Data
         {
             builder.ToTable("Customer");
 
-            builder.Property(x => x.Id)
-                .ForSqlServerUseSequenceHiLo("customer_hilo")
-                .IsRequired();
-
             builder.Property(x => x.Name)
                 .IsRequired()
                 .HasMaxLength(50);
@@ -89,10 +82,6 @@ namespace Resurgam.Infrastructure.Data
         private void ConfigureProject(EntityTypeBuilder<Project> builder)
         {
             builder.ToTable("Project");
-
-            builder.Property(x => x.Id)
-                .ForSqlServerUseSequenceHiLo("project_hilo")
-                .IsRequired();
 
             builder.HasOne(x => x.Customer)
                 .WithMany()
@@ -107,10 +96,6 @@ namespace Resurgam.Infrastructure.Data
         {
             builder.ToTable("Tag");
 
-            builder.Property(x => x.Id)
-                .ForSqlServerUseSequenceHiLo("tag_hilo")
-                .IsRequired();
-
             builder.Property(x => x.Name)
                .IsRequired()
                .HasMaxLength(50);
@@ -119,10 +104,6 @@ namespace Resurgam.Infrastructure.Data
         private void ConfigureCollectionElement(EntityTypeBuilder<CollectionElement> builder)
         {
             builder.ToTable("CollectionElement");
-
-            builder.Property(x => x.Id)
-                .ForSqlServerUseSequenceHiLo("collectionElement_hilo")
-                .IsRequired();
 
             builder.Property(x => x.Name)
                .IsRequired()
@@ -138,12 +119,6 @@ namespace Resurgam.Infrastructure.Data
         {
             builder.ToTable("Topic");
 
-            //builder.HasKey(x => new { x.Id, x.ProjectId });
-
-            builder.Property(x => x.Id)
-                .ForSqlServerUseSequenceHiLo("topic_hilo")
-                .IsRequired();
-
             builder.Property(x => x.Name)
                .IsRequired()
                .HasMaxLength(50);
@@ -151,35 +126,65 @@ namespace Resurgam.Infrastructure.Data
             builder.Property(x => x.Description)
                .HasMaxLength(200);
 
-            builder.HasMany(x => x.RelatedTopics)
-                .WithOne(x => x.ParentTopic);
-
-            builder.HasMany(x => x.ReferencedFragments)
-                .WithOne(x => x.ParentTopic);
+            //builder.HasMany(x => x.RelatedTopics)
+            //    .WithOne(x => x.ParentTopic);
 
             builder.HasMany(x => x.CollectionElements)
                 .WithOne(x => x.Topic);
+
+            //builder.HasMany(x => x.ReferencedFragments)
+            //    .WithOne(x => x.ParentTopic)
+            //    .OnDelete(DeleteBehavior.Cascade);
 
             IMutableNavigation navigation;
             navigation = builder.Metadata.FindNavigation(nameof(Topic.Tags));
             navigation.SetPropertyAccessMode(PropertyAccessMode.Field);
 
-            navigation = builder.Metadata.FindNavigation(nameof(Topic.RelatedTopics));
-            navigation.SetPropertyAccessMode(PropertyAccessMode.Field);
+            //navigation = builder.Metadata.FindNavigation(nameof(Topic.RelatedTopics));
+            //navigation.SetPropertyAccessMode(PropertyAccessMode.Field);
 
             navigation = builder.Metadata.FindNavigation(nameof(Topic.CollectionElements));
             navigation.SetPropertyAccessMode(PropertyAccessMode.Field);
 
-            navigation = builder.Metadata.FindNavigation(nameof(Topic.ReferencedFragments));
-            navigation.SetPropertyAccessMode(PropertyAccessMode.Field);
+            //navigation = builder.Metadata.FindNavigation(nameof(Topic.ReferencedFragments));
+            //navigation.SetPropertyAccessMode(PropertyAccessMode.Field);
+
+            //navigation = builder.Metadata.FindNavigation(nameof(Topic.FragmentReferencedBy));
+            //navigation.SetPropertyAccessMode(PropertyAccessMode.Field);
         }
 
         private void ConfigureRelatedTopic(EntityTypeBuilder<RelatedTopic> builder)
         {
+            builder.ToTable("RelatedTopic");
+
+            builder.HasKey(x => new { x.ProjectId, x.ParentTopicId, x.ChildTopicId });
+
+            builder.HasOne(x => x.ParentTopic)
+                .WithMany(x => x.RelatedTopics)
+                //.HasForeignKey("ParentTopicId")
+                .OnDelete(DeleteBehavior.Cascade);
+
+            builder.HasOne(x => x.ChildTopic);
+            //.WithMany(x => x.RelatedTopics)
+            //.HasForeignKey("ChildTopicId")
+            //.OnDelete(DeleteBehavior.Cascade);
         }
 
         private void ConfigureReferencedfragment(EntityTypeBuilder<ReferencedFragment> builder)
         {
+            builder.ToTable("TopicFragment");
+
+            builder.HasKey(x => new { x.ProjectId, x.ParentTopicId, x.ChildTopicId });
+
+            builder.HasOne(x => x.ParentTopic)
+                .WithMany(x => x.ReferencedFragments)
+                //.HasForeignKey("ParentTopicId")
+                .OnDelete(DeleteBehavior.Cascade);
+
+            builder.HasOne(x => x.ChildTopic)
+            .WithMany(x => x.FragmentReferencedBy)
+            //.HasForeignKey("ChildTopicId")
+            .OnDelete(DeleteBehavior.Cascade);
         }
     }
 }

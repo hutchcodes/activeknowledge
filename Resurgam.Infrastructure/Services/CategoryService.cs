@@ -23,7 +23,7 @@ namespace Resurgam.Infrastructure.Services
             _categoryRepo = categoryRepo;
         }
 
-        public async Task<CategoryTreeViewModel> GetCategoryTreeAsync(int projectId, int? categoryId, int? topicId)
+        public async Task<CategoryTreeViewModel> GetCategoryTreeAsync(Guid projectId, Guid? categoryId, Guid? topicId)
         {
             var spec = new CategoryListSpecification(projectId);
             var category = await _categoryRepo.ListAsync(spec);

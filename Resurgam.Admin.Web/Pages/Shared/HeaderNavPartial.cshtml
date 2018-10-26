@@ -3,7 +3,7 @@
 <nav class="navbar navbar-inverse navbar-fixed-top">
     <div class="container">
         <div class="navbar-header">
-            @if (Model.CustomerId != 0)
+            @if (Model.CustomerId != Guid.Empty)
             {
             <a asp-page="/Customer" asp-route-customerId="@Model.CustomerId" >
                 <img src="/api/customerlogo/@Model.CustomerId/@Model.CustomerLogoURL" alt="@Model.CustomerName" style="max-height:46px;margin-top:2px;" />
