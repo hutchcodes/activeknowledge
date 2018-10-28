@@ -38,7 +38,9 @@ namespace Resurgam.Infrastructure.Data
             builder.Entity<CollectionElement>(ConfigureCollectionElement);
             builder.Entity<Topic>(ConfigureTopic);
             //builder.Entity<RelatedTopic>(ConfigureRelatedTopic);
-            //builder.Entity<ReferencedFragment>(ConfigureReferencedfragment);
+            builder.Entity<ReferencedFragment>(ConfigureReferencedfragment);
+
+            ConfigureRelationShips(builder);
 
         }
         public DbSet<Category> Categories { get; set; }
@@ -48,6 +50,22 @@ namespace Resurgam.Infrastructure.Data
         public DbSet<Topic> Topics { get; set; }
         public DbSet<CollectionElement> CollectionElements { get; set; }
 
+        private void ConfigureRelationShips(ModelBuilder builder)
+        {
+            IMutableNavigation navigation;
+
+            navigation = builder.Entity<Topic>().Metadata.FindNavigation(nameof(Topic.CollectionElements));
+            navigation.SetPropertyAccessMode(PropertyAccessMode.Field);
+
+            navigation = builder.Entity<Topic>().Metadata.FindNavigation(nameof(Topic.ReferencedFragments));
+            navigation.SetPropertyAccessMode(PropertyAccessMode.Field);
+
+            navigation = builder.Entity<Topic>().Metadata.FindNavigation(nameof(Topic.FragmentReferencedBy));
+            navigation.SetPropertyAccessMode(PropertyAccessMode.Field);
+
+            navigation = builder.Entity<CollectionElement>().Metadata.FindNavigation(nameof(CollectionElement.Topic));
+            navigation.SetPropertyAccessMode(PropertyAccessMode.Field);
+        }
         private void ConfigureCategory(EntityTypeBuilder<Category> builder)
         {
             builder.ToTable("Category");
@@ -71,6 +89,7 @@ namespace Resurgam.Infrastructure.Data
             navigation = builder.Metadata.FindNavigation(nameof(CategoryTopic.Topic));
             navigation.SetPropertyAccessMode(PropertyAccessMode.Field);
         }
+
         private void ConfigureCustomer(EntityTypeBuilder<Customer> builder)
         {
             builder.ToTable("Customer");
@@ -132,9 +151,9 @@ namespace Resurgam.Infrastructure.Data
             builder.HasMany(x => x.CollectionElements)
                 .WithOne(x => x.Topic);
 
-            //builder.HasMany(x => x.ReferencedFragments)
-            //    .WithOne(x => x.ParentTopic)
-            //    .OnDelete(DeleteBehavior.Cascade);
+            builder.HasMany(x => x.ReferencedFragments)
+                .WithOne(x => x.ParentTopic)
+                .OnDelete(DeleteBehavior.Cascade);
 
             IMutableNavigation navigation;
             navigation = builder.Metadata.FindNavigation(nameof(Topic.Tags));
@@ -143,14 +162,7 @@ namespace Resurgam.Infrastructure.Data
             //navigation = builder.Metadata.FindNavigation(nameof(Topic.RelatedTopics));
             //navigation.SetPropertyAccessMode(PropertyAccessMode.Field);
 
-            navigation = builder.Metadata.FindNavigation(nameof(Topic.CollectionElements));
-            navigation.SetPropertyAccessMode(PropertyAccessMode.Field);
 
-            //navigation = builder.Metadata.FindNavigation(nameof(Topic.ReferencedFragments));
-            //navigation.SetPropertyAccessMode(PropertyAccessMode.Field);
-
-            //navigation = builder.Metadata.FindNavigation(nameof(Topic.FragmentReferencedBy));
-            //navigation.SetPropertyAccessMode(PropertyAccessMode.Field);
         }
 
         private void ConfigureRelatedTopic(EntityTypeBuilder<RelatedTopic> builder)

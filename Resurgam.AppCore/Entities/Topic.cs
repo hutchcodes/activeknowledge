@@ -62,34 +62,38 @@ namespace Resurgam.AppCore.Entities
 
         private readonly List<ReferencedFragment> _referencedFragments = new List<ReferencedFragment>();
         public IReadOnlyCollection<ReferencedFragment> ReferencedFragments => _referencedFragments.AsReadOnly();
-        public void AddReferencedFragments(Topic referencedTopic)
+        public void AddReferencedFragments(ReferencedFragment referencedFragment)
         {
-            if (!_referencedFragments.Any(x => x.ChildTopicId == referencedTopic.TopicId))
+            if (!_referencedFragments.Any(x => x.ChildTopicId == referencedFragment.ChildTopicId))
             {
-                //_referencedFragments.Add(referencedTopic);
+                _referencedFragments.Add(referencedFragment);
                 return;
             }
         }
-        public void RemoveReferencedFragments(Topic referencedTopic)
+        public void RemoveReferencedFragments(ReferencedFragment referencedFragment)
         {
-            _referencedFragments.Any(x => x.ChildTopicId == referencedTopic.TopicId);
-            //_referencedFragments.Remove(referencedTopic);
+            if (_referencedFragments.Any(x => x.ChildTopicId == referencedFragment.ChildTopicId))
+            {
+                _referencedFragments.Remove(referencedFragment);
+            }
         }
 
         private readonly List<ReferencedFragment> _fragmentReferencedBy = new List<ReferencedFragment>();
         public IReadOnlyCollection<ReferencedFragment> FragmentReferencedBy => _fragmentReferencedBy.AsReadOnly();
-        public void AddFragmentReferencedBy(Topic referencedTopic)
+        public void AddFragmentReferencedBy(ReferencedFragment referencedFragment)
         {
-            if (!_fragmentReferencedBy.Any(x => x.ChildTopicId == referencedTopic.TopicId))
+            if (!_fragmentReferencedBy.Any(x => x.ParentTopicId == referencedFragment.ParentTopicId))
             {
-                //_fragmentReferencedBy.Add(referencedTopic);
+                _fragmentReferencedBy.Add(referencedFragment);
                 return;
             }
         }
-        public void RemoveFragmentReferencedBy(Topic referencedTopic)
+        public void RemoveFragmentReferencedBy(ReferencedFragment referencedFragment)
         {
-            _fragmentReferencedBy.Any(x => x.ChildTopicId == referencedTopic.TopicId);
-            //_fragmentReferencedBy.Remove(referencedTopic);
+            if (_fragmentReferencedBy.Any(x => x.ParentTopicId == referencedFragment.ParentTopicId))
+            {
+                _fragmentReferencedBy.Remove(referencedFragment);
+            }
         }
 
         private readonly List<CollectionElement> _collectionElements = new List<CollectionElement>();
