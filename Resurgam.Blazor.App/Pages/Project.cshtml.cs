@@ -8,27 +8,26 @@ using System.Threading.Tasks;
 
 namespace Resurgam.Blazor.App.Pages
 {
-    public class ProjectModel :BlazorComponent
-    {
+    public class ProjectModel : AppStatePage
+    { 
         [Inject]
         protected ITopicService _topicService { get; set; }
 
-        [Parameter]
-        protected Guid ProjectId { get; set; }
-
         protected List<TopicListViewModel> Topics { get; set; }
 
-        protected override async Task OnInitAsync()
+        protected override async Task OnParametersSetAsync()
         {
             var pageTasks = new List<Task>();
+
             var topicTask = _topicService.GetTopicListForProject(ProjectId);
             pageTasks.Add(topicTask);
+
+            var baseTask = base.OnParametersSetAsync();
+            pageTasks.Add(baseTask);
 
             await Task.WhenAll(pageTasks);
 
             Topics = topicTask.Result;
-
-            //await base.OnInitAsync();
         }
     }
 }

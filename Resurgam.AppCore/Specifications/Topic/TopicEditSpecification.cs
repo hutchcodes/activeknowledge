@@ -12,14 +12,14 @@ namespace Resurgam.AppCore.Specifications
         {
             AddInclude(x => x.Tags);
 
-            AddInclude(x => x.RelatedTopics);
-            AddInclude($"{nameof(Topic.RelatedTopics)}.{nameof(IReferencedTopic.ChildTopic)}");
+            //AddInclude(x => x.RelatedTopics);
+            //AddInclude($"{nameof(Topic.RelatedTopics)}.{nameof(IReferencedTopic.ChildTopic)}");
 
             AddInclude(x => x.CollectionElements);
             AddInclude($"{nameof(Topic.CollectionElements)}.{nameof(CollectionElement.ElementTopics)}");
 
-            AddInclude(x => x.ReferencedFragments);
-            AddInclude($"{nameof(Topic.ReferencedFragments)}.{nameof(IReferencedTopic.ChildTopic)}");
+            //AddInclude(x => x.ReferencedFragments);
+            //AddInclude($"{nameof(Topic.ReferencedFragments)}.{nameof(IReferencedTopic.ChildTopic)}");
         }
     }
 }

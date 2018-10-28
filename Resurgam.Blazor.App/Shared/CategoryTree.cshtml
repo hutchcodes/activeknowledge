@@ -1,0 +1,26 @@
+﻿@using Resurgam.Infrastructure.ViewModels;
+
+@if (CategoryTreeViewModel != null)
+{
+    @CategoryTreeViewModel.Name
+    <ul class="p-lg-3 text-white">
+        @foreach (var c in CategoryTreeViewModel.Categories)
+        {
+            <li>
+                <CategoryTree CategoryTreeViewModel="@c" />
+            </li>
+        }
+        @foreach (var t in CategoryTreeViewModel.Topics)
+        {
+            <li>
+                <a href='@($"edit/topic/{t.ProjectId}/{t.TopicId}")'>@t.TopicName</a>
+            </li>
+        }
+    </ul>
+}
+@functions {
+    [Parameter]
+    protected CategoryTreeViewModel CategoryTreeViewModel { get; set; }
+
+
+}

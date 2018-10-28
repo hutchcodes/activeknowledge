@@ -10,6 +10,22 @@ else
     @*<partial name="Partials/CategoryTree" model="Model.CategoryTree" />*@
 
     <h2>@Topic.TopicName</h2>
+
+    <fieldset>
+        <div class="row">
+            <div class="col-sm-4'">
+                <div class="form-group">
+                    <label for="topic-title">Topic Name</label>
+                    <input type="text" id="topic-title" size="50" value="@Topic.TopicName" />
+                </div>
+                <div class="form-group">
+                    <label for="topic-title">Topic Name</label>
+                    <input type="text" id="topic-title" size="50" value="@Topic.TopicDescription" />
+                </div>
+            </div>
+            <div class="col-sm-4'"></div>
+        </div>
+    </fieldset>
     @*@{
             switch (Topic.TopicTypeID)
             {

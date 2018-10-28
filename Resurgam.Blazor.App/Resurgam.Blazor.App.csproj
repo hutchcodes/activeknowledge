@@ -22,7 +22,7 @@
     <Content Update="Pages\Project.cshtml">
       <Pack>$(IncludeRazorContentInPack)</Pack>
     </Content>
-    <Content Update="Pages\Topic.cshtml">
+    <Content Update="Pages\TopicEdit.cshtml">
       <CopyToPublishDirectory>PreserveNewest</CopyToPublishDirectory>
       <Pack>$(IncludeRazorContentInPack)</Pack>
     </Content>

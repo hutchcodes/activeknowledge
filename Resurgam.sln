@@ -19,9 +19,9 @@ Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Resurgam.Admin.Api", "Resur
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Resurgam.Admin.Web", "Resurgam.Admin.Web\Resurgam.Admin.Web.csproj", "{4ED03A8F-4BCC-44E6-8C5D-BF1F67EBCB11}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Resurgam.Blazor.Server", "Resurgam.Blazor.Server\Resurgam.Blazor.Server.csproj", "{489F696F-8127-4147-901E-3D2592B1D3C3}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Resurgam.Blazor.Server", "Resurgam.Blazor.Server\Resurgam.Blazor.Server.csproj", "{489F696F-8127-4147-901E-3D2592B1D3C3}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Resurgam.Blazor.App", "Resurgam.Blazor.App\Resurgam.Blazor.App.csproj", "{CC247B5D-EE3A-482A-86AE-1414F5F8453C}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Resurgam.Blazor.App", "Resurgam.Blazor.App\Resurgam.Blazor.App.csproj", "{CC247B5D-EE3A-482A-86AE-1414F5F8453C}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
