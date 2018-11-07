@@ -40,11 +40,14 @@ namespace Resurgam.Infrastructure.ViewModels
             }
         }
 
-        public Topic ToTopicEntity()
+        public Topic ToTopicEntity(Topic topic)
         {
-            var topic = new Topic();
-            topic.ProjectId = ProjectId;
-            topic.TopicId = TopicId;
+            if (topic == null)
+            {
+                topic = new Topic();
+                topic.ProjectId = ProjectId;
+                topic.TopicId = TopicId;
+            }
             topic.Name = TopicName;
             topic.Description = TopicDescription;
             topic.TopicContent = TopicContent;
@@ -77,8 +80,9 @@ namespace Resurgam.Infrastructure.ViewModels
         public int TopicTypeID { get; set; }
         public string TopicName { get; set; }
         public string TopicDescription { get; set; }
-        public string DocumentName { get; set; }
         public string TopicContent { get; set; }
+        public string DocumentName { get; set; }
+
 
         public List<TopicLinkViewModel> RelatedTopics { get; } = new List<TopicLinkViewModel>();
         public List<TagViewModel> Tags { get; } = new List<TagViewModel>();

@@ -1,4 +1,7 @@
-﻿using Microsoft.AspNetCore.Blazor.Components;
+﻿using Microsoft.AspNetCore.Blazor;
+using Microsoft.AspNetCore.Blazor.Components;
+using Microsoft.JSInterop;
+using Resurgam.Blazor.App.Shared;
 using Resurgam.Infrastructure.Interfaces;
 using Resurgam.Infrastructure.ViewModels;
 using System;
@@ -22,17 +25,40 @@ namespace Resurgam.Blazor.App.Pages
         {
             var pageTasks = new List<Task>();
 
-            var topicTask = _topicService.GetTopicForEditAsync(ProjectId, TopicId);
+            var topicTask = LoadTopic();
             pageTasks.Add(topicTask);
 
             var baseTask = base.OnParametersSetAsync();
             pageTasks.Add(baseTask);
 
             await Task.WhenAll(pageTasks);
-
-            Topic = topicTask.Result;
+        }
+        
+        private async Task LoadTopic()
+        {
+            Topic = await _topicService.GetTopicForEditAsync(ProjectId, TopicId);
+        }
+        
+        protected async Task Save()
+        {
+            Topic.TopicContent = await GetFroalaEditorContent("#froalaEdit");
+            await _topicService.SaveTopicAsync(Topic);
         }
 
-        protected Task Foo() => Task.CompletedTask;
+        protected async Task Cancel()
+        {
+            await LoadTopic();
+        }
+
+        public static async Task InitFroalaEditor(string elementId) => await JSRuntime.Current.InvokeAsync<string>("InitFroalaEditor", elementId);
+        public static async Task<string> GetFroalaEditorContent(string elementId)
+        {
+            return await JSRuntime.Current.InvokeAsync<string>("GetFroalaEditorContent", elementId);
+        }
+
+        protected override async Task OnAfterRenderAsync()
+        {
+            await InitFroalaEditor("#froalaEdit");
+        }
     }
 }

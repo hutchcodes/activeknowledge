@@ -1,45 +1,52 @@
 ﻿@page "/edit/topic/{projectId:guid}/{topicId:guid}"
 @inherits TopicModel
+@using Resurgam.AppCore.Lookups
 
 @if (Topic == null)
 {
-<p><em>Loading...</em></p>
+    <p><em>Loading...</em></p>
 }
 else
 {
     @*<partial name="Partials/CategoryTree" model="Model.CategoryTree" />*@
 
-    <h2>@Topic.TopicName</h2>
+    <h2 bind="@Topic.TopicName"></h2>
 
     <fieldset>
         <div class="row">
             <div class="col-sm-4'">
                 <div class="form-group">
                     <label for="topic-title">Topic Name</label>
-                    <input type="text" id="topic-title" size="50" value="@Topic.TopicName" />
+                    <input type="text" id="topic-title" size="50" bind="@Topic.TopicName" />
                 </div>
                 <div class="form-group">
-                    <label for="topic-title">Topic Name</label>
-                    <input type="text" id="topic-title" size="50" value="@Topic.TopicDescription" />
+                    <label for="topic-desc">Topic Description</label>
+                    <input type="text" id="topic-desc" size="50" bind="@Topic.TopicDescription" />
                 </div>
             </div>
             <div class="col-sm-4'"></div>
         </div>
     </fieldset>
-    @*@{
-            switch (Topic.TopicTypeID)
-            {
-                case 1:
-                    <partial name="Partials/Topic/ContentTopic" model="Model.Topic" />
-                    break;
-                case 2:
-                    <partial name="Partials/Topic/CollectionTopic" model="Model.Topic" />
-                    break;
-                case 3:
-                    <partial name="Partials/Topic/DocumentTopic" model="Model.Topic" />
-                    break;
-            }
-        }*@
+    <button onclick="@Save">Save</button>
+    <button onclick="@Cancel">Cancel</button>
+
+    switch (Topic.TopicTypeID)
+    {
+        case 1:
+            <textarea type="text" id="froalaEdit" bind="@Topic.TopicContent"></textarea>
+            @*<textarea type="text" id="froalaEdit" >@Topic.TopicContent</textarea>*@
+            break;
+        case 2:
+            <CollectionTopicEditor Topic="@Topic" />
+            break;
+            @*case 3:
+                <partial name="Partials/Topic/DocumentTopic" model="Model.Topic" />
+                break;*@
+        case 4:
+            <textarea type="text" id="froalaEdit" bind="@Topic.TopicContent"></textarea>
+            break;
+}
+
 
     @*<div style="border: 1px solid blue">
             <b>Tags</b>
@@ -54,7 +61,7 @@ else
             <b>Related Topics</b>
             @foreach (var rt in Topic.RelatedTopics)
             {
-                var topicLink = $"/topic/{rt.ProjectId}/{rt.TopicId}";
+        var topicLink = $"/topic/{rt.ProjectId}/{rt.TopicId}";
                 <div>
                     <a href="@topicLink">@rt.TopicName</a>
                 </div>

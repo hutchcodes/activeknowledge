@@ -1,0 +1,10 @@
+﻿@inherits CollectionTopicEditorModel
+
+@foreach (var element in Topic.CollectionElements)
+{
+    <div>@element.CollectionElementName</div>
+    foreach(var t in element.Topics)
+    {
+        <div>@t.TopicName</div>
+    }
+}

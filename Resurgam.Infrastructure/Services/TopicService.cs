@@ -54,8 +54,18 @@ namespace Resurgam.Infrastructure.Services
 
         public async Task SaveTopicAsync(TopicEditViewModel topicVM)
         {
-            var topic = topicVM.ToTopicEntity();
-            await _topicRepo.UpdateAsync(topic);
+            try
+            {
+                var spec = new TopicEditSpecification(topicVM.ProjectId, topicVM.TopicId);
+                var topic = await _topicRepo.GetAsync(spec);
+
+                topic = topicVM.ToTopicEntity(topic);
+                await _topicRepo.UpdateAsync(topic);
+            }
+            catch (Exception ex)
+            {
+
+            }
         }
     }
 }
