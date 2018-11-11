@@ -1,17 +1,20 @@
 ﻿
 @model Resurgam.Infrastructure.ViewModels.CategoryTreeViewModel
-<ul>
-    @{
-        foreach (var cat in Model.Categories)
-        {
-            <li>@cat.Name</li>
-            <partial name="Partials/CategoryTree" model="cat" />
-        }
 
-        foreach (var topic in Model.Topics)
-        {
-            var topicLink = $"/topic/{topic.ProjectId}/{topic.TopicId}";
-            <li><a href="@topicLink">@topic.TopicName</a></li>
+<div class="sidebar">
+    <ul>
+        @{
+            foreach (var cat in Model.Categories)
+            {
+                <li>@cat.Name</li>
+                <partial name="Partials/CategoryTree" model="cat" />
+            }
+
+            foreach (var topic in Model.Topics)
+            {
+                var topicLink = $"/topic/{topic.ProjectId}/{topic.TopicId}";
+                <li><a href="@topicLink">@topic.TopicName</a></li>
+            }
         }
-    }
-</ul>
+    </ul>
+</div>

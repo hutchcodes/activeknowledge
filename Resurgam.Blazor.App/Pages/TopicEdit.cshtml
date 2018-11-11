@@ -27,29 +27,29 @@ else
             <div class="col-sm-4'"></div>
         </div>
     </fieldset>
-    <button onclick="@Save">Save</button>
-    <button onclick="@Cancel">Cancel</button>
 
     switch (Topic.TopicTypeID)
     {
-        case 1:
+        case 1: //Content
             <textarea type="text" id="froalaEdit" bind="@Topic.TopicContent"></textarea>
             @*<textarea type="text" id="froalaEdit" >@Topic.TopicContent</textarea>*@
             break;
-        case 2:
+        case 2: //Collection
             <CollectionTopicEditor Topic="@Topic" />
             break;
-            @*case 3:
-                <partial name="Partials/Topic/DocumentTopic" model="Model.Topic" />
-                break;*@
-        case 4:
+        case 3: //Document
+
+            break;
+        case 4: //Fragment
             <textarea type="text" id="froalaEdit" bind="@Topic.TopicContent"></textarea>
             break;
-}
+    }
 
+    <button onclick="@Save">Save</button>
+    <button onclick="@Cancel">Cancel</button>
 
     @*<div style="border: 1px solid blue">
-            <b>Tags</b>
+            <b>Tags</b>Betha
             <div>
                 @foreach (var tag in Topic.Tags)
                 {
