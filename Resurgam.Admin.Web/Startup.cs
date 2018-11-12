@@ -70,7 +70,6 @@ namespace Resurgam.Admin.Web
             ConfigureDI(services);
 
             services.AddMvc().SetCompatibilityVersion(CompatibilityVersion.Version_2_1);
-            services.AddKendo();
             // Add memory cache services
             services.AddMemoryCache();
 
@@ -149,7 +148,7 @@ namespace Resurgam.Admin.Web
                 {
                     // Requires LocalDB which can be installed with SQL Server Express 2016
                     // https://www.microsoft.com/en-us/download/details.aspx?id=54284
-                    c.UseSqlServer(Configuration.GetConnectionString("ResurgamDBConnection"));
+                    c.UseSqlServer(Configuration.GetConnectionString("ResurgamContext"));
                 }
                 catch (System.Exception ex)
                 {
