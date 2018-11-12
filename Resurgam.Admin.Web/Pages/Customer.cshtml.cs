@@ -7,9 +7,11 @@ using Resurgam.Infrastructure.Interfaces;
 using Resurgam.Infrastructure.ViewModels;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.RazorPages;
+using Microsoft.AspNetCore.Authorization;
 
 namespace Resurgam.Admin.Web.Pages
-{    
+{
+    [AllowAnonymous]
     public class CustomerModel : ResurgamPage
     {
         private readonly IProjectService _projectService;
