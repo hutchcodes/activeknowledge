@@ -155,6 +155,8 @@ namespace Resurgam.Admin.Web
                     var message = ex.Message;
                 }
             });
+            services.AddDbContext<SecurityContext>(c =>
+                c.UseInMemoryDatabase("SecurityDB"));
 
             ConfigureServices(services);
         }
