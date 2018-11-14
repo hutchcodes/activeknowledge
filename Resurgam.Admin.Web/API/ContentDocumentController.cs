@@ -22,7 +22,7 @@ namespace Resurgam.Admin.Web.Api
         }
 
         [Route("api/[controller]/{projectId}/{topicId}/{*slug}")]
-        public async Task<IActionResult> GetImage(int projectId, int topicId, string slug)
+        public async Task<IActionResult> GetImage(Guid projectId, Guid topicId, string slug)
         {
             var doc = await _fileStorage.GetDocument(FileStorageType.ContentDocuments, $"{projectId}/{topicId}/{slug}");
 
