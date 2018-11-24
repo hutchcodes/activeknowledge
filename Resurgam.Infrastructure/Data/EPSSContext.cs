@@ -186,17 +186,18 @@ namespace Resurgam.Infrastructure.Data
         {
             builder.ToTable("TopicFragment");
 
+            //builder.HasKey(x => x.TopicReferenceId);
             builder.HasKey(x => new { x.ProjectId, x.ParentTopicId, x.ChildTopicId });
 
             builder.HasOne(x => x.ParentTopic)
                 .WithMany(x => x.ReferencedFragments)
-                //.HasForeignKey("ParentTopicId")
-                .OnDelete(DeleteBehavior.Cascade);
+                .HasForeignKey("ParentTopicId");
+            //.OnDelete(DeleteBehavior.Do);
 
             builder.HasOne(x => x.ChildTopic)
-            .WithMany(x => x.FragmentReferencedBy)
-            //.HasForeignKey("ChildTopicId")
-            .OnDelete(DeleteBehavior.Cascade);
+                .WithMany(x => x.FragmentReferencedBy)
+                .HasForeignKey("ChildTopicId")
+                .OnDelete(DeleteBehavior.Restrict);
         }
     }
 }

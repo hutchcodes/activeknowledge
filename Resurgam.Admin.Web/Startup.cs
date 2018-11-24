@@ -131,7 +131,7 @@ namespace Resurgam.Admin.Web
         {
             // use in-memory database
             services.AddDbContext<ResurgamContext>(c =>
-                c.UseInMemoryDatabase("ResurgamDB"));
+                c.UseSqlServer(Configuration.GetConnectionString("ResurgamContext")));
 
             services.AddDbContext<SecurityContext>(c =>
                 c.UseInMemoryDatabase("SecurityDB"));
