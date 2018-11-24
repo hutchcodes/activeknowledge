@@ -44,20 +44,37 @@ namespace Resurgam.AppCore.Entities
             }
         }
 
-        private readonly List<RelatedTopic> _relatedTopics = new List<RelatedTopic>();
-        public IReadOnlyCollection<RelatedTopic> RelatedTopics => _relatedTopics.AsReadOnly();
-        public void AddRelatedTopic(Topic relatedTopic)
-        {
-            //if (!_relatedTopics.Contains(relatedTopic))
-            //{
-            //    _relatedTopics.Add(relatedTopic);
-            //    return;
-            //}
+        private readonly List<RelatedTopic> _relatedToTopics = new List<RelatedTopic>();
+        public IReadOnlyCollection<RelatedTopic> RelatedToTopics => _relatedToTopics.AsReadOnly();
+        public void AddRelatedToTopic(RelatedTopic relatedTopic)
+        { 
+            if (!_relatedToTopics.Contains(relatedTopic))
+            {
+                _relatedToTopics.Add(relatedTopic);
+                return;
+            }
         }
-        public void RemoveRelatedTopic(Topic referencedTopic)
+        public void RemoveRelatedToTopic(RelatedTopic relatedTopic)
         {
-            //_relatedTopics.Any(x => x.ChildTopicId == referencedTopic.Id);
-            //_relatedTopics.Remove(referencedTopic);
+            _relatedToTopics.Any(x => x.ChildTopicId == relatedTopic.ChildTopicId);
+            _relatedToTopics.Remove(relatedTopic);
+        }
+
+        private readonly List<RelatedTopic> _relatedFromTopics = new List<RelatedTopic>();
+        public IReadOnlyCollection<RelatedTopic> RelatedFromTopics => _relatedFromTopics.AsReadOnly();
+
+        public void AddRelatedFromTopic(RelatedTopic relatedTopic)
+        {
+            if (!_relatedToTopics.Contains(relatedTopic))
+            {
+                _relatedToTopics.Add(relatedTopic);
+                return;
+            }
+        }
+        public void RemoveRelatedFromTopic(RelatedTopic relatedTopic)
+        {
+            _relatedToTopics.Any(x => x.ChildTopicId == relatedTopic.ChildTopicId);
+            _relatedToTopics.Remove(relatedTopic);
         }
 
         private readonly List<ReferencedFragment> _referencedFragments = new List<ReferencedFragment>();

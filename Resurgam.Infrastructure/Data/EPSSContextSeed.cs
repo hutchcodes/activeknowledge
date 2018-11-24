@@ -129,8 +129,8 @@ namespace Resurgam.Infrastructure.Data
             content2.AddTag(Guid.NewGuid(), "Tag1");
             content2.AddTag(Guid.NewGuid(), "Tag2");
 
-            //content2.AddRelatedTopic(new RelatedTopic() { Id = 2, ProjectId = collection1.ProjectId, ChildTopicId = 111, ParentTopicId = 222 });
-            //content2.AddRelatedTopic(new RelatedTopic() { Id = 3, ProjectId = collection1.ProjectId, ChildTopicId = 444, ParentTopicId = 222 });
+            content2.AddRelatedToTopic(new RelatedTopic { ProjectId = _projectId1, ParentTopicId = content2.TopicId, ChildTopicId = content1.TopicId });
+            content2.AddRelatedToTopic(new RelatedTopic { ProjectId = _projectId1, ParentTopicId = content2.TopicId, ChildTopicId = document1.TopicId });
 
             collection1.AddTag(Guid.NewGuid(), "Tag1");
             collection1.AddTag(Guid.NewGuid(), "Tag2");
@@ -145,7 +145,8 @@ namespace Resurgam.Infrastructure.Data
             collection1.AddCollectionElement(collectionElement1);
             collection1.AddCollectionElement(collectionElement2);
 
-            //collection1.AddRelatedTopic(new RelatedTopic() { Id = 1, ProjectId = collection1.ProjectId, ChildTopicId = 444, ParentTopicId = 555 });
+            collection1.AddRelatedToTopic(new RelatedTopic { ProjectId = _projectId1, ParentTopicId = content2.TopicId, ChildTopicId = content2.TopicId });
+
 
             return new List<Topic>()
             {

@@ -34,7 +34,7 @@ namespace Resurgam.Infrastructure.ViewModels
                 Tags.Add(new TagViewModel(tag));
             }
 
-            foreach (var refTopic in topic.RelatedTopics)
+            foreach (var refTopic in topic.RelatedToTopics)
             {
                 RelatedTopics.Add(new TopicLinkViewModel(refTopic));
             }

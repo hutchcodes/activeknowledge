@@ -12,8 +12,8 @@ namespace Resurgam.AppCore.Specifications
         {
             //AddInclude(x => x.Tags);
 
-            //AddInclude(x => x.RelatedTopics);
-            //AddInclude($"{nameof(Topic.RelatedTopics)}.{nameof(IReferencedTopic.ChildTopic)}");
+            AddInclude(x => x.RelatedToTopics);
+            AddInclude($"{nameof(Topic.RelatedToTopics)}.{nameof(IReferencedTopic.ChildTopic)}");
 
             AddInclude(x => x.CollectionElements);
             AddInclude($"{nameof(Topic.CollectionElements)}.{nameof(CollectionElement.ElementTopics)}");

@@ -37,7 +37,7 @@ namespace Resurgam.Infrastructure.Data
             builder.Entity<Tag>(ConfigureTag);
             builder.Entity<CollectionElement>(ConfigureCollectionElement);
             builder.Entity<Topic>(ConfigureTopic);
-            //builder.Entity<RelatedTopic>(ConfigureRelatedTopic);
+            builder.Entity<RelatedTopic>(ConfigureRelatedTopic);
             builder.Entity<ReferencedFragment>(ConfigureReferencedfragment);
 
             ConfigureRelationShips(builder);
@@ -61,6 +61,12 @@ namespace Resurgam.Infrastructure.Data
             navigation.SetPropertyAccessMode(PropertyAccessMode.Field);
 
             navigation = builder.Entity<Topic>().Metadata.FindNavigation(nameof(Topic.FragmentReferencedBy));
+            navigation.SetPropertyAccessMode(PropertyAccessMode.Field);
+
+            navigation = builder.Entity<Topic>().Metadata.FindNavigation(nameof(Topic.RelatedToTopics));
+            navigation.SetPropertyAccessMode(PropertyAccessMode.Field);
+
+            navigation = builder.Entity<Topic>().Metadata.FindNavigation(nameof(Topic.RelatedFromTopics));
             navigation.SetPropertyAccessMode(PropertyAccessMode.Field);
 
             navigation = builder.Entity<CollectionElement>().Metadata.FindNavigation(nameof(CollectionElement.Topic));
@@ -155,6 +161,16 @@ namespace Resurgam.Infrastructure.Data
                 .WithOne(x => x.ParentTopic)
                 .OnDelete(DeleteBehavior.Cascade);
 
+            builder.HasMany(x => x.RelatedToTopics)
+                .WithOne(x => x.ParentTopic)
+                .HasForeignKey(x => x.ParentTopicId)
+                .OnDelete(DeleteBehavior.Cascade);
+
+            builder.HasMany(x => x.RelatedFromTopics)
+                .WithOne(x => x.ChildTopic)
+                .HasForeignKey(x => x.ChildTopicId)
+                .OnDelete(DeleteBehavior.Restrict);
+
             IMutableNavigation navigation;
             navigation = builder.Metadata.FindNavigation(nameof(Topic.Tags));
             navigation.SetPropertyAccessMode(PropertyAccessMode.Field);
@@ -171,13 +187,13 @@ namespace Resurgam.Infrastructure.Data
 
             builder.HasKey(x => new { x.ProjectId, x.ParentTopicId, x.ChildTopicId });
 
-            builder.HasOne(x => x.ParentTopic)
-                .WithMany(x => x.RelatedTopics)
-                //.HasForeignKey("ParentTopicId")
-                .OnDelete(DeleteBehavior.Cascade);
+            //builder.HasOne(x => x.ParentTopic)
+            //    .WithMany(x => x.RelatedFromTopics)
+            //    .HasForeignKey("ParentTopicId");
+            //    //.OnDelete(DeleteBehavior.Cascade);
 
-            builder.HasOne(x => x.ChildTopic);
-            //.WithMany(x => x.RelatedTopics)
+            //builder.HasOne(x => x.ChildTopic)
+            //.WithMany(x => x.RelatedToTopics)
             //.HasForeignKey("ChildTopicId")
             //.OnDelete(DeleteBehavior.Cascade);
         }
@@ -186,7 +202,6 @@ namespace Resurgam.Infrastructure.Data
         {
             builder.ToTable("TopicFragment");
 
-            //builder.HasKey(x => x.TopicReferenceId);
             builder.HasKey(x => new { x.ProjectId, x.ParentTopicId, x.ChildTopicId });
 
             builder.HasOne(x => x.ParentTopic)

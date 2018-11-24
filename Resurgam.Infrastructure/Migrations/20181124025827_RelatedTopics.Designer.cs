@@ -3,15 +3,17 @@ using System;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
 using Microsoft.EntityFrameworkCore.Metadata;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 using Resurgam.Infrastructure.Data;
 
 namespace Resurgam.Infrastructure.Migrations
 {
     [DbContext(typeof(ResurgamContext))]
-    partial class ResurgamContextModelSnapshot : ModelSnapshot
+    [Migration("20181124025827_RelatedTopics")]
+    partial class RelatedTopics
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
