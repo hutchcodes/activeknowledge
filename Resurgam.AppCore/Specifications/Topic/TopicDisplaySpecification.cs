@@ -10,7 +10,7 @@ namespace Resurgam.AppCore.Specifications
     {
         public TopicDisplaySpecification(Guid projectId, Guid topicId) : base(x => x.ProjectId == projectId && x.TopicId == topicId)
         {
-            //AddInclude(x => x.Tags);
+            AddInclude(x => x.Tags);
 
             AddInclude(x => x.RelatedToTopics);
             AddInclude($"{nameof(Topic.RelatedToTopics)}.{nameof(IReferencedTopic.ChildTopic)}");

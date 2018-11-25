@@ -12,6 +12,9 @@ namespace Resurgam.Blazor.App.Shared
         [Parameter]
         protected TopicEditViewModel Topic { get; set; }
 
-
+        protected void RemoveTopic (CollectionElementViewModel element, TopicDisplayViewModel topic)
+        {
+            element.Topics.Remove(topic);
+        }
     }
 }

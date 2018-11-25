@@ -1,0 +1,34 @@
+﻿@using Resurgam.Blazor.App.Interfaces
+
+@implements IDisposable
+@implements ITab
+@inject Microsoft.AspNetCore.Blazor.Services.IUriHelper UriHelper
+
+<li>
+    <a onclick=@Activate class="nav-link @TitleCssClass" href="@UriHelper.GetAbsoluteUri()">
+        @Title
+    </a>
+</li>
+
+@functions {
+[CascadingParameter] TabSet ContainerTabSet { get; set; }
+[Parameter] string Title { get; set; }
+[Parameter] public RenderFragment ChildContent { get; private set; }
+
+string TitleCssClass => ContainerTabSet.ActiveTab == this ? "active" : null;
+
+protected override void OnInit()
+{
+    ContainerTabSet.AddTab(this);
+}
+
+public void Dispose()
+{
+    ContainerTabSet.RemoveTab(this);
+}
+
+void Activate()
+{
+    ContainerTabSet.SetActivateTab(this);
+}
+}

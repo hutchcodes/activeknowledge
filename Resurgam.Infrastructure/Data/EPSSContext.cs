@@ -174,11 +174,6 @@ namespace Resurgam.Infrastructure.Data
             IMutableNavigation navigation;
             navigation = builder.Metadata.FindNavigation(nameof(Topic.Tags));
             navigation.SetPropertyAccessMode(PropertyAccessMode.Field);
-
-            //navigation = builder.Metadata.FindNavigation(nameof(Topic.RelatedTopics));
-            //navigation.SetPropertyAccessMode(PropertyAccessMode.Field);
-
-
         }
 
         private void ConfigureRelatedTopic(EntityTypeBuilder<RelatedTopic> builder)

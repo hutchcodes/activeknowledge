@@ -14,6 +14,7 @@ namespace Resurgam.Infrastructure.ViewModels
             ProjectId = topic.ProjectId;
             TopicId = topic.TopicId;
             TopicName = topic.Name;
+            TopicDescription = topic.Description;
             Content = topic.TopicContent;
             TopicTypeID = topic.TopicTypeId;
             DocumentName = topic.DocumentName;
