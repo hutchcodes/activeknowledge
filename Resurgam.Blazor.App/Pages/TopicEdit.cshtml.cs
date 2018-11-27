@@ -36,13 +36,13 @@ namespace Resurgam.Blazor.App.Pages
         
         private async Task LoadTopic()
         {
-            Topic = await _topicService.GetTopicForEditAsync(ProjectId, TopicId);
+            Topic = await _topicService.GetTopicForEdit(ProjectId, TopicId);
         }
         
         protected async Task Save()
         {
             Topic.TopicContent = await GetFroalaEditorContent("#froalaEdit");
-            await _topicService.SaveTopicAsync(Topic);
+            await _topicService.SaveTopic(Topic);
         }
 
         protected async Task Cancel()

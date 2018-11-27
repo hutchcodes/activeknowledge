@@ -22,7 +22,19 @@ namespace Resurgam.Infrastructure.Services
             _logger = loggerFactory.CreateLogger<TopicService>();
             _topicRepo = topicRepo;
         }
-        public async Task<TopicDisplayViewModel> GetTopicForDisplayAsync(Guid projectId, Guid topicId)
+
+        public async Task<List<TopicListViewModel>> SearchTopics(Guid projectId, Guid? categoryId, string searchString)
+        {
+            var spec = new TopicSearchSpecification(projectId, categoryId, searchString);
+            var topics = await _topicRepo.ListAsync(spec);
+
+            var topicsVM = new List<TopicListViewModel>();
+
+            topicsVM.AddRange(topics.ConvertAll(x => new TopicListViewModel(x)));
+
+            return topicsVM;
+        }
+        public async Task<TopicDisplayViewModel> GetTopicForDisplay(Guid projectId, Guid topicId)
         {
             var spec = new TopicDisplaySpecification(projectId, topicId);
             var topic = await _topicRepo.GetAsync(spec);
@@ -31,7 +43,7 @@ namespace Resurgam.Infrastructure.Services
             return topicVM;
         }
 
-        public async Task<TopicEditViewModel> GetTopicForEditAsync(Guid projectId, Guid topicId)
+        public async Task<TopicEditViewModel> GetTopicForEdit(Guid projectId, Guid topicId)
         {
             var spec = new TopicEditSpecification(projectId, topicId);
             var topic = await _topicRepo.GetAsync(spec);
@@ -52,7 +64,7 @@ namespace Resurgam.Infrastructure.Services
             return topicsVM;
         }
 
-        public async Task SaveTopicAsync(TopicEditViewModel topicVM)
+        public async Task SaveTopic(TopicEditViewModel topicVM)
         {
             try
             {

@@ -16,6 +16,7 @@ namespace Resurgam.Infrastructure.ViewModels
             TopicDesription = topic.Description;
         }
 
+        public bool IsSelected { get; set; }
         public Guid ProjectId { get; set; }
         public Guid TopicID { get; set; }
         public string TopicName { get; set; }

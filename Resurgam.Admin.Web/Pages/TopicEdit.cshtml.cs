@@ -34,7 +34,7 @@ namespace Resurgam.Admin.Web.Pages
             }
 
             var getHeaderTask = GetHeaderNav(null, projectId);
-            var getTopicTask = _topicService.GetTopicForEditAsync(projectId, topicId);
+            var getTopicTask = _topicService.GetTopicForEdit(projectId, topicId);
             var getCategoryTreeTask = GetCategoryTree(projectId);
 
             await getHeaderTask;
@@ -50,7 +50,7 @@ namespace Resurgam.Admin.Web.Pages
 
         public async Task<IActionResult> OnPost(TopicEditViewModel topic)
         {
-            await _topicService.SaveTopicAsync(topic);
+            await _topicService.SaveTopic(topic);
             return await OnGet(topic.ProjectId, topic.TopicId);
         }
     }

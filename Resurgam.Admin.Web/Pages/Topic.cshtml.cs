@@ -36,7 +36,7 @@ namespace Resurgam.Admin.Web.Pages
             }
 
             var getHeaderTask = GetHeaderNav(null, projectId);
-            var getTopicTask = _topicService.GetTopicForDisplayAsync(projectId, topicId);
+            var getTopicTask = _topicService.GetTopicForDisplay(projectId, topicId);
             var getCategoryTreeTask = GetCategoryTree(projectId);
 
             await getHeaderTask;

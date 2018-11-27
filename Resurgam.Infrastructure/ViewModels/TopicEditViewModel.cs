@@ -82,7 +82,7 @@ namespace Resurgam.Infrastructure.ViewModels
         public string TopicDescription { get; set; }
         public string TopicContent { get; set; }
         public string DocumentName { get; set; }
-
+        public bool IsSelected { get; set; }
 
         public List<TopicLinkViewModel> RelatedTopics { get; } = new List<TopicLinkViewModel>();
         public List<TagViewModel> Tags { get; } = new List<TagViewModel>();

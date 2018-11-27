@@ -29,21 +29,21 @@ namespace Resurgam.Admin.Api.Controllers
         [HttpGet("{projectId:int}/{topicId:int}", Name = "Get")]
         public async Task< TopicEditViewModel> Get(Guid projectId, Guid topicId)
         {
-            return await _topicService.GetTopicForEditAsync(projectId, topicId);
+            return await _topicService.GetTopicForEdit(projectId, topicId);
         }
 
         // POST: api/Topic/1234/555
         [HttpPost]
         public async Task Post([FromBody] TopicEditViewModel topic)
         {
-            await _topicService.SaveTopicAsync(topic);
+            await _topicService.SaveTopic(topic);
         }
 
         // PUT: api/Topic/1234/555
         [HttpPut("{projectId:int}/{topicId:int}", Name = "Put")]
         public async Task Put([FromBody] TopicEditViewModel topic)
         {
-            await _topicService.SaveTopicAsync(topic);
+            await _topicService.SaveTopic(topic);
         }
 
         // DELETE: api/Topic/1234/555
