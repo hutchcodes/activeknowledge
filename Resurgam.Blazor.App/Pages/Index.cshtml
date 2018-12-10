@@ -1,7 +1,20 @@
 ﻿@page "/"
+@inject Microsoft.AspNetCore.Blazor.Services.IUriHelper UriHelper
 
 <h1>Hello, world!</h1>
 
 Welcome to your new app.
 
 <SurveyPrompt Title="How is Blazor working for you?" />
+
+
+
+
+@functions
+{ 
+    protected override void OnInit()
+    {
+        base.OnAfterRender();
+        UriHelper.NavigateTo("/project/000004d2-0000-0000-0000-000000000000");
+    }
+}
