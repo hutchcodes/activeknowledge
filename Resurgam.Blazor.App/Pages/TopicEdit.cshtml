@@ -31,8 +31,7 @@ else
     switch (Topic.TopicTypeID)
     {
         case 1: //Content
-            <textarea type="text" id="froalaEdit" bind="@Topic.TopicContent"></textarea>
-            @*<textarea type="text" id="froalaEdit" >@Topic.TopicContent</textarea>*@
+            <textarea type="text" id="contentEdit" bind="@Topic.TopicContent"></textarea>
             break;
         case 2: //Collection
             <CollectionTopicEditor Topic="@Topic" />
@@ -41,7 +40,7 @@ else
 
             break;
         case 4: //Fragment
-            <textarea type="text" id="froalaEdit" bind="@Topic.TopicContent"></textarea>
+            <textarea type="text" id="contentEdit" bind="@Topic.TopicContent"></textarea>
             break;
     }
 

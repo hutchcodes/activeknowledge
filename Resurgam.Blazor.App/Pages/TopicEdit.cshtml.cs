@@ -41,24 +41,12 @@ namespace Resurgam.Blazor.App.Pages
         
         protected async Task Save()
         {
-            Topic.TopicContent = await GetFroalaEditorContent("#froalaEdit");
             await _topicService.SaveTopic(Topic);
         }
 
         protected async Task Cancel()
         {
             await LoadTopic();
-        }
-
-        public static async Task InitFroalaEditor(string elementId) => await JSRuntime.Current.InvokeAsync<string>("InitFroalaEditor", elementId);
-        public static async Task<string> GetFroalaEditorContent(string elementId)
-        {
-            return await JSRuntime.Current.InvokeAsync<string>("GetFroalaEditorContent", elementId);
-        }
-
-        protected override async Task OnAfterRenderAsync()
-        {
-            await InitFroalaEditor("#froalaEdit");
         }
     }
 }

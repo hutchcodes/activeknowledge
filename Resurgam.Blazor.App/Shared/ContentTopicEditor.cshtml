@@ -3,7 +3,7 @@
     @if (Topic != null)
     {
 
-        <textarea type="text" id="froalaEdit" name="topicContent" bind="@Topic.TopicContent" />
+        <textarea type="text" id="contentEdit" name="topicContent" bind="@Topic.TopicContent" />
     }
 
     
@@ -12,11 +12,8 @@
     [Parameter]
     protected TopicEditViewModel Topic { get; set; }
 
-    public static void InitFroalaEditor(string elementId) => JSRuntime.Current.InvokeAsync<string>("InitFroalaEditor", elementId);
-
     protected override async Task OnAfterRenderAsync()
     {
-        //await JSRuntime.Current.InvokeAsync<string>("InitFroalaEditor", "#froalaEdit");
     }
 }
 
