@@ -21,6 +21,8 @@ namespace Resurgam.Blazor.App.Pages
 
         protected TopicEditViewModel Topic { get; set; }
 
+        protected string _topicContent { get; set; }
+
         protected override async Task OnParametersSetAsync()
         {
             var pageTasks = new List<Task>();
@@ -37,6 +39,7 @@ namespace Resurgam.Blazor.App.Pages
         private async Task LoadTopic()
         {
             Topic = await _topicService.GetTopicForEdit(ProjectId, TopicId);
+            _topicContent = Topic.TopicContent;
         }
         
         protected async Task Save()
@@ -47,6 +50,11 @@ namespace Resurgam.Blazor.App.Pages
         protected async Task Cancel()
         {
             await LoadTopic();
+        }
+
+        protected void contentChangeHandler(string newContent)
+        {
+            Topic.TopicContent = newContent;
         }
     }
 }

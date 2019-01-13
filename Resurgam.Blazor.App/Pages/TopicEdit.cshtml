@@ -31,7 +31,10 @@ else
     switch (Topic.TopicTypeID)
     {
         case 1: //Content
-            <textarea type="text" id="contentEdit" bind="@Topic.TopicContent"></textarea>
+
+//            <textarea type="text" id="contentEdit" bind="@Topic.TopicContent"></textarea>
+
+            <CKEditorControl EditorContent="@Topic.TopicContent" ></CKEditorControl>
             break;
         case 2: //Collection
             <CollectionTopicEditor Topic="@Topic" />
@@ -40,7 +43,7 @@ else
 
             break;
         case 4: //Fragment
-            <textarea type="text" id="contentEdit" bind="@Topic.TopicContent"></textarea>
+<textarea type="text" id="contentEdit" bind="@Topic.TopicContent"></textarea>
             break;
     }
 
@@ -52,7 +55,7 @@ else
             <div>
                 @foreach (var tag in Topic.Tags)
                 {
-                    <div>@tag.TagName</div>
+                <div>@tag.TagName</div>
                 }
             </div>
         </div>
@@ -60,10 +63,10 @@ else
             <b>Related Topics</b>
             @foreach (var rt in Topic.RelatedTopics)
             {
-        var topicLink = $"/topic/{rt.ProjectId}/{rt.TopicId}";
-                <div>
-                    <a href="@topicLink">@rt.TopicName</a>
-                </div>
+            var topicLink = $"/topic/{rt.ProjectId}/{rt.TopicId}";
+            <div>
+                <a href="@topicLink">@rt.TopicName</a>
+            </div>
             }
         </div>*@
 }
