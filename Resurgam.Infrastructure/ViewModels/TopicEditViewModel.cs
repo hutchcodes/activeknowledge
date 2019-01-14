@@ -22,7 +22,7 @@ namespace Resurgam.Infrastructure.ViewModels
             DocumentName = topic.DocumentName;
 
             ReplaceFragmentContents(topic);
-            //CleanTopicContent();
+            CleanTopicContent();
 
             foreach (var ce in topic.CollectionElements)
             {
@@ -111,6 +111,17 @@ namespace Resurgam.Infrastructure.ViewModels
             }
 
             this.TopicContent = contentHtml.DocumentNode.OuterHtml;
+        }
+
+        private void CleanTopicContent()
+        {
+            if (string.IsNullOrWhiteSpace(TopicContent))
+            {
+                return;
+            }
+            var topicContent = TopicContent.Replace("{{projectId}}", ProjectId.ToString());
+
+            TopicContent = topicContent;
         }
     }
 }

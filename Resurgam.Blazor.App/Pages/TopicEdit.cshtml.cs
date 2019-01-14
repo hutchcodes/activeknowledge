@@ -21,7 +21,7 @@ namespace Resurgam.Blazor.App.Pages
 
         protected TopicEditViewModel Topic { get; set; }
 
-        protected string _topicContent { get; set; }
+        protected CKEditor.Blazor.CKEditorControl TopicContentEditor { get; set; }
 
         protected override async Task OnParametersSetAsync()
         {
@@ -39,11 +39,11 @@ namespace Resurgam.Blazor.App.Pages
         private async Task LoadTopic()
         {
             Topic = await _topicService.GetTopicForEdit(ProjectId, TopicId);
-            _topicContent = Topic.TopicContent;
         }
         
         protected async Task Save()
         {
+            Topic.TopicContent = await TopicContentEditor.GetEditorText();
             await _topicService.SaveTopic(Topic);
         }
 

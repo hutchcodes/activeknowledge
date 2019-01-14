@@ -5,6 +5,15 @@ window.ckEditorJsInterop = {
     instances: [],
     initializeCKEditor: function (params) {
         console.log(params.ckEditorId);
+
+        for(var key in window.ckEditorJsInterop.instances){
+            var editor = window.ckEditorJsInterop.instances[key];
+            if (editor) {
+                editor.destroy();
+                delete ckEditorJsInterop.instances[key];
+            }
+        }
+
         var textArea = document.querySelector('#' + params.ckEditorId);
         ClassicEditor
             .create(textArea)
@@ -18,12 +27,18 @@ window.ckEditorJsInterop = {
 
         return true;
     },
-
+    getData: function (id) {
+        var editor = window.ckEditorJsInterop.instances[id];
+        if (editor) {
+            return editor.getData();
+        }
+        return "";
+    },
     destroyCKEditor: function (id) {
         var editor = window.ckEditorJsInterop.instances[id];
         if (editor) {
             editor.destroy();
-            delete ckEditorJsInterop.instances[id]
+            delete ckEditorJsInterop.instances[id];
         }
         console.log("Destroyed CKEditor #" + id);
         return true;

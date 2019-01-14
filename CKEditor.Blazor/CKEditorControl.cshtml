@@ -1,8 +1,9 @@
 ﻿@implements IDisposable
 @using CKEditor.Blazor
 
-<textarea id="@Id">@EditorContent</textarea>
-
+<div>
+    <textarea id="@CKEditorId">@EditorContent</textarea>
+</div>
 @functions {
 
     [Parameter]
@@ -11,14 +12,14 @@
     [Parameter]
     private Action<string> EditorContentChanged { get; set; }
 
-    private string Id { get; set; } = $"ck{Guid.NewGuid().ToString().Replace("-", "")}";
+    private string CKEditorId { get; set; } = $"ck{Guid.NewGuid().ToString().Replace("-", "")}";
 
     [Parameter]
     private Action<string> OnEditorChanged { get; set; }
 
     protected override void OnAfterRender()
     {
-        CKEditorJsInterop.InitializeEditor(Id, EditorContent);
+        CKEditorJsInterop.InitializeEditor(CKEditorId, EditorContent);
     }
 
     private void ThisEditorUpdate(object sender, string editorText)
@@ -27,12 +28,12 @@
         OnEditorChanged?.Invoke(editorText);
     }
 
-    public string GetEditorText()
+    public async Task<string> GetEditorText()
     {
-        return EditorContent;
+        return await CKEditorJsInterop.GetData(CKEditorId);
     }
     public async void Dispose()
     {
-        await CKEditorJsInterop.DestroyCKEditor(Id);
+        await CKEditorJsInterop.DestroyCKEditor(CKEditorId);
     }
 }
