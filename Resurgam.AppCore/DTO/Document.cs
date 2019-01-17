@@ -8,8 +8,9 @@ namespace Resurgam.AppCore.DTO
 {
     public class Document
     {
-        public int? CustomerId { get; set; }
-        public int? ProjectId { get; set; }
+        public Guid? CustomerId { get; set; }
+        public Guid? ProjectId { get; set; }
+        public Guid? TopicId { get; set; }
         public string Name { get; set; }
         public Stream Content { get; set; }
         public string ContentType { get; set; }

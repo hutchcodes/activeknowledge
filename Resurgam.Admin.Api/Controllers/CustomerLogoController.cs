@@ -3,8 +3,14 @@ using System.Collections.Generic;
 using System.IO;
 using System.Linq;
 using System.Threading.Tasks;
+using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
+using Microsoft.AspNetCore.Mvc.ModelBinding;
+using Microsoft.AspNetCore.WebUtilities;
 using Microsoft.Net.Http.Headers;
+using Resurgam.Admin.Api.Attributes;
+using Resurgam.Admin.Api.Helpers;
+using Resurgam.AppCore.DTO;
 using Resurgam.AppCore.Enums;
 using Resurgam.AppCore.Interfaces;
 
@@ -17,11 +23,14 @@ namespace Resurgam.Admin.Api
         private IFileStorageRepository _fileStorage;
         const string ContainerName = "customerlogos";
 
+        private readonly string[] _supportedMimeTypes = { "image/png", "image/jpeg", "image/jpg" };
+
         public CustomerLogoController(IFileStorageRepository fileStorage)
         {
             _fileStorage = fileStorage;
         }
 
+        [HttpGet]
         [Route("api/[controller]/{customerId}/{*slug}")]
         public async Task<IActionResult> GetImage(Guid customerId, string slug)
         {
@@ -29,6 +38,43 @@ namespace Resurgam.Admin.Api
 
             var file = File(doc.Content, doc.ContentType, doc.LastModified, new EntityTagHeaderValue(doc.ETag));
             return file;         
+        }
+
+        public class UploadedFile
+        {
+            //Since JsonConvert.SerializeObject couldn't serialize the stream object I used byte[] instead
+            public byte[] Stream { get; set; }
+            public string FileName { get; set; }
+
+            public string ContentType { get; set; }
+        }
+
+        [HttpPost]
+        [Route("api/[controller]/{customerId}/{*slug}")]
+        public async Task<IActionResult> AddImage(Guid customerId, string slug, IFormFile file)
+        {
+            if (!_supportedMimeTypes.Contains(file.ContentType.ToLower()))
+            {
+                throw new UnsupportedContentTypeException("Only PNG and JPG are supported.");
+            }
+
+
+            var stream = file.OpenReadStream();
+
+            var document = new Document()
+            {
+                Content = stream,
+                ContentType = file.ContentType,
+                Name = file.Name,
+                CustomerId = customerId
+            };
+
+            var key = $"{customerId}/{slug}";
+
+            await _fileStorage.UploadDocument(FileStorageType.CustomerLogos, key, document);
+
+            return Ok(key);
+            
         }
     }
 }

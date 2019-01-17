@@ -14,14 +14,14 @@ namespace Resurgam.Admin.Api
     [ApiController]
     public class ProjectImageController : ControllerBase
     {
-        private IFileStorageRepository _fileStorage;
+        IFileStorageRepository _fileStorage;
 
         public ProjectImageController(IFileStorageRepository fileStorage)
         {
             _fileStorage = fileStorage;
         }
 
-        [Route("api/[controller]/{projectId}/{*slug}")]
+        [Route("api/[controller]/{projectId}/{*slug}"), HttpGet]
         public async Task<IActionResult> GetImage(Guid projectId, string slug)
         {
             var doc = await _fileStorage.GetDocument(FileStorageType.ProjectImages, $"{projectId}/{slug}");
@@ -29,5 +29,8 @@ namespace Resurgam.Admin.Api
             var file = File(doc.Content, doc.ContentType, doc.LastModified, new EntityTagHeaderValue(doc.ETag));
             return file;
         }
+
+
+
     }
 }

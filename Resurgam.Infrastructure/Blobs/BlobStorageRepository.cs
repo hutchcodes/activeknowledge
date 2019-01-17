@@ -6,6 +6,7 @@ using Resurgam.AppCore.Enums;
 using Resurgam.AppCore.Interfaces;
 using System;
 using System.Collections.Generic;
+using System.IO;
 using System.Net.Http.Headers;
 using System.Text;
 using System.Threading.Tasks;
@@ -56,17 +57,44 @@ namespace Resurgam.Infrastructure.Blobs
                 Name = blob.Name,
             };
 
-            if(blob.Metadata.TryGetValue("CustomerId", out string customerId))
+            if(blob.Metadata.TryGetValue(FileMetaData.CustomerId.GetStringValue(), out string customerId))
             {
-                doc.CustomerId = int.Parse(customerId);
+                doc.CustomerId = Guid.Parse(customerId);
             }
 
-            if (blob.Metadata.TryGetValue("ProjectId", out string projectId))
+            if (blob.Metadata.TryGetValue(FileMetaData.ProjectId.GetStringValue(), out string projectId))
             {
-                doc.ProjectId = int.Parse(projectId);
+                doc.ProjectId = Guid.Parse(projectId);
+            }
+
+            if (blob.Metadata.TryGetValue(FileMetaData.TopicId.GetStringValue(), out string topicId))
+            {
+                doc.TopicId = Guid.Parse(topicId);
             }
 
             return doc;
+        }
+
+        public async Task UploadDocument(FileStorageType fileStorageType, string key, Document uploadedFile)
+        {
+            var container = GetCloudBlobContainer(fileStorageType.GetStringValue());
+
+            CloudBlockBlob blockBlobImage = container.GetBlockBlobReference(key.ToLower());
+            blockBlobImage.Properties.ContentType = uploadedFile.ContentType;
+            if (uploadedFile.CustomerId.HasValue)
+            {
+                blockBlobImage.Metadata.Add(FileMetaData.CustomerId.GetStringValue(), uploadedFile.CustomerId.ToString());
+            }
+            if (uploadedFile.ProjectId.HasValue)
+            {
+                blockBlobImage.Metadata.Add(FileMetaData.ProjectId.GetStringValue(), uploadedFile.ProjectId.ToString());
+            }
+            if (uploadedFile.TopicId.HasValue)
+            {
+                blockBlobImage.Metadata.Add(FileMetaData.TopicId.GetStringValue(), uploadedFile.TopicId.ToString());
+            }
+
+            await blockBlobImage.UploadFromStreamAsync(uploadedFile.Content);
         }
     }
 }
