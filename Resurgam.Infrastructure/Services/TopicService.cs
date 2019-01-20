@@ -88,5 +88,16 @@ namespace Resurgam.Infrastructure.Services
                 throw;
             }
         }
+
+        public async Task DeleteTopic(Guid projectId, Guid topicId)
+        {
+            var spec = new TopicEditSpecification(projectId, topicId);
+            var topic = await _topicRepo.GetAsync(spec);
+
+            if (topic != null)
+            {
+                await _topicRepo.DeleteAsync(topic);
+            }
+        }
     }
 }

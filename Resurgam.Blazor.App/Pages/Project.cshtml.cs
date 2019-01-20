@@ -10,7 +10,7 @@ using System.Threading.Tasks;
 namespace Resurgam.Blazor.App.Pages
 {
     public class ProjectModel : AppStatePage
-    { 
+    {
         [Inject]
         protected ITopicService _topicService { get; set; }
 
@@ -70,6 +70,17 @@ namespace Resurgam.Blazor.App.Pages
             NewTopic = null;
 
             await TopicSearch.Search();
+        }
+
+        protected async Task DeleteTopics(List<TopicListViewModel> topics)
+        {
+            //var tasks = new List<Task>();
+            foreach (var topic in topics)
+            {
+                await _topicService.DeleteTopic(topic.ProjectId, topic.TopicId);
+            }
+
+            //return Task.WhenAll(tasks);
         }
     }
 }

@@ -28,7 +28,7 @@ namespace Resurgam.Blazor.App.Shared
         }
         protected void AddTopicToElement(List<TopicListViewModel> topics)
         {
-            _currentElement.Topics.AddRange(topics.Select(x => new TopicDisplayViewModel { ProjectId = x.ProjectId, TopicId = x.TopicID, TopicName = x.TopicName, TopicDescription = x.TopicDesription }));
+            _currentElement.Topics.AddRange(topics.Select(x => new TopicDisplayViewModel { ProjectId = x.ProjectId, TopicId = x.TopicId, TopicName = x.TopicName, TopicDescription = x.TopicDesription }));
             IsAddingTopics = false;
             StateHasChanged();
         }

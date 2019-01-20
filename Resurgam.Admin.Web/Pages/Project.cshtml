@@ -20,7 +20,7 @@
         @foreach (var topic in Model.Topics)
         {
             <tr>
-                <td><a asp-page="\Topic" asp-route-projectId="@topic.ProjectId" asp-route-topicId="@topic.TopicID">@topic.TopicName</a> </td>
+                <td><a asp-page="\Topic" asp-route-projectId="@topic.ProjectId" asp-route-topicId="@topic.TopicId">@topic.TopicName</a> </td>
                 <td>@topic.TopicDesription</td>
             </tr>
         }

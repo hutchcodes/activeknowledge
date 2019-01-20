@@ -25,6 +25,9 @@ namespace Resurgam.Blazor.App.Shared
         protected Action<List<TopicListViewModel>> DoSomethingAction { get; set; }
 
         [Parameter]
+        protected Func<List<TopicListViewModel>, Task> DeleteTopicFunc { get; set; }
+
+        [Parameter]
         protected Guid? CustomerId { get; set; }
         [Parameter]
         protected Guid? ProjectId { get; set; }
@@ -57,6 +60,11 @@ namespace Resurgam.Blazor.App.Shared
         protected void DoSomething()
         {
             DoSomethingAction(Topics.Where(x => x.IsSelected).ToList());
+        }
+
+        protected async Task DeleteTopic()
+        {
+            await DeleteTopicFunc(Topics.Where(x => x.IsSelected).ToList());
         }
     }
 }

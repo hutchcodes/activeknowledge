@@ -13,5 +13,7 @@ namespace Resurgam.Infrastructure.Interfaces
         Task<List<TopicListViewModel>> GetTopicListForProject(Guid projectId);
         Task<List<TopicListViewModel>> SearchTopics(Guid projectId, Guid? categoryId, string searchString);
         Task SaveTopic(TopicEditViewModel topicVM);
+
+        Task DeleteTopic(Guid projectId, Guid topicId);
     }
 }
