@@ -38,7 +38,7 @@ namespace Resurgam.Blazor.App.Shared
             await Search();
         }
 
-        protected async Task Search()
+        public async Task Search()
         {
             if (ProjectId.HasValue)
             {
@@ -51,6 +51,7 @@ namespace Resurgam.Blazor.App.Shared
                     Topics = await _topicService.SearchTopics(ProjectId.Value, CategoryId, SearchString);
                 }
             }
+            this.StateHasChanged();
         }
 
         protected void DoSomething()

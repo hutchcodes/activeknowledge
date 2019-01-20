@@ -71,12 +71,21 @@ namespace Resurgam.Infrastructure.Services
                 var spec = new TopicEditSpecification(topicVM.ProjectId, topicVM.TopicId);
                 var topic = await _topicRepo.GetAsync(spec);
 
-                topic = topicVM.ToTopicEntity(topic);
-                await _topicRepo.UpdateAsync(topic);
+                if (topic == null)
+                {
+                    topic = topicVM.ToTopicEntity(topic);
+                    await _topicRepo.AddAsync(topic);
+                }
+                else
+                {
+                    topic = topicVM.ToTopicEntity(topic);
+                    await _topicRepo.UpdateAsync(topic);
+                }
             }
             catch (Exception ex)
             {
-
+                Debug.WriteLine(ex.Message);
+                throw;
             }
         }
     }

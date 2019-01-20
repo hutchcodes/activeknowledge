@@ -8,6 +8,7 @@ namespace Resurgam.Infrastructure.ViewModels
 {
     public class TopicListViewModel
     {
+        public TopicListViewModel() { }
         public TopicListViewModel(Topic topic)
         {
             ProjectId = topic.ProjectId;
