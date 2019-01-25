@@ -35,15 +35,18 @@ namespace Resurgam.Blazor.App.Pages
 
             await Task.WhenAll(pageTasks);
         }
-        
+
         private async Task LoadTopic()
         {
             Topic = await _topicService.GetTopicForEdit(ProjectId, TopicId);
         }
-        
+
         protected async Task Save()
         {
-            Topic.TopicContent = await TopicContentEditor.GetEditorText();
+            if (TopicContentEditor != null)
+            {
+                Topic.TopicContent = await TopicContentEditor.GetEditorText();
+            }
             await _topicService.SaveTopic(Topic);
         }
 

@@ -13,9 +13,33 @@ namespace Resurgam.Blazor.App.Shared
         [Parameter]
         protected TopicEditViewModel Topic { get; set; }
 
+        protected bool IsAddingElements { get; set; }
         protected bool IsAddingTopics { get; set; }
+        protected CollectionElementViewModel NewCollectionElement { get; set; }
 
         private CollectionElementViewModel _currentElement;
+
+        protected void AddElement()
+        {
+            IsAddingElements = true;
+            NewCollectionElement = new CollectionElementViewModel() { ProjectId = Topic.ProjectId, CollectionElementId = Guid.NewGuid() };
+        }
+        protected void AddElementToTopic()
+        {
+            IsAddingElements = false;
+            Topic.CollectionElements.Add(NewCollectionElement);
+            NewCollectionElement = null;
+        }
+
+        protected void DeleteElement(CollectionElementViewModel element)
+        {
+            if (Topic.CollectionElements.Contains(element))
+            {
+                Topic.CollectionElements.Remove(element);
+            }
+            StateHasChanged();
+        }
+
         protected void AddTopic(CollectionElementViewModel currentElement)
         {
             _currentElement = currentElement;
@@ -24,7 +48,8 @@ namespace Resurgam.Blazor.App.Shared
 
         protected void CloseModal()
         {
-            IsAddingTopics = false;
+            IsAddingElements = false;
+            IsAddingTopics = false;            
         }
         protected void AddTopicToElement(List<TopicListViewModel> topics)
         {
