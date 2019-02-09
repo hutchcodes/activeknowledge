@@ -19,6 +19,8 @@ using Resurgam.Infrastructure.Data;
 using Resurgam.Infrastructure.Data.Security;
 using Resurgam.Infrastructure.Interfaces;
 using Resurgam.Infrastructure.Services;
+using Swashbuckle.AspNetCore.Swagger;
+using Swashbuckle.AspNetCore.SwaggerUI;
 
 namespace Resurgam.Admin.Api
 {
@@ -39,6 +41,11 @@ namespace Resurgam.Admin.Api
             ConfigureDI(services);
 
             services.AddMvc().SetCompatibilityVersion(CompatibilityVersion.Version_2_1);
+
+            services.AddSwaggerGen(c =>
+            {
+                c.SwaggerDoc("v1", new Info { Title = "My API", Version = "v1" });
+            });
 
             // Add memory cache services
             services.AddMemoryCache();
@@ -66,6 +73,22 @@ namespace Resurgam.Admin.Api
                 app.UseDeveloperExceptionPage();
                 ListAllRegisteredServices(app);
                 app.UseDatabaseErrorPage();
+
+                app.UseSwaggerUI(c =>
+                {
+                    c.DefaultModelExpandDepth(2);
+                    c.DefaultModelRendering(ModelRendering.Model);
+                    c.DefaultModelsExpandDepth(-1);
+                    c.DisplayOperationId();
+                    c.DisplayRequestDuration();
+                    c.DocExpansion(DocExpansion.None);
+                    c.EnableDeepLinking();
+                    c.EnableFilter();
+                    c.MaxDisplayedTags(5);
+                    c.ShowExtensions();
+                    c.EnableValidator();
+                    c.SupportedSubmitMethods(SubmitMethod.Get, SubmitMethod.Head, SubmitMethod.Post);
+                });
             }
             else
             {
@@ -74,6 +97,7 @@ namespace Resurgam.Admin.Api
 
             app.UseHttpsRedirection();
             app.UseMvc();
+            app.UseSwagger();            
         }
 
         public void ConfigureDevelopmentServices(IServiceCollection services)

@@ -1,3 +1,4 @@
+using Blazor.FileReader;
 using Microsoft.AspNetCore.Blazor.Builder;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Configuration;
@@ -37,6 +38,8 @@ namespace Resurgam.Blazor.App
             services.AddScoped<AppState>();
             services.AddScoped<IHeaderService, HeaderService>();
             services.AddScoped<ICategoryService, CategoryService>();
+
+            services.AddScoped<IFileReaderService, FileReaderService>();
             
         }
 

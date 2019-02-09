@@ -12,6 +12,8 @@
   <ItemGroup>
     <PackageReference Include="Microsoft.AspNetCore.Blazor.Browser" Version="0.7.0" />
     <PackageReference Include="Microsoft.AspNetCore.Blazor.Build" Version="0.7.0" />
+    <PackageReference Include="RestSharp" Version="106.6.7" />
+    <PackageReference Include="Tewr.Blazor.FileReader" Version="0.7.1" />
   </ItemGroup>
 
   <ItemGroup>
@@ -25,6 +27,9 @@
     </Content>
     <Content Update="Pages\TopicEdit.cshtml">
       <CopyToPublishDirectory>PreserveNewest</CopyToPublishDirectory>
+      <Pack>$(IncludeRazorContentInPack)</Pack>
+    </Content>
+    <Content Update="Shared\DocumentTopicEditor.cshtml">
       <Pack>$(IncludeRazorContentInPack)</Pack>
     </Content>
   </ItemGroup>

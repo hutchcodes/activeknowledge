@@ -21,6 +21,7 @@ namespace Resurgam.Admin.Api
             _fileStorage = fileStorage;
         }
 
+        [HttpGet]
         [Route("api/[controller]/{projectId}/{*slug}"), HttpGet]
         public async Task<IActionResult> GetImage(Guid projectId, string slug)
         {

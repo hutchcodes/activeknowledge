@@ -65,7 +65,7 @@ namespace Resurgam.Admin.Api
             {
                 Content = stream,
                 ContentType = file.ContentType,
-                Name = file.Name,
+                Name = file.FileName,
                 CustomerId = customerId
             };
 
