@@ -18,7 +18,19 @@ namespace Resurgam.Admin.Api
     public class ContentDocumentController : ControllerBase
     {
         private IFileStorageRepository _fileStorage;
-        private readonly string[] _supportedMimeTypes = { "image/png", "image/jpeg", "image/jpg" };
+        private readonly string[] _supportedMimeTypes =
+        {
+            "image/png",
+            "image/jpeg",
+            "image/jpg",
+            "application/pdf",
+            "application/doc",
+            "application/docx",
+            "application/xls",
+            "application/xlsx",
+            "application/ppt",
+            "application/pptx",
+        };
 
         public ContentDocumentController(IFileStorageRepository fileStorage)
         {

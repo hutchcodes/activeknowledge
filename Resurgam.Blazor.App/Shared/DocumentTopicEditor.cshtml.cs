@@ -19,6 +19,8 @@ namespace Resurgam.Blazor.App.Shared
 
         protected ElementRef _fileUploader { get; set; }
 
+        protected Uri _baseUri = new Uri($"https://localhost:44341/api");
+
         [Inject]
         private IFileReaderService fileReaderService { get; set; }
 
@@ -29,17 +31,23 @@ namespace Resurgam.Blazor.App.Shared
             {
                 var fileInfo = await file.ReadFileInfoAsync();
 
-                using (var stream = await file.CreateMemoryStreamAsync())
+                using (var stream = await file.OpenReadAsync())
                 {
-                    await UploadToApi(fileInfo, stream);
+                    var bufferSize = 4096;
+                    var buffer = new byte[bufferSize];
+                    int count;
+                    var memStream = new MemoryStream();
+                    while ((count = await stream.ReadAsync(buffer, 0, buffer.Length)) != 0)
+                    {
+                        memStream.Write(buffer, 0, count);
+                    }
 
-                    //var bufferSize = 4096;
-                    //var buffer = new byte[bufferSize];
-                    //int count;
-                    //while((count = await stream.ReadAsync(buffer, 0, buffer.Length)) != 0)
-                    //{
+                    var anotherStream = memStream.ToArray();
 
-                    //}
+                    var foo = new MemoryStream(anotherStream);
+                    //memStream.CopyTo(anotherStream);
+
+                    await UploadToApi(fileInfo, foo);
                 }
             }
             this.StateHasChanged();
@@ -47,8 +55,8 @@ namespace Resurgam.Blazor.App.Shared
 
         private async Task UploadToApi(IFileInfo fileInfo, Stream fileStream)
         {
-            var baseUri = new Uri($"https://localhost:44341/api");
-            RestClient client = new RestClient(baseUri);
+            
+            RestClient client = new RestClient(_baseUri);
 
             var req = new RestRequest($"ContentDocument/{Topic.ProjectId}/{Topic.TopicId}/{fileInfo.Name}", Method.POST, DataFormat.None);
 
@@ -57,7 +65,10 @@ namespace Resurgam.Blazor.App.Shared
 
             try
             {
-                var result = await client.ExecuteTaskAsync(req);
+                var result = await client.ExecuteTaskAsync<AppCore.DTO.Document>(req);
+
+                var doc = result.Data;
+                Topic.DocumentName = doc.Name;
             }
             catch(Exception ex)
             {
