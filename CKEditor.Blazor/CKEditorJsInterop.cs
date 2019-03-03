@@ -20,7 +20,7 @@ namespace CKEditor.Blazor
             return JSRuntime.Current.InvokeAsync<string>("ckEditorJsInterop.getData", ckEditorId );
         }
 
-        [JSInvokable]
+        [JSInvokable]      
         public static Task<bool> UpdateText(string editorText)
         {
             _editorText = editorText;

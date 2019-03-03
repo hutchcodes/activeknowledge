@@ -21,7 +21,7 @@ namespace Resurgam.Infrastructure.Data
 
         protected override void OnConfiguring(DbContextOptionsBuilder optionsBuilder)
         {
-            optionsBuilder.UseLoggerFactory(_myConsoleLoggerFactory);
+            //optionsBuilder.UseLoggerFactory(_myConsoleLoggerFactory);
 #if DEBUG
             optionsBuilder.EnableSensitiveDataLogging(true);
 #endif

@@ -55,7 +55,7 @@ namespace Resurgam.Infrastructure.Data
                     await resurgamContext.SaveChangesAsync();
                 }
             }
-            catch (Exception ex)
+            catch 
             {
                 if (retryForAvailability < 10)
                 {
