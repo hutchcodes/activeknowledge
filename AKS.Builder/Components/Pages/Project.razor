@@ -1,0 +1,54 @@
+﻿@page "/project/{projectId:guid}"
+@using AKS.Builder.Pages
+@using AKS.Builder.Shared
+@inherits ProjectModel
+
+<h1>Test Project1</h1>
+
+<div class="btn-group">
+    <button type="button" class="btn btn-primary dropdown-toggle btn-xs" data-toggle="dropdown">
+        New Topic
+        <span class="caret"></span>
+    </button>
+
+    <ul class="dropdown-menu" role="menu">
+        <li><button class="btn btn-link" onclick="@(()=>CreateTopic(1))">Content</button></li>
+        <li><button class="btn btn-link" onclick="@(()=>CreateTopic(2))">Collection</button></li>
+        <li><button class="btn btn-link" onclick="@(()=>CreateTopic(3))">File</button></li>
+        <li><button class="btn btn-link" onclick="@(()=>CreateTopic(4))">Fragment</button></li>
+    </ul>
+
+</div>
+
+<TopicSearch ProjectId="@ProjectId" ref="@TopicSearch" ShowTopicSelected="true" DeleteTopicFunc="@DeleteTopics" />
+
+
+@if (IsCreatingTopic)
+{
+    //<ProcessEditor Process="@Process" CloseModal="@CloseModal" SaveProcess="@SaveProcess" />
+    <div class="modal" tabindex="-1" style="display:block" role="dialog">
+        <div class="modal-dialog">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h3 class="modal-title">Add Topic</h3>
+                    <button type="button" class="close" onclick="@CloseModal">
+                        <span aria-hidden="true">X</span>
+                    </button>
+                </div>
+                <div class="modal-body">
+                    <form>
+                        <div class="form-group">
+                            <label for="Name" class="control-label">Name</label>
+                            <input for="Name" class="form-control" bind="@NewTopic.TopicName" />
+                            <label for="Name" class="control-label">Description</label>
+                            <input for="Name" class="form-control" bind="@NewTopic.TopicDescription" />
+                        </div>
+                    </form>
+                </div>
+                <div class="modal-footer">
+                    <button class="btn btn-block btn-info" onclick="@SaveNewTopic" data-dismiss="modal">Save</button>
+                </div>
+            </div>
+        </div>
+    </div>
+}

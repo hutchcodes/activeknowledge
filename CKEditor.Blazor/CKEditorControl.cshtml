@@ -1,5 +1,7 @@
 ﻿@implements IDisposable
 @using CKEditor.Blazor
+@using Microsoft.JSInterop;
+@inject IJSRuntime jsRuntime;
 
 <div>
     <textarea id="@CKEditorId">@EditorContent</textarea>
@@ -19,7 +21,7 @@
 
     protected override void OnAfterRender()
     {
-        CKEditorJsInterop.InitializeEditor(CKEditorId, EditorContent);
+        CKEditorJsInterop.InitializeEditor(jsRuntime, CKEditorId, EditorContent);
     }
 
     private void ThisEditorUpdate(object sender, string editorText)
@@ -30,10 +32,10 @@
 
     public async Task<string> GetEditorText()
     {
-        return await CKEditorJsInterop.GetData(CKEditorId);
+        return await CKEditorJsInterop.GetData(jsRuntime, CKEditorId);
     }
     public async void Dispose()
     {
-        await CKEditorJsInterop.DestroyCKEditor(CKEditorId);
+        await CKEditorJsInterop.DestroyCKEditor(jsRuntime, CKEditorId);
     }
 }

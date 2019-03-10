@@ -10,14 +10,14 @@ namespace CKEditor.Blazor
 
         private static string _editorText { get; set; }
 
-        public static Task<string> InitializeEditor(string ckEditorId, string initialContent)
+        public static Task<string> InitializeEditor(IJSRuntime jsruntime, string ckEditorId, string initialContent)
         {
-            return JSRuntime.Current.InvokeAsync<string>("ckEditorJsInterop.initializeCKEditor", new { ckEditorId });
+            return jsruntime.InvokeAsync<string>("ckEditorJsInterop.initializeCKEditor", new { ckEditorId });
         }
 
-        public static Task<string> GetData(string ckEditorId)
+        public static Task<string> GetData(IJSRuntime jsruntime, string ckEditorId)
         {
-            return JSRuntime.Current.InvokeAsync<string>("ckEditorJsInterop.getData", ckEditorId );
+            return jsruntime.InvokeAsync<string>("ckEditorJsInterop.getData", ckEditorId );
         }
 
         [JSInvokable]      
@@ -29,9 +29,9 @@ namespace CKEditor.Blazor
             return Task.FromResult(true);
         }
 
-        public static Task<bool> DestroyCKEditor(string ckEditorId)
+        public static Task<bool> DestroyCKEditor(IJSRuntime jsruntime, string ckEditorId)
         {
-            return JSRuntime.Current.InvokeAsync<bool>("ckEditorJsInterop.destroyCKEditor", ckEditorId);
+            return jsruntime.InvokeAsync<bool>("ckEditorJsInterop.destroyCKEditor", ckEditorId);
         }
     }
 }
