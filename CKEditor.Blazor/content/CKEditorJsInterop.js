@@ -42,5 +42,12 @@ window.ckEditorJsInterop = {
         }
         console.log("Destroyed CKEditor #" + id);
         return true;
+    },
+    executeCKCommand: function (id, command, data) {
+        var editor = window.ckEditorJsInterop.instances[id];
+        if (editor) {
+            editor.execute(command, data);
+        }
+        return "";
     }
 };

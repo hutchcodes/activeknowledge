@@ -32,10 +32,8 @@ else
     switch (Topic.TopicTypeID)
     {
         case 1: //Content
+            <ContentTopicEditor Topic="@Topic" />
 
-            //            <textarea type="text" id="contentEdit" bind="@Topic.TopicContent"></textarea>
-
-            <CKEditorControl ref="@TopicContentEditor" EditorContent="@Topic.TopicContent"></CKEditorControl>
             break;
         case 2: //Collection
             <CollectionTopicEditor Topic="@Topic" />
@@ -44,7 +42,7 @@ else
             <DocumentTopicEditor Topic="@Topic" />
             break;
         case 4: //Fragment
-            <CKEditorControl ref="@TopicContentEditor" EditorContent="@Topic.TopicContent"></CKEditorControl>
+            <ContentTopicEditor Topic="@Topic" />
             break;
     }
 

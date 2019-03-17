@@ -7,6 +7,7 @@ using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
+using AKS.Builder.Components.Shared;
 
 namespace AKS.Builder.Pages
 {
@@ -20,7 +21,7 @@ namespace AKS.Builder.Pages
 
         protected TopicEditViewModel Topic { get; set; }
 
-        protected CKEditor.Blazor.CKEditorControl TopicContentEditor { get; set; }
+        protected ContentTopicEditor ContentEditor { get; set; }
 
         protected override async Task OnParametersSetAsync()
         {
@@ -42,9 +43,9 @@ namespace AKS.Builder.Pages
 
         protected async Task Save()
         {
-            if (TopicContentEditor != null)
+            if (ContentEditor?.TopicContentEditor != null)
             {
-                Topic.TopicContent = await TopicContentEditor.GetEditorText();
+                Topic.TopicContent = await ContentEditor.TopicContentEditor.GetEditorText();
             }
             await _topicService.SaveTopic(Topic);
         }

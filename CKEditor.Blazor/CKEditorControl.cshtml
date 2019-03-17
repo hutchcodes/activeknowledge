@@ -34,6 +34,11 @@
     {
         return await CKEditorJsInterop.GetData(jsRuntime, CKEditorId);
     }
+    public async Task<string> InsertTopicFragment(dynamic topicFragmentInfo)
+    {
+        return await CKEditorJsInterop.ExecuteCKCommand(jsRuntime, CKEditorId, "topicfragment", topicFragmentInfo);
+    }
+
     public async void Dispose()
     {
         await CKEditorJsInterop.DestroyCKEditor(jsRuntime, CKEditorId);

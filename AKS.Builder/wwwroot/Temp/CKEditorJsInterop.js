@@ -6,7 +6,7 @@ window.ckEditorJsInterop = {
     initializeCKEditor: function (params) {
         console.log(params.ckEditorId);
 
-        for(var key in window.ckEditorJsInterop.instances){
+        for (var key in window.ckEditorJsInterop.instances) {
             var editor = window.ckEditorJsInterop.instances[key];
             if (editor) {
                 editor.destroy();
@@ -42,5 +42,13 @@ window.ckEditorJsInterop = {
         }
         console.log("Destroyed CKEditor #" + id);
         return true;
+    },
+    executeCKCommand: function (id, command, data) {
+        var editor = window.ckEditorJsInterop.instances[id];
+        if (editor) {
+            editor.commands.get('topicfragment').execute(data);
+            //editor.execute(command, data);
+        }
+        return "";
     }
 };
