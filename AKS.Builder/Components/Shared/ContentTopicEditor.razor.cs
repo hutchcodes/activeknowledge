@@ -13,11 +13,32 @@ namespace AKS.Builder.Components.Shared
         protected TopicEditViewModel Topic { get; set; }
         public CKEditor.Blazor.CKEditorControl TopicContentEditor { get; set; }
 
+        protected bool IsAddingTopics { get; set; }
+
+        private void SelectTopicFragmentAction (string commandName)
+        {
+            IsAddingTopics = true;
+            StateHasChanged();
+        }
+
         public override Task SetParametersAsync(ParameterCollection parameters)
         {
-            var foo = new TopicListViewModel { TopicId = Guid.NewGuid(), TopicName = "Test Topic Title" };
-            JSInterop.AKSInterop.SelectTopicAction = (async x => await TopicContentEditor.InsertTopicFragment(foo));
+            JSInterop.AKSInterop.SelectTopicAction = SelectTopicFragmentAction;
             return base.SetParametersAsync(parameters);
+        }
+
+        protected void CloseModal()
+        {
+            IsAddingTopics = false;
+        }
+
+        protected void AddTopicToElement(List<TopicListViewModel> topics)
+        {
+            var topicFragment = topics.First();
+            TopicContentEditor.InsertTopicFragment(topicFragment);
+           
+            IsAddingTopics = false;
+            StateHasChanged();
         }
         //new TopicListViewModel { TopicId = Guid.NewGuid(), TopicName = "Test Topic Title" };
     }
