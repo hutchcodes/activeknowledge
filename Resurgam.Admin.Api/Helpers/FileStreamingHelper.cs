@@ -27,8 +27,7 @@ namespace Resurgam.Admin.Api.Helpers
             // Used to accumulate all the form url encoded key value pairs in the 
             // request.
             var formAccumulator = new KeyValueAccumulator();
-            string targetFilePath = null;
-
+            
             var boundary = MultipartRequestHelper.GetBoundary(
                 MediaTypeHeaderValue.Parse(request.ContentType),
                 _defaultFormOptions.MultipartBoundaryLengthLimit);
@@ -37,8 +36,7 @@ namespace Resurgam.Admin.Api.Helpers
             var section = await reader.ReadNextSectionAsync();
             while (section != null)
             {
-                ContentDispositionHeaderValue contentDisposition;
-                var hasContentDispositionHeader = ContentDispositionHeaderValue.TryParse(section.ContentDisposition, out contentDisposition);
+                var hasContentDispositionHeader = ContentDispositionHeaderValue.TryParse(section.ContentDisposition, out ContentDispositionHeaderValue contentDisposition);
 
                 if (hasContentDispositionHeader)
                 {
@@ -65,9 +63,9 @@ namespace Resurgam.Admin.Api.Helpers
                         {
                             // The value length limit is enforced by MultipartBodyLengthLimit
                             var value = await streamReader.ReadToEndAsync();
-                            if (String.Equals(value, "undefined", StringComparison.OrdinalIgnoreCase))
+                            if (string.Equals(value, "undefined", StringComparison.OrdinalIgnoreCase))
                             {
-                                value = String.Empty;
+                                value = string.Empty;
                             }
                             formAccumulator.Append(key.Value, value); // For .NET Core <2.0 remove ".Value" from key
 
@@ -95,8 +93,7 @@ namespace Resurgam.Admin.Api.Helpers
 
         private static Encoding GetEncoding(MultipartSection section)
         {
-            MediaTypeHeaderValue mediaType;
-            var hasMediaTypeHeader = MediaTypeHeaderValue.TryParse(section.ContentType, out mediaType);
+            var hasMediaTypeHeader = MediaTypeHeaderValue.TryParse(section.ContentType, out MediaTypeHeaderValue mediaType);
             // UTF-7 is insecure and should not be honored. UTF-8 will succeed in 
             // most cases.
             if (!hasMediaTypeHeader || Encoding.UTF7.Equals(mediaType.Encoding))
