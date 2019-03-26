@@ -18,12 +18,6 @@ namespace Resurgam.Admin.Api.Controllers
         {
             _topicService = topciService;
         }
-        // GET: api/Topic
-        [HttpGet]
-        public IEnumerable<string> Get()
-        {
-            return new string[] { "value1", "value2" };
-        }
 
         // GET: api/Topic/1234/555
         [HttpGet("{projectId:int}/{topicId:int}", Name = "Get")]
@@ -48,8 +42,9 @@ namespace Resurgam.Admin.Api.Controllers
 
         // DELETE: api/Topic/1234/555
         [HttpDelete("{projectId:int}/{topicId:int}")]
-        public void Delete(int projectId, int topicId)
+        public void Delete(Guid projectId, Guid topicId)
         {
+            _topicService.DeleteTopic(projectId, topicId);
         }
     }
 }
