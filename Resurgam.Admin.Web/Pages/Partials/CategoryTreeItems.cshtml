@@ -1,0 +1,49 @@
+﻿
+@model Resurgam.Infrastructure.ViewModels.CategoryTreeViewModel
+
+
+@{
+    foreach (var cat in Model.Categories)
+    {
+        <li>
+            <span class="caret">@cat.Name</span>
+            @if (cat.Categories.Any())
+            {
+                <ul class="nested">
+                    <partial name="Partials/CategoryTreeItems" model="cat" />
+                </ul>
+            }
+            @if (cat.Topics.Any())
+            {
+                <ul class="nested">
+                    @{
+                        foreach (var topic in cat.Topics)
+                        {
+                            var topicLink = $"/topic/{topic.ProjectId}/{topic.TopicId}";
+                            <li><a href="@topicLink"><i class="icon-file-text"></i>@topic.TopicName</a></li>
+                        }
+                    }
+                </ul>
+            }
+        </li>
+
+    }
+}
+
+@*<div class="sidebar">
+        <ul>
+            @{
+                foreach (var cat in Model.Categories)
+                {
+                    <li>@cat.Name</li>
+                    <partial name="Partials/CategoryTree" model="cat" />
+                }
+
+                foreach (var topic in Model.Topics)
+                {
+                    var topicLink = $"/topic/{topic.ProjectId}/{topic.TopicId}";
+                    <li><a href="@topicLink">@topic.TopicName</a></li>
+                }
+            }
+        </ul>
+    </div>*@

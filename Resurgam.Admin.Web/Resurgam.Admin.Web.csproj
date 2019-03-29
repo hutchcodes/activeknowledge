@@ -22,7 +22,7 @@
   </ItemGroup>
 
   <ItemGroup>
-    <Content Update="Pages\Partials\CategoryTree.cshtml">
+    <Content Update="Pages\Partials\CategoryTreeItems.cshtml">
       <Pack>$(IncludeRazorContentInPack)</Pack>
     </Content>
     <Content Update="Pages\Project.cshtml">
@@ -31,14 +31,13 @@
     <Content Update="Pages\Partials\Topic\DocumentTopic.cshtml">
       <Pack>$(IncludeRazorContentInPack)</Pack>
     </Content>
+    <Content Update="Pages\Partials\CategoryTree.cshtml">
+      <Pack>$(IncludeRazorContentInPack)</Pack>
+    </Content>
   </ItemGroup>
 
   <ItemGroup>
     <WCFMetadata Include="Connected Services" />
-  </ItemGroup>
-
-  <ItemGroup>
-    <Folder Include="wwwroot\fonts\" />
   </ItemGroup>
 
 </Project>

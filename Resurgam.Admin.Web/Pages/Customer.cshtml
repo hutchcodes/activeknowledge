@@ -8,18 +8,34 @@
     <partial name="Shared/HeaderNavPartial" model="Model.HeaderNav" />
 }
 
-<table class="table">
-    <thead>
-        <tr>
-            <td>Project Name</td>
-        </tr>
-    </thead>
-    <tbody>
-        @foreach(var project in Model.Projects)
-        {
+
+<div role="document" class="container">
+    <h1 class="display-4">@Model.HeaderNav.CustomerName</h1>
+    <div role="group" class="row">
+        <div role="group" class="col mb-4 text-right">
+            Sort options:
+            <div class="btn-group" role="group" aria-label="Sort options">
+                <button type="button" class="btn btn-outline-secondary"><i class="icon-watch left"></i></button>
+                <button type="button" class="btn btn-outline-secondary"><i class="icon-users left"></i></button>
+                <button type="button" class="btn btn-outline-secondary"><i class="icon-tag left"></i></button>
+            </div>
+        </div>
+    </div>
+    <table class="table table-hover">
+        <thead>
             <tr>
-                <td><a asp-page="\Project" asp-route-projectId="@project.ProjectId">@project.ProjectName</a> </td>
+                <th scope="col">Projects</th>
+                <th scope="col">Topic count</th>
             </tr>
-        }
-    </tbody>
-</table>
+        </thead>
+        <tbody>
+            @foreach (var project in Model.Projects)
+            {
+                <tr>
+                    <td><a asp-page="\Project" asp-route-projectId="@project.ProjectId">@project.ProjectName</a> </td>
+                    <td>123</td>
+                </tr>
+            }
+        </tbody>
+    </table>
+</div>

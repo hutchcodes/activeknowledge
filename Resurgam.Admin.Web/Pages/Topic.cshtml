@@ -7,42 +7,107 @@
 @section HeaderNav {
     <partial name="Shared/HeaderNavPartial" model="Model.HeaderNav" />
 }
-
-<partial name="Partials/CategoryTree" model="Model.CategoryTree" />
-<div class="main">
-    <h2>@Model.Topic.TopicName</h2>
-    @{
-        switch (Model.Topic.TopicTypeID)
-        {
-            case 1:
-                <partial name="Partials/Topic/ContentTopic" model="Model.Topic" />
-                break;
-            case 2:
-                <partial name="Partials/Topic/CollectionTopic" model="Model.Topic" />
-                break;
-            case 3:
-                <partial name="Partials/Topic/DocumentTopic" model="Model.Topic" />
-                break;
-        }
-    }
-
-    <div style="border: 1px solid blue">
-        <b>Tags</b>
-        <div>
-            @foreach (var tag in Model.Topic.Tags)
-            {
-                <div>@tag.TagName</div>
-            }
+<div role="group" class="container">
+    <div role="group" class="row nav-content">
+        <div role="group" class="col-lg-3">
+            <button id="tocBtn" type="button" data-toggle="collapse" data-target="#tocView" class="btn btn-link btn-block bg-light text-left text-truncate"><i class="icon-sidebar" aria-expanded="false"></i>Table of contents</button>
+        </div>
+        <div role="group" class="col-lg-7">
+            <ol class="breadcrumb bg-light">
+                <li class="breadcrumb-item"><a href="#">Home</a></li>
+                <li class="breadcrumb-item"><a href="#">Library</a></li>
+                <li class="breadcrumb-item active" aria-current="page">Data</li>
+            </ol>
+        </div>
+        <div role="group" class="col-lg-2">
+            <button type="button" class="btn btn-link btn-block bg-light text-left text-truncate"><i class="icon-mail"></i>Share</button>
         </div>
     </div>
-    <div style="border: 1px solid blue">
-        <b>Related Topics</b>
-        @foreach (var rt in Model.Topic.RelatedTopics)
-        {
-            var topicLink = $"/topic/{rt.ProjectId}/{rt.TopicId}";
-            <div>
-                <a href="@topicLink">@rt.TopicName</a>
-            </div>
+    <partial name="Partials/CategoryTree" model="Model.CategoryTree" />
+
+    <div id="tocContent" role="document" class="col">
+        <h1>@Model.Topic.TopicName</h1>
+        <p class="description">
+            @Model.Topic.TopicDescription
+        </p>
+        <div class="tags">
+            @foreach (var tag in Model.Topic.Tags)
+            {
+                <a href="#" class="item"><i class="icon-tag"></i>@tag.TagName</a>
+            }
+            <a href="#" class="item"><i class="icon-tag"></i>Tag word</a>
+            <a href="#" class="item"><i class="icon-tag"></i>Tag word</a>
+            <a href="#" class="item"><i class="icon-tag"></i>Tag word</a>
+        </div>
+
+        @{
+            switch (Model.Topic.TopicTypeID)
+            {
+                case 1:
+                    <partial name="Partials/Topic/ContentTopic" model="Model.Topic" />
+                    break;
+                case 2:
+                    <partial name="Partials/Topic/CollectionTopic" model="Model.Topic" />
+                    break;
+                case 3:
+                    <partial name="Partials/Topic/DocumentTopic" model="Model.Topic" />
+                    break;
+            }
         }
+
+        <aside class="row justify-content-between">
+            <div class="relatedTopics col-lg-6 col-md-12">
+                <h4>Related topics</h4>
+                <ul class="list-unstyled">
+                    @foreach (var rt in Model.Topic.RelatedTopics)
+                    {
+                        var topicLink = $"/topic/{rt.ProjectId}/{rt.TopicId}";
+                        <div>
+                            <a href="@topicLink">@rt.TopicName</a>
+                            <li><a href="@topicLink" class="d-block text-truncate"><i class="icon-arrow-right"></i>@rt.TopicName</a></li>
+                        </div>
+                    }
+                    <li><a href="#" class="d-block text-truncate"><i class="icon-arrow-right"></i>Lorem ipsum dolor sit amet, consectetur adipiscing elit. Nullam id dolor id nibh ultricies vehicula ut id elit</a></li>
+                    <li><a href="#" class="d-block text-truncate"><i class="icon-arrow-right"></i>Lorem ipsum dolor sit amet, consectetur adipiscing elit </a></li>
+                    <li><a href="#" class="d-block text-truncate"><i class="icon-arrow-right"></i>Fusce dapibus, tellus ac cursus commodo, tortor mauris condimentum nibh, ut fermentum massa justo sit amet risus</a></li>
+                    <li><a href="#" class="d-block text-truncate"><i class="icon-arrow-right"></i>Nullam quis risus eget urna mollis ornare vel eu leo. Morbi leo risus, porta ac consectetur ac, vestibulum at eros </a></li>
+                    <li><a href="#" class="d-block text-truncate"><i class="icon-arrow-right"></i>Aenean eu leo quam </a></li>
+                    <li><a href="#" class="d-block text-truncate"><i class="icon-arrow-right"></i>Pellentesque ornare sem lacinia quam venenatis vestibulum</a></li>
+                </ul>
+            </div>
+            <div class="commentsRating col-lg-5 col-md-12">
+                <h4>Rating</h4>
+                <div class="clearfix">
+                    <fieldset class="rating">
+                        <input type="radio" id="star5" name="rating" value="5" checked /><label class="full" for="star5" title="Awesome - 5 stars"></label>
+                        <input type="radio" id="star4" name="rating" value="4" checked /><label class="full" for="star4" title="Pretty good - 4 stars"></label>
+                        <input type="radio" id="star3" name="rating" value="3" checked /><label class="full" for="star3" title="Meh - 3 stars"></label>
+                        <input type="radio" id="star2" name="rating" value="2" /><label class="full" for="star2" title="Kinda bad - 2 stars"></label>
+                        <input type="radio" id="star1" name="rating" value="1" /><label class="full" for="star1" title="Sucks big time - 1 star"></label>
+                    </fieldset>
+                </div>
+                <p><a href="#">average from 132 users</a></p>
+                <h4>Comments</h4>
+                <form class="clearfix">
+                    <div class="form-group">
+                        <textarea type="comment" aria-label="Comment" class="form-control" id="comment" rows="5" aria-describedby="commentHelp" placeholder="Type your comments here…"></textarea>
+                    </div>
+                    <button type="submit" class="btn btn-primary float-right">Submit</button>
+                </form>
+                <div class="card">
+                    <div class="card-body">
+                        <p class="small">
+                            <span>January 13th, 2019 - 16:32</span>
+                            <button type="button" class="btn btn-link btn-close" aria-label="Close">
+                                <span aria-hidden="true"><i class="icon-x-circle"></i></span>
+                            </button>
+                        </p>
+                        <p class="card-text">Comment. Lorem ipsum dolor sit amet, consectetur adipiscing elit. Integer posuere erat a ante.</p>
+                        <a href="#" class="btn-link"><i class="icon-feather"></i>l.ipsum@company.com</a>
+                    </div>
+                </div>
+            </div>
+        </aside>
     </div>
 </div>
+    
