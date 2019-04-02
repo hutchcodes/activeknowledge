@@ -115,8 +115,8 @@ namespace AKS.Api
         public void ConfigureTestingServices(IServiceCollection services)
         {
             // use in-memory database
-            services.AddDbContext<ResurgamContext>(c =>
-                c.UseInMemoryDatabase("ResurgamDB"));
+            services.AddDbContext<AKSContext>(c =>
+                c.UseInMemoryDatabase("AKSDB"));
 
             services.AddDbContext<SecurityContext>(c =>
                 c.UseInMemoryDatabase("SecurityDB"));
@@ -127,13 +127,13 @@ namespace AKS.Api
         public void ConfigureProductionServices(IServiceCollection services)
         {
             // use real database
-            services.AddDbContext<ResurgamContext>(c =>
+            services.AddDbContext<AKSContext>(c =>
             {
                 try
                 {
                     // Requires LocalDB which can be installed with SQL Server Express 2016
                     // https://www.microsoft.com/en-us/download/details.aspx?id=54284
-                    c.UseSqlServer(Configuration.GetConnectionString("ResurgamDBConnection"));
+                    c.UseSqlServer(Configuration.GetConnectionString("AKSDBConnection"));
                 }
                 catch (System.Exception ex)
                 {

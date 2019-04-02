@@ -4,13 +4,13 @@ using AKS.Common.Models;
 using AKS.Infrastructure.Interfaces;
 using Microsoft.AspNetCore.Mvc.RazorPages;
 
-namespace Resurgam.Admin.Web.Pages
+namespace AKS.Share.Web.Pages
 {
-    public abstract class ResurgamPage : PageModel
+    public abstract class AKSPage : PageModel
     {
         protected readonly IHeaderService _headerService;
 
-        public ResurgamPage(IHeaderService headerService)
+        public AKSPage(IHeaderService headerService)
         {
             _headerService = headerService;
         }

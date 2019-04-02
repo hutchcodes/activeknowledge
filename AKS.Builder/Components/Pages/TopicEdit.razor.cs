@@ -1,25 +1,22 @@
-﻿using Microsoft.AspNetCore.Components;
-using Microsoft.JSInterop;
-using AKS.Builder.Shared;
-using AKS.Infrastructure.Interfaces;
-using AKS.Infrastructure.ViewModels;
-using System;
+﻿using System;
 using System.Collections.Generic;
-using System.Linq;
 using System.Threading.Tasks;
 using AKS.Builder.Components.Shared;
+using AKS.Common.Models;
+using AKS.Infrastructure.Interfaces;
+using Microsoft.AspNetCore.Components;
 
 namespace AKS.Builder.Pages
 {
     public class TopicModel : AppStatePage
     {
         [Inject]
-        protected ITopicService _topicService { get; set; }
+        protected ITopicService TopicService { get; set; }
 
         [Parameter]
         protected Guid TopicId { get; set; }
 
-        protected TopicEditViewModel Topic { get; set; }
+        protected TopicEdit Topic { get; set; }
 
         protected ContentTopicEditor ContentEditor { get; set; }
 
@@ -38,7 +35,7 @@ namespace AKS.Builder.Pages
 
         private async Task LoadTopic()
         {
-            Topic = await _topicService.GetTopicForEdit(ProjectId, TopicId);
+            Topic = await TopicService.GetTopicForEdit(ProjectId, TopicId);
         }
 
         protected async Task Save()
@@ -47,7 +44,7 @@ namespace AKS.Builder.Pages
             {
                 Topic.TopicContent = await ContentEditor.TopicContentEditor.GetEditorText();
             }
-            await _topicService.SaveTopic(Topic);
+            await TopicService.SaveTopic(Topic);
         }
 
         protected async Task Cancel()
@@ -55,7 +52,7 @@ namespace AKS.Builder.Pages
             await LoadTopic();
         }
 
-        protected void contentChangeHandler(string newContent)
+        protected void ContentChangeHandler(string newContent)
         {
             Topic.TopicContent = newContent;
         }

@@ -9,13 +9,13 @@ using System;
 
 namespace AKS.Infrastructure.Data
 {
-    public class ResurgamContext : DbContext
+    public class AKSContext : DbContext
     {
         private static readonly LoggerFactory _myConsoleLoggerFactory =
             new LoggerFactory(new[] {
                         new ConsoleLoggerProvider((category, level) => category == DbLoggerCategory.Database.Command.Name && level == LogLevel.Information, true)
             });
-        public ResurgamContext(DbContextOptions<ResurgamContext> options) : base(options)
+        public AKSContext(DbContextOptions<AKSContext> options) : base(options)
         {
         }
 

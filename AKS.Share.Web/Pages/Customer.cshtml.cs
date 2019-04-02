@@ -4,9 +4,9 @@ using System.Threading.Tasks;
 using AKS.Common.Models;
 using AKS.Infrastructure.Interfaces;
 
-namespace Resurgam.Admin.Web.Pages
+namespace AKS.Share.Web.Pages
 {
-    public class CustomerModel : ResurgamPage
+    public class CustomerModel : AKSPage
     {
         private readonly IProjectService _projectService;
         public CustomerModel(IHeaderService headerService, IProjectService projectService) : base(headerService)

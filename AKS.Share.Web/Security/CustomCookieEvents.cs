@@ -4,7 +4,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
 
-namespace Resurgam.Admin.Web.Security
+namespace AKS.Share.Web.Security
 {
     public class CustomCookieEvents : CookieAuthenticationEvents
     {

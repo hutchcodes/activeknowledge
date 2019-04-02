@@ -8,7 +8,7 @@ using Microsoft.Net.Http.Headers;
 using AKS.AppCore.Enums;
 using AKS.AppCore.Interfaces;
 
-namespace Resurgam.Admin.Web.Api
+namespace AKS.Share.Web.Api
 {
     //[RoutePrefix("api/[controller]")]
     [ApiController]

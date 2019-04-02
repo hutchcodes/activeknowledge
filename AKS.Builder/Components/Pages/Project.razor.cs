@@ -1,23 +1,21 @@
-﻿using AKS.Builder.Components.Shared;
-using AKS.Builder.Shared;
-using Microsoft.AspNetCore.Components;
-using AKS.Infrastructure.Interfaces;
-using AKS.Infrastructure.ViewModels;
-using System;
+﻿using System;
 using System.Collections.Generic;
-using System.Linq;
 using System.Threading.Tasks;
+using AKS.Builder.Components.Shared;
+using AKS.Common.Models;
+using AKS.Infrastructure.Interfaces;
+using Microsoft.AspNetCore.Components;
 
 namespace AKS.Builder.Pages
 {
     public class ProjectModel : AppStatePage
     {
         [Inject]
-        protected ITopicService _topicService { get; set; }
+        protected ITopicService TopicService { get; set; }
 
         protected bool IsCreatingTopic { get; set; }
 
-        protected TopicEditViewModel NewTopic { get; set; }
+        protected TopicEdit NewTopic { get; set; }
 
         protected TopicSearch TopicSearch { get; set; }
 
@@ -34,7 +32,7 @@ namespace AKS.Builder.Pages
 
         protected void CreateTopic(int topicTypeId)
         {
-            NewTopic = new TopicEditViewModel
+            NewTopic = new TopicEdit
             {
                 ProjectId = ProjectId,
                 TopicId = Guid.NewGuid(),
@@ -58,7 +56,7 @@ namespace AKS.Builder.Pages
 
             try
             {
-                await _topicService.SaveTopic(NewTopic);
+                await TopicService.SaveTopic(NewTopic);
             }
             catch (Exception ex)
             {
@@ -66,19 +64,19 @@ namespace AKS.Builder.Pages
             }
             IsCreatingTopic = false;
 
-            var newTopicUrl = $"edit/topic/{ProjectId}/{NewTopic.TopicId}";
+            //var newTopicUrl = $"edit/topic/{ProjectId}/{NewTopic.TopicId}";
             //Microsoft.AspNetCore.Blazor.Browser.Services.BrowserUriHelper.Instance.NavigateTo(newTopicUrl);
             NewTopic = null;
 
             await TopicSearch.Search();
         }
 
-        protected async Task DeleteTopics(List<TopicListViewModel> topics)
+        protected async Task DeleteTopics(List<TopicList> topics)
         {
             //var tasks = new List<Task>();
             foreach (var topic in topics)
             {
-                await _topicService.DeleteTopic(topic.ProjectId, topic.TopicId);
+                await TopicService.DeleteTopic(topic.ProjectId, topic.TopicId);
             }
 
             //return Task.WhenAll(tasks);

@@ -1,13 +1,11 @@
 ﻿using System;
 using System.Collections.Generic;
-using System.Linq;
 using System.Threading.Tasks;
-using Microsoft.AspNetCore.Http;
-using Microsoft.AspNetCore.Mvc;
+using AKS.Common.Models;
 using AKS.Infrastructure.Interfaces;
-using AKS.Infrastructure.ViewModels;
+using Microsoft.AspNetCore.Mvc;
 
-namespace Resurgam.Admin.Web.Api
+namespace AKS.Share.Web.Api
 {
     [Route("api/[controller]")]
     [ApiController]
@@ -27,29 +25,23 @@ namespace Resurgam.Admin.Web.Api
 
         // GET: api/Topic/1234/555
         [HttpGet("{projectId:Guid}/{topicId:Guid}", Name = "Get")]
-        public async Task< TopicEditViewModel> Get(Guid projectId, Guid topicId)
+        public async Task< TopicEdit> Get(Guid projectId, Guid topicId)
         {
             return await _topicService.GetTopicForEdit(projectId, topicId);
         }
 
         // POST: api/Topic/1234/555
         [HttpPost]
-        public async Task Post([FromBody] TopicEditViewModel topic)
+        public async Task Post([FromBody] TopicEdit topic)
         {
             await _topicService.SaveTopic(topic);
         }
 
         // PUT: api/Topic/1234/555
         [HttpPut("{projectId:Guid}/{topicId:Guid}", Name = "Put")]
-        public async Task Put([FromBody] TopicEditViewModel topic)
+        public async Task Put([FromBody] TopicEdit topic)
         {
             await _topicService.SaveTopic(topic);
-        }
-
-        // DELETE: api/Topic/1234/555
-        [HttpDelete("{projectId:Guid}/{topicId:Guid}")]
-        public void Delete(Guid projectId, Guid topicId)
-        {
         }
     }
 }

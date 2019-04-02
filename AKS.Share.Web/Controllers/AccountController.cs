@@ -7,7 +7,7 @@ using Microsoft.AspNetCore.Authentication.Cookies;
 using Microsoft.AspNetCore.Authentication.OpenIdConnect;
 using Microsoft.AspNetCore.Mvc;
 
-namespace Resurgam.Admin.Web.Controllers
+namespace AKS.Share.Web.Controllers
 {
     [Route("[controller]/[action]")]
     public class AccountController : Controller

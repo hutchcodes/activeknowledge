@@ -9,7 +9,7 @@ using AKS.Infrastructure.Data;
 
 namespace AKS.Infrastructure.Migrations
 {
-    [DbContext(typeof(ResurgamContext))]
+    [DbContext(typeof(AKSContext))]
     [Migration("20181120110910_UnKnownUpdates")]
     partial class UnKnownUpdates
     {

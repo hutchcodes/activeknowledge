@@ -3,7 +3,7 @@ using AKS.AppCore.Interfaces;
 using AKS.AppCore.Specifications;
 using AKS.Infrastructure.Data;
 using AKS.Infrastructure.Interfaces;
-using AKS.Infrastructure.ViewModels;
+using AKS.Common.Models;
 using Microsoft.Extensions.Logging;
 using System;
 using System.Collections.Generic;
@@ -21,66 +21,134 @@ namespace AKS.Infrastructure.Services
         {
             _logger = loggerFactory.CreateLogger<TopicService>();
             _topicRepo = topicRepo;
+
+            _logger.LogDebug($"New instance of {GetType().Name} was created");
         }
 
-        public async Task<List<TopicListViewModel>> SearchTopics(Guid projectId, Guid? categoryId, string searchString)
+        public async Task<List<TopicList>> SearchTopics(Guid projectId, Guid? categoryId, string searchString)
         {
             var spec = new TopicSearchSpecification(projectId, categoryId, searchString);
             var topics = await _topicRepo.ListAsync(spec);
 
-            var topicsVM = new List<TopicListViewModel>();
+            var topicsVM = new List<TopicList>();
 
-            topicsVM.AddRange(topics.ConvertAll(x => new TopicListViewModel(x)));
+            topicsVM.AddRange(topics.ConvertAll(x => new TopicList { ProjectId = x.ProjectId, TopicId = x.TopicId, TopicName = x.Name, TopicDesription = x.Description } ));
 
             return topicsVM;
         }
-        public async Task<TopicDisplayViewModel> GetTopicForDisplay(Guid projectId, Guid topicId)
+        public async Task<TopicView> GetTopicForDisplay(Guid projectId, Guid topicId)
         {
             var spec = new TopicDisplaySpecification(projectId, topicId);
             var topic = await _topicRepo.GetAsync(spec);
+            var topicVM = CreateTopicView(topic);
 
-            var topicVM = new TopicDisplayViewModel(topic);
+            foreach (var tag in topic.Tags)
+            {
+                topicVM.Tags.Add(new Common.Models.Tag { ProjectId = tag.ProjectId, TagId = tag.TagId, TagName = tag.Name });
+            }
+
+            foreach (var rt in topic.RelatedToTopics)
+            {
+                topicVM.RelatedTopics.Add(new TopicLink { ProjectId = rt.ProjectId, TopicId = rt.ChildTopicId, TopicName = rt.ChildTopic.Name, TopicDescription = rt.ChildTopic.Description });
+            }
+
+            foreach (var elm in topic.CollectionElements)
+            {
+                var elemant = new Common.Models.CollectionElement { ProjectId = elm.ProjectId, CollectionElementId = elm.CollectionElementId, CollectionElementName = elm.Name };
+                topicVM.CollectionElements.Add(elemant);
+
+                foreach (var top in elm.ElementTopics)
+                {
+                    elemant.Topics.Add(CreateTopicView(top));
+                }
+            }
+
             return topicVM;
         }
 
-        public async Task<TopicEditViewModel> GetTopicForEdit(Guid projectId, Guid topicId)
+        private static TopicView CreateTopicView(Topic topic)
+        {
+            return new TopicView
+            {
+                TopicId = topic.TopicId,
+                TopicName = topic.Name,
+                TopicDescription = topic.Description,
+                TopicTypeID = topic.TopicTypeId,
+                ProjectId = topic.ProjectId,
+                Content = topic.TopicContent,
+                DocumentName = topic.DocumentName,
+            };
+        }
+
+        public async Task<TopicEdit> GetTopicForEdit(Guid projectId, Guid topicId)
         {
             var spec = new TopicEditSpecification(projectId, topicId);
             var topic = await _topicRepo.GetAsync(spec);
 
-            var topicVM = new TopicEditViewModel(topic);
+            var topicVM = new TopicEdit
+            {
+                TopicId = topic.TopicId,
+                TopicName = topic.Name,
+                TopicDescription = topic.Description,
+                TopicTypeID = topic.TopicTypeId,
+                ProjectId = topic.ProjectId,
+                TopicContent = topic.TopicContent,
+                DocumentName = topic.DocumentName,
+            };
+
+            foreach (var tag in topic.Tags)
+            {
+                topicVM.Tags.Add(new Common.Models.Tag { ProjectId = tag.ProjectId, TagId = tag.TagId, TagName = tag.Name });
+            }
+
+            foreach (var rt in topic.RelatedToTopics)
+            {
+                topicVM.RelatedTopics.Add(new TopicLink { ProjectId = rt.ProjectId, TopicId = rt.ChildTopicId, TopicName = rt.ChildTopic.Name, TopicDescription = rt.ChildTopic.Description });
+            }
+
+            foreach (var elm in topic.CollectionElements)
+            {
+                var elemant = new Common.Models.CollectionElement { ProjectId = elm.ProjectId, CollectionElementId = elm.CollectionElementId, CollectionElementName = elm.Name };
+                topicVM.CollectionElements.Add(elemant);
+
+                foreach (var top in elm.ElementTopics)
+                {
+                    elemant.Topics.Add(CreateTopicView(top));
+                }
+            }
+
             return topicVM;
         }
 
-        public async Task<List<TopicListViewModel>> GetTopicListForProject(Guid projectId)
+        public async Task<List<TopicList>> GetTopicListForProject(Guid projectId)
         {
             var spec = new TopicListSpecification(projectId);
             var topics = await _topicRepo.ListAsync(spec);
 
-            var topicsVM = new List<TopicListViewModel>();
+            var topicsVM = new List<TopicList>();
 
-            topicsVM.AddRange(topics.ConvertAll(x => new TopicListViewModel(x)));
+            topicsVM.AddRange(topics.ConvertAll(x => new TopicList { ProjectId = x.ProjectId, TopicId = x.TopicId, TopicName = x.Name, TopicDesription = x.Description }));
 
             return topicsVM;
         }
 
-        public async Task SaveTopic(TopicEditViewModel topicVM)
+        public async Task SaveTopic(TopicEdit topicVM)
         {
             try
             {
                 var spec = new TopicEditSpecification(topicVM.ProjectId, topicVM.TopicId);
                 var topic = await _topicRepo.GetAsync(spec);
 
-                if (topic == null)
-                {
-                    topic = topicVM.ToTopicEntity(topic);
-                    await _topicRepo.AddAsync(topic);
-                }
-                else
-                {
-                    topic = topicVM.ToTopicEntity(topic);
-                    await _topicRepo.UpdateAsync(topic);
-                }
+                //if (topic == null)
+                //{
+                //    topic = topicVM.ToTopicEntity(topic);
+                //    await _topicRepo.AddAsync(topic);
+                //}
+                //else
+                //{
+                //    topic = topicVM.ToTopicEntity(topic);
+                //    await _topicRepo.UpdateAsync(topic);
+                //}
             }
             catch (Exception ex)
             {

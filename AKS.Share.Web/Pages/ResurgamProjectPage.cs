@@ -3,13 +3,13 @@ using System.Threading.Tasks;
 using AKS.Common.Models;
 using AKS.Infrastructure.Interfaces;
 
-namespace Resurgam.Admin.Web.Pages
+namespace AKS.Share.Web.Pages
 {
-    public abstract class ResurgamProjectPage : ResurgamPage 
+    public abstract class AKSProjectPage : AKSPage 
     {
         protected readonly ICategoryService _categoryService;
 
-        public ResurgamProjectPage(IHeaderService headerService, ICategoryService categoryService) : base (headerService)
+        public AKSProjectPage(IHeaderService headerService, ICategoryService categoryService) : base (headerService)
         {
             _categoryService = categoryService;
         }

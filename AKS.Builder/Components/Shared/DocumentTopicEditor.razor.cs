@@ -7,26 +7,26 @@ using Blazor.FileReader;
 using Microsoft.AspNetCore.Components;
 using RestSharp;
 using AKS.Infrastructure.Interfaces;
-using AKS.Infrastructure.ViewModels;
+using AKS.Common.Models;
 
 namespace AKS.Builder.Shared
 {
     public class DocumentTopicEditorModel : ComponentBase
     {
         [Parameter]
-        protected TopicEditViewModel Topic { get; set; }
+        protected TopicEdit Topic { get; set; }
 
-        protected ElementRef _fileUploader { get; set; }
+        protected ElementRef FileUploader { get; set; }
 
         protected Uri _baseUri = new Uri($"https://localhost:44341/api");
 
         [Inject]
-        private IFileReaderService fileReaderService { get; set; }
+        private IFileReaderService FileReaderService { get; set; }
 
         protected async Task UploadFile()
         {
-            this.StateHasChanged();
-            foreach(var file in await fileReaderService.CreateReference(_fileUploader).EnumerateFilesAsync())
+            StateHasChanged();
+            foreach(var file in await FileReaderService.CreateReference(FileUploader).EnumerateFilesAsync())
             {
                 var fileInfo = await file.ReadFileInfoAsync();
 
@@ -49,13 +49,13 @@ namespace AKS.Builder.Shared
                     await UploadToApi(fileInfo, foo);
                 }
             }
-            this.StateHasChanged();
+            StateHasChanged();
         }
 
         private async Task UploadToApi(IFileInfo fileInfo, Stream fileStream)
         {
             
-            RestClient client = new RestClient(_baseUri);
+            var client = new RestClient(_baseUri);
 
             var req = new RestRequest($"ContentDocument/{Topic.ProjectId}/{Topic.TopicId}/{fileInfo.Name}", Method.POST, DataFormat.None);
 

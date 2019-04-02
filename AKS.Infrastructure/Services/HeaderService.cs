@@ -1,14 +1,11 @@
-﻿using AKS.AppCore.Entities;
+﻿using System;
+using System.Threading.Tasks;
+using AKS.AppCore.Entities;
 using AKS.AppCore.Interfaces;
 using AKS.AppCore.Specifications;
 using AKS.Common.Models;
 using AKS.Infrastructure.Interfaces;
-using AKS.Infrastructure.ViewModels;
 using Microsoft.Extensions.Logging;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Threading.Tasks;
 
 namespace AKS.Infrastructure.Services
 {

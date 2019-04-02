@@ -1,28 +1,26 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
-using System.Threading.Tasks;
+using AKS.Common.Models;
 using Microsoft.AspNetCore.Components;
-using AKS.Infrastructure.Interfaces;
-using AKS.Infrastructure.ViewModels;
 
 namespace AKS.Builder.Shared
 {
     public class CollectionTopicEditorModel : ComponentBase
     {
         [Parameter]
-        protected TopicEditViewModel Topic { get; set; }
+        protected TopicEdit Topic { get; set; }
 
         protected bool IsAddingElements { get; set; }
         protected bool IsAddingTopics { get; set; }
-        protected CollectionElementViewModel NewCollectionElement { get; set; }
+        protected CollectionElement NewCollectionElement { get; set; }
 
-        private CollectionElementViewModel _currentElement;
+        private CollectionElement _currentElement;
 
         protected void AddElement()
         {
             IsAddingElements = true;
-            NewCollectionElement = new CollectionElementViewModel() { ProjectId = Topic.ProjectId, CollectionElementId = Guid.NewGuid() };
+            NewCollectionElement = new CollectionElement() { ProjectId = Topic.ProjectId, CollectionElementId = Guid.NewGuid() };
         }
         protected void AddElementToTopic()
         {
@@ -31,7 +29,7 @@ namespace AKS.Builder.Shared
             NewCollectionElement = null;
         }
 
-        protected void DeleteElement(CollectionElementViewModel element)
+        protected void DeleteElement(CollectionElement element)
         {
             if (Topic.CollectionElements.Contains(element))
             {
@@ -40,7 +38,7 @@ namespace AKS.Builder.Shared
             StateHasChanged();
         }
 
-        protected void AddTopic(CollectionElementViewModel currentElement)
+        protected void AddTopic(CollectionElement currentElement)
         {
             _currentElement = currentElement;
             IsAddingTopics = true;
@@ -51,14 +49,14 @@ namespace AKS.Builder.Shared
             IsAddingElements = false;
             IsAddingTopics = false;            
         }
-        protected void AddTopicToElement(List<TopicListViewModel> topics)
+        protected void AddTopicToElement(List<TopicList> topics)
         {
-            _currentElement.Topics.AddRange(topics.Select(x => new TopicDisplayViewModel { ProjectId = x.ProjectId, TopicId = x.TopicId, TopicName = x.TopicName, TopicDescription = x.TopicDesription }));
+            _currentElement.Topics.AddRange(topics.Select(x => new TopicView { ProjectId = x.ProjectId, TopicId = x.TopicId, TopicName = x.TopicName, TopicDescription = x.TopicDesription }));
             IsAddingTopics = false;
             StateHasChanged();
         }
 
-        protected void RemoveTopic (CollectionElementViewModel element, TopicDisplayViewModel topic)
+        protected void RemoveTopic (CollectionElement element, TopicView topic)
         {
             element.Topics.Remove(topic);
         }

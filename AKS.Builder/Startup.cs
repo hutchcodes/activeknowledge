@@ -74,12 +74,12 @@ namespace AKS.Builder
 
         public void ConfigureTestingServices(IServiceCollection services)
         {
-            services.AddDbContext<ResurgamContext>(c =>
+            services.AddDbContext<AKSContext>(c =>
             {
                 try
                 {
                     var ConfigurationManager = services.BuildServiceProvider().GetService<IConfiguration>();
-                    c.UseSqlServer(ConfigurationManager.GetConnectionString("ResurgamContext"));
+                    c.UseSqlServer(ConfigurationManager.GetConnectionString("AKSContext"));
 
                 }
                 catch (System.Exception ex)
@@ -88,9 +88,9 @@ namespace AKS.Builder
                 }
             });
 
-            var dbContext = services.BuildServiceProvider().GetRequiredService<ResurgamContext>();
+            var dbContext = services.BuildServiceProvider().GetRequiredService<AKSContext>();
             dbContext.Database.Migrate();
-            ResurgamContextSeed.SeedAsync(dbContext, null).Wait();
+            AKSContextSeed.SeedAsync(dbContext, null).Wait();
         }
     }
 }

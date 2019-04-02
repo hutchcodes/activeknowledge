@@ -1,15 +1,12 @@
 ﻿using System;
 using System.Collections.Generic;
-using System.Linq;
 using System.Threading.Tasks;
+using AKS.Common.Models;
 using AKS.Infrastructure.Interfaces;
-using AKS.Infrastructure.ViewModels;
-using Microsoft.AspNetCore.Mvc;
-using Microsoft.AspNetCore.Mvc.RazorPages;
 
-namespace Resurgam.Admin.Web.Pages
+namespace AKS.Share.Web.Pages
 {
-    public class ProjectModel : ResurgamProjectPage
+    public class ProjectModel : AKSProjectPage
     {
         private readonly ITopicService _topicService;
         public ProjectModel(IHeaderService headerService, ITopicService topicService, ICategoryService categoryService) : base(headerService, categoryService)
@@ -17,14 +14,16 @@ namespace Resurgam.Admin.Web.Pages
             _topicService = topicService;
         }
 
-        public List<TopicListViewModel> Topics { get; set; }
+        public List<TopicList> Topics { get; set; }
 
         public ITopicService TopicService => _topicService;
 
         public async Task OnGet(Guid projectId)
         {
-            var pageTasks = new List<Task>();
-            pageTasks.Add(GetHeaderNav(null, projectId));
+            var pageTasks = new List<Task>
+            {
+                GetHeaderNav(null, projectId)
+            };
 
             var topicTask = _topicService.GetTopicListForProject(projectId);
             pageTasks.Add(topicTask);

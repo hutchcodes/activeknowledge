@@ -1,32 +1,26 @@
 ﻿using System;
-using System.Collections.Generic;
-using System.Linq;
 using System.Threading.Tasks;
+using AKS.Common.Models;
 using AKS.Infrastructure.Interfaces;
-using AKS.Infrastructure.ViewModels;
-using Microsoft.AspNetCore.Mvc;
-using Microsoft.AspNetCore.Mvc.RazorPages;
-using System.Security.Claims;
 using Microsoft.AspNetCore.Authorization;
-using Resurgam.Admin.Web.Security;
+using Microsoft.AspNetCore.Mvc;
 using Microsoft.Extensions.Configuration;
+using AKS.Share.Web.Security;
 
-namespace Resurgam.Admin.Web.Pages
+namespace AKS.Share.Web.Pages
 {
     [Authorize]
-    public class TopicModel : ResurgamProjectPage
+    public class TopicModel : AKSProjectPage
     {
         private readonly ITopicService _topicService;
         private readonly PermissionsManager _permissionsManager;
-        private readonly IConfiguration _config;
 
-        public TopicModel(IHeaderService projectService, ITopicService topciService, ICategoryService categoryService, PermissionsManager permissionsManager, IConfiguration config) : base(projectService, categoryService)
+        public TopicModel(IHeaderService projectService, ITopicService topciService, ICategoryService categoryService, PermissionsManager permissionsManager) : base(projectService, categoryService)
         {
-            _config = config;
             _topicService = topciService;
             _permissionsManager = permissionsManager;
         }
-        public TopicDisplayViewModel Topic { get; set; }
+        public TopicView Topic { get; set; }
 
         public async Task<IActionResult> OnGet(Guid projectId, Guid topicId)
         {

@@ -16,7 +16,7 @@
         "ASPNETCORE_ENVIRONMENT": "Development"
       }
     },
-    "Resurgam.Admin.Web": {
+    "AKS.Share.Web": {
       "commandName": "Project",
       "launchBrowser": true,
       "environmentVariables": {

@@ -5,7 +5,7 @@ using AKS.Infrastructure.Interfaces;
 using AKS.Infrastructure.Services;
 using Microsoft.Extensions.Caching.Memory;
 
-namespace Resurgam.Admin.Web.Caching
+namespace AKS.Share.Web.Caching
 {
     public class HeaderCacheService : IHeaderService
     {

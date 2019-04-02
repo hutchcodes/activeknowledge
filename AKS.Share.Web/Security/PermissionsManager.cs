@@ -6,7 +6,7 @@ using System.Linq;
 using System.Security.Claims;
 using System.Threading.Tasks;
 
-namespace Resurgam.Admin.Web.Security
+namespace AKS.Share.Web.Security
 {
     public class PermissionsManager
     {

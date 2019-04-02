@@ -1,7 +1,7 @@
 ﻿
-@model AKS.Infrastructure.ViewModels.TopicDisplayViewModel
+@model AKS.Common.Models.TopicView
 
 @{
-var documentLink = $"/api/ContentDocument/{Model.ProjectId}/{Model.TopicId}/{Model.DocumentName}";
+    var documentLink = $"/api/ContentDocument/{Model.ProjectId}/{Model.TopicId}/{Model.DocumentName}";
 }
 <div><a href="@documentLink">@Model.DocumentName</a></div>

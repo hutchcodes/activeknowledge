@@ -11,9 +11,9 @@ namespace AKS.Infrastructure.Data
 {
     public class EfRepository<T> : IAsyncRepository<T> where T: BaseEntity
     {
-        protected readonly ResurgamContext _dbContext;
+        protected readonly AKSContext _dbContext;
 
-        public EfRepository(ResurgamContext dbContext)
+        public EfRepository(AKSContext dbContext)
         {
             _dbContext = dbContext;
         }

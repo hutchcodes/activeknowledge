@@ -10,49 +10,49 @@ using Microsoft.EntityFrameworkCore;
 
 namespace AKS.Infrastructure.Data
 {
-    public class ResurgamContextSeed
+    public class AKSContextSeed
     {
-        private static Guid _customerId1 = new Guid(123, 0, 0, new byte[8]);
-        private static Guid _projectId1 = new Guid(1234, 0, 0, new byte[8]);
-        public static async Task SeedAsync(ResurgamContext resurgamContext, ILoggerFactory loggerFactory, int? retry = 0)
+        private static readonly Guid _customerId1 = new Guid(123, 0, 0, new byte[8]);
+        private static readonly Guid _projectId1 = new Guid(1234, 0, 0, new byte[8]);
+        public static async Task SeedAsync(AKSContext aksContext, ILoggerFactory loggerFactory, int? retry = 0)
         {
-            int retryForAvailability = retry.Value;
+            var retryForAvailability = retry.Value;
             try
             {
                 // TODO: Only run this if using a real database
                 // context.Database.Migrate();
 
-                if (!resurgamContext.Customers.Any())
+                if (!aksContext.Customers.Any())
                 {
-                    resurgamContext.Customers.AddRange(GetPreconfiguredCustomers());
-                    await resurgamContext.SaveChangesAsync();
+                    aksContext.Customers.AddRange(GetPreconfiguredCustomers());
+                    await aksContext.SaveChangesAsync();
                 }
 
-                if (!resurgamContext.Projects.Any())
+                if (!aksContext.Projects.Any())
                 {
-                    resurgamContext.Projects.AddRange(GetPreconfiguredProjects());
-                    await resurgamContext.SaveChangesAsync();
+                    aksContext.Projects.AddRange(GetPreconfiguredProjects());
+                    await aksContext.SaveChangesAsync();
                 }
 
 
-                if (!resurgamContext.Tags.Any())
+                if (!aksContext.Tags.Any())
                 {
-                    resurgamContext.Tags.AddRange(GetPreconfiguredTags());
-                    await resurgamContext.SaveChangesAsync();
+                    aksContext.Tags.AddRange(GetPreconfiguredTags());
+                    await aksContext.SaveChangesAsync();
                 }
 
-                if (!resurgamContext.Topics.Any())
+                if (!aksContext.Topics.Any())
                 {
                     var topics = GetPreconfiguredTopics();
-                    resurgamContext.AddRange(topics);
-                    await resurgamContext.SaveChangesAsync();
+                    aksContext.AddRange(topics);
+                    await aksContext.SaveChangesAsync();
                 }
 
-                if (!resurgamContext.Categories.Any())
+                if (!aksContext.Categories.Any())
                 {
                     var cats = GetPreconfiguredCategories();
-                    resurgamContext.Categories.AddRange(cats);
-                    await resurgamContext.SaveChangesAsync();
+                    aksContext.Categories.AddRange(cats);
+                    await aksContext.SaveChangesAsync();
                 }
             }
             catch 
@@ -60,9 +60,9 @@ namespace AKS.Infrastructure.Data
                 if (retryForAvailability < 10)
                 {
                     retryForAvailability++;
-                    //var log = loggerFactory.CreateLogger<ResurgamContextSeed>();
+                    //var log = loggerFactory.CreateLogger<AKSContextSeed>();
                     //log.LogError(ex.Message);
-                    await SeedAsync(resurgamContext, loggerFactory, retryForAvailability);
+                    await SeedAsync(aksContext, loggerFactory, retryForAvailability);
                 }
             }
         }

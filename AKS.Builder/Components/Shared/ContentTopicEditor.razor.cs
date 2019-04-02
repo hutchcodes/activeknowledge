@@ -1,5 +1,5 @@
-﻿using Microsoft.AspNetCore.Components;
-using AKS.Infrastructure.ViewModels;
+﻿using AKS.Common.Models;
+using Microsoft.AspNetCore.Components;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -10,7 +10,7 @@ namespace AKS.Builder.Components.Shared
     public class ContentTopicEditorModel : ComponentBase
     {
         [Parameter]
-        protected TopicEditViewModel Topic { get; set; }
+        protected TopicEdit Topic { get; set; }
         public CKEditor.Blazor.CKEditorControl TopicContentEditor { get; set; }
 
         protected bool IsAddingTopics { get; set; }
@@ -32,7 +32,7 @@ namespace AKS.Builder.Components.Shared
             IsAddingTopics = false;
         }
 
-        protected void AddTopicToElement(List<TopicListViewModel> topics)
+        protected void AddTopicToElement(List<TopicList> topics)
         {
             var topicFragment = topics.First();
             TopicContentEditor.InsertTopicFragment(topicFragment);

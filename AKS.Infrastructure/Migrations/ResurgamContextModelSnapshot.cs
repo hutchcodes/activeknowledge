@@ -8,8 +8,8 @@ using AKS.Infrastructure.Data;
 
 namespace AKS.Infrastructure.Migrations
 {
-    [DbContext(typeof(ResurgamContext))]
-    partial class ResurgamContextModelSnapshot : ModelSnapshot
+    [DbContext(typeof(AKSContext))]
+    partial class AKSContextModelSnapshot : ModelSnapshot
     {
         protected override void BuildModel(ModelBuilder modelBuilder)
         {

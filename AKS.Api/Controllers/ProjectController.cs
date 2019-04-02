@@ -5,7 +5,6 @@ using System.Threading.Tasks;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using AKS.Infrastructure.Interfaces;
-using AKS.Infrastructure.ViewModels;
 using AKS.Common.Models;
 
 namespace AKS.Api.Controllers

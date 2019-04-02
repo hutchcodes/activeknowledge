@@ -10,7 +10,7 @@ namespace AKS.Infrastructure.Data
 {
     public class TopicRepository : EfRepository<AppCore.Entities.Topic>
     {
-        public TopicRepository(ResurgamContext dbContext) : base(dbContext)
+        public TopicRepository(AKSContext dbContext) : base(dbContext)
         {
 
         }

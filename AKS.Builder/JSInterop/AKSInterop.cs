@@ -1,5 +1,4 @@
 ﻿using Microsoft.JSInterop;
-using AKS.Infrastructure.ViewModels;
 using System;
 using System.Collections.Generic;
 using System.Linq;

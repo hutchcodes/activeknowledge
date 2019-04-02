@@ -25,8 +25,8 @@ namespace AKS.Api
                 var loggerFactory = services.GetRequiredService<ILoggerFactory>();
                 try
                 {
-                    var resurgamContext = services.GetRequiredService<ResurgamContext>();
-                    ResurgamContextSeed.SeedAsync(resurgamContext, loggerFactory).Wait();
+                    var aksContext = services.GetRequiredService<AKSContext>();
+                    AKSContextSeed.SeedAsync(aksContext, loggerFactory).Wait();
                     var securityContext = services.GetRequiredService<SecurityContext>();
                     SecurityContextSeed.SeedAsync(securityContext, loggerFactory).Wait();
                 }
@@ -40,8 +40,10 @@ namespace AKS.Api
             host.Run();
         }
 
-        public static IWebHostBuilder CreateWebHostBuilder(string[] args) =>
-            WebHost.CreateDefaultBuilder(args)
-                .UseStartup<Startup>();
+        public static IWebHostBuilder CreateWebHostBuilder(string[] args)
+        {
+            return WebHost.CreateDefaultBuilder(args)
+                            .UseStartup<Startup>();
+        }
     }
 }

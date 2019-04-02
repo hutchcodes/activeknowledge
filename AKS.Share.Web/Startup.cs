@@ -14,16 +14,16 @@ using AKS.AppCore.Interfaces;
 using AKS.Infrastructure.Blobs;
 using AKS.Infrastructure.Data;
 using AKS.Infrastructure.Data.Security;
-using Resurgam.Admin.Web.Caching;
+using AKS.Share.Web.Caching;
 using AKS.Infrastructure.Interfaces;
 using AKS.Infrastructure.Services;
 using System;
 using System.Text;
 using System.Threading.Tasks;
-using Resurgam.Admin.Web.Security;
+using AKS.Share.Web.Security;
 using AKS.AppCore.Entities;
 
-namespace Resurgam.Admin.Web
+namespace AKS.Share.Web
 {
     public class Startup
     {
@@ -130,8 +130,8 @@ namespace Resurgam.Admin.Web
         public void ConfigureTestingServices(IServiceCollection services)
         {
             // use in-memory database
-            services.AddDbContext<ResurgamContext>(c =>
-                c.UseSqlServer(Configuration.GetConnectionString("ResurgamContext")));
+            services.AddDbContext<AKSContext>(c =>
+                c.UseSqlServer(Configuration.GetConnectionString("AKSContext")));
 
             services.AddDbContext<SecurityContext>(c =>
                 c.UseInMemoryDatabase("SecurityDB"));
@@ -142,13 +142,13 @@ namespace Resurgam.Admin.Web
         public void ConfigureProductionServices(IServiceCollection services)
         {
             // use real database
-            services.AddDbContext<ResurgamContext>(c =>
+            services.AddDbContext<AKSContext>(c =>
             {
                 try
                 {
                     // Requires LocalDB which can be installed with SQL Server Express 2016
                     // https://www.microsoft.com/en-us/download/details.aspx?id=54284
-                    c.UseSqlServer(Configuration.GetConnectionString("ResurgamContext"));
+                    c.UseSqlServer(Configuration.GetConnectionString("AKSContext"));
                 }
                 catch (System.Exception ex)
                 {

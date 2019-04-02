@@ -8,13 +8,13 @@ using Microsoft.Net.Http.Headers;
 using AKS.AppCore.Enums;
 using AKS.AppCore.Interfaces;
 
-namespace Resurgam.Admin.Web.Api
+namespace AKS.Share.Web.Api
 {
     //[RoutePrefix("api/[controller]")]
     [ApiController]
     public class ContentDocumentController : ControllerBase
     {
-        private IFileStorageRepository _fileStorage;
+        private readonly IFileStorageRepository _fileStorage;
 
         public ContentDocumentController(IFileStorageRepository fileStorage)
         {

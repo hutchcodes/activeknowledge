@@ -6,9 +6,9 @@ using AKS.Infrastructure.Interfaces;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.RazorPages;
 
-namespace Resurgam.Admin.Web.Pages
+namespace AKS.Share.Web.Pages
 {
-    public class PageWithHeaderModel : ResurgamPage
+    public class PageWithHeaderModel : AKSPage
     {
         public PageWithHeaderModel(IHeaderService headerService) : base(headerService) { }
         public void OnGet()

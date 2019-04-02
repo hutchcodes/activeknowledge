@@ -2,18 +2,18 @@ using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
-using Microsoft.AspNetCore.Components;
+using AKS.Common.Models;
 using AKS.Infrastructure.Interfaces;
-using AKS.Infrastructure.ViewModels;
+using Microsoft.AspNetCore.Components;
 
 namespace AKS.Builder.Shared
 {
     public class TopicSearchModel : ComponentBase
     {
         [Inject]
-        protected ITopicService _topicService { get; set; }
+        protected ITopicService TopicService { get; set; }
 
-        protected List<TopicListViewModel> Topics { get; set; }
+        protected List<TopicList> Topics { get; set; }
 
         [Parameter]
         protected bool ShowSearch { get; set; } = false;
@@ -21,10 +21,10 @@ namespace AKS.Builder.Shared
         protected bool ShowTopicSelected { get; set; } = false;
 
         [Parameter]
-        protected Action<List<TopicListViewModel>> DoSomethingAction { get; set; }
+        protected Action<List<TopicList>> DoSomethingAction { get; set; }
 
         [Parameter]
-        protected Func<List<TopicListViewModel>, Task> DeleteTopicFunc { get; set; }
+        protected Func<List<TopicList>, Task> DeleteTopicFunc { get; set; }
 
         [Parameter]
         protected Guid? CustomerId { get; set; }
@@ -46,14 +46,14 @@ namespace AKS.Builder.Shared
             {
                 if (string.IsNullOrWhiteSpace(SearchString))
                 {
-                    Topics = await _topicService.GetTopicListForProject(ProjectId.Value);
+                    Topics = await TopicService.GetTopicListForProject(ProjectId.Value);
                 }
                 else
                 {
-                    Topics = await _topicService.SearchTopics(ProjectId.Value, CategoryId, SearchString);
+                    Topics = await TopicService.SearchTopics(ProjectId.Value, CategoryId, SearchString);
                 }
             }
-            this.StateHasChanged();
+            StateHasChanged();
         }
 
         protected void DoSomething()

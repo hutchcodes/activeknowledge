@@ -13,7 +13,7 @@ using Microsoft.EntityFrameworkCore;
 using AKS.AppCore.Entities;
 using AKS.Infrastructure.Data.Security;
 
-namespace Resurgam.Admin.Web
+namespace AKS.Share.Web
 {
     public class Program
     {
@@ -27,8 +27,8 @@ namespace Resurgam.Admin.Web
                 var loggerFactory = services.GetRequiredService<ILoggerFactory>();
                 try
                 {
-                    var resurgamContext = services.GetRequiredService<ResurgamContext>();
-                    ResurgamContextSeed.SeedAsync(resurgamContext, loggerFactory).Wait();
+                    var aksContext = services.GetRequiredService<AKSContext>();
+                    AKSContextSeed.SeedAsync(aksContext, loggerFactory).Wait();
                     var securityContext = services.GetRequiredService<SecurityContext>();
                     SecurityContextSeed.SeedAsync(securityContext, loggerFactory).Wait();
                 }
@@ -42,9 +42,11 @@ namespace Resurgam.Admin.Web
             host.Run();
         }
 
-        public static IWebHostBuilder CreateWebHostBuilder(string[] args) =>
-            WebHost.CreateDefaultBuilder(args)
-                .UseApplicationInsights()
-                .UseStartup<Startup>();
+        public static IWebHostBuilder CreateWebHostBuilder(string[] args)
+        {
+            return WebHost.CreateDefaultBuilder(args)
+                            .UseApplicationInsights()
+                            .UseStartup<Startup>();
+        }
     }
 }
