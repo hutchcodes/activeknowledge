@@ -1,5 +1,5 @@
 ﻿using Microsoft.JSInterop;
-using Resurgam.Infrastructure.ViewModels;
+using AKS.Infrastructure.ViewModels;
 using System;
 using System.Collections.Generic;
 using System.Linq;

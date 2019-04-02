@@ -1,8 +1,8 @@
 ﻿using Microsoft.AspNetCore.Components;
 using Microsoft.JSInterop;
 using AKS.Builder.Shared;
-using Resurgam.Infrastructure.Interfaces;
-using Resurgam.Infrastructure.ViewModels;
+using AKS.Infrastructure.Interfaces;
+using AKS.Infrastructure.ViewModels;
 using System;
 using System.Collections.Generic;
 using System.Linq;

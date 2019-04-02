@@ -1,9 +1,7 @@
-﻿using Resurgam.Infrastructure.Interfaces;
-using Resurgam.Infrastructure.ViewModels;
-using System;
-using System.Collections.Generic;
-using System.Linq;
+﻿using System;
 using System.Threading.Tasks;
+using AKS.Common.Models;
+using AKS.Infrastructure.Interfaces;
 
 namespace AKS.Builder
 {
@@ -21,8 +19,8 @@ namespace AKS.Builder
 
         public Guid ProjectId { get; private set; }
 
-        public HeaderNavViewModel HeaderNav { get; set; }
-        public CategoryTreeViewModel CategoryTree { get; set; }
+        public HeaderNavView HeaderNav { get; set; }
+        public CategoryTreeView CategoryTree { get; set; }
 
         public async Task LoadProjectInfo(Guid projectId)
         {

@@ -1,0 +1,92 @@
+﻿
+@model AKS.Infrastructure.ViewModels.TopicDisplayViewModel
+@addTagHelper *, Microsoft.AspNetCore.Mvc.TagHelpers
+
+@{
+    @*int counter = 0;
+        <ul class="nav nav-tabs" id="myTab" role="tablist">
+            @foreach (var element in Model.CollectionElements)
+            {
+                counter++;
+                <li class="nav-item">
+                    <a class="nav-item nav-link @(counter==1 ? "active":"")" id="nav-home-tab" href="@($"#e{element.CollectionElementId}")" data-toggle="tab" role="tab" aria-controls="@element.CollectionElementName" aria-selected="@(counter==1 ? "true":"false")">@element.CollectionElementName</a>
+                </li>
+            }
+        </ul>
+
+        counter = 0;
+        <div class="tab-content" id="nav-tabContent">
+            @foreach (var element in Model.CollectionElements)
+            {
+                counter++;
+                <div class="tab-pane @(counter==1 ? "show active":"")" id="@element.CollectionElementName" role="tabpanel" aria-labelledby="@element.CollectionElementName">
+                    @foreach (var topic in element.Topics)
+                    {
+
+                        var topicLink = $"/topic/{topic.ProjectId}/{topic.TopicId}";
+                        <div><a href="@topicLink">@topic.TopicName</a></div>
+                    }
+                </div>
+            }
+        </div>*@
+}
+
+<!-- Nav tabs
+<ul class="nav nav-tabs" id="myTab" role="tablist">
+    <li class="nav-item">
+        <a class="nav-link active" id="home-tab" data-toggle="tab" href="#home" role="tab" aria-controls="home" aria-selected="true">Home</a>
+    </li>
+    <li class="nav-item">
+        <a class="nav-link" id="profile-tab" data-toggle="tab" href="#profile" role="tab" aria-controls="profile" aria-selected="false">Profile</a>
+    </li>
+    <li class="nav-item">
+        <a class="nav-link" id="messages-tab" data-toggle="tab" href="#messages" role="tab" aria-controls="messages" aria-selected="false">Messages</a>
+    </li>
+    <li class="nav-item">
+        <a class="nav-link" id="settings-tab" data-toggle="tab" href="#settings" role="tab" aria-controls="settings" aria-selected="false">Settings</a>
+    </li>
+</ul>
+
+<!-- Tab panes
+<div class="tab-content">
+    <div class="tab-pane active" id="home" role="tabpanel" aria-labelledby="home-tab">.home.</div>
+    <div class="tab-pane" id="profile" role="tabpanel" aria-labelledby="profile-tab">.profile..</div>
+    <div class="tab-pane" id="messages" role="tabpanel" aria-labelledby="messages-tab">...</div>
+    <div class="tab-pane" id="settings" role="tabpanel" aria-labelledby="settings-tab">...</div>
+</div>-->
+
+    <ul class="nav nav-tabs">
+        @foreach (var element in Model.CollectionElements)
+        {
+            string isActiveTab = "";
+            if (element.CollectionElementId == Guid.NewGuid())
+            {
+                isActiveTab = "active";
+            }
+
+            string isDropDown = "";
+            if (element.Topics.Any())
+            {
+                isDropDown = "dropdown";
+            }
+        <li class="nav-item @isDropDown">
+            @if (string.IsNullOrWhiteSpace(isDropDown))
+            {
+                <a class="nav-link @isActiveTab" href="#">@element.CollectionElementName</a>
+            }
+            else
+            {
+                <a class="nav-link dropdown-toggle @isActiveTab" data-toggle="dropdown" href="#" role="button" aria-haspopup="true" aria-expanded="false">@element.CollectionElementName</a>
+            }
+            <div class="dropdown-menu">
+                @foreach (var topic in element.Topics)
+                {
+                    <a class="dropdown-item" href="#">@topic.TopicName</a>
+                }
+
+            </div>
+        </li>
+            
+            
+        }
+    </ul>

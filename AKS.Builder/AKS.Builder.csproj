@@ -25,7 +25,7 @@
 
   <ItemGroup>
     <ProjectReference Include="..\CKEditor.Blazor\CKEditor.Blazor.csproj" />
-    <ProjectReference Include="..\Resurgam.Infrastructure\Resurgam.Infrastructure.csproj" />
+    <ProjectReference Include="..\AKS.Infrastructure\AKS.Infrastructure.csproj" />
   </ItemGroup>
 
   <ItemGroup>

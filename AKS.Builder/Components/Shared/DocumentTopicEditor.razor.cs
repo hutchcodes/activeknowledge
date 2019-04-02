@@ -6,8 +6,8 @@ using System.Threading.Tasks;
 using Blazor.FileReader;
 using Microsoft.AspNetCore.Components;
 using RestSharp;
-using Resurgam.Infrastructure.Interfaces;
-using Resurgam.Infrastructure.ViewModels;
+using AKS.Infrastructure.Interfaces;
+using AKS.Infrastructure.ViewModels;
 
 namespace AKS.Builder.Shared
 {
@@ -64,7 +64,7 @@ namespace AKS.Builder.Shared
 
             try
             {
-                var result = await client.ExecuteTaskAsync<Resurgam.AppCore.DTO.Document>(req);
+                var result = await client.ExecuteTaskAsync<AKS.AppCore.DTO.Document>(req);
 
                 var doc = result.Data;
                 Topic.DocumentName = doc.Name;

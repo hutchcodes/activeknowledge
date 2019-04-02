@@ -3,8 +3,8 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
 using Microsoft.AspNetCore.Components;
-using Resurgam.Infrastructure.Interfaces;
-using Resurgam.Infrastructure.ViewModels;
+using AKS.Infrastructure.Interfaces;
+using AKS.Infrastructure.ViewModels;
 
 namespace AKS.Builder.Shared
 {

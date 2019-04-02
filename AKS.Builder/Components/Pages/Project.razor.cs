@@ -1,8 +1,8 @@
 ﻿using AKS.Builder.Components.Shared;
 using AKS.Builder.Shared;
 using Microsoft.AspNetCore.Components;
-using Resurgam.Infrastructure.Interfaces;
-using Resurgam.Infrastructure.ViewModels;
+using AKS.Infrastructure.Interfaces;
+using AKS.Infrastructure.ViewModels;
 using System;
 using System.Collections.Generic;
 using System.Linq;
