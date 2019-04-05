@@ -13,7 +13,7 @@
         @foreach (var t in CategoryTreeViewModel.Topics)
         {
             <li>
-                <a href='@($"edit/topic/{t.ProjectId}/{t.TopicId}")'>@t.TopicName</a>
+                <a href='@($"edit/topic/{t.ProjectId}/{t.TopicId}")'>@t.Title</a>
             </li>
         }
     </ul>

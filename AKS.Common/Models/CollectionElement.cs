@@ -9,7 +9,7 @@ namespace AKS.Common.Models
     {
         public Guid ProjectId { get; set; }
         public Guid CollectionElementId { get; set; }
-        public string CollectionElementName { get; set; }
-        public List<TopicView> Topics { get; } = new List<TopicView>();
+        public string Name { get; set; }
+        public List<TopicView> ElementTopics { get; set; } = new List<TopicView>();
     }
 }

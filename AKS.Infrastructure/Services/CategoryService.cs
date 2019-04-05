@@ -51,8 +51,8 @@ namespace AKS.Infrastructure.Services
                         {
                             ProjectId = top.ProjectId,
                             TopicId = top.TopicId,
-                            TopicName = top.Topic.Name,
-                            TopicDescription = top.Topic.Description
+                            Title = top.Topic.Title,
+                            Description = top.Topic.Description
                         }
                     );
                 }

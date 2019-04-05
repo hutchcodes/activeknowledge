@@ -59,7 +59,7 @@
                         <span class="caret">Category</span>
                         <ul class="nested">
                             <li>
-                                <a href="#"><i class="icon-file-text"></i>Topic</a></a>
+                                <a href="#"><i class="icon-file-text"></i>Topic</a>
                             </li>
                         </ul>
                     </li>
@@ -137,12 +137,12 @@
                     {
                         <tr>
                             <td>
-                                <a asp-page="\Topic" asp-route-projectId="@topic.ProjectId" asp-route-topicId="@topic.TopicId">@topic.TopicName</a>
+                                <a asp-page="\Topic" asp-route-projectId="@topic.ProjectId" asp-route-topicId="@topic.TopicId">@topic.Title</a>
                             </td>
                             <td>
                                 <a href="#" class="text-secondary">
                                     <i class="icon-info" data-toggle="tooltip"
-                                       title="Description: @topic.TopicDesription"></i>
+                                       title="Description: @topic.Description"></i>
                                 </a>
                             </td>
                             <td>3</td>

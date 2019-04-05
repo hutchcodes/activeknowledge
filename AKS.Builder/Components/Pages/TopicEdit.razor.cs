@@ -42,7 +42,7 @@ namespace AKS.Builder.Pages
         {
             if (ContentEditor?.TopicContentEditor != null)
             {
-                Topic.TopicContent = await ContentEditor.TopicContentEditor.GetEditorText();
+                Topic.Content = await ContentEditor.TopicContentEditor.GetEditorText();
             }
             await TopicService.SaveTopic(Topic);
         }
@@ -54,7 +54,7 @@ namespace AKS.Builder.Pages
 
         protected void ContentChangeHandler(string newContent)
         {
-            Topic.TopicContent = newContent;
+            Topic.Content = newContent;
         }
     }
 }

@@ -9,6 +9,6 @@ namespace AKS.Common.Models
     {
         public Guid ProjectId { get; set; }
         public Guid TagId { get; set; }
-        public string TagName { get; set; }
+        public string Name { get; set; }
     }
 }

@@ -1,4 +1,4 @@
-﻿<Project Sdk="Microsoft.NET.Sdk">
+<Project Sdk="Microsoft.NET.Sdk">
 
   <PropertyGroup>
     <TargetFramework>netcoreapp2.1</TargetFramework>
@@ -7,13 +7,14 @@
   </PropertyGroup>
 
   <ItemGroup>
+    <PackageReference Include="AutoMapper" Version="8.0.0" />
+    <PackageReference Include="AutoMapper.Collection" Version="5.0.0" />
+    <PackageReference Include="nunit" Version="3.11.0" />
+    <PackageReference Include="NUnit3TestAdapter" Version="3.13.0" />
     <PackageReference Include="Microsoft.NET.Test.Sdk" Version="16.0.1" />
-    <PackageReference Include="MSTest.TestAdapter" Version="1.4.0" />
-    <PackageReference Include="MSTest.TestFramework" Version="1.4.0" />
   </ItemGroup>
 
   <ItemGroup>
-    <ProjectReference Include="..\AKS.AppCore\AKS.AppCore.csproj" />
     <ProjectReference Include="..\AKS.Infrastructure\AKS.Infrastructure.csproj" />
   </ItemGroup>
 

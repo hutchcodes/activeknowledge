@@ -6,7 +6,7 @@
         @if (Model.CustomerId != Guid.Empty)
         {
             <a asp-page="/Customer" asp-route-customerId="@Model.CustomerId" class="navbar-brand">
-                <img src="/api/customerlogo/@Model.CustomerId/@Model.CustomerLogoURL" alt="@Model.CustomerName" style="max-height:40px;margin-top:2px;" />
+                <img src="/api/customerlogo/@Model.CustomerId/@Model.CustomerLogo" alt="@Model.CustomerName" style="max-height:40px;margin-top:2px;" />
             </a>
         }
         @*@if (Model.ProjectId.HasValue)

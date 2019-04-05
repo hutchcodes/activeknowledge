@@ -49,7 +49,7 @@ namespace AKS.Builder.Pages
 
         protected async Task SaveNewTopic()
         {
-            if (string.IsNullOrWhiteSpace(NewTopic.TopicName))
+            if (string.IsNullOrWhiteSpace(NewTopic.Title))
             {
                 return;
             }

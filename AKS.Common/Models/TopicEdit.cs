@@ -11,9 +11,9 @@ namespace AKS.Common.Models
         public Guid ProjectId { get; set; }
         public Guid TopicId { get; set; }
         public int TopicTypeID { get; set; }
-        public string TopicName { get; set; }
-        public string TopicDescription { get; set; }
-        public string TopicContent { get; set; }
+        public string Title { get; set; }
+        public string Description { get; set; }
+        public string Content { get; set; }
         public string DocumentName { get; set; }
         public bool IsSelected { get; set; }
 
@@ -48,13 +48,13 @@ namespace AKS.Common.Models
 
         private void CleanTopicContent()
         {
-            if (string.IsNullOrWhiteSpace(TopicContent))
+            if (string.IsNullOrWhiteSpace(Content))
             {
                 return;
             }
-            var topicContent = TopicContent.Replace("{{projectId}}", ProjectId.ToString());
+            var topicContent = Content.Replace("{{projectId}}", ProjectId.ToString());
 
-            TopicContent = topicContent;
+            Content = topicContent;
         }
     }
 }

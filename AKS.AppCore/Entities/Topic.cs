@@ -11,25 +11,25 @@ namespace AKS.AppCore.Entities
         public Guid TopicId { get; set; }
         public Guid ProjectId { get; set; }
         public int TopicTypeId { get; set; }
-        public string Name { get; set; }
+        public string Title { get; set; }
         public string Description { get; set; }
         public Guid? ImageResourceId { get; set; }
-        public string TopicContent { get; set; }
+        public string Content { get; set; }
         public Guid? FileResourceId { get; set; }
         public string DocumentName { get; set; }
 
         public Guid? DefaultCategoryId { get; set; }
 
         private readonly List<Tag> _tags = new List<Tag>();
-        public IReadOnlyCollection<Tag> Tags => _tags.AsReadOnly();
+        public List<Tag> Tags => _tags;//.AsReadOnly();
         public void AddTag(Guid tagId, string tagName)
         {
-            if (!_tags.Any(new TagFilterSpecification(this.ProjectId, tagId).CompiledCriteria))
+            if (!_tags.Any(new TagFilterSpecification(ProjectId, tagId).CompiledCriteria))
             {
                 _tags.Add(new Tag()
                 {
                     TagId = tagId,
-                    ProjectId = this.ProjectId,
+                    ProjectId = ProjectId,
                     Name = tagName,
                 });
                 return;
@@ -37,7 +37,7 @@ namespace AKS.AppCore.Entities
         }
         public void RemoveTag(Guid tagId)
         {
-            var tag = _tags.FirstOrDefault(new TagFilterSpecification(this.ProjectId, tagId).CompiledCriteria);
+            var tag = _tags.FirstOrDefault(new TagFilterSpecification(ProjectId, tagId).CompiledCriteria);
             if (tag != null)
             {
                 _tags.Remove(tag);

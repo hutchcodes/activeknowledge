@@ -11,18 +11,18 @@ else
 {
     @*<partial name="Partials/CategoryTree" model="Model.CategoryTree" />*@
 
-    <h2 bind="@Topic.TopicName"></h2>
+    <h2 bind="@Topic.Title"></h2>
 
     <fieldset>
         <div class="row">
             <div class="col-sm-4'">
                 <div class="form-group">
                     <label for="topic-title">Topic Name</label>
-                    <input type="text" id="topic-title" size="50" bind="@Topic.TopicName" />
+                    <input type="text" id="topic-title" size="50" bind="@Topic.Title" />
                 </div>
                 <div class="form-group">
                     <label for="topic-desc">Topic Description</label>
-                    <input type="text" id="topic-desc" size="50" bind="@Topic.TopicDescription" />
+                    <input type="text" id="topic-desc" size="50" bind="@Topic.Description" />
                 </div>
             </div>
             <div class="col-sm-4'"></div>

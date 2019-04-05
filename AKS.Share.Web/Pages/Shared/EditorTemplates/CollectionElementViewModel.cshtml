@@ -3,13 +3,13 @@
 <div style="border: 1px solid blue">
     @Html.HiddenFor(x => x.ProjectId)
     @Html.HiddenFor(x => x.CollectionElementId)
-    @Html.EditorFor(x => x.CollectionElementName)
+    @Html.EditorFor(x => x.Name)
 
-    @foreach(var t in Model.Topics)
+    @foreach(var t in Model.ElementTopics)
     {
     <div>
-        @Html.RouteLink(t.TopicName, "topic", new { projectId = t.ProjectId, topicId = t.TopicId} )
+        @Html.RouteLink(t.Title, "topic", new { projectId = t.ProjectId, topicId = t.TopicId} )
     </div>
     }
-    @Html.EditorFor(x=> x.Topics)
+    @Html.EditorFor(x=> x.ElementTopics)
 </div>

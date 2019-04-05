@@ -32,7 +32,7 @@ namespace AKS.Infrastructure.Services
 
             var topicsVM = new List<TopicList>();
 
-            topicsVM.AddRange(topics.ConvertAll(x => new TopicList { ProjectId = x.ProjectId, TopicId = x.TopicId, TopicName = x.Name, TopicDesription = x.Description } ));
+            topicsVM.AddRange(topics.ConvertAll(x => new TopicList { ProjectId = x.ProjectId, TopicId = x.TopicId, Title = x.Title, Description = x.Description } ));
 
             return topicsVM;
         }
@@ -44,22 +44,22 @@ namespace AKS.Infrastructure.Services
 
             foreach (var tag in topic.Tags)
             {
-                topicVM.Tags.Add(new Common.Models.Tag { ProjectId = tag.ProjectId, TagId = tag.TagId, TagName = tag.Name });
+                topicVM.Tags.Add(new Common.Models.Tag { ProjectId = tag.ProjectId, TagId = tag.TagId, Name = tag.Name });
             }
 
             foreach (var rt in topic.RelatedToTopics)
             {
-                topicVM.RelatedTopics.Add(new TopicLink { ProjectId = rt.ProjectId, TopicId = rt.ChildTopicId, TopicName = rt.ChildTopic.Name, TopicDescription = rt.ChildTopic.Description });
+                topicVM.RelatedTopics.Add(new TopicLink { ProjectId = rt.ProjectId, TopicId = rt.ChildTopicId, Title = rt.ChildTopic.Title, Description = rt.ChildTopic.Description });
             }
 
             foreach (var elm in topic.CollectionElements)
             {
-                var elemant = new Common.Models.CollectionElement { ProjectId = elm.ProjectId, CollectionElementId = elm.CollectionElementId, CollectionElementName = elm.Name };
+                var elemant = new Common.Models.CollectionElement { ProjectId = elm.ProjectId, CollectionElementId = elm.CollectionElementId, Name = elm.Name };
                 topicVM.CollectionElements.Add(elemant);
 
                 foreach (var top in elm.ElementTopics)
                 {
-                    elemant.Topics.Add(CreateTopicView(top));
+                    elemant.ElementTopics.Add(CreateTopicView(top));
                 }
             }
 
@@ -71,11 +71,11 @@ namespace AKS.Infrastructure.Services
             return new TopicView
             {
                 TopicId = topic.TopicId,
-                TopicName = topic.Name,
-                TopicDescription = topic.Description,
-                TopicTypeID = topic.TopicTypeId,
+                Title = topic.Title,
+                Description = topic.Description,
+                TopicTypeId = topic.TopicTypeId,
                 ProjectId = topic.ProjectId,
-                Content = topic.TopicContent,
+                Content = topic.Content,
                 DocumentName = topic.DocumentName,
             };
         }
@@ -88,32 +88,32 @@ namespace AKS.Infrastructure.Services
             var topicVM = new TopicEdit
             {
                 TopicId = topic.TopicId,
-                TopicName = topic.Name,
-                TopicDescription = topic.Description,
+                Title = topic.Title,
+                Description = topic.Description,
                 TopicTypeID = topic.TopicTypeId,
                 ProjectId = topic.ProjectId,
-                TopicContent = topic.TopicContent,
+                Content = topic.Content,
                 DocumentName = topic.DocumentName,
             };
 
             foreach (var tag in topic.Tags)
             {
-                topicVM.Tags.Add(new Common.Models.Tag { ProjectId = tag.ProjectId, TagId = tag.TagId, TagName = tag.Name });
+                topicVM.Tags.Add(new Common.Models.Tag { ProjectId = tag.ProjectId, TagId = tag.TagId, Name = tag.Name });
             }
 
             foreach (var rt in topic.RelatedToTopics)
             {
-                topicVM.RelatedTopics.Add(new TopicLink { ProjectId = rt.ProjectId, TopicId = rt.ChildTopicId, TopicName = rt.ChildTopic.Name, TopicDescription = rt.ChildTopic.Description });
+                topicVM.RelatedTopics.Add(new TopicLink { ProjectId = rt.ProjectId, TopicId = rt.ChildTopicId, Title = rt.ChildTopic.Title, Description = rt.ChildTopic.Description });
             }
 
             foreach (var elm in topic.CollectionElements)
             {
-                var elemant = new Common.Models.CollectionElement { ProjectId = elm.ProjectId, CollectionElementId = elm.CollectionElementId, CollectionElementName = elm.Name };
+                var elemant = new Common.Models.CollectionElement { ProjectId = elm.ProjectId, CollectionElementId = elm.CollectionElementId, Name = elm.Name };
                 topicVM.CollectionElements.Add(elemant);
 
                 foreach (var top in elm.ElementTopics)
                 {
-                    elemant.Topics.Add(CreateTopicView(top));
+                    elemant.ElementTopics.Add(CreateTopicView(top));
                 }
             }
 
@@ -127,7 +127,7 @@ namespace AKS.Infrastructure.Services
 
             var topicsVM = new List<TopicList>();
 
-            topicsVM.AddRange(topics.ConvertAll(x => new TopicList { ProjectId = x.ProjectId, TopicId = x.TopicId, TopicName = x.Name, TopicDesription = x.Description }));
+            topicsVM.AddRange(topics.ConvertAll(x => new TopicList { ProjectId = x.ProjectId, TopicId = x.TopicId, Title = x.Title, Description = x.Description }));
 
             return topicsVM;
         }

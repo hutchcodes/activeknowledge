@@ -26,14 +26,14 @@
     <partial name="Partials/CategoryTree" model="Model.CategoryTree" />
 
     <div id="tocContent" role="document" class="col">
-        <h1>@Model.Topic.TopicName</h1>
+        <h1>@Model.Topic.Title</h1>
         <p class="description">
-            @Model.Topic.TopicDescription
+            @Model.Topic.Description
         </p>
         <div class="tags">
             @foreach (var tag in Model.Topic.Tags)
             {
-                <a href="#" class="item"><i class="icon-tag"></i>@tag.TagName</a>
+                <a href="#" class="item"><i class="icon-tag"></i>@tag.Name</a>
             }
             <a href="#" class="item"><i class="icon-tag"></i>Tag word</a>
             <a href="#" class="item"><i class="icon-tag"></i>Tag word</a>
@@ -41,7 +41,7 @@
         </div>
 
         @{
-            switch (Model.Topic.TopicTypeID)
+            switch (Model.Topic.TopicTypeId)
             {
                 case 1:
                     <partial name="Partials/Topic/ContentTopic" model="Model.Topic" />
@@ -63,8 +63,8 @@
                     {
                         var topicLink = $"/topic/{rt.ProjectId}/{rt.TopicId}";
                         <div>
-                            <a href="@topicLink">@rt.TopicName</a>
-                            <li><a href="@topicLink" class="d-block text-truncate"><i class="icon-arrow-right"></i>@rt.TopicName</a></li>
+                            <a href="@topicLink">@rt.Title</a>
+                            <li><a href="@topicLink" class="d-block text-truncate"><i class="icon-arrow-right"></i>@rt.Title</a></li>
                         </div>
                     }
                     <li><a href="#" class="d-block text-truncate"><i class="icon-arrow-right"></i>Lorem ipsum dolor sit amet, consectetur adipiscing elit. Nullam id dolor id nibh ultricies vehicula ut id elit</a></li>

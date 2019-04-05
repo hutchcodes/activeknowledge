@@ -5,7 +5,7 @@
 <TabSet>
     @foreach (var element in Topic.CollectionElements)
     {
-    <Tab Title="@element.CollectionElementName" ShowDelete="true" Delete="@(()=>DeleteElement(element))">
+    <Tab Title="@element.Name" ShowDelete="true" Delete="@(()=>DeleteElement(element))">
         <table class="table">
             <thead>
                 <tr>
@@ -16,12 +16,12 @@
                 </tr>
             </thead>
             <tbody>
-                @foreach (var topic in element.Topics)
+                @foreach (var topic in element.ElementTopics)
                 {
                     <tr>
                         <td><button onclick="@(() => RemoveTopic(element, topic))">Delete</button></td>
-                        <td><a href='@($"/edit/topic/{topic.ProjectId}/{topic.TopicId}")'>@topic.TopicName </a></td>
-                        <td>@topic.TopicDescription</td>
+                        <td><a href='@($"/edit/topic/{topic.ProjectId}/{topic.TopicId}")'>@topic.Title </a></td>
+                        <td>@topic.Description</td>
                     </tr>
                 }
             </tbody>
@@ -41,7 +41,7 @@
                             <form>
                                 <div class="form-group">
                                     <label for="Name" class="control-label">Name</label>
-                                    <input for="Name" class="form-control" bind="@NewCollectionElement.CollectionElementName" />
+                                    <input for="Name" class="form-control" bind="@NewCollectionElement.Name" />
                                 </div>
                             </form>
                         </div>

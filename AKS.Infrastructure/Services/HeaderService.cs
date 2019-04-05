@@ -32,10 +32,10 @@ namespace AKS.Infrastructure.Services
             {
                 ProjectId = project.ProjectId,
                 ProjectName = project.Name,
-                ProjectLogoURL = project.LogoFileName,
+                ProjectLogo = project.LogoFileName,
                 CustomerId = project.Customer.CustomerId,
                 CustomerName = project.Customer.Name,
-                CustomerLogoURL = project.Customer.LogoFileName
+                CustomerLogo = project.Customer.LogoFileName
             };
 
             return projectVM;
@@ -50,7 +50,7 @@ namespace AKS.Infrastructure.Services
             {
                 CustomerId = customer.CustomerId,
                 CustomerName = customer.Name,
-                CustomerLogoURL = customer.LogoFileName
+                CustomerLogo = customer.LogoFileName
             };   
             
             return headerNav;

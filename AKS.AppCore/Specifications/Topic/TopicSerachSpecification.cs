@@ -10,7 +10,7 @@ namespace AKS.AppCore.Specifications
         public TopicSearchSpecification(Guid projectId, Guid? categoryId, string searchString) : 
             base(x => 
                 x.ProjectId == projectId
-                && (string.IsNullOrWhiteSpace(searchString) || x.Name.Contains(searchString) || x.Description.Contains(searchString) || x.TopicContent.Contains(searchString))
+                && (string.IsNullOrWhiteSpace(searchString) || x.Title.Contains(searchString) || x.Description.Contains(searchString) || x.Content.Contains(searchString))
             )
         {
         }

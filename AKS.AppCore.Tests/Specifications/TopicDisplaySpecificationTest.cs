@@ -24,7 +24,7 @@ namespace AKS.AppCore.Tests.Specifications
             {
                 new Topic {ProjectId = projectId, TopicId = topicId},
                 new Topic {ProjectId = new Guid(12, 0, 0, new byte[8]), TopicId = topicId},
-                new Topic {ProjectId = projectId, TopicId = topicId}
+                new Topic {ProjectId = new Guid(13, 0, 0, new byte[8]), TopicId = topicId}
             };
 
             var spec = new TopicDisplaySpecification(projectId, topicId);

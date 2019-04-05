@@ -20,7 +20,7 @@
                         foreach (var topic in cat.Topics)
                         {
                             var topicLink = $"/topic/{topic.ProjectId}/{topic.TopicId}";
-                            <li><a href="@topicLink"><i class="icon-file-text"></i>@topic.TopicName</a></li>
+                            <li><a href="@topicLink"><i class="icon-file-text"></i>@topic.Title</a></li>
                         }
                     }
                 </ul>

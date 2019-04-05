@@ -28,7 +28,7 @@ namespace AKS.Infrastructure.Services
 
             var projectsVM = new List<ProjectList>();
 
-            projectsVM.AddRange(projects.ConvertAll(x => new ProjectList() { ProjectId = x.ProjectId, ProjectName = x.Name }));
+            projectsVM.AddRange(projects.ConvertAll(x => new ProjectList() { ProjectId = x.ProjectId, Name = x.Name }));
 
             return projectsVM;
         }

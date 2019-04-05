@@ -9,14 +9,14 @@ namespace AKS.Common.Models
     {
         public Guid ProjectId { get; set; }
         public Guid TopicId { get; set; }
-        public int TopicTypeID { get; set; }
-        public string TopicName { get; set; }
-        public string TopicDescription { get;set; }
+        public int TopicTypeId { get; set; }
+        public string Title  { get; set; }
+        public string Description { get; set; }
         public string DocumentName { get; set; }
         public string Content { get; set; }
 
         public List<TopicLink> RelatedTopics { get; } = new List<TopicLink>();
-        public List<Tag> Tags { get; } = new List<Tag>();
+        public List<Tag> Tags { get; set; } = new List<Tag>();
         public List<CollectionElement> CollectionElements { get; } = new List<CollectionElement>();
 
         private void CleanTopicContent()

@@ -19,9 +19,19 @@ namespace AKS.Infrastructure.Data
         {
         }
 
+        public AKSContext()
+        {
+                
+        }
+
         protected override void OnConfiguring(DbContextOptionsBuilder optionsBuilder)
         {
+
             //optionsBuilder.UseLoggerFactory(_myConsoleLoggerFactory);
+            if (!optionsBuilder.IsConfigured)
+            {
+                optionsBuilder.UseInMemoryDatabase("AKS_InMem");
+            }
 #if DEBUG
             optionsBuilder.EnableSensitiveDataLogging(true);
 #endif
@@ -144,7 +154,7 @@ namespace AKS.Infrastructure.Data
         {
             builder.ToTable("Topic");
 
-            builder.Property(x => x.Name)
+            builder.Property(x => x.Title)
                .IsRequired()
                .HasMaxLength(50);
 

@@ -12,23 +12,23 @@
             }
 
             string isDropDown = "";
-            if (element.Topics.Any())
+            if (element.ElementTopics.Any())
             {
                 isDropDown = "dropdown";
             }
         <li class="nav-item @isDropDown">
             @if (string.IsNullOrWhiteSpace(isDropDown))
             {
-                <a class="nav-link @isActiveTab" href="#">@element.CollectionElementName</a>
+                <a class="nav-link @isActiveTab" href="#">@element.Name</a>
             }
             else
             {
-                <a class="nav-link dropdown-toggle @isActiveTab" data-toggle="dropdown" href="#" role="button" aria-haspopup="true" aria-expanded="false">@element.CollectionElementName</a>
+                <a class="nav-link dropdown-toggle @isActiveTab" data-toggle="dropdown" href="#" role="button" aria-haspopup="true" aria-expanded="false">@element.Name</a>
             }
             <div class="dropdown-menu">
-                @foreach (var topic in element.Topics)
+                @foreach (var topic in element.ElementTopics)
                 {
-                    <a class="dropdown-item" href="#">@topic.TopicName</a>
+                    <a class="dropdown-item" href="#">@topic.Title</a>
                 }
 
             </div>
