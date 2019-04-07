@@ -1,11 +1,13 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Linq;
 using System.Threading.Tasks;
 using AKS.AppCore.Entities;
 using AKS.AppCore.Interfaces;
 using AKS.AppCore.Specifications;
 using AKS.Common.Models;
 using AKS.Infrastructure.Interfaces;
+using AutoMapper;
 using Microsoft.Extensions.Logging;
 
 namespace AKS.Infrastructure.Services
@@ -27,44 +29,12 @@ namespace AKS.Infrastructure.Services
             var spec = new CategoryListSpecification(projectId);
             var categories = await _categoryRepo.ListAsync(spec);
 
-            var catTree = new CategoryTreeView();
-
-            catTree = BuildTree(catTree, categories);
-
-            return catTree;
-        }
-
-        private CategoryTreeView BuildTree(CategoryTreeView catTree, IEnumerable<Category> categories)
-        {
-            foreach (var cat in categories)
+            var catTree = new CategoryTreeView
             {
-                var subCatTree = new CategoryTreeView
-                {
-                    CategoryId = cat.CategoryId,
-                    CategoryName = cat.Name
-                };
-
-                foreach (var top in cat.Topics)
-                {
-                    catTree.Topics.Add(
-                        new TopicLink
-                        {
-                            ProjectId = top.ProjectId,
-                            TopicId = top.TopicId,
-                            Title = top.Topic.Title,
-                            Description = top.Topic.Description
-                        }
-                    );
-                }
-
-                subCatTree = BuildTree(subCatTree, cat.Categories);
-
-                catTree.Categories.Add(subCatTree);
-            }            
+                Categories = Mapper.Map<List<CategoryTreeView>>(categories)
+            };
 
             return catTree;
         }
-
-
     }
 }

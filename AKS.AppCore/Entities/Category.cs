@@ -25,7 +25,7 @@ namespace AKS.AppCore.Entities
         }
 
         private readonly List<CategoryTopic> _topics = new List<CategoryTopic>();
-        public IReadOnlyCollection<CategoryTopic> Topics => _topics.AsReadOnly();
+        public List<CategoryTopic> Topics => _topics;
         public void AddReferencedTopic(Guid topicId, int order)
         {
             if (!_topics.Any(GetCategoryTopicByTopicIdSpec(topicId)))

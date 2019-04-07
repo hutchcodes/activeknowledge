@@ -1,11 +1,13 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Linq;
 using System.Threading.Tasks;
 using AKS.AppCore.Entities;
 using AKS.AppCore.Interfaces;
 using AKS.AppCore.Specifications;
 using AKS.Common.Models;
 using AKS.Infrastructure.Interfaces;
+using AutoMapper;
 using Microsoft.Extensions.Logging;
 
 namespace AKS.Infrastructure.Services
@@ -26,11 +28,7 @@ namespace AKS.Infrastructure.Services
             var spec = new ProjectListSpecification(customerId);
             var projects = await _projectRepo.ListAsync(spec);
 
-            var projectsVM = new List<ProjectList>();
-
-            projectsVM.AddRange(projects.ConvertAll(x => new ProjectList() { ProjectId = x.ProjectId, Name = x.Name }));
-
-            return projectsVM;
+            return Mapper.Map<List<ProjectList>>(projects);
         }
     }
 }

@@ -5,6 +5,7 @@ using AKS.AppCore.Interfaces;
 using AKS.AppCore.Specifications;
 using AKS.Common.Models;
 using AKS.Infrastructure.Interfaces;
+using AutoMapper;
 using Microsoft.Extensions.Logging;
 
 namespace AKS.Infrastructure.Services
@@ -28,17 +29,7 @@ namespace AKS.Infrastructure.Services
             var spec = new ProjectHeaderSpecification(projectId);
             var project = await _projectRepo.GetAsync(spec);
 
-            var projectVM = new HeaderNavView()
-            {
-                ProjectId = project.ProjectId,
-                ProjectName = project.Name,
-                ProjectLogo = project.LogoFileName,
-                CustomerId = project.Customer.CustomerId,
-                CustomerName = project.Customer.Name,
-                CustomerLogo = project.Customer.LogoFileName
-            };
-
-            return projectVM;
+            return Mapper.Map<HeaderNavView>(project);
         }
 
         public async Task<HeaderNavView> GetHeaderForCustomerAsync(Guid customerId)
@@ -46,14 +37,7 @@ namespace AKS.Infrastructure.Services
             var spec = new CustomerHeaderSpecification(customerId);
             var customer = await _customerRepo.GetAsync(spec);
 
-            var headerNav = new HeaderNavView()
-            {
-                CustomerId = customer.CustomerId,
-                CustomerName = customer.Name,
-                CustomerLogo = customer.LogoFileName
-            };   
-            
-            return headerNav;
+            return Mapper.Map<HeaderNavView>(customer);            
         }
     }
 }

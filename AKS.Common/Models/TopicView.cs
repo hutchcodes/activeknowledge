@@ -15,7 +15,7 @@ namespace AKS.Common.Models
         public string DocumentName { get; set; }
         public string Content { get; set; }
 
-        public List<TopicLink> RelatedTopics { get; } = new List<TopicLink>();
+        public List<TopicLink> RelatedTopics { get; set;  } = new List<TopicLink>();
         public List<Tag> Tags { get; set; } = new List<Tag>();
         public List<CollectionElement> CollectionElements { get; } = new List<CollectionElement>();
 

@@ -6,7 +6,7 @@
     foreach (var cat in Model.Categories)
     {
         <li>
-            <span class="caret">@cat.CategoryName</span>
+            <span class="caret">@cat.Name</span>
             @if (cat.Categories.Any())
             {
                 <ul class="nested">

@@ -22,6 +22,7 @@ using System.Text;
 using System.Threading.Tasks;
 using AKS.Share.Web.Security;
 using AKS.AppCore.Entities;
+using AKS.Infrastructure;
 
 namespace AKS.Share.Web
 {
@@ -32,6 +33,7 @@ namespace AKS.Share.Web
         public Startup(IConfiguration configuration)
         {
             Configuration = configuration;
+            MapperConfig.ConfigMappers();
         }
 
         public IConfiguration Configuration { get; }

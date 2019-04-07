@@ -10,6 +10,7 @@ using System.Collections.Generic;
 using System.Diagnostics;
 using System.Linq;
 using System.Threading.Tasks;
+using AutoMapper;
 
 namespace AKS.Infrastructure.Services
 {
@@ -30,54 +31,14 @@ namespace AKS.Infrastructure.Services
             var spec = new TopicSearchSpecification(projectId, categoryId, searchString);
             var topics = await _topicRepo.ListAsync(spec);
 
-            var topicsVM = new List<TopicList>();
-
-            topicsVM.AddRange(topics.ConvertAll(x => new TopicList { ProjectId = x.ProjectId, TopicId = x.TopicId, Title = x.Title, Description = x.Description } ));
-
-            return topicsVM;
+            return Mapper.Map<List<TopicList>>(topics);            
         }
         public async Task<TopicView> GetTopicForDisplay(Guid projectId, Guid topicId)
         {
             var spec = new TopicDisplaySpecification(projectId, topicId);
             var topic = await _topicRepo.GetAsync(spec);
-            var topicVM = CreateTopicView(topic);
 
-            foreach (var tag in topic.Tags)
-            {
-                topicVM.Tags.Add(new Common.Models.Tag { ProjectId = tag.ProjectId, TagId = tag.TagId, Name = tag.Name });
-            }
-
-            foreach (var rt in topic.RelatedToTopics)
-            {
-                topicVM.RelatedTopics.Add(new TopicLink { ProjectId = rt.ProjectId, TopicId = rt.ChildTopicId, Title = rt.ChildTopic.Title, Description = rt.ChildTopic.Description });
-            }
-
-            foreach (var elm in topic.CollectionElements)
-            {
-                var elemant = new Common.Models.CollectionElement { ProjectId = elm.ProjectId, CollectionElementId = elm.CollectionElementId, Name = elm.Name };
-                topicVM.CollectionElements.Add(elemant);
-
-                foreach (var top in elm.ElementTopics)
-                {
-                    elemant.ElementTopics.Add(CreateTopicView(top));
-                }
-            }
-
-            return topicVM;
-        }
-
-        private static TopicView CreateTopicView(Topic topic)
-        {
-            return new TopicView
-            {
-                TopicId = topic.TopicId,
-                Title = topic.Title,
-                Description = topic.Description,
-                TopicTypeId = topic.TopicTypeId,
-                ProjectId = topic.ProjectId,
-                Content = topic.Content,
-                DocumentName = topic.DocumentName,
-            };
+            return Mapper.Map<TopicView>(topic);            
         }
 
         public async Task<TopicEdit> GetTopicForEdit(Guid projectId, Guid topicId)
@@ -85,39 +46,7 @@ namespace AKS.Infrastructure.Services
             var spec = new TopicEditSpecification(projectId, topicId);
             var topic = await _topicRepo.GetAsync(spec);
 
-            var topicVM = new TopicEdit
-            {
-                TopicId = topic.TopicId,
-                Title = topic.Title,
-                Description = topic.Description,
-                TopicTypeID = topic.TopicTypeId,
-                ProjectId = topic.ProjectId,
-                Content = topic.Content,
-                DocumentName = topic.DocumentName,
-            };
-
-            foreach (var tag in topic.Tags)
-            {
-                topicVM.Tags.Add(new Common.Models.Tag { ProjectId = tag.ProjectId, TagId = tag.TagId, Name = tag.Name });
-            }
-
-            foreach (var rt in topic.RelatedToTopics)
-            {
-                topicVM.RelatedTopics.Add(new TopicLink { ProjectId = rt.ProjectId, TopicId = rt.ChildTopicId, Title = rt.ChildTopic.Title, Description = rt.ChildTopic.Description });
-            }
-
-            foreach (var elm in topic.CollectionElements)
-            {
-                var elemant = new Common.Models.CollectionElement { ProjectId = elm.ProjectId, CollectionElementId = elm.CollectionElementId, Name = elm.Name };
-                topicVM.CollectionElements.Add(elemant);
-
-                foreach (var top in elm.ElementTopics)
-                {
-                    elemant.ElementTopics.Add(CreateTopicView(top));
-                }
-            }
-
-            return topicVM;
+            return Mapper.Map<TopicEdit>(topic);
         }
 
         public async Task<List<TopicList>> GetTopicListForProject(Guid projectId)
@@ -125,11 +54,7 @@ namespace AKS.Infrastructure.Services
             var spec = new TopicListSpecification(projectId);
             var topics = await _topicRepo.ListAsync(spec);
 
-            var topicsVM = new List<TopicList>();
-
-            topicsVM.AddRange(topics.ConvertAll(x => new TopicList { ProjectId = x.ProjectId, TopicId = x.TopicId, Title = x.Title, Description = x.Description }));
-
-            return topicsVM;
+            return Mapper.Map<List<TopicList>>(topics);
         }
 
         public async Task SaveTopic(TopicEdit topicVM)

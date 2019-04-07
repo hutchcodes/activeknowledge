@@ -10,11 +10,11 @@ namespace AKS.AppCore.Tests
     [TestFixture]
     public class TopicMapperTests
     {
-        Entities.Topic _topicEntity;
+        Entities.Topic _entity;
         [OneTimeSetUp]
         public void OneTimeSetup()
         {
-            _topicEntity = new Entities.Topic {
+            _entity = new Entities.Topic {
                 ProjectId = Guid.NewGuid(),
                 TopicId = Guid.NewGuid(),
                 TopicTypeId = 2,
@@ -22,45 +22,45 @@ namespace AKS.AppCore.Tests
                 Description = "Test description",
                 Content = "Test content",
             };
-            _topicEntity.AddTag(Guid.NewGuid(), "Tag1");
+            _entity.AddTag(Guid.NewGuid(), "Tag1");
         }
 
         [Test]
         public void ShouldMapTopicLink()
         {
-            var topicModel = Mapper.Map<Common.Models.TopicLink>(_topicEntity);
+            var model = Mapper.Map<Common.Models.TopicLink>(_entity);
 
-            Assert.AreEqual(_topicEntity.ProjectId, topicModel.ProjectId);
-            Assert.AreEqual(_topicEntity.TopicId, topicModel.TopicId);
-            Assert.AreEqual(_topicEntity.Title, topicModel.Title);
-            Assert.AreEqual(_topicEntity.Description, topicModel.Description);
+            Assert.AreEqual(_entity.ProjectId, model.ProjectId);
+            Assert.AreEqual(_entity.TopicId, model.TopicId);
+            Assert.AreEqual(_entity.Title, model.Title);
+            Assert.AreEqual(_entity.Description, model.Description);
         }
 
         [Test]
         public void ShouldMapTopicList()
         {
-            var topicModel = Mapper.Map<Common.Models.TopicList>(_topicEntity);
+            var topicModel = Mapper.Map<Common.Models.TopicList>(_entity);
 
-            Assert.AreEqual(_topicEntity.ProjectId, topicModel.ProjectId);
-            Assert.AreEqual(_topicEntity.TopicId, topicModel.TopicId);
-            Assert.AreEqual(_topicEntity.Title, topicModel.Title);
-            Assert.AreEqual(_topicEntity.Description, topicModel.Description);
-            Assert.AreEqual(_topicEntity.TopicTypeId, topicModel.TopicTypeId);
+            Assert.AreEqual(_entity.ProjectId, topicModel.ProjectId);
+            Assert.AreEqual(_entity.TopicId, topicModel.TopicId);
+            Assert.AreEqual(_entity.Title, topicModel.Title);
+            Assert.AreEqual(_entity.Description, topicModel.Description);
+            Assert.AreEqual(_entity.TopicTypeId, topicModel.TopicTypeId);
         }
 
         [Test]
         public void ShouldMapTopicView()
         {
-            var topicModel = Mapper.Map<Entities.Topic, Common.Models.TopicView>(_topicEntity);
+            var topicModel = Mapper.Map<Entities.Topic, Common.Models.TopicView>(_entity);
 
-            Assert.AreEqual(_topicEntity.ProjectId, topicModel.ProjectId);
-            Assert.AreEqual(_topicEntity.TopicId, topicModel.TopicId);
-            Assert.AreEqual(_topicEntity.Title, topicModel.Title);
-            Assert.AreEqual(_topicEntity.Description, topicModel.Description);
-            Assert.AreEqual(_topicEntity.DocumentName, topicModel.DocumentName);
-            Assert.AreEqual(_topicEntity.TopicTypeId, topicModel.TopicTypeId);
+            Assert.AreEqual(_entity.ProjectId, topicModel.ProjectId);
+            Assert.AreEqual(_entity.TopicId, topicModel.TopicId);
+            Assert.AreEqual(_entity.Title, topicModel.Title);
+            Assert.AreEqual(_entity.Description, topicModel.Description);
+            Assert.AreEqual(_entity.DocumentName, topicModel.DocumentName);
+            Assert.AreEqual(_entity.TopicTypeId, topicModel.TopicTypeId);
 
-            Assert.AreEqual(_topicEntity.Tags.Count, topicModel.Tags.Count);
+            Assert.AreEqual(_entity.Tags.Count, topicModel.Tags.Count);
         }
     }
 }
