@@ -17,6 +17,7 @@ using AKS.Infrastructure.Services;
 using Blazor.FileReader;
 using Microsoft.Extensions.Configuration;
 using Microsoft.EntityFrameworkCore;
+using AKS.Infrastructure;
 
 namespace AKS.Builder
 {
@@ -70,6 +71,7 @@ namespace AKS.Builder
 
             services.AddScoped<IFileReaderService, FileReaderService>();
 
+            MapperConfig.ConfigMappers();
         }
 
         public void ConfigureTestingServices(IServiceCollection services)

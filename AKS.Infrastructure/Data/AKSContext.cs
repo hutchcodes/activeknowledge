@@ -11,10 +11,10 @@ namespace AKS.Infrastructure.Data
 {
     public class AKSContext : DbContext
     {
-        private static readonly LoggerFactory _myConsoleLoggerFactory =
-            new LoggerFactory(new[] {
-                        new ConsoleLoggerProvider((category, level) => category == DbLoggerCategory.Database.Command.Name && level == LogLevel.Information, true)
-            });
+        //private static readonly LoggerFactory _myConsoleLoggerFactory =
+        //    new LoggerFactory(new[] {
+        //                new ConsoleLoggerProvider((category, level) => category == DbLoggerCategory.Database.Command.Name && level == LogLevel.Information, true)
+        //    });
         public AKSContext(DbContextOptions<AKSContext> options) : base(options)
         {
         }
@@ -46,6 +46,7 @@ namespace AKS.Infrastructure.Data
             builder.Entity<Project>(ConfigureProject);
             builder.Entity<Tag>(ConfigureTag);
             builder.Entity<CollectionElement>(ConfigureCollectionElement);
+            builder.Entity<CollectionElementTopic>(ConfigureCollectionElementTopic);
             builder.Entity<Topic>(ConfigureTopic);
             builder.Entity<RelatedTopic>(ConfigureRelatedTopic);
             builder.Entity<ReferencedFragment>(ConfigureReferencedfragment);
@@ -59,6 +60,7 @@ namespace AKS.Infrastructure.Data
         public DbSet<Tag> Tags { get; set; }
         public DbSet<Topic> Topics { get; set; }
         public DbSet<CollectionElement> CollectionElements { get; set; }
+        public DbSet<CollectionElementTopic> CollectionElementTopics { get; set; }
 
         private void ConfigureRelationShips(ModelBuilder builder)
         {
@@ -131,6 +133,8 @@ namespace AKS.Infrastructure.Data
         {
             builder.ToTable("Tag");
 
+            builder.HasKey(x => new { x.TagId, x.ProjectId });
+
             builder.Property(x => x.Name)
                .IsRequired()
                .HasMaxLength(50);
@@ -145,14 +149,20 @@ namespace AKS.Infrastructure.Data
                .HasMaxLength(50);
 
             builder.HasMany(x => x.ElementTopics);
+        }
+        private void ConfigureCollectionElementTopic(EntityTypeBuilder<CollectionElementTopic> builder)
+        {
+            builder.ToTable("CollectionElementTopic");
 
-            builder.HasMany(x => x.ElementTopics)
-                .WithOne();
+            builder.HasKey(x => new { x.ProjectId, x.CollectionElementId });
 
+            builder.HasOne(x => x.Topic);
         }
         private void ConfigureTopic(EntityTypeBuilder<Topic> builder)
         {
             builder.ToTable("Topic");
+
+            //builder.HasKey(x => new { x.ProjectId, x.TopicId });
 
             builder.Property(x => x.Title)
                .IsRequired()

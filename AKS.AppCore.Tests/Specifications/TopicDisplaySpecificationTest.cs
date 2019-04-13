@@ -46,7 +46,7 @@ namespace AKS.AppCore.Tests.Specifications
             var topicId = new Guid(1234, 0, 0, new byte[8]);
 
             var expectedTopic = new Topic { ProjectId = projectId, TopicId = topicId };
-            expectedTopic.AddTag(Guid.NewGuid(), "Tag1");
+            expectedTopic.Tags.Add(new Tag { TagId = Guid.NewGuid(), Name = "Tag1" });
             var topics = new List<Topic>
             {
                 expectedTopic,

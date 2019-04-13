@@ -12,6 +12,7 @@ namespace AKS.AppCore.Interfaces
         Task<List<T>> ListAsync(ISpecification<T> spec);
         Task<T> AddAsync(T entity);
         Task UpdateAsync(T entity);
+        Task UpdateAsync<TFrom>(TFrom model);
         Task DeleteAsync(T entity);
     }
 }

@@ -4,30 +4,32 @@ using AKS.Infrastructure.Data;
 using AutoMapper;
 using Microsoft.EntityFrameworkCore;
 using NUnit.Framework;
+using Ents = AKS.AppCore.Entities;
+using Mods = AKS.Common.Models;
 
-namespace AKS.AppCore.Tests
+namespace AKS.Infrastructure.Tests.Mappers
 {
     [TestFixture]
     public class ProjectMapperTests
     {
-        Entities.Project _entity;
+        Ents.Project _entity;
         [OneTimeSetUp]
         public void OneTimeSetup()
         {
             var customerId = Guid.NewGuid();
-            _entity = new Entities.Project {
+            _entity = new Ents.Project {
                 ProjectId = Guid.NewGuid(),
                 CustomerId = customerId,
                 Name = "Test Name",
                 LogoFileName = "LogoFile",
-                Customer = new Entities.Customer { CustomerId = customerId, Name = "Test Customer Name", LogoFileName = "Customer Logo File" }
+                Customer = new Ents.Customer { CustomerId = customerId, Name = "Test Customer Name", LogoFileName = "Customer Logo File" }
             };
         }
 
         [Test]
         public void ShouldMapProjectList()
         {
-            var model = Mapper.Map<Common.Models.ProjectList>(_entity);
+            var model = Mapper.Map<Mods.ProjectList>(_entity);
 
             Assert.AreEqual(_entity.ProjectId, model.ProjectId);
             Assert.AreEqual(_entity.Name, model.Name);
@@ -36,7 +38,7 @@ namespace AKS.AppCore.Tests
         [Test]
         public void ShouldMapProjectHeaderNav()
         {
-            var model = Mapper.Map<Common.Models.HeaderNavView>(_entity);
+            var model = Mapper.Map<Mods.HeaderNavView>(_entity);
 
             Assert.AreEqual(_entity.ProjectId, model.ProjectId);
             Assert.AreEqual(_entity.Name, model.ProjectName);

@@ -8,6 +8,8 @@ namespace AKS.AppCore.Entities
 {
     public class Topic : BaseEntity
     {
+        public Topic() { }
+
         public Guid TopicId { get; set; }
         public Guid ProjectId { get; set; }
         public int TopicTypeId { get; set; }
@@ -20,115 +22,16 @@ namespace AKS.AppCore.Entities
 
         public Guid? DefaultCategoryId { get; set; }
 
-        private readonly List<Tag> _tags = new List<Tag>();
-        public List<Tag> Tags => _tags;//.AsReadOnly();
-        public void AddTag(Guid tagId, string tagName)
-        {
-            if (!_tags.Any(new TagFilterSpecification(ProjectId, tagId).CompiledCriteria))
-            {
-                _tags.Add(new Tag()
-                {
-                    TagId = tagId,
-                    ProjectId = ProjectId,
-                    Name = tagName,
-                });
-                return;
-            }
-        }
-        public void RemoveTag(Guid tagId)
-        {
-            var tag = _tags.FirstOrDefault(new TagFilterSpecification(ProjectId, tagId).CompiledCriteria);
-            if (tag != null)
-            {
-                _tags.Remove(tag);
-            }
-        }
+        public List<Tag> Tags { get; set; } = new List<Tag>();
 
-        private readonly List<RelatedTopic> _relatedToTopics = new List<RelatedTopic>();
-        public IReadOnlyCollection<RelatedTopic> RelatedToTopics => _relatedToTopics.AsReadOnly();
-        public void AddRelatedToTopic(RelatedTopic relatedTopic)
-        { 
-            if (!_relatedToTopics.Contains(relatedTopic))
-            {
-                _relatedToTopics.Add(relatedTopic);
-                return;
-            }
-        }
-        public void RemoveRelatedToTopic(RelatedTopic relatedTopic)
-        {
-            _relatedToTopics.Any(x => x.ChildTopicId == relatedTopic.ChildTopicId);
-            _relatedToTopics.Remove(relatedTopic);
-        }
+        public List<RelatedTopic> RelatedToTopics { get; set; } = new List<RelatedTopic>();
 
-        private readonly List<RelatedTopic> _relatedFromTopics = new List<RelatedTopic>();
-        public IReadOnlyCollection<RelatedTopic> RelatedFromTopics => _relatedFromTopics.AsReadOnly();
+        public List<RelatedTopic> RelatedFromTopics { get; set; } = new List<RelatedTopic>();
 
-        public void AddRelatedFromTopic(RelatedTopic relatedTopic)
-        {
-            if (!_relatedToTopics.Contains(relatedTopic))
-            {
-                _relatedToTopics.Add(relatedTopic);
-                return;
-            }
-        }
-        public void RemoveRelatedFromTopic(RelatedTopic relatedTopic)
-        {
-            _relatedToTopics.Any(x => x.ChildTopicId == relatedTopic.ChildTopicId);
-            _relatedToTopics.Remove(relatedTopic);
-        }
+        public List<ReferencedFragment> ReferencedFragments { get; set; } = new List<ReferencedFragment>();
 
-        private readonly List<ReferencedFragment> _referencedFragments = new List<ReferencedFragment>();
-        public IReadOnlyCollection<ReferencedFragment> ReferencedFragments => _referencedFragments.AsReadOnly();
-        public void AddReferencedFragments(ReferencedFragment referencedFragment)
-        {
-            if (!_referencedFragments.Any(x => x.ChildTopicId == referencedFragment.ChildTopicId))
-            {
-                _referencedFragments.Add(referencedFragment);
-                return;
-            }
-        }
-        public void RemoveReferencedFragments(ReferencedFragment referencedFragment)
-        {
-            if (_referencedFragments.Any(x => x.ChildTopicId == referencedFragment.ChildTopicId))
-            {
-                _referencedFragments.Remove(referencedFragment);
-            }
-        }
+        public List<ReferencedFragment> FragmentReferencedBy { get; set; } = new List<ReferencedFragment>();
 
-        private readonly List<ReferencedFragment> _fragmentReferencedBy = new List<ReferencedFragment>();
-        public IReadOnlyCollection<ReferencedFragment> FragmentReferencedBy => _fragmentReferencedBy.AsReadOnly();
-        public void AddFragmentReferencedBy(ReferencedFragment referencedFragment)
-        {
-            if (!_fragmentReferencedBy.Any(x => x.ParentTopicId == referencedFragment.ParentTopicId))
-            {
-                _fragmentReferencedBy.Add(referencedFragment);
-                return;
-            }
-        }
-        public void RemoveFragmentReferencedBy(ReferencedFragment referencedFragment)
-        {
-            if (_fragmentReferencedBy.Any(x => x.ParentTopicId == referencedFragment.ParentTopicId))
-            {
-                _fragmentReferencedBy.Remove(referencedFragment);
-            }
-        }
-
-        private readonly List<CollectionElement> _collectionElements = new List<CollectionElement>();
-        public IReadOnlyCollection<CollectionElement> CollectionElements => _collectionElements.AsReadOnly();
-        public void AddCollectionElement(CollectionElement collectionElement)
-        {
-            if (!_collectionElements.Any(x => x.ProjectId == collectionElement.ProjectId && x.CollectionElementId == collectionElement.CollectionElementId))
-            {
-                _collectionElements.Add(collectionElement);
-                return;
-            }
-        }
-        public void RemoveCollectionElement(CollectionElement collectionElement)
-        {
-            if (_collectionElements.Contains(collectionElement))
-            {
-                _collectionElements.Remove(collectionElement);
-            }
-        }
+        public List<CollectionElement> CollectionElements { get; set; } = new List<CollectionElement>();
     }
 }

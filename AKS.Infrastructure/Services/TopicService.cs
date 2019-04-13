@@ -11,6 +11,7 @@ using System.Diagnostics;
 using System.Linq;
 using System.Threading.Tasks;
 using AutoMapper;
+using AutoMapper.EntityFrameworkCore;
 
 namespace AKS.Infrastructure.Services
 {
@@ -61,8 +62,14 @@ namespace AKS.Infrastructure.Services
         {
             try
             {
-                var spec = new TopicEditSpecification(topicVM.ProjectId, topicVM.TopicId);
-                var topic = await _topicRepo.GetAsync(spec);
+                //var spec = new TopicEditSpecification(topicVM.ProjectId, topicVM.TopicId);
+                //var topic = await _topicRepo.GetAsync(spec);
+
+                //Mapper.Instance.Map(topicVM, topic);
+
+                //_dbContext.Topics.Persist().InsertOrUpdate(topicVM);
+
+                await _topicRepo.UpdateAsync<TopicEdit>(topicVM);
 
                 //if (topic == null)
                 //{

@@ -109,7 +109,7 @@ namespace AKS.Infrastructure.Data
         {
             return new List<Tag>()
             {
-                new Tag() { TagId=Guid.NewGuid(), Name = "Tag1", ProjectId = _projectId1},
+                new Tag() { TagId=Guid.NewGuid(), Name = "Tag1", ProjectId = _projectId1 },
                 new Tag() { TagId=Guid.NewGuid(), Name = "Tag2", ProjectId = _projectId1 },
                 new Tag() { TagId=Guid.NewGuid(), Name = "Tag3", ProjectId = _projectId1 },
             };
@@ -124,28 +124,29 @@ namespace AKS.Infrastructure.Data
             var collection1 = new Topic() { TopicId = new Guid(555, 0, 0, new byte[8]), Title = "Collection Topic", ProjectId = _projectId1, Description = "Collection Desc", DefaultCategoryId = new Guid(3, 0, 0, new byte[8]), TopicTypeId = TopicTypes.CollectionTopic.Id };
             var content3 = new Topic() { TopicId = new Guid(666, 0, 0, new byte[8]), Title = "Video Topic", ProjectId = _projectId1, Content = "<div id='kaltura_player_1533934464' style='width: 896px; height: 534px;' itemprop='video' itemscope itemtype='http://schema.org/VideoObject'><span itemprop='name' content='PTRBOA002_ATE_SAbrams_Q01_Final.mp4'></span><span itemprop='description' content='null'></span><span itemprop='duration' content='39'></span><span itemprop='thumbnailUrl' content='http://cdnsecakmi.kaltura.com/p/1284141/sp/128414100/thumbnail/entry_id/1_obxueqhl/version/100012'></span><span itemprop='uploadDate' content='2018-08-10T19:45:14.000Z'></span><span itemprop='width' content='896'></span><span itemprop='height' content='534'></span></div><script src='https://cdnapisec.kaltura.com/p/1284141/sp/128414100/embedIframeJs/uiconf_id/29136211/partner_id/1284141?autoembed=true&entry_id=1_obxueqhl&playerId=kaltura_player_1533934464&cache_st=1533934464&width=896&height=534&flashvars[streamerType]=auto'></script>", Description = "Video Embed from Katura", DefaultCategoryId = new Guid(2, 0, 0, new byte[8]), TopicTypeId = TopicTypes.ContentTopic.Id };
 
-            content2.AddReferencedFragments(new ReferencedFragment() { ProjectId = content2.ProjectId, ParentTopicId = content2.TopicId, ChildTopicId = fragment1.TopicId });
+            content2.ReferencedFragments.Add(new ReferencedFragment() { ProjectId = content2.ProjectId, ParentTopicId = content2.TopicId, ChildTopicId = fragment1.TopicId });
 
-            content2.AddTag(Guid.NewGuid(), "Tag1");
-            content2.AddTag(Guid.NewGuid(), "Tag2");
+            content2.Tags.Add(new Tag { TagId = Guid.NewGuid(), Name = "Tag1" });
+            content2.Tags.Add(new Tag { TagId = Guid.NewGuid(), Name = "Tag2" });
 
-            content2.AddRelatedToTopic(new RelatedTopic { ProjectId = _projectId1, ParentTopicId = content2.TopicId, ChildTopicId = content1.TopicId });
-            content2.AddRelatedToTopic(new RelatedTopic { ProjectId = _projectId1, ParentTopicId = content2.TopicId, ChildTopicId = document1.TopicId });
+            content2.RelatedToTopics.Add(new RelatedTopic { ProjectId = _projectId1, ParentTopicId = content2.TopicId, ChildTopicId = content1.TopicId });
+            content2.RelatedToTopics.Add(new RelatedTopic { ProjectId = _projectId1, ParentTopicId = content2.TopicId, ChildTopicId = document1.TopicId });
 
-            collection1.AddTag(Guid.NewGuid(), "Tag1");
-            collection1.AddTag(Guid.NewGuid(), "Tag2");
+            collection1.Tags.Add(new Tag { TagId = Guid.NewGuid(), Name = "Tag1" });
+            collection1.Tags.Add(new Tag { TagId = Guid.NewGuid(), Name = "Tag2" });
+
 
 
             var collectionElement1 = new CollectionElement { CollectionElementId = new Guid(99, 0, 0, new byte[8]), Name = "Element1", ProjectId = _projectId1, TopicId = collection1.TopicId };//, Topic = collection1 };
             var collectionElement2 = new CollectionElement { CollectionElementId = new Guid(98, 0, 0, new byte[8]), Name = "Element2", ProjectId = _projectId1, TopicId = collection1.TopicId };//, Topic = collection1 };
-            collectionElement1.AddTopic(content1);
-            collectionElement1.AddTopic(document1);
-            collectionElement2.AddTopic(content2);
+            collectionElement1.ElementTopics.Add(new CollectionElementTopic { ProjectId = content1.ProjectId, TopicId = content1.TopicId, Order = 1 });
+            collectionElement1.ElementTopics.Add(new CollectionElementTopic { ProjectId = document1.ProjectId, TopicId = document1.TopicId, Order =2 });
+            collectionElement2.ElementTopics.Add(new CollectionElementTopic { ProjectId = content2.ProjectId, TopicId = content2.TopicId, Order = 1 });
 
-            collection1.AddCollectionElement(collectionElement1);
-            collection1.AddCollectionElement(collectionElement2);
+            collection1.CollectionElements.Add(collectionElement1);
+            collection1.CollectionElements.Add(collectionElement2);
 
-            collection1.AddRelatedToTopic(new RelatedTopic { ProjectId = _projectId1, ParentTopicId = content2.TopicId, ChildTopicId = content2.TopicId });
+            collection1.RelatedToTopics.Add(new RelatedTopic { ProjectId = _projectId1, ParentTopicId = content2.TopicId, ChildTopicId = content2.TopicId });
 
 
             return new List<Topic>()

@@ -51,12 +51,22 @@ namespace AKS.Builder.Shared
         }
         protected void AddTopicToElement(List<TopicList> topics)
         {
-            _currentElement.ElementTopics.AddRange(topics.Select(x => new TopicView { ProjectId = x.ProjectId, TopicId = x.TopicId, Title = x.Title, Description = x.Description }));
+            foreach (var topic in topics) {
+                var collectionElementTopic = new CollectionElementTopic
+                {
+                    CollectionElementId = _currentElement.CollectionElementId,
+                    ProjectId = _currentElement.ProjectId,
+                    TopicId = topic.TopicId,
+                    Topic = topic
+                };
+                _currentElement.ElementTopics.Add(collectionElementTopic);
+            }
+
             IsAddingTopics = false;
             StateHasChanged();
         }
 
-        protected void RemoveTopic (CollectionElement element, TopicView topic)
+        protected void RemoveTopic (CollectionElement element, CollectionElementTopic topic)
         {
             element.ElementTopics.Remove(topic);
         }

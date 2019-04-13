@@ -36,7 +36,7 @@ namespace AKS.Builder.Pages
             {
                 ProjectId = ProjectId,
                 TopicId = Guid.NewGuid(),
-                TopicTypeID = topicTypeId,
+                TopicTypeId = topicTypeId,
             };
             IsCreatingTopic = true;
         }

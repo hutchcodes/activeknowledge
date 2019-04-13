@@ -4,18 +4,21 @@ using AKS.Infrastructure.Data;
 using AutoMapper;
 using Microsoft.EntityFrameworkCore;
 using NUnit.Framework;
+using Ents = AKS.AppCore.Entities;
+using Mods = AKS.Common.Models;
 
-namespace AKS.AppCore.Tests
+
+namespace AKS.Infrastructure.Tests.Mappers
 {
     [TestFixture]
     public class CustomerMapperTests
     {
-        Entities.Customer _entity;
+        Ents.Customer _entity;
         [OneTimeSetUp]
         public void OneTimeSetup()
         {
             var customerId = Guid.NewGuid();
-            _entity = new Entities.Customer
+            _entity = new Ents.Customer
             {
                 CustomerId = customerId,
                 Name = "Test Name",
@@ -26,7 +29,7 @@ namespace AKS.AppCore.Tests
         [Test]
         public void ShouldMapCustomerHeaderNav()
         {
-            var model = Mapper.Map<Common.Models.HeaderNavView>(_entity);
+            var model = Mapper.Map<Mods.HeaderNavView>(_entity);
 
             Assert.AreEqual(_entity.CustomerId, model.CustomerId);
             Assert.AreEqual(_entity.Name, model.CustomerName);

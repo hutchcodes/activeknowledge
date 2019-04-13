@@ -20,8 +20,8 @@
                 {
                     <tr>
                         <td><button onclick="@(() => RemoveTopic(element, topic))">Delete</button></td>
-                        <td><a href='@($"/edit/topic/{topic.ProjectId}/{topic.TopicId}")'>@topic.Title </a></td>
-                        <td>@topic.Description</td>
+                        <td><a href='@($"/edit/topic/{topic.ProjectId}/{topic.TopicId}")'>@topic.Topic.Title </a></td>
+                        <td>@topic.Topic.Description</td>
                     </tr>
                 }
             </tbody>

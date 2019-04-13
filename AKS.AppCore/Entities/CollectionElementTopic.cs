@@ -7,15 +7,13 @@ using System.Text;
 
 namespace AKS.AppCore.Entities
 {
-    public class CollectionElement
+    public class CollectionElementTopic
     {
+        //public int CollectionElementTopicId {get;set;}
         public Guid CollectionElementId { get; set; }
-
         public Guid ProjectId { get; set; }
         public Guid TopicId { get; set; }
         public Topic Topic { get; set; }
-        public string Name { get; set; }
-
-        public List<CollectionElementTopic> ElementTopics { get; set; } = new List<CollectionElementTopic>();
+        public int Order { get; set; }        
     }
 }

@@ -12,7 +12,8 @@
 
   <ItemGroup>
     <PackageReference Include="AutoMapper" Version="8.0.0" />
-    <PackageReference Include="AutoMapper.Collection" Version="5.0.0" />
+    <PackageReference Include="AutoMapper.Collection.EntityFrameworkCore" Version="0.2.0" />
+    <PackageReference Include="AutoMapper.Extensions.Microsoft.DependencyInjection" Version="6.0.0" />
     <PackageReference Include="HtmlAgilityPack" Version="1.11.1" />
     <PackageReference Include="Microsoft.EntityFrameworkCore.InMemory" Version="2.1.1" />
     <PackageReference Include="Microsoft.EntityFrameworkCore.SqlServer" Version="2.1.1" />
@@ -27,6 +28,12 @@
   <ItemGroup>
     <ProjectReference Include="..\AKS.AppCore\AKS.AppCore.csproj" />
     <ProjectReference Include="..\AKS.Common\AKS.Common.csproj" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <Reference Include="AutoMapper.Collection.EntityFrameworkCore">
+      <HintPath>..\..\AutoMapper\AutoMapper.Collection.EFCore\src\AutoMapper.Collection.EntityFrameworkCore\bin\Debug\netstandard2.0\AutoMapper.Collection.EntityFrameworkCore.dll</HintPath>
+    </Reference>
   </ItemGroup>
 
 </Project>

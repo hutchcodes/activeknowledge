@@ -1,5 +1,6 @@
 ﻿using AKS.AppCore.Entities;
 using AKS.AppCore.Interfaces;
+using AutoMapper.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore;
 using System;
 using System.Collections.Generic;
@@ -72,5 +73,13 @@ namespace AKS.Infrastructure.Data
             _dbContext.Entry(entity).State = EntityState.Modified;
             await _dbContext.SaveChangesAsync();
         }
+
+        public virtual async Task UpdateAsync<TFrom>(TFrom model)
+        {
+            _dbContext.Set<T>().Persist().InsertOrUpdate(typeof(TFrom), model);
+
+            await _dbContext.SaveChangesAsync();
+        }
+
     }
 }

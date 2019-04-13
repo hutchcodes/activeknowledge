@@ -1,34 +1,33 @@
 using System;
 using System.Linq;
-using AKS.Infrastructure;
-using AKS.Infrastructure.Data;
 using AutoMapper;
-using Microsoft.EntityFrameworkCore;
 using NUnit.Framework;
+using Ents = AKS.AppCore.Entities;
+using Mods = AKS.Common.Models;
 
-namespace AKS.AppCore.Tests
+namespace AKS.Infrastructure.Tests.Mappers
 {
     [TestFixture]
     public class CollectionElementMapperTests
     {
-        Entities.CollectionElement _entity;
+        Ents.CollectionElement _entity;
         [OneTimeSetUp]
         public void OneTimeSetup()
         {
-            _entity = new Entities.CollectionElement
+            _entity = new Ents.CollectionElement
             {
                 ProjectId = Guid.NewGuid(),
                 TopicId = Guid.NewGuid(),
                 CollectionElementId = Guid.NewGuid(),
                 Name = "Test Name",
             };
-            _entity.AddTopic(new Entities.Topic { TopicId = Guid.NewGuid(), ProjectId = Guid.NewGuid(), Title = "Test Topic Name", Description = "Test Description" });
+            _entity.ElementTopics.Add(new Ents.CollectionElementTopic { ProjectId = Guid.NewGuid(), CollectionElementId = Guid.NewGuid(), TopicId = Guid.NewGuid(), Order = 2, Topic = new Ents.Topic { TopicId = Guid.NewGuid() } });
         }
 
         [Test]
         public void ShouldMapCollectionElement()
         {
-            var model = Mapper.Map<Common.Models.CollectionElement>(_entity);
+            var model = Mapper.Map<Mods.CollectionElement>(_entity);
 
             Assert.AreEqual(_entity.ProjectId, model.ProjectId);
             Assert.AreEqual(_entity.CollectionElementId, model.CollectionElementId);
