@@ -1,0 +1,5 @@
+﻿Set the startup project to AKS.Share.Web
+
+Add-Migration [MigrationName] -Context AKSContext
+Update-Database -Context AKSContext
+

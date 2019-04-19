@@ -11,8 +11,9 @@ namespace AKS.AppCore.Entities
     {
         //public int CollectionElementTopicId {get;set;}
         public Guid CollectionElementId { get; set; }
+        public CollectionElement CollectionElement { get; set; }
         public Guid ProjectId { get; set; }
-        public Guid TopicId { get; set; }
+        public Guid? TopicId { get; set; }
         public Topic Topic { get; set; }
         public int Order { get; set; }        
     }

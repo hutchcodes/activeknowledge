@@ -148,15 +148,24 @@ namespace AKS.Infrastructure.Data
                .IsRequired()
                .HasMaxLength(50);
 
-            builder.HasMany(x => x.ElementTopics);
+            builder.HasMany(x => x.ElementTopics).WithOne();              
         }
         private void ConfigureCollectionElementTopic(EntityTypeBuilder<CollectionElementTopic> builder)
         {
             builder.ToTable("CollectionElementTopic");
 
-            builder.HasKey(x => new { x.ProjectId, x.CollectionElementId });
+            builder.HasKey(x => new { x.ProjectId, x.CollectionElementId, x.TopicId });
 
-            builder.HasOne(x => x.Topic);
+            builder
+                .HasOne(x => x.Topic)
+                .WithMany()
+                .HasForeignKey(x => x.TopicId)
+                .OnDelete(DeleteBehavior.Restrict);
+            builder
+                .HasOne(x => x.CollectionElement)
+                .WithMany()
+                .HasForeignKey(x => x.CollectionElementId)
+                .OnDelete(DeleteBehavior.Restrict);
         }
         private void ConfigureTopic(EntityTypeBuilder<Topic> builder)
         {
