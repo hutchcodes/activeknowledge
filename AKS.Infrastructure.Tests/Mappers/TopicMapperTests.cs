@@ -111,8 +111,8 @@ namespace AKS.Infrastructure.Tests.Mappers
             //We test the actual mapping separately, 
             //here we'll just verify that something comes over
             Assert.AreEqual(1, topicModel.Tags.Count);
-            //Assert.AreEqual(1, topicModel.CollectionElements.Count);
-            //Assert.AreEqual(1, topicModel.CollectionElements[0].ElementTopics.Count);
+            Assert.AreEqual(1, topicModel.CollectionElements.Count);
+            Assert.AreEqual(1, topicModel.CollectionElements[0].ElementTopics.Count);
         }
 
         [Test]

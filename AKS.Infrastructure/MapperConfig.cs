@@ -70,7 +70,7 @@ namespace AKS.Infrastructure
             ;
             _cfg.CreateMap<Ents.Topic, Mods.TopicEdit>()
                 .ForMember(mod => mod.RelatedTopics, y => y.MapFrom(ent => ent.RelatedToTopics.Select(x => x.ChildTopic)))
-                .ForMember(mod => mod.CollectionElements, y => y.Ignore())
+                //.ForMember(mod => mod.CollectionElements, y => y.MapFrom(ent => ent.CollectionElements.Select(x=> ))
                 .ReverseMap()
             ;
 

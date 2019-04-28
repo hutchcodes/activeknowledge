@@ -16,7 +16,7 @@ namespace AKS.AppCore.Specifications
             //AddInclude($"{nameof(Topic.RelatedTopics)}.{nameof(IReferencedTopic.ChildTopic)}");
 
             AddInclude(x => x.CollectionElements);
-            AddInclude($"{nameof(Topic.CollectionElements)}.{nameof(CollectionElement.ElementTopics)}");
+            AddInclude($"{nameof(Topic.CollectionElements)}.{nameof(CollectionElement.ElementTopics)}.{nameof(CollectionElementTopic.Topic)}");
 
             //AddInclude(x => x.ReferencedFragments);
             //AddInclude($"{nameof(Topic.ReferencedFragments)}.{nameof(IReferencedTopic.ChildTopic)}");
