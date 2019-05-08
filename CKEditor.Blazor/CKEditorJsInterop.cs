@@ -20,9 +20,9 @@ namespace CKEditor.Blazor
             return jsruntime.InvokeAsync<string>("ckEditorJsInterop.getData", ckEditorId );
         }
 
-        public static Task<string> ExecuteCKCommand(IJSRuntime jsruntime, string ckEditorId, string commandName, dynamic data)
+        public static Task<string> ExecuteCKCommand(IJSRuntime jsruntime, CKEditorCommandParams parameters)
         {
-            return jsruntime.InvokeAsync<string>("ckEditorJsInterop.executeCKCommand", ckEditorId, commandName, data);
+            return jsruntime.InvokeAsync<string>("ckEditorJsInterop.executeCKCommand", parameters);
         }
 
         [JSInvokable]      

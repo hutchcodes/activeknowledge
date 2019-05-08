@@ -8,16 +8,15 @@ using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.HttpsPolicy;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
-using AKS.Builder.Components;
-using AKS.Builder.Services;
+using AKS.Builder.Data;
 using AKS.AppCore.Interfaces;
 using AKS.Infrastructure.Data;
 using AKS.Infrastructure.Interfaces;
 using AKS.Infrastructure.Services;
 using Blazor.FileReader;
-using Microsoft.Extensions.Configuration;
-using Microsoft.EntityFrameworkCore;
 using AKS.Infrastructure;
+using Microsoft.EntityFrameworkCore;
+using Microsoft.Extensions.Configuration;
 
 namespace AKS.Builder
 {
@@ -27,10 +26,9 @@ namespace AKS.Builder
         // For more information on how to configure your application, visit https://go.microsoft.com/fwlink/?LinkID=398940
         public void ConfigureServices(IServiceCollection services)
         {
-            services.AddMvc()
-                .AddNewtonsoftJson();
-
-            services.AddRazorComponents();
+            services.AddRazorPages();
+            services.AddServerSideBlazor();
+            services.AddSingleton<WeatherForecastService>();
 
             ConfigureDI(services);
             ConfigureTestingServices(services);
@@ -50,12 +48,15 @@ namespace AKS.Builder
             }
 
             app.UseHttpsRedirection();
+
             app.UseStaticFiles();
 
-            app.UseRouting(routes =>
+            app.UseRouting();
+
+            app.UseEndpoints(endpoints =>
             {
-                routes.MapRazorPages();
-                routes.MapComponentHub<App>("app");
+                endpoints.MapBlazorHub();
+                endpoints.MapFallbackToPage("/_Host");
             });
         }
 

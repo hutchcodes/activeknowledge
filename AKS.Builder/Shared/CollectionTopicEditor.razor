@@ -1,0 +1,75 @@
+﻿@using AKS.Builder.Shared
+@inherits CollectionTopicEditorModel
+
+<button onclick="@AddElement" >Add Element</button>
+<TabSet>
+    @foreach (var element in Topic.CollectionElements)
+    {
+    <Tab Title="@element.Name" ShowDelete="true" Delete="@(()=>DeleteElement(element))">
+        <table class="table">
+            <thead>
+                <tr>
+                    <td><button onclick="@(() => AddTopic(element))">Add</button></td>
+                    <td>Topic Name</td>
+                    <td>Topic Description</td>
+                    <td></td>
+                </tr>
+            </thead>
+            <tbody>
+                @foreach (var topic in element.ElementTopics)
+                {
+                    <tr>
+                        <td><button onclick="@(() => RemoveTopic(element, topic))">Delete</button></td>
+                        <td><a href='@($"/edit/topic/{topic.ProjectId}/{topic.TopicId}")'>@topic.Topic.Title </a></td>
+                        <td>@topic.Topic.Description</td>
+                    </tr>
+                }
+            </tbody>
+        </table>
+        @if (IsAddingElements)
+        {
+            <div class="modal" tabindex="-1" style="display:block" role="dialog">
+                <div class="modal-dialog">
+                    <div class="modal-content">
+                        <div class="modal-header">
+                            <h3 class="modal-title">Add Topic</h3>
+                            <button type="button" class="close" onclick="@CloseModal">
+                                <span aria-hidden="true">X</span>
+                            </button>
+                        </div>
+                        <div class="modal-body">
+                            <form>
+                                <div class="form-group">
+                                    <label for="Name" class="control-label">Name</label>
+                                    <input for="Name" class="form-control" bind="@NewCollectionElement.Name" />
+                                </div>
+                            </form>
+                        </div>
+                        <div class="modal-footer">
+                            <button class="btn btn-block btn-info" onclick="@AddElementToTopic" data-dismiss="modal">Save</button>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        }
+        @if (IsAddingTopics)
+        {
+            <div class="modal" tabindex="-1" style="display:block" role="dialog">
+                <div class="modal-dialog">
+                    <div class="modal-content">
+                        <div class="modal-header">
+                            <h3 class="modal-title">Add Topic</h3>
+                            <button type="button" class="close" onclick="@CloseModal">
+                                <span aria-hidden="true">X</span>
+                            </button>
+                        </div>
+                        <TopicSearch ProjectId="@Topic.ProjectId" ShowSearch="true" ShowTopicSelected="true" DoSomethingAction="@AddTopicToElement" />
+                    </div>
+                </div>
+            </div>
+        }
+    </Tab>
+    }
+</TabSet>
+
+
