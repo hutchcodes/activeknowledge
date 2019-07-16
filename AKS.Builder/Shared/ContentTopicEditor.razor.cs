@@ -9,6 +9,7 @@ namespace AKS.Builder.Shared
 {
     public class ContentTopicEditorModel : ComponentBase
     {
+        private string _ckEditorCommandName;
         [Parameter]
         protected TopicEdit Topic { get; set; }
         public CKEditor.Blazor.CKEditorControl TopicContentEditor { get; set; }
@@ -17,6 +18,7 @@ namespace AKS.Builder.Shared
 
         private void SelectTopicFragmentAction (string commandName)
         {
+            _ckEditorCommandName = commandName;
             IsAddingTopics = true;
             StateHasChanged();
         }
@@ -38,7 +40,7 @@ namespace AKS.Builder.Shared
         protected void InsertTopicFragment(List<TopicList> topics)
         {
             var topicFragment = topics.First();
-            TopicContentEditor.InsertTopicFragment(topicFragment);
+            TopicContentEditor.InsertTopicFragment(topicFragment, _ckEditorCommandName);
            
             IsAddingTopics = false;
             StateHasChanged();

@@ -38,12 +38,12 @@ namespace CKEditor.Blazor
         {
             return await CKEditorJsInterop.GetData(jsRuntime, CKEditorId);
         }
-        public async Task<string> InsertTopicFragment(dynamic topicFragmentInfo)
+        public async Task<string> InsertTopicFragment(dynamic topicFragmentInfo, string ckEditorCommandName)
         {
             var parameters = new CKEditorCommandParams
             {
                 CKEditorId = CKEditorId,
-                CommandName = "topicfragment",
+                CommandName = ckEditorCommandName,
                 Data = topicFragmentInfo
             };
 

@@ -46,7 +46,7 @@ window.ckEditorJsInterop = {
     executeCKCommand: function (params) {
         var editor = window.ckEditorJsInterop.instances[params.ckEditorId];
         if (editor) {
-            editor.commands.get('topicfragment').execute(params.data);
+            editor.commands.get(params.commandName).execute(params.data);
             //editor.execute(command, data);
         }
         return "";
