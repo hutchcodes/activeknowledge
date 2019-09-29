@@ -4,7 +4,7 @@ using System.Text;
 
 namespace AKS.AppCore.Lookups
 {
-    public class TopicTypes
+    public static class TopicTypes
     {
         public static IReadOnlyList<TopicType> TopicTypesList { get; } = new List<TopicType> { ContentTopic, CollectionTopic, DocumentTopic, FragmentTopic };
 

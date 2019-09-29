@@ -4,7 +4,6 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using Microsoft.EntityFrameworkCore;
-using AKS.AppCore.Entities;
 using AKS.Common.Models;
 using AutoMapper.EntityFrameworkCore;
 

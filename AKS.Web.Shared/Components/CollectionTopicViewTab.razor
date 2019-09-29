@@ -1,0 +1,84 @@
+﻿@using AKS.App.Core.Data
+@using AKS.Common.Models
+
+@implements IDisposable
+@implements ICollectionItemTab
+
+@if (CollectionElement?.ElementTopics.Count == 1)
+{
+    var et = CollectionElement.ElementTopics.First();
+    <li class="nav-item">
+        @*the tabindex="" keeps the link styled as an active link despite the lack of an href attribute*@
+        <a class="nav-link @TitleCssClass" onclick="@((Action)(() => Activate(et)))" tabindex="">@CollectionElement.Name</a>
+    </li>
+}
+@if (CollectionElement?.ElementTopics.Count > 1)
+{
+<li class="nav-item dropdown @ShowDropDownClass" >
+    <a class="nav-link dropdown-toggle @TitleCssClass" onclick="@((Action)(() => DropDownClick()))" tabindex="" data-toggle="dropdown" role="button" aria-haspopup="true" aria-expanded="false">@CollectionElement.Name</a>
+    <div class="dropdown-menu @ShowDropDownClass">
+        @foreach (var et in CollectionElement.ElementTopics)
+        {
+            if (et.Topic != null)
+            {
+                var temp = et;
+                <a class="dropdown-item" onclick="@((Action)(() => Activate(temp)))" tabindex="">@et.Topic.Title</a>
+            }
+        }
+    </div>
+</li>
+}
+
+
+@code {
+    [CascadingParameter] CollectionTopicViewTabSet? ContainerTabSet { get; set; }
+    [Parameter] public CollectionElement? CollectionElement { get; set; }
+    public TopicView? CurrentTopic { get; private set; }
+
+    string? TitleCssClass => ContainerTabSet?.ActiveTab == this ? "active" : null;
+    string ShowDropDownClass { get; set; } = string.Empty;
+
+    protected override void OnInitialized()
+    {
+        if (ContainerTabSet == null)
+        {
+            throw new ArgumentNullException("ContainerTabSet");
+        }
+        var cet = CollectionElement?.ElementTopics.FirstOrDefault();
+        if (cet != null)
+        {
+            CurrentTopic = cet.Topic;
+        }
+        ContainerTabSet.AddTab(this);
+    }
+
+    public void Dispose()
+    {
+        if (ContainerTabSet != null)
+        {
+            ContainerTabSet.RemoveTab(this);
+        }
+    }
+
+    void Activate(CollectionElementTopic cet)
+    {
+        ShowDropDownClass = string.Empty;
+        CurrentTopic = cet.Topic;
+        if (ContainerTabSet != null)
+        {
+            ContainerTabSet.SetActivateTab(this);
+        }
+    }
+
+    void DropDownClick()
+    {
+        if (string.IsNullOrWhiteSpace(ShowDropDownClass))
+        {
+            ShowDropDownClass = "show";
+        }
+        else
+        {
+            ShowDropDownClass = string.Empty;
+        }
+    }
+}

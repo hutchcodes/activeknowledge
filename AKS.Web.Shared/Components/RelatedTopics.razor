@@ -1,0 +1,19 @@
+﻿@using AKS.Common.Models
+
+<h4>Related topics</h4>
+<ul class="list-unstyled">
+    @foreach (var rt in Topic.RelatedTopics)
+    {
+        <li>
+            <a href="/topic/@Topic.ProjectId/@rt.TopicId" class="d-block text-truncate">
+                <i class="icon-arrow-right"></i>
+                @rt.Title
+            </a>
+        </li>
+    }
+</ul>
+
+@code{
+    [Parameter]
+    public TopicView Topic { get; set; } = new TopicView();
+}

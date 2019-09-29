@@ -10,7 +10,7 @@ namespace AKS.Common.Models
         public Guid ProjectId { get; set; }
         public Guid TopicId { get; set; }
         public Guid CollectionElementId { get; set; }
-        public string Name { get; set; }
+        public string? Name { get; set; }
         public List<CollectionElementTopic> ElementTopics { get; set; } = new List<CollectionElementTopic>();
     }
 }

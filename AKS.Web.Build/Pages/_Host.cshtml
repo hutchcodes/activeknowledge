@@ -1,0 +1,32 @@
+﻿@page "/"
+@namespace AKS.App.Build.Pages
+@addTagHelper *, Microsoft.AspNetCore.Mvc.TagHelpers
+
+<!DOCTYPE html>
+<html lang="en" class="h-100">
+<head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, user-scalable=yes, initial-scale=1, shrink-to-fit=no">
+
+    <base href="~/" />
+    
+    @*<link href="images/favicon.ico" rel="shortcut icon" type="image/x-icon">*@
+    <link rel="stylesheet" href="css/bootstrap/bootstrap.min.css" />
+    <link rel="stylesheet" href="css/styles.css" />
+    <title>AKS - Build</title>
+</head>
+<body class="d-flex flex-column">
+    <app>
+        @(await Html.RenderComponentAsync<App>(RenderMode.ServerPrerendered))
+    </app>
+
+    <footer class="footer mt-5 py-3 bg-dark text-white">
+        <div class="container">
+            CAPS &copy 2019
+        </div>
+    </footer>
+
+    <script src="_framework/blazor.server.js"></script>
+
+</body>
+</html>

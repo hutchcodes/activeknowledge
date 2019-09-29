@@ -22,7 +22,7 @@ namespace AKS.Infrastructure.Blobs
             _config = config;
         }
 
-        private CloudBlobContainer GetCloudBlobContainer(string containerName)
+        private CloudBlobContainer GetCloudBlobContainer(string? containerName)
         {
             var blobStorageConnection = _config.GetValue<string>("AppSettings:BlobStorageConnection");
 
@@ -34,7 +34,7 @@ namespace AKS.Infrastructure.Blobs
             return container;
         }
 
-        public async Task<Document> GetDocument(FileStorageType fileStorageType, string key)
+        public async Task<Document?> GetDocument(FileStorageType fileStorageType, string key)
         {
             
             var container = GetCloudBlobContainer(fileStorageType.GetStringValue());

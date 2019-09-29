@@ -1,0 +1,26 @@
+﻿@using AKS.Common.Models
+
+<h4>Comments</h4>
+<form class="clearfix">
+    <div class="form-group">
+        <textarea type="comment" aria-label="Comment" class="form-control" id="comment" rows="5" aria-describedby="commentHelp" placeholder="Type your comments here…"></textarea>
+    </div>
+    <button type="submit" class="btn btn-primary float-right">Submit</button>
+</form>
+<div class="card">
+    <div class="card-body">
+        <p class="small">
+            <span>January 13th, 2019 - 16:32</span>
+            <button type="button" class="btn btn-link btn-close" aria-label="Close">
+                <span aria-hidden="true"><i class="icon-x-circle"></i></span>
+            </button>
+        </p>
+        <p class="card-text">Comment. Lorem ipsum dolor sit amet, consectetur adipiscing elit. Integer posuere erat a ante.</p>
+        <a href="#" class="btn-link"><i class="icon-feather"></i>l.ipsum@company.com</a>
+    </div>
+</div>
+
+@code{
+    [Parameter]
+    public TopicView Topic { get; set; } = new TopicView();
+}

@@ -1,0 +1,53 @@
+﻿@page "/project/{projectId:guid}"
+@inherits AKS.App.Core.ProjectTopicListBase
+
+<div role="document" class="container">
+    <h1 class="display-4 m-0">Some Company Inc.</h1>
+    <div role="group" class="row">
+        <div role="group" class="col mb-4 text-right">
+            Sort options:
+            <div class="btn-group" role="group" aria-label="Sort options">
+                <button type="button" class="btn btn-outline-secondary"><i class="icon-watch left"></i></button>
+                <button type="button" class="btn btn-outline-secondary"><i class="icon-users left"></i></button>
+                <button type="button" class="btn btn-outline-secondary"><i class="icon-tag left"></i></button>
+            </div>
+        </div>
+    </div>
+    <table class="table table-hover">
+        <thead>
+            <tr>
+                <th class="col-6">Topic</th>
+                <th class="col-1"></th>
+                <th class="col-1">Rating</th>
+                <th class="col-1">Comments</th>
+                <th class="col-3">Topic type</th>
+            </tr>
+        </thead>
+        <tbody>
+            @foreach (var topic in TopicList)
+            {
+                <tr>
+                    <td><a href="topic/@topic.ProjectId/@topic.TopicId">@topic.Title</a></td>
+                    <td><a href="#" class="text-secondary"><i class="icon-info" data-toggle="tooltip" title="@topic.Description"></i></a></td>
+                    <td>3</td>
+                    <td>6</td>
+                    <td>@GetTopicTypeDescription(topic.TopicTypeId)</td>
+                </tr>
+            }
+        </tbody>
+    </table>
+    <nav aria-label="Page navigation example">
+        <ul class="pagination justify-content-center">
+            <li class="page-item disabled">
+                <a class="page-link" href="#" tabindex="-1">Previous</a>
+            </li>
+            <li class="page-item"><a class="page-link" href="#">1</a></li>
+            <li class="page-item"><a class="page-link" href="#">2</a></li>
+            <li class="page-item"><a class="page-link" href="#">3</a></li>
+            <li class="page-item">
+                <a class="page-link" href="#">Next</a>
+            </li>
+        </ul>
+    </nav>
+</div>
+

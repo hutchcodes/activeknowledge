@@ -3,10 +3,11 @@ using System.Linq;
 using Ents = AKS.AppCore.Entities;
 using AKS.Infrastructure;
 using AKS.Infrastructure.Data;
-using AutoMapper;
+
 using Microsoft.EntityFrameworkCore;
 using NUnit.Framework;
 using Mods = AKS.Common.Models;
+using AutoMapper;
 
 namespace AKS.Infrastructure.Tests.Mappers
 {
@@ -25,14 +26,14 @@ namespace AKS.Infrastructure.Tests.Mappers
                 Order = 1,
                 Name = "Test Name1"
             };
-            _entity.AddReferencedCategory(new Ents.Category
+            _entity.Categories.Add(new Ents.Category
             {
                 ProjectId = projectId,
                 CategoryId = Guid.NewGuid(),
                 Order = 1,
                 Name = "Test Name2"
-            }, 1);
-            _entity.Topics.Add(new Ents.CategoryTopic
+            });
+            _entity.CategoryTopics.Add(new Ents.CategoryTopic
             {
                 ProjectId = projectId,
                 Topic = new Ents.Topic
@@ -55,8 +56,8 @@ namespace AKS.Infrastructure.Tests.Mappers
             Assert.AreEqual(_entity.Categories.First().CategoryId, model.Categories.First().CategoryId);
             Assert.AreEqual(_entity.Categories.First().Name, model.Categories.First().Name);
 
-            Assert.AreEqual(_entity.Topics.First().Topic.TopicId, model.Topics.First().TopicId);
-            Assert.AreEqual(_entity.Topics.First().Topic.Title, model.Topics.First().Title);
+            Assert.AreEqual(_entity.CategoryTopics.First().Topic.TopicId, model.Topics.First().TopicId);
+            Assert.AreEqual(_entity.CategoryTopics.First().Topic.Title, model.Topics.First().Title);
 
         }
     }

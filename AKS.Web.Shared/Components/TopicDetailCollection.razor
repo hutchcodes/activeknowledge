@@ -1,0 +1,20 @@
+﻿@using AKS.Common.Models
+
+<CollectionTopicViewTabSet>
+    @foreach (var ce in Topic.CollectionElements)
+    {
+        <CollectionTopicViewTab CollectionElement="@ce" />
+    }
+</CollectionTopicViewTabSet>
+
+
+
+@code{
+    [Parameter]
+    public TopicView Topic { get; set; } = new TopicView();
+
+    public void TopicClick(ElementReference elementReference)
+    {
+
+    }
+}

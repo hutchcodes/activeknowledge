@@ -10,13 +10,13 @@ using Microsoft.EntityFrameworkCore;
 
 namespace AKS.Infrastructure.Data
 {
-    public class AKSContextSeed
+    public static class AKSContextSeed
     {
         private static readonly Guid _customerId1 = new Guid(123, 0, 0, new byte[8]);
         private static readonly Guid _projectId1 = new Guid(1234, 0, 0, new byte[8]);
-        public static async Task SeedAsync(AKSContext aksContext, ILoggerFactory loggerFactory, int? retry = 0)
+        public static async Task SeedAsync(AKSContext aksContext, ILoggerFactory loggerFactory, int retry = 0)
         {
-            var retryForAvailability = retry.Value;
+            var retryForAvailability = retry;
             try
             {
                 // TODO: Only run this if using a real database
@@ -55,7 +55,8 @@ namespace AKS.Infrastructure.Data
                     await aksContext.SaveChangesAsync();
                 }
             }
-            catch 
+#pragma warning disable CA1031 // Do not catch general exception types
+            catch
             {
                 if (retryForAvailability < 10)
                 {
@@ -65,6 +66,7 @@ namespace AKS.Infrastructure.Data
                     await SeedAsync(aksContext, loggerFactory, retryForAvailability);
                 }
             }
+#pragma warning restore CA1031 // Do not catch general exception types
         }
 
         static IEnumerable<Customer> GetPreconfiguredCustomers()
@@ -91,11 +93,11 @@ namespace AKS.Infrastructure.Data
             var cat1Sub1 = new Category() { CategoryId = new Guid(4, 0, 0, new byte[8]), Name = "Category1Sub1", ProjectId = _projectId1, Order = 1 };
             var cat1Sub1Sub2 = new Category() { CategoryId = new Guid(5, 0, 0, new byte[8]), Name = "Category1Sub1Sub2", ProjectId = _projectId1, Order = 1 };
 
-            cat1.AddReferencedCategory(cat1Sub1, 1);
-            cat1Sub1.AddReferencedCategory(cat1Sub1Sub2, 1);
-            cat1.AddReferencedTopic(new Guid(111, 0, 0, new byte[8]), 1);
-            cat1Sub1.AddReferencedTopic(new Guid(222, 0, 0, new byte[8]), 1);
-            cat1Sub1Sub2.AddReferencedTopic(new Guid(444, 0, 0, new byte[8]), 1);
+            //cat1.AddReferencedCategory(cat1Sub1, 1);
+            //cat1Sub1.AddReferencedCategory(cat1Sub1Sub2, 1);
+            //cat1.AddReferencedTopic(new Guid(111, 0, 0, new byte[8]), 1);
+            //cat1Sub1.AddReferencedTopic(new Guid(222, 0, 0, new byte[8]), 1);
+            //cat1Sub1Sub2.AddReferencedTopic(new Guid(444, 0, 0, new byte[8]), 1);
 
             return new List<Category>()
             {
@@ -124,24 +126,24 @@ namespace AKS.Infrastructure.Data
             var collection1 = new Topic() { TopicId = new Guid(555, 0, 0, new byte[8]), Title = "Collection Topic", ProjectId = _projectId1, Description = "Collection Desc", DefaultCategoryId = new Guid(3, 0, 0, new byte[8]), TopicTypeId = TopicTypes.CollectionTopic.Id };
             var content3 = new Topic() { TopicId = new Guid(666, 0, 0, new byte[8]), Title = "Video Topic", ProjectId = _projectId1, Content = "<div id='kaltura_player_1533934464' style='width: 896px; height: 534px;' itemprop='video' itemscope itemtype='http://schema.org/VideoObject'><span itemprop='name' content='PTRBOA002_ATE_SAbrams_Q01_Final.mp4'></span><span itemprop='description' content='null'></span><span itemprop='duration' content='39'></span><span itemprop='thumbnailUrl' content='http://cdnsecakmi.kaltura.com/p/1284141/sp/128414100/thumbnail/entry_id/1_obxueqhl/version/100012'></span><span itemprop='uploadDate' content='2018-08-10T19:45:14.000Z'></span><span itemprop='width' content='896'></span><span itemprop='height' content='534'></span></div><script src='https://cdnapisec.kaltura.com/p/1284141/sp/128414100/embedIframeJs/uiconf_id/29136211/partner_id/1284141?autoembed=true&entry_id=1_obxueqhl&playerId=kaltura_player_1533934464&cache_st=1533934464&width=896&height=534&flashvars[streamerType]=auto'></script>", Description = "Video Embed from Katura", DefaultCategoryId = new Guid(2, 0, 0, new byte[8]), TopicTypeId = TopicTypes.ContentTopic.Id };
 
-            content2.ReferencedFragments.Add(new ReferencedFragment() { ProjectId = content2.ProjectId, ParentTopicId = content2.TopicId, ChildTopicId = fragment1.TopicId });
+            content2.TopicFragmentChildren.Add(new TopicFragment() { ProjectId = content2.ProjectId, ParentTopicId = content2.TopicId, ChildTopicId = fragment1.TopicId });
 
-            content2.Tags.Add(new Tag { TagId = Guid.NewGuid(), Name = "Tag1" });
-            content2.Tags.Add(new Tag { TagId = Guid.NewGuid(), Name = "Tag2" });
+            content2.TopicTags.Add(new TopicTag { Tag = new Tag { TagId = Guid.NewGuid(), ProjectId = _projectId1, Name = "Tag1" } });
+            content2.TopicTags.Add(new TopicTag { Tag = new Tag { TagId = Guid.NewGuid(), ProjectId = _projectId1, Name = "Tag2" } });
 
             content2.RelatedToTopics.Add(new RelatedTopic { ProjectId = _projectId1, ParentTopicId = content2.TopicId, ChildTopicId = content1.TopicId });
             content2.RelatedToTopics.Add(new RelatedTopic { ProjectId = _projectId1, ParentTopicId = content2.TopicId, ChildTopicId = document1.TopicId });
 
-            collection1.Tags.Add(new Tag { TagId = Guid.NewGuid(), Name = "Tag1" });
-            collection1.Tags.Add(new Tag { TagId = Guid.NewGuid(), Name = "Tag2" });
+            collection1.TopicTags.Add(new TopicTag { Tag = new Tag { TagId = Guid.NewGuid(), ProjectId = _projectId1, Name = "Tag1" } });
+            collection1.TopicTags.Add(new TopicTag { Tag = new Tag { TagId = Guid.NewGuid(), ProjectId = _projectId1, Name = "Tag2" } });
 
 
 
             var collectionElement1 = new CollectionElement { CollectionElementId = new Guid(99, 0, 0, new byte[8]), Name = "Element1", ProjectId = _projectId1, TopicId = collection1.TopicId };//, Topic = collection1 };
             var collectionElement2 = new CollectionElement { CollectionElementId = new Guid(98, 0, 0, new byte[8]), Name = "Element2", ProjectId = _projectId1, TopicId = collection1.TopicId };//, Topic = collection1 };
-            collectionElement1.ElementTopics.Add(new CollectionElementTopic { ProjectId = content1.ProjectId, TopicId = content1.TopicId, Order = 1 });
-            collectionElement1.ElementTopics.Add(new CollectionElementTopic { ProjectId = document1.ProjectId, TopicId = document1.TopicId, Order =2 });
-            collectionElement2.ElementTopics.Add(new CollectionElementTopic { ProjectId = content2.ProjectId, TopicId = content2.TopicId, Order = 1 });
+            collectionElement1.CollectionElementTopics.Add(new CollectionElementTopic { ProjectId = content1.ProjectId, TopicId = content1.TopicId, Order = 1 });
+            collectionElement1.CollectionElementTopics.Add(new CollectionElementTopic { ProjectId = document1.ProjectId, TopicId = document1.TopicId, Order =2 });
+            collectionElement2.CollectionElementTopics.Add(new CollectionElementTopic { ProjectId = content2.ProjectId, TopicId = content2.TopicId, Order = 1 });
 
             collection1.CollectionElements.Add(collectionElement1);
             collection1.CollectionElements.Add(collectionElement2);

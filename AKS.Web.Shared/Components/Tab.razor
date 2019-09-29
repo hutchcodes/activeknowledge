@@ -1,0 +1,52 @@
+﻿@using AKS.App.Core.Data
+
+@implements IDisposable
+@implements ITab
+
+<li>
+    <button onclick="Activate" class="nav-link @TitleCssClass">
+        <span>
+            @(Title)
+            @if (ShowDelete && Delete != null)
+            {
+                <span onclick="Delete" class="glyphicon glyphicon-remove">x</span>
+            }
+        </span>
+    </button>
+</li>
+
+@code {
+    [CascadingParameter] TabSet? ContainerTabSet { get; set; }
+    [Parameter] public string? Title { get; set; }
+    [Parameter] public bool ShowDelete { get; set; }
+    [Parameter] public Action? Delete { get; set; }
+    [Parameter] public RenderFragment? ChildContent { get; private set; }
+
+    string? TitleCssClass => ContainerTabSet?.ActiveTab == this ? "active" : null;
+
+    protected override void OnInitialized()
+    {
+        if (ContainerTabSet == null)
+        {
+            throw new ArgumentNullException("ContainerTabSet");
+        }
+        ContainerTabSet.AddTab(this);
+    }
+
+
+    public void Dispose()
+    {
+        if (ContainerTabSet != null)
+        {
+            ContainerTabSet.RemoveTab(this);
+        }
+    }
+
+    void Activate()
+    {
+        if (ContainerTabSet != null)
+        {
+            ContainerTabSet.SetActivateTab(this);
+        }
+    }
+}

@@ -9,7 +9,7 @@ namespace AKS.AppCore.Specifications
     {
         public TopicByIdSpecification(Guid projectId, Guid topicId) : base(x => x.ProjectId == projectId && x.TopicId == topicId)
         {
-            this.Includes.Add(x => x.Tags);
+            this.Includes.Add(x => x.TopicTags);
             this.Includes.Add(x => x.RelatedToTopics);
         }
     }

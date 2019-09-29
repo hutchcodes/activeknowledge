@@ -10,13 +10,13 @@ namespace AKS.AppCore.Specifications
     {
         public TopicEditSpecification(Guid projectId, Guid topicId) : base(x => x.ProjectId == projectId && x.TopicId == topicId)
         {
-            AddInclude(x => x.Tags);
+            AddInclude(x => x.TopicTags);
 
             //AddInclude(x => x.RelatedTopics);
             //AddInclude($"{nameof(Topic.RelatedTopics)}.{nameof(IReferencedTopic.ChildTopic)}");
 
             AddInclude(x => x.CollectionElements);
-            AddInclude($"{nameof(Topic.CollectionElements)}.{nameof(CollectionElement.ElementTopics)}.{nameof(CollectionElementTopic.Topic)}");
+            AddInclude($"{nameof(Topic.CollectionElements)}.{nameof(CollectionElement.CollectionElementTopics)}.{nameof(CollectionElementTopic.Topic)}");
 
             //AddInclude(x => x.ReferencedFragments);
             //AddInclude($"{nameof(Topic.ReferencedFragments)}.{nameof(IReferencedTopic.ChildTopic)}");

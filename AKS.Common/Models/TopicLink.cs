@@ -9,7 +9,7 @@ namespace AKS.Common.Models
     {
         public Guid ProjectId { get; set; }
         public Guid TopicId { get; set; }
-        public string Title { get; set; } 
-        public string Description { get; set; }        
+        public string? Title { get; set; } 
+        public string? Description { get; set; }        
     }
 }

@@ -11,10 +11,10 @@ namespace AKS.AppCore.DTO
         public Guid? CustomerId { get; set; }
         public Guid? ProjectId { get; set; }
         public Guid? TopicId { get; set; }
-        public string Name { get; set; }
-        public Stream Content { get; set; }
-        public string ContentType { get; set; }
-        public string ETag { get; set; }
+        public string? Name { get; set; }
+        public Stream? Content { get; set; }
+        public string? ContentType { get; set; }
+        public string? ETag { get; set; }
         public DateTimeOffset? LastModified { get; set; }
     }
 }

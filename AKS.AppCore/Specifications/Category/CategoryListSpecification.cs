@@ -9,10 +9,10 @@ namespace AKS.AppCore.Specifications
     {
         public CategoryListSpecification(Guid projectId) : base(x => x.ProjectId == projectId && x.ParentCategoryId == null)
         {
-            AddInclude($"{nameof(Category.Topics)}.{nameof(CategoryTopic.Topic)}");
-            AddInclude($"{nameof(Category.Categories)}.{nameof(Category.Topics)}.{nameof(CategoryTopic.Topic)}");
-            AddInclude($"{nameof(Category.Categories)}.{nameof(Category.Categories)}.{nameof(Category.Topics)}.{nameof(CategoryTopic.Topic)}");
-            AddInclude($"{nameof(Category.Categories)}.{nameof(Category.Categories)}.{nameof(Category.Categories)}.{nameof(Category.Topics)}.{nameof(CategoryTopic.Topic)}");
+            AddInclude($"{nameof(Category.CategoryTopics)}.{nameof(CategoryTopic.Topic)}");
+            AddInclude($"{nameof(Category.Categories)}.{nameof(Category.CategoryTopics)}.{nameof(CategoryTopic.Topic)}");
+            AddInclude($"{nameof(Category.Categories)}.{nameof(Category.Categories)}.{nameof(Category.CategoryTopics)}.{nameof(CategoryTopic.Topic)}");
+            AddInclude($"{nameof(Category.Categories)}.{nameof(Category.Categories)}.{nameof(Category.Categories)}.{nameof(Category.CategoryTopics)}.{nameof(CategoryTopic.Topic)}");
         }
     }
 }

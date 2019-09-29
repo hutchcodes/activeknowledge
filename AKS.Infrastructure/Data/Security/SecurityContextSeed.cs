@@ -11,11 +11,10 @@ using AKS.AppCore.Security;
 
 namespace AKS.Infrastructure.Data.Security
 {
-    public class SecurityContextSeed
+    public sealed class SecurityContextSeed
     {
-        public static async Task SeedAsync(SecurityContext securityContext, ILoggerFactory loggerFactory, int? retry = 0)
+        public static async Task SeedAsync(SecurityContext securityContext, ILoggerFactory loggerFactory, int retry = 0)
         {
-            int retryForAvailability = retry.Value;
             try
             {
                 // TODO: Only run this if using a real database
@@ -33,16 +32,18 @@ namespace AKS.Infrastructure.Data.Security
                     await securityContext.SaveChangesAsync();
                 }
             }
+#pragma warning disable CA1031 // Do not catch general exception types
             catch (Exception ex)
             {
-                if (retryForAvailability < 10)
+                if (retry < 10)
                 {
-                    retryForAvailability++;
+                    retry++;
                     var log = loggerFactory.CreateLogger<SecurityContextSeed>();
                     log.LogError(ex.Message);
-                    await SeedAsync(securityContext, loggerFactory, retryForAvailability);
+                    await SeedAsync(securityContext, loggerFactory, retry);
                 }
             }
+#pragma warning restore CA1031 // Do not catch general exception types
         }
 
         static IEnumerable<User> GetPreconfiguredUsers()

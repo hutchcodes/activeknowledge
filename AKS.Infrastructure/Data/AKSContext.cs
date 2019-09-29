@@ -1,242 +1,224 @@
-﻿using Microsoft.EntityFrameworkCore;
-using Microsoft.EntityFrameworkCore.Metadata;
-using Microsoft.EntityFrameworkCore.Metadata.Builders;
-using Microsoft.Extensions.Logging;
-using Microsoft.Extensions.Logging.Console;
+﻿using System;
 using AKS.AppCore.Entities;
-using AKS.AppCore.Entities.Interfaces;
-using System;
+using Microsoft.EntityFrameworkCore;
+using Microsoft.EntityFrameworkCore.Metadata;
 
 namespace AKS.Infrastructure.Data
 {
-    public class AKSContext : DbContext
+    public partial class AKSContext : DbContext
     {
-        //private static readonly LoggerFactory _myConsoleLoggerFactory =
-        //    new LoggerFactory(new[] {
-        //                new ConsoleLoggerProvider((category, level) => category == DbLoggerCategory.Database.Command.Name && level == LogLevel.Information, true)
-        //    });
-        public AKSContext(DbContextOptions<AKSContext> options) : base(options)
+        public AKSContext()
         {
         }
 
-        public AKSContext()
+        public AKSContext(DbContextOptions<AKSContext> options)
+            : base(options)
         {
-                
         }
+
+        public virtual DbSet<Category> Categories { get; set; } = null!;
+        public virtual DbSet<CategoryTopic> CategoryTopics { get; set; } = null!;
+        public virtual DbSet<CollectionElement> CollectionElements { get; set; } = null!;
+        public virtual DbSet<CollectionElementTopic> CollectionElementTopics { get; set; } = null!;
+        public virtual DbSet<Customer> Customers { get; set; } = null!;
+        public virtual DbSet<Project> Projects { get; set; } = null!;
+        public virtual DbSet<RelatedTopic> RelatedTopics { get; set; } = null!;
+        public virtual DbSet<Tag> Tags { get; set; } = null!;
+        public virtual DbSet<Topic> Topics { get; set; } = null!;
+        public virtual DbSet<TopicFragment> TopicFragments { get; set; } = null!;
+        public virtual DbSet<TopicTag> TopicTags { get; set; } = null!;
 
         protected override void OnConfiguring(DbContextOptionsBuilder optionsBuilder)
         {
-
-            //optionsBuilder.UseLoggerFactory(_myConsoleLoggerFactory);
             if (!optionsBuilder.IsConfigured)
             {
-                optionsBuilder.UseInMemoryDatabase("AKS_InMem");
+                optionsBuilder.UseSqlServer("Server=tcp");
             }
-#if DEBUG
-            optionsBuilder.EnableSensitiveDataLogging(true);
-#endif
-            base.OnConfiguring(optionsBuilder);
         }
 
-        protected override void OnModelCreating(ModelBuilder builder)
+        protected override void OnModelCreating(ModelBuilder modelBuilder)
         {
-            builder.Entity<Category>(ConfigureCategory);
-            builder.Entity<CategoryTopic>(ConfigureCategoryTopic);
-            builder.Entity<Customer>(ConfigureCustomer);
-            builder.Entity<Project>(ConfigureProject);
-            builder.Entity<Tag>(ConfigureTag);
-            builder.Entity<CollectionElement>(ConfigureCollectionElement);
-            builder.Entity<CollectionElementTopic>(ConfigureCollectionElementTopic);
-            builder.Entity<Topic>(ConfigureTopic);
-            builder.Entity<RelatedTopic>(ConfigureRelatedTopic);
-            builder.Entity<ReferencedFragment>(ConfigureReferencedfragment);
+            modelBuilder.Entity<Category>(entity =>
+            {
+                entity.HasKey(e => new { e.CategoryId, e.ProjectId });
 
-            ConfigureRelationShips(builder);
+                entity.Property(e => e.Name)
+                    .IsRequired()
+                    .HasMaxLength(50);
 
+                entity.HasOne(d => d.ParentCategory)
+                    .WithMany(p => p!.Categories)
+                    .HasForeignKey(d => new { d.ParentCategoryId, d.ProjectId })
+                    .HasConstraintName("FK_Category_Category");
+            });
+
+            modelBuilder.Entity<CategoryTopic>(entity =>
+            {
+                entity.HasKey(e => new { e.ProjectId, e.CategoryId, e.TopicId });
+
+                entity.HasIndex(e => e.CategoryId);
+
+                entity.HasIndex(e => e.TopicId);
+
+                entity.HasOne(d => d.Category)
+                    .WithMany(p => p!.CategoryTopics)
+                    .HasForeignKey(d => new { d.CategoryId, d.ProjectId })
+                    .OnDelete(DeleteBehavior.ClientSetNull)
+                    .HasConstraintName("FK_CategoryTopic_Category");
+
+                entity.HasOne(d => d.Topic)
+                    .WithMany(p => p!.CategoryTopics)
+                    .HasForeignKey(d => new { d.TopicId, d.ProjectId })
+                    .OnDelete(DeleteBehavior.ClientSetNull)
+                    .HasConstraintName("FK_CategoryTopic_Topic");
+            });
+
+            modelBuilder.Entity<CollectionElement>(entity =>
+            {
+                entity.HasKey(e => new { e.CollectionElementId, e.ProjectId });
+
+                entity.HasIndex(e => e.TopicId);
+
+                entity.Property(e => e.Name)
+                    .IsRequired()
+                    .HasMaxLength(50);
+
+                entity.HasOne(d => d.Topic)
+                    .WithMany(p => p!.CollectionElements)
+                    .HasForeignKey(d => new { d.TopicId, d.ProjectId })
+                    .OnDelete(DeleteBehavior.ClientSetNull)
+                    .HasConstraintName("FK_CollectionElement_Topic");
+            });
+
+            modelBuilder.Entity<CollectionElementTopic>(entity =>
+            {
+                entity.HasKey(e => new { e.ProjectId, e.CollectionElementId, e.TopicId });
+
+                entity.HasIndex(e => e.CollectionElementId);
+
+                entity.HasIndex(e => e.TopicId);
+
+                entity.HasOne(d => d.CollectionElement)
+                    .WithMany(p => p!.CollectionElementTopics)
+                    .HasForeignKey(d => new { d.CollectionElementId, d.ProjectId })
+                    .OnDelete(DeleteBehavior.ClientSetNull)
+                    .HasConstraintName("FK_CollectionElementTopic_CollectionElement");
+
+                entity.HasOne(d => d.Topic)
+                    .WithMany(p => p!.CollectionElementTopics)
+                    .HasForeignKey(d => new { d.TopicId, d.ProjectId })
+                    .OnDelete(DeleteBehavior.ClientSetNull)
+                    .HasConstraintName("FK_CollectionElementTopic_Topic");
+            });
+
+            modelBuilder.Entity<Customer>(entity =>
+            {
+                entity.Property(e => e.CustomerId).ValueGeneratedNever();
+
+                entity.Property(e => e.Name)
+                    .IsRequired()
+                    .HasMaxLength(50);
+            });
+
+            modelBuilder.Entity<Project>(entity =>
+            {
+                entity.HasIndex(e => e.CustomerId);
+
+                entity.Property(e => e.ProjectId).ValueGeneratedNever();
+
+                entity.Property(e => e.Name)
+                    .IsRequired()
+                    .HasMaxLength(50);
+
+                entity.HasOne(d => d.Customer)
+                    .WithMany(p => p!.Projects)
+                    .HasForeignKey(d => d.CustomerId)
+                    .OnDelete(DeleteBehavior.ClientSetNull)
+                    .HasConstraintName("FK_Project_Customer");
+            });
+
+            modelBuilder.Entity<RelatedTopic>(entity =>
+            {
+                entity.HasKey(e => new { e.ProjectId, e.ParentTopicId, e.ChildTopicId });
+
+                entity.HasIndex(e => e.ChildTopicId);
+
+                entity.HasIndex(e => e.ParentTopicId);
+
+                entity.HasOne(d => d.ParentTopic)
+                    .WithMany(p => p!.RelatedToTopics)
+                    .HasForeignKey(d => new { d.ChildTopicId, d.ProjectId })
+                    .OnDelete(DeleteBehavior.ClientSetNull)
+                    .HasConstraintName("FK_RelatedTopic_Topic");
+
+                entity.HasOne(d => d.ChildTopic)
+                    .WithMany(p => p!.RelatedFromTopics)
+                    .HasForeignKey(d => new { d.ParentTopicId, d.ProjectId })
+                    .OnDelete(DeleteBehavior.ClientSetNull)
+                    .HasConstraintName("FK_RelatedTopic_ParentTopic");
+            });
+
+            modelBuilder.Entity<Tag>(entity =>
+            {
+                entity.HasKey(e => new { e.TagId, e.ProjectId });
+
+                entity.Property(e => e.Name)
+                    .IsRequired()
+                    .HasMaxLength(50);
+            });
+
+            modelBuilder.Entity<Topic>(entity =>
+            {
+                entity.HasKey(e => new { e.TopicId, e.ProjectId });
+
+                entity.Property(e => e.Description).HasMaxLength(200);
+
+                entity.Property(e => e.Title)
+                    .IsRequired()
+                    .HasMaxLength(50);
+            });
+
+            modelBuilder.Entity<TopicFragment>(entity =>
+            {
+                entity.HasKey(e => new { e.ProjectId, e.ParentTopicId, e.ChildTopicId });
+
+                entity.HasIndex(e => e.ChildTopicId);
+
+                entity.HasIndex(e => e.ParentTopicId);
+
+                entity.HasOne(d => d.ChildTopic)
+                    .WithMany(p => p!.TopicFragmentChildren)
+                    .HasForeignKey(d => new { d.ChildTopicId, d.ProjectId })
+                    .OnDelete(DeleteBehavior.ClientSetNull)
+                    .HasConstraintName("FK_Fragment_Topic");
+
+                entity.HasOne(d => d.ParentTopic)
+                    .WithMany(p => p!.TopicFragmentsParents)
+                    .HasForeignKey(d => new { d.ParentTopicId, d.ProjectId })
+                    .OnDelete(DeleteBehavior.ClientSetNull)
+                    .HasConstraintName("FK_Topic_Fragment");
+            });
+
+            modelBuilder.Entity<TopicTag>(entity =>
+            {
+                entity.HasKey(e => new { e.ProjectId, e.TopicId, e.TagId });
+
+                entity.HasOne(d => d.Tag)
+                    .WithMany(p => p!.TopicTags)
+                    .HasForeignKey(d => new { d.TagId, d.ProjectId })
+                    .OnDelete(DeleteBehavior.ClientSetNull)
+                    .HasConstraintName("FK_TopicTag_Tag");
+
+                entity.HasOne(d => d.Topic)
+                    .WithMany(p => p!.TopicTags)
+                    .HasForeignKey(d => new { d.TopicId, d.ProjectId })
+                    .OnDelete(DeleteBehavior.ClientSetNull)
+                    .HasConstraintName("FK_TopicTag_Topic");
+            });
+
+            OnModelCreatingPartial(modelBuilder);
         }
-        public DbSet<Category> Categories { get; set; }
-        public DbSet<Customer> Customers { get; set; }
-        public DbSet<Project> Projects { get; set; }
-        public DbSet<Tag> Tags { get; set; }
-        public DbSet<Topic> Topics { get; set; }
-        public DbSet<CollectionElement> CollectionElements { get; set; }
-        public DbSet<CollectionElementTopic> CollectionElementTopics { get; set; }
 
-        private void ConfigureRelationShips(ModelBuilder builder)
-        {
-            IMutableNavigation navigation;
-
-            navigation = builder.Entity<Topic>().Metadata.FindNavigation(nameof(Topic.CollectionElements));
-            navigation.SetPropertyAccessMode(PropertyAccessMode.Field);
-
-            navigation = builder.Entity<Topic>().Metadata.FindNavigation(nameof(Topic.ReferencedFragments));
-            navigation.SetPropertyAccessMode(PropertyAccessMode.Field);
-
-            navigation = builder.Entity<Topic>().Metadata.FindNavigation(nameof(Topic.FragmentReferencedBy));
-            navigation.SetPropertyAccessMode(PropertyAccessMode.Field);
-
-            navigation = builder.Entity<Topic>().Metadata.FindNavigation(nameof(Topic.RelatedToTopics));
-            navigation.SetPropertyAccessMode(PropertyAccessMode.Field);
-
-            navigation = builder.Entity<Topic>().Metadata.FindNavigation(nameof(Topic.RelatedFromTopics));
-            navigation.SetPropertyAccessMode(PropertyAccessMode.Field);
-
-            navigation = builder.Entity<CollectionElement>().Metadata.FindNavigation(nameof(CollectionElement.Topic));
-            navigation.SetPropertyAccessMode(PropertyAccessMode.Field);
-        }
-        private void ConfigureCategory(EntityTypeBuilder<Category> builder)
-        {
-            builder.ToTable("Category");
-
-            IMutableNavigation navigation;
-
-            navigation = builder.Metadata.FindNavigation(nameof(Category.Topics));
-            navigation.SetPropertyAccessMode(PropertyAccessMode.Field);
-
-            navigation = builder.Metadata.FindNavigation(nameof(Category.Categories));
-            navigation.SetPropertyAccessMode(PropertyAccessMode.Field);
-        }
-
-        private void ConfigureCategoryTopic(EntityTypeBuilder<CategoryTopic> builder)
-        {
-            builder.ToTable("CategoryTopic");
-            builder.HasKey(x => new { x.ProjectId, x.ParentCategoryId, x.TopicId });
-
-            IMutableNavigation navigation;
-
-            navigation = builder.Metadata.FindNavigation(nameof(CategoryTopic.Topic));
-            navigation.SetPropertyAccessMode(PropertyAccessMode.Field);
-        }
-
-        private void ConfigureCustomer(EntityTypeBuilder<Customer> builder)
-        {
-            builder.ToTable("Customer");
-
-            builder.Property(x => x.Name)
-                .IsRequired()
-                .HasMaxLength(50);
-        }
-        private void ConfigureProject(EntityTypeBuilder<Project> builder)
-        {
-            builder.ToTable("Project");
-
-            builder.HasOne(x => x.Customer)
-                .WithMany()
-                .HasForeignKey(x => x.CustomerId);
-
-            builder.Property(x => x.Name)
-                .IsRequired()
-                .HasMaxLength(50);
-
-        }
-        private void ConfigureTag(EntityTypeBuilder<Tag> builder)
-        {
-            builder.ToTable("Tag");
-
-            builder.HasKey(x => new { x.TagId, x.ProjectId });
-
-            builder.Property(x => x.Name)
-               .IsRequired()
-               .HasMaxLength(50);
-        }
-
-        private void ConfigureCollectionElement(EntityTypeBuilder<CollectionElement> builder)
-        {
-            builder.ToTable("CollectionElement");
-
-            builder.Property(x => x.Name)
-               .IsRequired()
-               .HasMaxLength(50);
-
-            builder.HasMany(x => x.ElementTopics).WithOne();              
-        }
-        private void ConfigureCollectionElementTopic(EntityTypeBuilder<CollectionElementTopic> builder)
-        {
-            builder.ToTable("CollectionElementTopic");
-
-            builder.HasKey(x => new { x.ProjectId, x.CollectionElementId, x.TopicId });
-
-            builder
-                .HasOne(x => x.Topic)
-                .WithMany()
-                .HasForeignKey(x => x.TopicId)
-                .OnDelete(DeleteBehavior.Restrict);
-            builder
-                .HasOne(x => x.CollectionElement)
-                .WithMany()
-                .HasForeignKey(x => x.CollectionElementId)
-                .OnDelete(DeleteBehavior.Restrict);
-        }
-        private void ConfigureTopic(EntityTypeBuilder<Topic> builder)
-        {
-            builder.ToTable("Topic");
-
-            //builder.HasKey(x => new { x.ProjectId, x.TopicId });
-
-            builder.Property(x => x.Title)
-               .IsRequired()
-               .HasMaxLength(50);
-
-            builder.Property(x => x.Description)
-               .HasMaxLength(200);
-
-            //builder.HasMany(x => x.RelatedTopics)
-            //    .WithOne(x => x.ParentTopic);
-
-            builder.HasMany(x => x.CollectionElements)
-                .WithOne(x => x.Topic);
-
-            builder.HasMany(x => x.ReferencedFragments)
-                .WithOne(x => x.ParentTopic)
-                .OnDelete(DeleteBehavior.Cascade);
-
-            builder.HasMany(x => x.RelatedToTopics)
-                .WithOne(x => x.ParentTopic)
-                .HasForeignKey(x => x.ParentTopicId)
-                .OnDelete(DeleteBehavior.Cascade);
-
-            builder.HasMany(x => x.RelatedFromTopics)
-                .WithOne(x => x.ChildTopic)
-                .HasForeignKey(x => x.ChildTopicId)
-                .OnDelete(DeleteBehavior.Restrict);
-
-            IMutableNavigation navigation;
-            navigation = builder.Metadata.FindNavigation(nameof(Topic.Tags));
-            navigation.SetPropertyAccessMode(PropertyAccessMode.Field);
-        }
-
-        private void ConfigureRelatedTopic(EntityTypeBuilder<RelatedTopic> builder)
-        {
-            builder.ToTable("RelatedTopic");
-
-            builder.HasKey(x => new { x.ProjectId, x.ParentTopicId, x.ChildTopicId });
-
-            //builder.HasOne(x => x.ParentTopic)
-            //    .WithMany(x => x.RelatedFromTopics)
-            //    .HasForeignKey("ParentTopicId");
-            //    //.OnDelete(DeleteBehavior.Cascade);
-
-            //builder.HasOne(x => x.ChildTopic)
-            //.WithMany(x => x.RelatedToTopics)
-            //.HasForeignKey("ChildTopicId")
-            //.OnDelete(DeleteBehavior.Cascade);
-        }
-
-        private void ConfigureReferencedfragment(EntityTypeBuilder<ReferencedFragment> builder)
-        {
-            builder.ToTable("TopicFragment");
-
-            builder.HasKey(x => new { x.ProjectId, x.ParentTopicId, x.ChildTopicId });
-
-            builder.HasOne(x => x.ParentTopic)
-                .WithMany(x => x.ReferencedFragments)
-                .HasForeignKey("ParentTopicId");
-            //.OnDelete(DeleteBehavior.Do);
-
-            builder.HasOne(x => x.ChildTopic)
-                .WithMany(x => x.FragmentReferencedBy)
-                .HasForeignKey("ChildTopicId")
-                .OnDelete(DeleteBehavior.Restrict);
-        }
+        partial void OnModelCreatingPartial(ModelBuilder modelBuilder);
     }
 }

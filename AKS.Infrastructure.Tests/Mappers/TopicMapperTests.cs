@@ -37,10 +37,10 @@ namespace AKS.Infrastructure.Tests.Mappers
                 Description = "Test description",
                 Content = "Test content",
             };
-            _entity1.Tags.Add(new Ents.Tag { ProjectId = projectId, TagId = Guid.NewGuid(), Name = "Tag1" });
+            _entity1.TopicTags.Add(new Ents.TopicTag { Tag = new Ents.Tag { ProjectId = projectId, TagId = Guid.NewGuid(), Name = "Tag1" } });
             var entCollectionElement = new Ents.CollectionElement { Topic = _entity1, ProjectId = projectId, CollectionElementId = Guid.NewGuid(), Name = "TestCollectionElement", TopicId = topicId1 };
             _entity1.CollectionElements.Add(entCollectionElement);
-            entCollectionElement.ElementTopics.Add(new Ents.CollectionElementTopic { ProjectId = projectId, CollectionElementId = entCollectionElement.CollectionElementId, TopicId = topicId2, Order = 1 });
+            entCollectionElement.CollectionElementTopics.Add(new Ents.CollectionElementTopic { ProjectId = projectId, CollectionElementId = entCollectionElement.CollectionElementId, TopicId = topicId2, Order = 1 });
 
             _model = new Mods.TopicEdit
             {
@@ -55,7 +55,7 @@ namespace AKS.Infrastructure.Tests.Mappers
             _model.Tags.Add(new Mods.Tag { ProjectId = projectId, TagId = Guid.NewGuid(), Name = "Tag1" });
             var modCollectionElement = new Mods.CollectionElement { ProjectId = projectId, CollectionElementId = Guid.NewGuid(), Name = "TestCollectionElement", TopicId = topicId1 };
             _model.CollectionElements.Add(modCollectionElement);
-            modCollectionElement.ElementTopics.Add(new Mods.CollectionElementTopic { ProjectId = projectId, CollectionElementId = Guid.NewGuid(), TopicId = Guid.NewGuid(), Order = 2, Topic = new Mods.TopicList { TopicId = Guid.NewGuid() } });
+            modCollectionElement.ElementTopics.Add(new Mods.CollectionElementTopic { ProjectId = projectId, CollectionElementId = Guid.NewGuid(), TopicId = Guid.NewGuid(), Order = 2, Topic = new Mods.TopicView { TopicId = Guid.NewGuid() } });
         }
 
         [Test]
@@ -93,7 +93,7 @@ namespace AKS.Infrastructure.Tests.Mappers
             Assert.AreEqual(_entity1.DocumentName, topicModel.DocumentName);
             Assert.AreEqual(_entity1.TopicTypeId, topicModel.TopicTypeId);
 
-            Assert.AreEqual(_entity1.Tags.Count, topicModel.Tags.Count);
+            Assert.AreEqual(_entity1.TopicTags.Count, topicModel.Tags.Count);
         }
 
         [Test]
@@ -129,7 +129,7 @@ namespace AKS.Infrastructure.Tests.Mappers
 
             //We test the actual mapping separately, 
             //here we'll just verify that something comes over
-            Assert.AreEqual(1, topicEntity.Tags.Count);
+            Assert.AreEqual(1, topicEntity.TopicTags.Count);
             //Assert.AreEqual(1, topicEntity.CollectionElements.Count);
             //Assert.AreEqual(1, topicEntity.CollectionElements[0].ElementTopics.Count);
         }

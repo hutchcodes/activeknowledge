@@ -1,20 +1,18 @@
-﻿using AKS.AppCore.Specifications;
-using System;
+﻿using System;
 using System.Collections.Generic;
-using System.Collections.ObjectModel;
-using System.Linq;
-using System.Text;
+using System.ComponentModel.DataAnnotations.Schema;
 
 namespace AKS.AppCore.Entities
 {
-    public class CollectionElementTopic
+    [Table("CollectionElementTopic")]
+    public partial class CollectionElementTopic : BaseEntity
     {
-        //public int CollectionElementTopicId {get;set;}
         public Guid CollectionElementId { get; set; }
-        public CollectionElement CollectionElement { get; set; }
         public Guid ProjectId { get; set; }
-        public Guid? TopicId { get; set; }
-        public Topic Topic { get; set; }
-        public int Order { get; set; }        
+        public Guid TopicId { get; set; }
+        public int Order { get; set; }
+
+        public virtual CollectionElement? CollectionElement { get; set; }
+        public virtual Topic? Topic { get; set; }
     }
 }

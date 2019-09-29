@@ -1,16 +1,18 @@
 ﻿using System;
 using System.Collections.Generic;
-using System.Text;
-using AKS.AppCore.Entities.Interfaces;
+using System.ComponentModel.DataAnnotations.Schema;
 
 namespace AKS.AppCore.Entities
 {
-    public class CategoryTopic 
+    [Table("CategoryTopic")]
+    public partial class CategoryTopic
     {
         public Guid ProjectId { get; set; }
-        public Guid ParentCategoryId { get; set; }
-        public int Order { get; set; }
+        public Guid CategoryId { get; set; }
         public Guid TopicId { get; set; }
-        public Topic Topic { get; set; }
+        public int Order { get; set; }
+
+        public virtual Category? Category { get; set; }
+        public virtual Topic? Topic { get; set; }
     }
 }

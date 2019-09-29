@@ -20,7 +20,7 @@ namespace AKS.Infrastructure
 
         private static Ents.Topic ReplaceProjectId(Ents.Topic topic)
         {
-            topic.Content = topic.Content.Replace("{{projectId}}", topic.ProjectId.ToString());
+            topic.Content = topic.Content?.Replace("{{projectId}}", topic.ProjectId.ToString());
             return topic;
         }
 
@@ -33,7 +33,7 @@ namespace AKS.Infrastructure
             var contentHtml = new HtmlAgilityPack.HtmlDocument();
             contentHtml.LoadHtml(topic.Content);
 
-            foreach (var frag in topic.ReferencedFragments)
+            foreach (var frag in topic.TopicFragmentChildren)
             {
                 var fragmentNodes = contentHtml.DocumentNode.SelectNodes($"//fragment[@topicid='{frag.ChildTopicId}']");
                 if (fragmentNodes == null)
@@ -42,7 +42,7 @@ namespace AKS.Infrastructure
                 }
                 foreach (var fragNode in fragmentNodes)
                 {
-                    fragNode.InnerHtml = frag.ChildTopic.Content;
+                    fragNode.InnerHtml = frag.ChildTopic?.Content;
                 }
             }
 

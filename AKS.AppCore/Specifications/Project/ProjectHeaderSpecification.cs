@@ -9,7 +9,7 @@ namespace AKS.AppCore.Specifications
     {
         public ProjectHeaderSpecification(Guid projectId) : base(x => x.ProjectId == projectId)
         {
-            this.Includes.Add(x => x.Customer);
+            this.Includes.Add(x => x.Customer!);
         }
     }
 }

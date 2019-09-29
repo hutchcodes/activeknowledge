@@ -1,37 +1,42 @@
-﻿using AKS.AppCore.Specifications;
-using System;
+﻿using System;
 using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations.Schema;
-using System.Linq;
 
 namespace AKS.AppCore.Entities
 {
-    public class Topic : BaseEntity
+    [Table("Topic")]
+    public partial class Topic : BaseEntity
     {
-        public Topic() { }
+        public Topic()
+        {
+            CategoryTopics = new HashSet<CategoryTopic>();
+            CollectionElements = new HashSet<CollectionElement>();
+            CollectionElementTopics = new HashSet<CollectionElementTopic>();
+            RelatedFromTopics = new HashSet<RelatedTopic>();
+            RelatedToTopics = new HashSet<RelatedTopic>();
+            TopicFragmentsParents = new HashSet<TopicFragment>();
+            TopicFragmentChildren = new HashSet<TopicFragment>();
+            TopicTags = new HashSet<TopicTag>();
+        }
 
         public Guid TopicId { get; set; }
         public Guid ProjectId { get; set; }
         public int TopicTypeId { get; set; }
-        public string Title { get; set; }
-        public string Description { get; set; }
+        public string? Title { get; set; }
+        public string? Description { get; set; }
         public Guid? ImageResourceId { get; set; }
-        public string Content { get; set; }
+        public string? Content { get; set; }
         public Guid? FileResourceId { get; set; }
-        public string DocumentName { get; set; }
-
+        public string? DocumentName { get; set; }
         public Guid? DefaultCategoryId { get; set; }
 
-        public List<Tag> Tags { get; set; } = new List<Tag>();
-
-        public List<RelatedTopic> RelatedToTopics { get; set; } = new List<RelatedTopic>();
-
-        public List<RelatedTopic> RelatedFromTopics { get; set; } = new List<RelatedTopic>();
-
-        public List<ReferencedFragment> ReferencedFragments { get; set; } = new List<ReferencedFragment>();
-
-        public List<ReferencedFragment> FragmentReferencedBy { get; set; } = new List<ReferencedFragment>();
-
-        public List<CollectionElement> CollectionElements { get; set; } = new List<CollectionElement>();
+        public virtual ICollection<CategoryTopic> CategoryTopics { get; set; }
+        public virtual ICollection<CollectionElement> CollectionElements { get; set; }
+        public virtual ICollection<CollectionElementTopic> CollectionElementTopics { get; set; }
+        public virtual ICollection<RelatedTopic> RelatedFromTopics { get; set; }
+        public virtual ICollection<RelatedTopic> RelatedToTopics { get; set; }
+        public virtual ICollection<TopicFragment> TopicFragmentsParents { get; set; }
+        public virtual ICollection<TopicFragment> TopicFragmentChildren { get; set; }
+        public virtual ICollection<TopicTag> TopicTags { get; set; }
     }
 }

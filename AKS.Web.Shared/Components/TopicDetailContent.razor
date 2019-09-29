@@ -1,0 +1,8 @@
+﻿@using AKS.Common.Models
+
+@((MarkupString)Topic.Content)
+
+@code{
+    [Parameter]
+    public TopicView Topic { get; set; } = new TopicView();
+}

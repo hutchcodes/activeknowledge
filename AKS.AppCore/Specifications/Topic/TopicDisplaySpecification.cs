@@ -10,16 +10,17 @@ namespace AKS.AppCore.Specifications
     {
         public TopicDisplaySpecification(Guid projectId, Guid topicId) : base(x => x.ProjectId == projectId && x.TopicId == topicId)
         {
-            AddInclude(x => x.Tags);
+            AddInclude(x => x.TopicTags);
 
             AddInclude(x => x.RelatedToTopics);
             AddInclude($"{nameof(Topic.RelatedToTopics)}.{nameof(IReferencedTopic.ChildTopic)}");
 
             AddInclude(x => x.CollectionElements);
-            AddInclude($"{nameof(Topic.CollectionElements)}.{nameof(CollectionElement.ElementTopics)}");
+            AddInclude($"{nameof(Topic.CollectionElements)}.{nameof(CollectionElement.CollectionElementTopics)}");
+            AddInclude($"{nameof(Topic.CollectionElements)}.{nameof(CollectionElement.CollectionElementTopics)}.{nameof(CollectionElementTopic.Topic)}");
 
-            AddInclude(x => x.ReferencedFragments);
-            AddInclude($"{nameof(Topic.ReferencedFragments)}.{nameof(IReferencedTopic.ChildTopic)}");
+            AddInclude(x => x.TopicFragmentChildren);
+            AddInclude($"{nameof(Topic.TopicFragmentChildren)}.{nameof(IReferencedTopic.ChildTopic)}");
         }
     }
 }

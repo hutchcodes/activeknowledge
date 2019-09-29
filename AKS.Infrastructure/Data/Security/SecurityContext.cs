@@ -10,10 +10,10 @@ namespace AKS.Infrastructure.Data.Security
 {
     public class SecurityContext : DbContext
     {
-        private static readonly LoggerFactory _myConsoleLoggerFactory =
-            new LoggerFactory(new[] {
-                        new ConsoleLoggerProvider((category, level) => category == DbLoggerCategory.Database.Command.Name && level == LogLevel.Information, true)
-            });
+        private static readonly LoggerFactory _myConsoleLoggerFactory;//=
+            //new LoggerFactory(new[] {
+            //            new ConsoleLoggerProvider( new Microsoft.Extensions.Options.OptionsMonitor<ConsoleLoggerOptions>( new ConsoleLoggerOptions()) // { a (category, level) => category == DbLoggerCategory.Database.Command.Name && level == LogLevel.Information, true)
+            //});
         public SecurityContext(DbContextOptions<SecurityContext> options) : base(options)
         {
         }
@@ -33,9 +33,9 @@ namespace AKS.Infrastructure.Data.Security
             builder.Entity<Group>(ConfigureGroup);
             builder.Entity<User>(ConfigureUser);
         }
-        public DbSet<User> Users { get; set; }
-        public DbSet<Group> Groups { get; set; }
-        public DbSet<ProjectGroupPermissions> ProjectGroupPermissions { get; set; }
+        public DbSet<User> Users { get; set; } = null!;
+        public DbSet<Group> Groups { get; set; } = null!;
+        public DbSet<ProjectGroupPermissions> ProjectGroupPermissions { get; set; } = null!;
 
         private void ConfigureUser(EntityTypeBuilder<User> builder)
         {
