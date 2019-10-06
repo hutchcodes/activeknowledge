@@ -22,7 +22,7 @@ namespace AKS.AppCore.Entities
         public Guid TopicId { get; set; }
         public Guid ProjectId { get; set; }
         public int TopicTypeId { get; set; }
-        public string? Title { get; set; }
+        public string Title { get; set; } = "";
         public string? Description { get; set; }
         public Guid? ImageResourceId { get; set; }
         public string? Content { get; set; }

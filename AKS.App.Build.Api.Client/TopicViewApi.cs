@@ -1,4 +1,5 @@
 ﻿using AKS.Common.Models;
+using Microsoft.Extensions.Configuration;
 using RestSharp;
 using System;
 using System.Collections.Generic;
@@ -9,12 +10,15 @@ namespace AKS.App.Build.Api.Client
 {
     public class TopicViewApi
     {
-#warning API Root is Hardcoded
-        readonly string _apiRoot = "https://localhost:44368/api/";
+        readonly string _aksApiBaseUrl;
 
+        public TopicViewApi(IConfiguration configuration)
+        {
+            _aksApiBaseUrl = configuration.GetValue<string>("AppSettings:AKSApiBaseUrl");
+        }
         public async Task<TopicView> GetTopic(Guid projectId, Guid topicId)
         {
-            var client = new RestClient(_apiRoot);
+            var client = new RestClient(_aksApiBaseUrl);
             // client.Authenticator = new HttpBasicAuthenticator(username, password);
 
             var request = new RestRequest("topicview/{projectId}/{topicId}", Method.GET);
@@ -31,7 +35,7 @@ namespace AKS.App.Build.Api.Client
 
         public async Task<List<TopicList>> GetTopicListByProjectId(Guid projectId)
         {
-            var client = new RestClient(_apiRoot);
+            var client = new RestClient(_aksApiBaseUrl);
             // client.Authenticator = new HttpBasicAuthenticator(username, password);
 
             var request = new RestRequest("topicview/{projectId}", Method.GET);

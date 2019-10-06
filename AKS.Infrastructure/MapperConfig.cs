@@ -27,7 +27,8 @@ namespace AKS.Infrastructure
             ConfigTopicModel();
             ConfigTagModel();
             ConfigCategoryTreeModel();
-            //ConfigTopicEntity();
+            CollectionElementConfig();
+            ConfigTopicEntity();
 
             Mapper.Initialize(_cfg);
             Mapper.AssertConfigurationIsValid();
@@ -75,24 +76,18 @@ namespace AKS.Infrastructure
                 .ForMember(mod => mod.Tags, y => y.MapFrom(ent => ent.TopicTags))
                 .ReverseMap()
             ;
-
-            _cfg.CreateMap<Ents.CollectionElement, Mods.CollectionElement>()
-                .ForMember(mod => mod.ElementTopics, y => y.MapFrom(ent => ent.CollectionElementTopics))
-                .ReverseMap()
-            ;
-            _cfg.CreateMap<Ents.CollectionElementTopic, Mods.CollectionElementTopic>()
-                .ReverseMap()
-                .ForMember(mod => mod.Topic, y => y.Ignore());
         }
 
-#warning How is this working without the below?
         private static void CollectionElementConfig()
         {
             _cfg.CreateMap<Ents.CollectionElement, Mods.CollectionElement>()
                 .ForMember(mod => mod.ElementTopics, y => y.MapFrom(ent => ent.CollectionElementTopics))
+                .ReverseMap()
             ;
             _cfg.CreateMap<Ents.CollectionElementTopic, Mods.CollectionElementTopic>()
                 .ForMember(mod => mod.Topic, y => y.MapFrom(ent => ent.Topic))
+                .ReverseMap()
+                .ForMember(mod => mod.Topic, y => y.Ignore());
             ;
         }
 
@@ -132,12 +127,14 @@ namespace AKS.Infrastructure
                 .ForMember(ent => ent.ImageResourceId, y => y.Ignore())
                 .ForMember(ent => ent.RelatedFromTopics, y => y.Ignore())
                 .ForMember(ent => ent.TopicTags, y => y.MapFrom(mod => mod.Tags))
+                .ForMember(ent => ent.CategoryTopics, y=> y.Ignore())
+                .ForMember(ent => ent.CollectionElementTopics, y => y.Ignore())
                 .ConstructUsing((mod, ent) => new Ents.Topic())
             ;
 
             _cfg.CreateMap<Mods.CollectionElement, Ents.CollectionElement>()
                 .ForMember(ent => ent.Topic, y => y.Ignore())
-            //.ForMember(ent => ent.ElementTopics, y=> y.Ignore())
+                .ForMember(ent => ent.CollectionElementTopics, y => y.Ignore())
             ;
 
             _cfg.CreateMap<Mods.TopicView, Ents.Topic>()

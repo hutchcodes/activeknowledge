@@ -12,7 +12,7 @@ using Microsoft.Extensions.Logging;
 
 namespace AKS.App.Build.Api
 {
-    public class Program
+    public static class Program
     {
         public static void Main(string[] args)
         {

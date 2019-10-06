@@ -16,7 +16,7 @@ using Microsoft.Extensions.Hosting;
 using AKS.App.Build.Areas.Identity;
 using AKS.App.Build.Data;
 using AKS.App.Core.Data;
-using AKS.Web.Web.Data;
+using AKS.App.Build.Api.Client;
 
 namespace AKS.App.Build
 {
@@ -43,10 +43,15 @@ namespace AKS.App.Build
             services.AddScoped<AuthenticationStateProvider, RevalidatingIdentityAuthenticationStateProvider<IdentityUser>>();
 
             services.AddScoped<IAppState, AppState>();
+            services.AddScoped<TopicViewApi, TopicViewApi>();
+            services.AddScoped<HeaderApi, HeaderApi>();
         }
 
+
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.
+#pragma warning disable CA1822 // Mark members as static, we may want to access member variables later.
         public void Configure(IApplicationBuilder app, IWebHostEnvironment env)
+#pragma warning restore CA1822 // Mark members as static
         {
             if (env.IsDevelopment())
             {

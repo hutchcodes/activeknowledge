@@ -1,0 +1,28 @@
+﻿@using AKS.Common.Models
+@switch (Extension)
+{
+    case ".png":
+    case ".jpg":
+        <img src="@FileUri" />
+        break;
+}
+
+@code{
+    [Parameter]
+    public Uri? FileUri { get; set; }
+
+    public string Extension { get; set; } = "";
+
+    protected override void OnParametersSet()
+    {
+        if (FileUri == null)
+        {
+            return;
+        }
+
+        var uriPath = FileUri.GetComponents(UriComponents.Path, UriFormat.SafeUnescaped);
+
+        Extension = uriPath.Substring(uriPath.LastIndexOf(".")).ToLowerInvariant();
+        //StateHasChanged();
+    }
+}

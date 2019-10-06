@@ -27,7 +27,7 @@ namespace AKS.App.Build.Api.Helpers
             // Used to accumulate all the form url encoded key value pairs in the 
             // request.
             var formAccumulator = new KeyValueAccumulator();
-            
+
             var boundary = MultipartRequestHelper.GetBoundary(
                 MediaTypeHeaderValue.Parse(request.ContentType),
                 _defaultFormOptions.MultipartBoundaryLengthLimit);
@@ -54,26 +54,26 @@ namespace AKS.App.Build.Api.Helpers
                         // multipart headers length limit is already in effect.
                         var key = HeaderUtilities.RemoveQuotes(contentDisposition.Name);
                         var encoding = GetEncoding(section);
-                        using (var streamReader = new StreamReader(
+                        using var streamReader = new StreamReader(
                             section.Body,
                             encoding,
                             detectEncodingFromByteOrderMarks: true,
                             bufferSize: 1024,
-                            leaveOpen: true))
-                        {
-                            // The value length limit is enforced by MultipartBodyLengthLimit
-                            var value = await streamReader.ReadToEndAsync();
-                            if (string.Equals(value, "undefined", StringComparison.OrdinalIgnoreCase))
-                            {
-                                value = string.Empty;
-                            }
-                            formAccumulator.Append(key.Value, value); // For .NET Core <2.0 remove ".Value" from key
+                            leaveOpen: true);
 
-                            if (formAccumulator.ValueCount > _defaultFormOptions.ValueCountLimit)
-                            {
-                                throw new InvalidDataException($"Form key count limit {_defaultFormOptions.ValueCountLimit} exceeded.");
-                            }
+                        // The value length limit is enforced by MultipartBodyLengthLimit
+                        var value = await streamReader.ReadToEndAsync();
+                        if (string.Equals(value, "undefined", StringComparison.OrdinalIgnoreCase))
+                        {
+                            value = string.Empty;
                         }
+                        formAccumulator.Append(key.Value, value); // For .NET Core <2.0 remove ".Value" from key
+
+                        if (formAccumulator.ValueCount > _defaultFormOptions.ValueCountLimit)
+                        {
+                            throw new InvalidDataException($"Form key count limit {_defaultFormOptions.ValueCountLimit} exceeded.");
+                        }
+
                     }
                 }
 

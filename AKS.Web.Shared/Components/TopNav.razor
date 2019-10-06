@@ -1,4 +1,6 @@
-﻿<nav class="navbar navbar-expand-md navbar-dark bg-primary">
+﻿@using  AKS.App.Core.Data
+
+<nav class="navbar navbar-expand-md navbar-dark bg-primary">
     <div role="group" class="container">
         <a class="navbar-brand" href="#">AKS - Build</a>
         <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
@@ -30,6 +32,10 @@
 </nav>
 
 @code {
+
+    [Inject]
+    public IAppState AppState { get; set; } = null!;
+
     bool collapseNavMenu = true;
 
     string? NavMenuCssClass => collapseNavMenu ? "collapse" : null;

@@ -93,11 +93,11 @@ namespace AKS.Infrastructure.Data
             var cat1Sub1 = new Category() { CategoryId = new Guid(4, 0, 0, new byte[8]), Name = "Category1Sub1", ProjectId = _projectId1, Order = 1 };
             var cat1Sub1Sub2 = new Category() { CategoryId = new Guid(5, 0, 0, new byte[8]), Name = "Category1Sub1Sub2", ProjectId = _projectId1, Order = 1 };
 
-            //cat1.AddReferencedCategory(cat1Sub1, 1);
-            //cat1Sub1.AddReferencedCategory(cat1Sub1Sub2, 1);
-            //cat1.AddReferencedTopic(new Guid(111, 0, 0, new byte[8]), 1);
-            //cat1Sub1.AddReferencedTopic(new Guid(222, 0, 0, new byte[8]), 1);
-            //cat1Sub1Sub2.AddReferencedTopic(new Guid(444, 0, 0, new byte[8]), 1);
+            cat1.Categories.Add(cat1Sub1);
+            cat1Sub1.Categories.Add(cat1Sub1Sub2);
+            cat1.CategoryTopics.Add(new CategoryTopic { ProjectId = _projectId1, TopicId = new Guid(111, 0, 0, new byte[8]), CategoryId = cat1.CategoryId, Order = 1 });
+            cat1Sub1.CategoryTopics.Add(new CategoryTopic { ProjectId = _projectId1, TopicId = new Guid(222, 0, 0, new byte[8]), CategoryId = cat1Sub1.CategoryId, Order = 1 });
+            cat1Sub1Sub2.CategoryTopics.Add(new CategoryTopic { ProjectId = _projectId1, TopicId = new Guid(444, 0, 0, new byte[8]), CategoryId = cat1Sub1Sub2.CategoryId, Order = 1 });
 
             return new List<Category>()
             {

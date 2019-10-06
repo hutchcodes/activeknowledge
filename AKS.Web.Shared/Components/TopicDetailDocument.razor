@@ -1,0 +1,23 @@
+﻿@using AKS.Common.Models
+
+
+<a href="@FileUri?.AbsoluteUri" download>@Topic.DocumentName</a>
+
+<FilePreview FileUri="@FileUri" />
+
+@code{
+    [Parameter]
+    public TopicView Topic { get; set; } = new TopicView();
+
+    public Uri? FileUri {get;set;}
+
+    protected override void OnParametersSet()
+    {
+        if (string.IsNullOrWhiteSpace(Topic.DocumentName))
+        {
+            return;
+        }
+
+        FileUri = new Uri($"https://localhost:44368/api/ContentDocument/{Topic.ProjectId}/{Topic.TopicId}/{Topic.DocumentName}");
+    }
+}

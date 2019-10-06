@@ -187,13 +187,13 @@ namespace AKS.Infrastructure.Data
                 entity.HasIndex(e => e.ParentTopicId);
 
                 entity.HasOne(d => d.ChildTopic)
-                    .WithMany(p => p!.TopicFragmentChildren)
+                    .WithMany(p => p!.TopicFragmentsParents)
                     .HasForeignKey(d => new { d.ChildTopicId, d.ProjectId })
                     .OnDelete(DeleteBehavior.ClientSetNull)
                     .HasConstraintName("FK_Fragment_Topic");
 
                 entity.HasOne(d => d.ParentTopic)
-                    .WithMany(p => p!.TopicFragmentsParents)
+                    .WithMany(p => p!.TopicFragmentChildren)
                     .HasForeignKey(d => new { d.ParentTopicId, d.ProjectId })
                     .OnDelete(DeleteBehavior.ClientSetNull)
                     .HasConstraintName("FK_Topic_Fragment");

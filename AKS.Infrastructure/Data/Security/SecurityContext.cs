@@ -10,17 +10,12 @@ namespace AKS.Infrastructure.Data.Security
 {
     public class SecurityContext : DbContext
     {
-        private static readonly LoggerFactory _myConsoleLoggerFactory;//=
-            //new LoggerFactory(new[] {
-            //            new ConsoleLoggerProvider( new Microsoft.Extensions.Options.OptionsMonitor<ConsoleLoggerOptions>( new ConsoleLoggerOptions()) // { a (category, level) => category == DbLoggerCategory.Database.Command.Name && level == LogLevel.Information, true)
-            //});
         public SecurityContext(DbContextOptions<SecurityContext> options) : base(options)
         {
         }
 
         protected override void OnConfiguring(DbContextOptionsBuilder optionsBuilder)
         {
-            optionsBuilder.UseLoggerFactory(_myConsoleLoggerFactory);
 #if DEBUG
             optionsBuilder.EnableSensitiveDataLogging(true);
 #endif

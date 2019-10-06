@@ -1,5 +1,6 @@
 using System;
 using System.Collections.Generic;
+using System.Linq;
 using AutoMapper;
 using NUnit.Framework;
 using Ents = AKS.AppCore.Entities;
@@ -40,7 +41,7 @@ namespace AKS.Infrastructure.Tests.Mappers
             _entity1.TopicTags.Add(new Ents.TopicTag { Tag = new Ents.Tag { ProjectId = projectId, TagId = Guid.NewGuid(), Name = "Tag1" } });
             var entCollectionElement = new Ents.CollectionElement { Topic = _entity1, ProjectId = projectId, CollectionElementId = Guid.NewGuid(), Name = "TestCollectionElement", TopicId = topicId1 };
             _entity1.CollectionElements.Add(entCollectionElement);
-            entCollectionElement.CollectionElementTopics.Add(new Ents.CollectionElementTopic { ProjectId = projectId, CollectionElementId = entCollectionElement.CollectionElementId, TopicId = topicId2, Order = 1 });
+            entCollectionElement.CollectionElementTopics.Add(new Ents.CollectionElementTopic { ProjectId = projectId, CollectionElementId = entCollectionElement.CollectionElementId, TopicId = _entity2.TopicId, Order = 1, Topic = _entity2 });
 
             _model = new Mods.TopicEdit
             {
@@ -92,6 +93,9 @@ namespace AKS.Infrastructure.Tests.Mappers
             Assert.AreEqual(_entity1.Description, topicModel.Description);
             Assert.AreEqual(_entity1.DocumentName, topicModel.DocumentName);
             Assert.AreEqual(_entity1.TopicTypeId, topicModel.TopicTypeId);
+
+            Assert.AreEqual(_entity1.CollectionElements.Count, topicModel.CollectionElements.Count);
+            Assert.AreEqual(_entity1.CollectionElements.First().CollectionElementTopics.First().TopicId, topicModel.CollectionElements.First().ElementTopics.First().TopicId);
 
             Assert.AreEqual(_entity1.TopicTags.Count, topicModel.Tags.Count);
         }

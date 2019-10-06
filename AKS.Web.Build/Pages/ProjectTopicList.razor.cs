@@ -14,6 +14,9 @@ namespace AKS.App.Core
         [Parameter]
         public Guid ProjectId { get; set; }
 
+        [Inject]
+        public TopicViewApi TopicViewApi { get; set; } = null!;
+
         public List<TopicList> TopicList { get; set; } = new List<TopicList>();
         public override async Task SetParametersAsync(ParameterView parameters)
         {
@@ -24,12 +27,11 @@ namespace AKS.App.Core
         
         public async Task GetTopicList()
         {
-            var topicViewAPI = new TopicViewApi();
-            TopicList = await topicViewAPI.GetTopicListByProjectId(ProjectId);
+            TopicList = await TopicViewApi.GetTopicListByProjectId(ProjectId);
             StateHasChanged();
         }
 
-        public string GetTopicTypeDescription(int topicTypeId)
+        public static string GetTopicTypeDescription(int topicTypeId)
         {
             return topicTypeId switch
             {

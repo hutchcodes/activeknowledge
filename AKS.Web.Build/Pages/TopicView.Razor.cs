@@ -14,23 +14,27 @@ namespace AKS.App.Core
         [Parameter]
         public Guid ProjectId { get; set; }
         [Parameter]
-        public Guid TopicId { get; set; }
+        public Guid TopicId { get; set; }       
 
         [Inject]
-        IAppState AppState { get; set; } = null!;
+        TopicViewApi TopicViewApi { get; set; } = null!;
+
+        [CascadingParameter] IAppState AppState { get; set; } = null!;
 
         public TopicView? Topic { get; set; }
         public override async Task SetParametersAsync(ParameterView parameters)
         {
             await base.SetParametersAsync(parameters);
-            await LoadTopic();
+            var headerTask = AppState.UpdateCustomerAndProject(null, ProjectId);
+            var topicTask = LoadTopic();
+            await headerTask;
+            await topicTask;
             StateHasChanged();
         }
 
         private async Task LoadTopic()
         {
-            var topicViewAPI = new TopicViewApi();
-            Topic = await topicViewAPI.GetTopic(ProjectId, TopicId);
+            Topic = await TopicViewApi.GetTopic(ProjectId, TopicId);
         }
 
         protected string TocCollapsedClass
