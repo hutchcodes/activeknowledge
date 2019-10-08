@@ -12,17 +12,19 @@ namespace AKS.App.Build
     public class AppState : IAppState
     {
         private readonly HeaderApi _headerApiClient;
+        private readonly CategoryViewApi _categoryViewApi;
 
-        public AppState(HeaderApi headerApiClient)
+        public AppState(HeaderApi headerApiClient, CategoryViewApi categoryViewApi)
         {
             _headerApiClient = headerApiClient;
+            _categoryViewApi = categoryViewApi;
         }
         public Guid CustomerId { get; private set; }
 
         public Guid ProjectId { get; private set; }
 
         public HeaderNavView? HeaderNav { get; set; }
-        public CategoryTreeView? CategoryTree { get; set; }
+        public CategoryTreeView CategoryTree { get; set; } = new CategoryTreeView();
 
         public async Task UpdateCustomerAndProject(Guid? customerId, Guid? projectId)
         {
@@ -45,13 +47,11 @@ namespace AKS.App.Build
             ProjectId = projectId;
 
             var getHeaderTask = _headerApiClient.GetHeaderForProject(projectId);
-            //var getCategoryTreeTask = _categoryService.GetCategoryTreeAsync(projectId);
+            var getCategoryTreeTask = _categoryViewApi.GetCategoryTreeForProject(projectId);
 
-            await Task.WhenAll(getHeaderTask);//, getCategoryTreeTask);
-
-            HeaderNav = getHeaderTask.Result;
+            HeaderNav = await getHeaderTask;
+            CategoryTree = await getCategoryTreeTask ?? new CategoryTreeView(); ;
             CustomerId = HeaderNav.CustomerId;
-            //CategoryTree = getCategoryTreeTask.Result;
             OnUpdateStatus?.Invoke(this, new EventArgs());
         }
 
@@ -66,6 +66,7 @@ namespace AKS.App.Build
             var getHeaderTask = _headerApiClient.GetHeaderForCustomer(customerId);
 
             HeaderNav = await getHeaderTask;
+            CategoryTree = new CategoryTreeView(); ;
         }
 
         public event IAppState.AppStateChangeHandler? OnUpdateStatus;

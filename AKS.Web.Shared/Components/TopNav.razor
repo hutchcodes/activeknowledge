@@ -1,4 +1,4 @@
-﻿@using  AKS.App.Core.Data
+﻿@using AKS.App.Core.Data
 
 <nav class="navbar navbar-expand-md navbar-dark bg-primary">
     <div role="group" class="container">
@@ -33,8 +33,7 @@
 
 @code {
 
-    [Inject]
-    public IAppState AppState { get; set; } = null!;
+    [CascadingParameter] IAppState AppState { get; set; } = null!;
 
     bool collapseNavMenu = true;
 

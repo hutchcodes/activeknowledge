@@ -1,0 +1,38 @@
+﻿@using Microsoft.AspNetCore.Components.Web
+@using AKS.Common.Models
+
+        <li>
+                <span class="caret @CaretDown" @onclick="CategoryClick">@Category.Name</span>
+            <ul class="nested @CategoryIsActive">
+                @foreach (var cat in Category.Categories)
+                {
+                    <TableOfContentsCategory Category ="@cat" />
+                }
+                @foreach (var top in Category.Topics)
+                {
+                    <li><a href="/topic/@top.ProjectId/@top.TopicId"><i class="icon-file-text"></i>@top.Title</a></li>
+                }
+            </ul>
+        </li>
+        
+
+@code {
+    [Parameter] public CategoryTreeView Category { get; set; } = new CategoryTreeView();
+
+    string CategoryIsActive = "";
+    string CaretDown = "";
+
+    public void CategoryClick()
+    {
+        if (string.IsNullOrWhiteSpace(CategoryIsActive))
+        {
+            CategoryIsActive = "active";
+            CaretDown = "caret-down";
+        }
+        else
+        {
+            CategoryIsActive = "";
+            CaretDown = "";
+        }
+    }
+}

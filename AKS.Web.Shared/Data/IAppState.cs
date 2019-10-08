@@ -14,7 +14,7 @@ namespace AKS.App.Core.Data
         public Guid ProjectId { get; }
 
         public HeaderNavView? HeaderNav { get; set; }
-        public CategoryTreeView? CategoryTree { get; set; }
+        public CategoryTreeView CategoryTree { get; set; } 
 
         public Task UpdateCustomerAndProject(Guid? customerId, Guid? projectId);
 
