@@ -12,6 +12,7 @@ namespace AKS.App.Core
 {
     public class CustomerProjectListBase : ComponentBase
     {
+
         [Parameter]
         public Guid CustomerId { get; set; }
 

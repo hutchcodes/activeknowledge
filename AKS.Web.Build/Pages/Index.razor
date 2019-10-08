@@ -1,17 +1,15 @@
-﻿@page "/"
+﻿@inject Microsoft.AspNetCore.Components.NavigationManager navMan
 
-    <div role="document" class="container mt-5 appcontent">
-        <div>
-            <a href="customer/0000007b-0000-0000-0000-000000000000">Customer Topic List</a>
-        </div>
-        <div>
-            <a href="project/000004d2-0000-0000-0000-000000000000">Project Topic List</a>
-        </div>
-        <div>
-            <a href="topic/000004d2-0000-0000-0000-000000000000/0000006f-0000-0000-0000-000000000000">Topic View - Content</a>
-        </div>
+@page "/"
 
-        <div>
-            <a href="topic/000004d2-0000-0000-0000-000000000000/0000022b-0000-0000-0000-000000000000">Topic View - Collection</a>
-        </div>
-    </div>
+@code{
+    protected override void OnAfterRender(bool firstRender)
+    {
+        //https://localhost:44331/customer/0000007b-0000-0000-0000-000000000000
+        navMan.NavigateTo("/customer/0000007b-0000-0000-0000-000000000000");
+    }
+    protected override void OnInitialized()
+    {
+        //navMan.NavigateTo("/customer/0000007b-0000-0000-0000-000000000000");
+    }
+}
