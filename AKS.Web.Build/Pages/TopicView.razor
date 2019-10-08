@@ -8,15 +8,15 @@
 }
 else
 {
-    <div role="group" class="container">
+    <div role="group" class="container appcontent">
         <div role="group" class="row nav-content">
-            <TopicHeader />
+            <ProjectHeader />
         </div>
         <div role="group" class="row">
-            <div role="group" id="tocView" class="@TocCollapsedClass toc col-lg-3">
+            <div role="group" id="tocView" class="@AppState.TocCollapsedClass toc col-lg-3">
                 <TableOfContents />
             </div>
-            <div id="topicContent" role="document" class="col col-lg-9">
+            <div id="topicContent" role="document" class="col @AppState.TocContentClass">
                 <h1>@Topic.Title</h1>
                 <p class="description">
                     @Topic.Description

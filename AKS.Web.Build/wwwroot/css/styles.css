@@ -3,11 +3,15 @@
 
 /* AKS styling */
 
-body>nav {
+body>app>nav {
     min-height: 60px;
 }
 
-.container[role="document"] {
+/*.container[role="document"] {
+    min-height: calc((100vh) - 10.25rem);
+}*/
+
+.appcontent {
     min-height: calc((100vh) - 10.25rem);
 }
 

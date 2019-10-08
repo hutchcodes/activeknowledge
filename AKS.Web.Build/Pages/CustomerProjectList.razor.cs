@@ -1,5 +1,4 @@
 ﻿using AKS.App.Build.Api.Client;
-using AKS.App.Core.Data;
 using AKS.Common.Models;
 using Microsoft.AspNetCore.Components;
 using System;
@@ -10,31 +9,25 @@ using System.Threading.Tasks;
 
 namespace AKS.App.Core
 {
-    public class ProjectTopicListBase : ComponentBase
+    public class CustomerProjectListBase : ComponentBase
     {
         [Parameter]
-        public Guid ProjectId { get; set; }
+        public Guid CustomerId { get; set; }
 
         [Inject]
         public TopicViewApi TopicViewApi { get; set; } = null!;
-
-        [CascadingParameter] protected IAppState AppState { get; set; } = null!;
 
         public List<TopicList> TopicList { get; set; } = new List<TopicList>();
         public override async Task SetParametersAsync(ParameterView parameters)
         {
             await base.SetParametersAsync(parameters);
 
-            var headerTask = AppState.UpdateCustomerAndProject(null, ProjectId);
-            var topicTask = GetTopicList();
-            await headerTask;
-            await topicTask;
-            //StateHasChanged();
+            await GetTopicList();
         }
         
         public async Task GetTopicList()
         {
-            TopicList = await TopicViewApi.GetTopicListByProjectId(ProjectId);
+            TopicList = await TopicViewApi.GetTopicListByProjectId(CustomerId);
             StateHasChanged();
         }
 

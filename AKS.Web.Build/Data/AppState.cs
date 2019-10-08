@@ -36,7 +36,7 @@ namespace AKS.App.Build
             {
                 await LoadCustomerInfo(customerId.Value);
             }
-            
+
         }
         private async Task LoadProjectInfo(Guid projectId)
         {
@@ -57,7 +57,7 @@ namespace AKS.App.Build
 
         private async Task LoadCustomerInfo(Guid customerId)
         {
-            if (customerId == CustomerId && ProjectId == Guid.Empty) 
+            if (customerId == CustomerId && ProjectId == Guid.Empty)
             {
                 return;
             }
@@ -71,7 +71,20 @@ namespace AKS.App.Build
 
         public event IAppState.AppStateChangeHandler? OnUpdateStatus;
 
-        public bool TocIsVisible { get; set; } = true;
+        private bool tocIsVisible = false;
+        public bool TocIsVisible
+        {
+            get => tocIsVisible;
+            set
+            {
+                tocIsVisible = value;
+                OnUpdateStatus?.Invoke(this, new EventArgs());
+            }
+        }
+
+        public string TocCollapsedClass => TocIsVisible ? "" : "collapse";
+
+        public string TocContentClass => TocIsVisible ? "col-lg-9" : "";
     }
 }
 

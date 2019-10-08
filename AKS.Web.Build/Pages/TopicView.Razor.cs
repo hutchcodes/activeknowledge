@@ -19,9 +19,11 @@ namespace AKS.App.Core
         [Inject]
         TopicViewApi TopicViewApi { get; set; } = null!;
 
-        [CascadingParameter] IAppState AppState { get; set; } = null!;
+        [CascadingParameter] protected IAppState AppState { get; set; } = null!;
 
         public TopicView? Topic { get; set; }
+
+
         public override async Task SetParametersAsync(ParameterView parameters)
         {
             await base.SetParametersAsync(parameters);
@@ -35,30 +37,6 @@ namespace AKS.App.Core
         private async Task LoadTopic()
         {
             Topic = await TopicViewApi.GetTopic(ProjectId, TopicId);
-        }
-
-        protected string TocCollapsedClass
-        {
-            get
-            {
-                if (!AppState.TocIsVisible)
-                {
-                    return "collapse";
-                }
-                return "";
-            }
-        }
-
-        protected string TopicContentClass
-        {
-            get
-            {
-                if (!AppState.TocIsVisible)
-                {
-                    return "";
-                }
-                return "col-lg-9";
-            }
         }
     }
 }

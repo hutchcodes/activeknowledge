@@ -9,6 +9,8 @@ namespace AKS.App.Core.Data
     public interface IAppState
     {
         public bool TocIsVisible { get; set; }
+        public string TocCollapsedClass { get; }
+        public string TocContentClass { get; }
         public Guid CustomerId { get; }
 
         public Guid ProjectId { get; }
