@@ -17,7 +17,7 @@ namespace AKS.App.Build.Api.Controllers
             _topicService = topciService;
         }
 
-        [HttpGet("{projectId:Guid}", Name = "GetTopicsByProjectId")]
+        [HttpGet("list/{projectId:Guid}", Name = "GetTopicsByProjectId")]
         public async Task<List<TopicList>> GetTopicsByProjectId(Guid projectId)
         {
             var topicList = await _topicService.GetTopicListForProject(projectId);

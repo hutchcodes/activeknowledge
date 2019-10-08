@@ -1,8 +1,8 @@
 ﻿@using AKS.Common.Models
 
-
-<a href="@FileUri?.AbsoluteUri" download>@Topic.DocumentName</a>
-
+    <div>
+        <a href="@FileUri?.AbsoluteUri" download>@Topic.DocumentName</a>
+    </div>
 <FilePreview FileUri="@FileUri" />
 
 @code{

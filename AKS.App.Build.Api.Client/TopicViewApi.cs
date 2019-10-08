@@ -10,15 +10,15 @@ namespace AKS.App.Build.Api.Client
 {
     public class TopicViewApi
     {
-        readonly string _aksApiBaseUrl;
+        readonly string _aksBuildApiBaseUrl;
 
         public TopicViewApi(IConfiguration configuration)
         {
-            _aksApiBaseUrl = configuration.GetValue<string>("AppSettings:AKSApiBaseUrl");
+            _aksBuildApiBaseUrl = configuration.GetValue<string>("AppSettings:AKSBuildApiBaseUrl");
         }
         public async Task<TopicView> GetTopic(Guid projectId, Guid topicId)
         {
-            var client = new RestClient(_aksApiBaseUrl);
+            var client = new RestClient(_aksBuildApiBaseUrl);
             // client.Authenticator = new HttpBasicAuthenticator(username, password);
 
             var request = new RestRequest("topicview/{projectId}/{topicId}", Method.GET);
@@ -35,10 +35,10 @@ namespace AKS.App.Build.Api.Client
 
         public async Task<List<TopicList>> GetTopicListByProjectId(Guid projectId)
         {
-            var client = new RestClient(_aksApiBaseUrl);
+            var client = new RestClient(_aksBuildApiBaseUrl);
             // client.Authenticator = new HttpBasicAuthenticator(username, password);
 
-            var request = new RestRequest("topicview/{projectId}", Method.GET);
+            var request = new RestRequest("topicview/list/{projectId}", Method.GET);
             request.AddUrlSegment("projectId", projectId);
 
             // easily add HTTP Headers

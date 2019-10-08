@@ -1,8 +1,8 @@
-﻿@page "/customer/{customer:guid}"
+﻿@page "/customer/{customerId:guid}"
 @inherits AKS.App.Core.CustomerProjectListBase
 
 <div role="document" class="container appcontent">
-    <h1 class="display-4 m-0">Some Company Inc.</h1>
+    <h1 class="display-4 m-0">@AppState?.HeaderNav?.CustomerName</h1>
     <div role="group" class="row">
         <div role="group" class="col mb-4 text-right">
             Sort options:
@@ -16,38 +16,19 @@
     <table class="table table-hover">
         <thead>
             <tr>
-                <th class="col-6">Topic</th>
-                <th class="col-1"></th>
-                <th class="col-1">Rating</th>
-                <th class="col-1">Comments</th>
-                <th class="col-3">Topic type</th>
+                <th scope="col">Projects</th>
+                <th scope="col" style="width:150px">Topic count</th>
             </tr>
         </thead>
         <tbody>
-            @foreach (var topic in TopicList)
+            @foreach (var project in ProjectList)
             {
                 <tr>
-                    <td><a href="topic/@topic.ProjectId/@topic.TopicId">@topic.Title</a></td>
-                    <td><a href="#" class="text-secondary"><i class="icon-info" data-toggle="tooltip" title="@topic.Description"></i></a></td>
-                    <td>3</td>
-                    <td>6</td>
-                    <td>@GetTopicTypeDescription(topic.TopicTypeId)</td>
+                    <td><a href="project/@project.ProjectId">@project.Name</a></td>
+                    <td>@project.TopicCount</td>
                 </tr>
             }
         </tbody>
-    </table>
-    <nav aria-label="Page navigation example">
-        <ul class="pagination justify-content-center">
-            <li class="page-item disabled">
-                <a class="page-link" href="#" tabindex="-1">Previous</a>
-            </li>
-            <li class="page-item"><a class="page-link" href="#">1</a></li>
-            <li class="page-item"><a class="page-link" href="#">2</a></li>
-            <li class="page-item"><a class="page-link" href="#">3</a></li>
-            <li class="page-item">
-                <a class="page-link" href="#">Next</a>
-            </li>
-        </ul>
-    </nav>
+    </table>    
 </div>
 

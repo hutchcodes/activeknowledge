@@ -43,8 +43,9 @@ namespace AKS.App.Build
             services.AddScoped<AuthenticationStateProvider, RevalidatingIdentityAuthenticationStateProvider<IdentityUser>>();
 
             services.AddScoped<IAppState, AppState>();
-            services.AddScoped<TopicViewApi, TopicViewApi>();
             services.AddScoped<HeaderApi, HeaderApi>();
+            services.AddScoped<ProjectViewApi, ProjectViewApi>();
+            services.AddScoped<TopicViewApi, TopicViewApi>();
             services.AddScoped<CategoryViewApi, CategoryViewApi>();
         }
 

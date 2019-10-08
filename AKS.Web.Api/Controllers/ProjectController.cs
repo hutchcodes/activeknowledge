@@ -13,17 +13,26 @@ namespace AKS.App.Build.Api.Controllers
     [ApiController]
     public class ProjectController : ControllerBase
     {
-        private readonly IHeaderService _headerService;
-        public ProjectController(IHeaderService headerService)
+        private readonly IProjectService projectService;
+        private readonly IHeaderService headerService;
+
+        public ProjectController(IProjectService projectService, IHeaderService headerService)
         {
-            _headerService = headerService;
+            this.projectService = projectService;
+            this.headerService = headerService;
         }
-        
+
         // GET: api/Project/Header/1234
-        [HttpGet("header/{projectId:Guid}",  Name = "GetProjectHeader")]
+        [HttpGet("header/{projectId:Guid}", Name = "GetProjectHeader")]
         public async Task<HeaderNavView> GetHeader(Guid projectId)
         {
-            return await _headerService.GetHeaderForProjectAsync(projectId);
+            return await headerService.GetHeaderForProjectAsync(projectId);
+        }
+
+        [HttpGet("list/{customerId:Guid}", Name = "GetProjectsForCustomer")]
+        public async Task<List<ProjectList>> GetProjectsForCustomer(Guid customerId)
+        {
+            return await projectService.GetProjetListForDisplayAsync(customerId);
         }
     }
 }

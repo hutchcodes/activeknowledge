@@ -9,5 +9,7 @@ namespace AKS.Common.Models
     {
         public Guid ProjectId { get; set; }
         public string? Name { get; set; }
+
+        public int TopicCount { get; set; } = new Random().Next(25, 75);
     }
 }

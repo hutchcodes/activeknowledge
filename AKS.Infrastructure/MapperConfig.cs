@@ -50,7 +50,9 @@ namespace AKS.Infrastructure
 
         private static void ConfigProjectModel()
         {
-            _cfg.CreateMap<Ents.Project, Mods.ProjectList>();
+            _cfg.CreateMap<Ents.Project, Mods.ProjectList>()
+                .ForMember(mod => mod.TopicCount, x=> x.Ignore())
+                ;
             _cfg.CreateMap<Ents.Project, Mods.HeaderNavView>()
                 .ForMember(mod => mod.ProjectName, x => x.MapFrom(ent => ent.Name))
                 .ForMember(mod => mod.ProjectLogo, x => x.MapFrom(ent => ent.LogoFileName))

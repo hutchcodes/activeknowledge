@@ -8,28 +8,29 @@ using System.Threading.Tasks;
 
 namespace AKS.App.Build.Api.Client
 {
-    public class CategoryViewApi
+    public class ProjectViewApi
     {
         readonly string _aksBuildApiBaseUrl;
 
-        public CategoryViewApi(IConfiguration configuration) 
+        public ProjectViewApi(IConfiguration configuration)
         {
             _aksBuildApiBaseUrl = configuration.GetValue<string>("AppSettings:AKSBuildApiBaseUrl");
-        }
-        public async Task<CategoryTreeView> GetCategoryTreeForProject(Guid projectId)
+        }        
+
+        public async Task<List<ProjectList>> GetProjectListByCustomer(Guid customerId)
         {
             var client = new RestClient(_aksBuildApiBaseUrl);
             // client.Authenticator = new HttpBasicAuthenticator(username, password);
 
-            var request = new RestRequest("categoryview/project/{projectId}", Method.GET);
-            request.AddUrlSegment("projectId", projectId); 
+            var request = new RestRequest("project/list/{customerId}", Method.GET);
+            request.AddUrlSegment("customerId", customerId);
 
             // easily add HTTP Headers
-            //request.AddHeader("header", "value");
+            request.AddHeader("header", "value");
 
-            var response = await client.ExecuteTaskAsync<CategoryTreeView>(request);
-            var categoryTree = response.Data;
-            return categoryTree;
+            var response = await client.ExecuteTaskAsync<List<ProjectList>>(request);
+            var projectList = response.Data;
+            return projectList;
         }
     }
 }
