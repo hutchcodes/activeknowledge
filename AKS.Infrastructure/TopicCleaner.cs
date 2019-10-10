@@ -1,7 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Text;
-using Ents = AKS.AppCore.Entities;
+using Ents = AKS.Infrastructure.Entities;
 
 namespace AKS.Infrastructure
 {

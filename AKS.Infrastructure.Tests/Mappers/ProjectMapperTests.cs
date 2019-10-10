@@ -4,7 +4,7 @@ using AKS.Infrastructure.Data;
 using AutoMapper;
 using Microsoft.EntityFrameworkCore;
 using NUnit.Framework;
-using Ents = AKS.AppCore.Entities;
+using Ents = AKS.Infrastructure.Entities;
 using Mods = AKS.Common.Models;
 
 namespace AKS.Infrastructure.Tests.Mappers

@@ -3,7 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 using AutoMapper;
 using NUnit.Framework;
-using Ents = AKS.AppCore.Entities;
+using Ents = AKS.Infrastructure.Entities;
 using Mods = AKS.Common.Models;
 
 namespace AKS.Infrastructure.Tests.Mappers

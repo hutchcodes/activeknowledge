@@ -1,4 +1,4 @@
-﻿using AKS.AppCore.Security;
+﻿using AKS.Infrastructure.Security;
 using System;
 using System.Collections.Generic;
 using System.Text;

@@ -1,8 +1,7 @@
-﻿using AKS.AppCore.Entities;
-using AKS.AppCore.Interfaces;
-using AKS.AppCore.Specifications;
-using AKS.Infrastructure.Data;
+﻿using AKS.Infrastructure.Entities;
 using AKS.Infrastructure.Interfaces;
+using AKS.Infrastructure.Specifications;
+using AKS.Infrastructure.Data;
 using AKS.Common.Models;
 using Microsoft.Extensions.Logging;
 using System;

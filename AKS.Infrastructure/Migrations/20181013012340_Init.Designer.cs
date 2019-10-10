@@ -21,7 +21,7 @@ namespace AKS.Infrastructure.Migrations
                 .HasAnnotation("Relational:MaxIdentifierLength", 128)
                 .HasAnnotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn);
 
-            modelBuilder.Entity("AKS.AppCore.Entities.Category", b =>
+            modelBuilder.Entity("AKS.Infrastructure.Entities.Category", b =>
                 {
                     b.Property<Guid>("CategoryId")
                         .ValueGeneratedOnAdd();
@@ -45,7 +45,7 @@ namespace AKS.Infrastructure.Migrations
                     b.ToTable("Category");
                 });
 
-            modelBuilder.Entity("AKS.AppCore.Entities.CategoryTopic", b =>
+            modelBuilder.Entity("AKS.Infrastructure.Entities.CategoryTopic", b =>
                 {
                     b.Property<Guid>("ProjectId");
 
@@ -66,7 +66,7 @@ namespace AKS.Infrastructure.Migrations
                     b.ToTable("CategoryTopic");
                 });
 
-            modelBuilder.Entity("AKS.AppCore.Entities.CollectionElement", b =>
+            modelBuilder.Entity("AKS.Infrastructure.Entities.CollectionElement", b =>
                 {
                     b.Property<Guid>("CollectionElementId")
                         .ValueGeneratedOnAdd();
@@ -86,7 +86,7 @@ namespace AKS.Infrastructure.Migrations
                     b.ToTable("CollectionElement");
                 });
 
-            modelBuilder.Entity("AKS.AppCore.Entities.Customer", b =>
+            modelBuilder.Entity("AKS.Infrastructure.Entities.Customer", b =>
                 {
                     b.Property<Guid>("CustomerId")
                         .ValueGeneratedOnAdd();
@@ -104,7 +104,7 @@ namespace AKS.Infrastructure.Migrations
                     b.ToTable("Customer");
                 });
 
-            modelBuilder.Entity("AKS.AppCore.Entities.Project", b =>
+            modelBuilder.Entity("AKS.Infrastructure.Entities.Project", b =>
                 {
                     b.Property<Guid>("ProjectId")
                         .ValueGeneratedOnAdd();
@@ -124,7 +124,7 @@ namespace AKS.Infrastructure.Migrations
                     b.ToTable("Project");
                 });
 
-            modelBuilder.Entity("AKS.AppCore.Entities.Tag", b =>
+            modelBuilder.Entity("AKS.Infrastructure.Entities.Tag", b =>
                 {
                     b.Property<Guid>("TagId")
                         .ValueGeneratedOnAdd();
@@ -144,7 +144,7 @@ namespace AKS.Infrastructure.Migrations
                     b.ToTable("Tag");
                 });
 
-            modelBuilder.Entity("AKS.AppCore.Entities.Topic", b =>
+            modelBuilder.Entity("AKS.Infrastructure.Entities.Topic", b =>
                 {
                     b.Property<Guid>("TopicId")
                         .ValueGeneratedOnAdd();
@@ -179,51 +179,51 @@ namespace AKS.Infrastructure.Migrations
                     b.ToTable("Topic");
                 });
 
-            modelBuilder.Entity("AKS.AppCore.Entities.Category", b =>
+            modelBuilder.Entity("AKS.Infrastructure.Entities.Category", b =>
                 {
-                    b.HasOne("AKS.AppCore.Entities.Category")
+                    b.HasOne("AKS.Infrastructure.Entities.Category")
                         .WithMany("Categories")
                         .HasForeignKey("CategoryId1");
                 });
 
-            modelBuilder.Entity("AKS.AppCore.Entities.CategoryTopic", b =>
+            modelBuilder.Entity("AKS.Infrastructure.Entities.CategoryTopic", b =>
                 {
-                    b.HasOne("AKS.AppCore.Entities.Category")
+                    b.HasOne("AKS.Infrastructure.Entities.Category")
                         .WithMany("Topics")
                         .HasForeignKey("CategoryId");
 
-                    b.HasOne("AKS.AppCore.Entities.Topic", "Topic")
+                    b.HasOne("AKS.Infrastructure.Entities.Topic", "Topic")
                         .WithMany()
                         .HasForeignKey("TopicId")
                         .OnDelete(DeleteBehavior.Cascade);
                 });
 
-            modelBuilder.Entity("AKS.AppCore.Entities.CollectionElement", b =>
+            modelBuilder.Entity("AKS.Infrastructure.Entities.CollectionElement", b =>
                 {
-                    b.HasOne("AKS.AppCore.Entities.Topic", "Topic")
+                    b.HasOne("AKS.Infrastructure.Entities.Topic", "Topic")
                         .WithMany("CollectionElements")
                         .HasForeignKey("TopicId")
                         .OnDelete(DeleteBehavior.Cascade);
                 });
 
-            modelBuilder.Entity("AKS.AppCore.Entities.Project", b =>
+            modelBuilder.Entity("AKS.Infrastructure.Entities.Project", b =>
                 {
-                    b.HasOne("AKS.AppCore.Entities.Customer", "Customer")
+                    b.HasOne("AKS.Infrastructure.Entities.Customer", "Customer")
                         .WithMany()
                         .HasForeignKey("CustomerId")
                         .OnDelete(DeleteBehavior.Cascade);
                 });
 
-            modelBuilder.Entity("AKS.AppCore.Entities.Tag", b =>
+            modelBuilder.Entity("AKS.Infrastructure.Entities.Tag", b =>
                 {
-                    b.HasOne("AKS.AppCore.Entities.Topic")
+                    b.HasOne("AKS.Infrastructure.Entities.Topic")
                         .WithMany("Tags")
                         .HasForeignKey("TopicId");
                 });
 
-            modelBuilder.Entity("AKS.AppCore.Entities.Topic", b =>
+            modelBuilder.Entity("AKS.Infrastructure.Entities.Topic", b =>
                 {
-                    b.HasOne("AKS.AppCore.Entities.CollectionElement")
+                    b.HasOne("AKS.Infrastructure.Entities.CollectionElement")
                         .WithMany("ElementTopics")
                         .HasForeignKey("CollectionElementId");
                 });

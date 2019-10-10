@@ -2,7 +2,7 @@
 using System.Collections.Generic;
 using System.Text;
 using Mods = AKS.Common.Models;
-using Ents = AKS.AppCore.Entities;
+using Ents = AKS.Infrastructure.Entities;
 using AutoMapper;
 using AutoMapper.Configuration;
 using AutoMapper.EquivalencyExpression;

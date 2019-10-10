@@ -3,7 +3,7 @@ using Microsoft.EntityFrameworkCore.Metadata;
 using Microsoft.EntityFrameworkCore.Metadata.Builders;
 using Microsoft.Extensions.Logging;
 using Microsoft.Extensions.Logging.Console;
-using AKS.AppCore.Security;
+using AKS.Infrastructure.Security;
 using System;
 
 namespace AKS.Infrastructure.Data.Security

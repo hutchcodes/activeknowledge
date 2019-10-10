@@ -9,13 +9,13 @@ using AutoMapper.EntityFrameworkCore;
 
 namespace AKS.Infrastructure.Data
 {
-    public class TopicRepository : EfRepository<AppCore.Entities.Topic>
+    public class TopicRepository : EfRepository<Infrastructure.Entities.Topic>
     {
         public TopicRepository(AKSContext dbContext) : base(dbContext)
         {
 
         }
-        public override async Task UpdateAsync(AppCore.Entities.Topic topic)
+        public override async Task UpdateAsync(Infrastructure.Entities.Topic topic)
         {
             _dbContext.Entry(topic).State = EntityState.Modified;
 

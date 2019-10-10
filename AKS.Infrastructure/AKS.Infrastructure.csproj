@@ -34,7 +34,6 @@
   </ItemGroup>
 
   <ItemGroup>
-    <ProjectReference Include="..\AKS.AppCore\AKS.AppCore.csproj" />
     <ProjectReference Include="..\AKS.Common\AKS.Common.csproj" />
   </ItemGroup>
 

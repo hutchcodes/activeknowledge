@@ -1,6 +1,6 @@
 using System;
 using System.Linq;
-using Ents = AKS.AppCore.Entities;
+using Ents = AKS.Infrastructure.Entities;
 using AKS.Infrastructure;
 using AKS.Infrastructure.Data;
 

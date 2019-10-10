@@ -1,5 +1,5 @@
 ﻿using System;
-using AKS.AppCore.Entities;
+using AKS.Infrastructure.Entities;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Metadata;
 

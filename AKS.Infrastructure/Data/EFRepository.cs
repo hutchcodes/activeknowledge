@@ -1,5 +1,5 @@
-﻿using AKS.AppCore.Entities;
-using AKS.AppCore.Interfaces;
+﻿using AKS.Infrastructure.Entities;
+using AKS.Infrastructure.Interfaces;
 using AutoMapper.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore;
 using System;

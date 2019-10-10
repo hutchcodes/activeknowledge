@@ -1,9 +1,9 @@
 ﻿using Microsoft.Extensions.Configuration;
 using Microsoft.WindowsAzure.Storage;
 using Microsoft.WindowsAzure.Storage.Blob;
-using AKS.AppCore.DTO;
-using AKS.AppCore.Enums;
-using AKS.AppCore.Interfaces;
+using AKS.Infrastructure.DTO;
+using AKS.Infrastructure.Enums;
+using AKS.Infrastructure.Interfaces;
 using System;
 using System.Collections.Generic;
 using System.IO;

@@ -2,7 +2,7 @@
 using System.Collections.Generic;
 using System.Text;
 
-namespace AKS.AppCore.Lookups
+namespace AKS.Common.Lookups
 {
     public static class TopicTypes
     {

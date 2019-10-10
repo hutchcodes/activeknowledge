@@ -1,9 +1,8 @@
-using AKS.AppCore.Interfaces;
+using AKS.Infrastructure.Interfaces;
 using AKS.Infrastructure;
 using AKS.Infrastructure.Blobs;
 using AKS.Infrastructure.Data;
 using AKS.Infrastructure.Data.Security;
-using AKS.Infrastructure.Interfaces;
 using AKS.Infrastructure.Services;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;

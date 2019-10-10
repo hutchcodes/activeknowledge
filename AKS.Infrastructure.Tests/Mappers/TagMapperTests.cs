@@ -6,7 +6,7 @@ using AutoMapper;
 using Microsoft.EntityFrameworkCore;
 using NUnit.Framework;
 using System.Collections.Generic;
-using Ents = AKS.AppCore.Entities;
+using Ents = AKS.Infrastructure.Entities;
 using System.Linq;
 
 namespace AKS.Infrastructure.Tests.Mappers

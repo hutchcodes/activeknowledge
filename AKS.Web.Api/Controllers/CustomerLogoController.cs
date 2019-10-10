@@ -9,9 +9,9 @@ using Microsoft.AspNetCore.Mvc.ModelBinding;
 using Microsoft.AspNetCore.WebUtilities;
 using Microsoft.Net.Http.Headers;
 using AKS.App.Build.Api.Helpers;
-using AKS.AppCore.DTO;
-using AKS.AppCore.Enums;
-using AKS.AppCore.Interfaces;
+using AKS.Infrastructure.DTO;
+using AKS.Infrastructure.Enums;
+using AKS.Infrastructure.Interfaces;
 
 namespace AKS.App.Build.Api
 {

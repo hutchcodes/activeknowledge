@@ -2,11 +2,10 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
-using AKS.AppCore.Entities;
-using AKS.AppCore.Interfaces;
-using AKS.AppCore.Specifications;
-using AKS.Common.Models;
+using AKS.Infrastructure.Entities;
 using AKS.Infrastructure.Interfaces;
+using AKS.Infrastructure.Specifications;
+using AKS.Common.Models;
 using AutoMapper;
 using Microsoft.Extensions.Logging;
 

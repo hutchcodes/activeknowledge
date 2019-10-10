@@ -1,5 +1,4 @@
-﻿using AKS.AppCore.Entities;
-using AKS.AppCore.Lookups;
+﻿using AKS.Infrastructure.Entities;
 using Microsoft.Extensions.Logging;
 using System;
 using System.Collections.Generic;
@@ -7,7 +6,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using Microsoft.EntityFrameworkCore;
-using AKS.AppCore.Security;
+using AKS.Infrastructure.Security;
 
 namespace AKS.Infrastructure.Data.Security
 {

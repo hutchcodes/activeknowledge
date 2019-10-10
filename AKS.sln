@@ -7,8 +7,6 @@ Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "AKS.Common", "AKS.Common\AK
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "AKS.Infrastructure", "AKS.Infrastructure\AKS.Infrastructure.csproj", "{0E4C8522-3B60-40D3-AA75-7F1EE2684564}"
 EndProject
-Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "AKS.AppCore", "AKS.AppCore\AKS.AppCore.csproj", "{13818A35-AA0E-4E89-BF2F-4B1E67322138}"
-EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "AKS.Infrastructure.Tests", "AKS.Infrastructure.Tests\AKS.Infrastructure.Tests.csproj", "{237CDEED-8515-41F8-AA44-1CB3C9E37FC5}"
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "AKS.App.Build.Api", "AKS.Web.Api\AKS.App.Build.Api.csproj", "{50AED701-FBE3-4AFD-9E66-963FB734C0E7}"
@@ -33,10 +31,6 @@ Global
 		{0E4C8522-3B60-40D3-AA75-7F1EE2684564}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{0E4C8522-3B60-40D3-AA75-7F1EE2684564}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{0E4C8522-3B60-40D3-AA75-7F1EE2684564}.Release|Any CPU.Build.0 = Release|Any CPU
-		{13818A35-AA0E-4E89-BF2F-4B1E67322138}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
-		{13818A35-AA0E-4E89-BF2F-4B1E67322138}.Debug|Any CPU.Build.0 = Debug|Any CPU
-		{13818A35-AA0E-4E89-BF2F-4B1E67322138}.Release|Any CPU.ActiveCfg = Release|Any CPU
-		{13818A35-AA0E-4E89-BF2F-4B1E67322138}.Release|Any CPU.Build.0 = Release|Any CPU
 		{237CDEED-8515-41F8-AA44-1CB3C9E37FC5}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
 		{237CDEED-8515-41F8-AA44-1CB3C9E37FC5}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{237CDEED-8515-41F8-AA44-1CB3C9E37FC5}.Release|Any CPU.ActiveCfg = Release|Any CPU
