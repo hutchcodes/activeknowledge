@@ -23,6 +23,7 @@ namespace AKS.Infrastructure
             _cfg.UseEntityFrameworkCoreModel<AKSContext>();
 
             ConfigHeaderModel();
+            ConfigCustomerModel();
             ConfigProjectModel();
             ConfigTopicModel();
             ConfigTagModel();
@@ -45,6 +46,15 @@ namespace AKS.Infrastructure
                 .ForMember(mod => mod.ProjectId, x => x.Ignore())
                 .ForMember(mod => mod.ProjectName, x => x.Ignore())
                 .ForMember(mod => mod.ProjectLogo, x => x.Ignore())
+            ;
+        }
+
+        private static void ConfigCustomerModel()
+        {
+            _cfg.CreateMap<Ents.Customer, Mods.CustomerEdit>();
+            _cfg.CreateMap<Mods.CustomerEdit, Ents.Customer>()
+                .ForMember(ent => ent.Projects, x => x.Ignore())
+                .ForMember(ent => ent.CustomCssId, x => x.Ignore())
             ;
         }
 

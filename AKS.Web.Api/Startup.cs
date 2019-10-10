@@ -71,7 +71,7 @@ namespace AKS.App.Build.Api
             services.AddScoped<IFileStorageRepository, BlobStorageRepository>();
             services.AddScoped<ICategoryService, CategoryService>();
             services.AddScoped<IHeaderService, HeaderService>();
-
+            services.AddScoped<ICustomerService, CustomerService>();
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.

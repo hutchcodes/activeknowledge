@@ -1,0 +1,12 @@
+﻿@page "/customer/{customerId:guid}/edit"
+@inherits AKS.App.Core.CustomerEditBase
+
+    <div role="document" class="container appcontent">
+        <div>
+            <label for="">Customer Name</label>
+            <input type="text" @bind-value="CustomerName" />
+        </div>
+        <button @onclick="Save">Save</button>
+        <button @onclick="Cancel">Cancel</button>
+    </div>
+

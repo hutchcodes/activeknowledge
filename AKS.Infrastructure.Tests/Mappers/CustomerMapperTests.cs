@@ -14,6 +14,7 @@ namespace AKS.Infrastructure.Tests.Mappers
     public class CustomerMapperTests
     {
         Ents.Customer _entity;
+        Mods.CustomerEdit _model;
         [OneTimeSetUp]
         public void OneTimeSetup()
         {
@@ -23,6 +24,13 @@ namespace AKS.Infrastructure.Tests.Mappers
                 CustomerId = customerId,
                 Name = "Test Name",
                 LogoFileName = "LogoFile",                
+            };
+
+            _model = new Mods.CustomerEdit
+            {
+                CustomerId = customerId,
+                Name = "Test Name",
+                LogoFileName = "LogoFile",
             };
         }
 
@@ -34,6 +42,26 @@ namespace AKS.Infrastructure.Tests.Mappers
             Assert.AreEqual(_entity.CustomerId, model.CustomerId);
             Assert.AreEqual(_entity.Name, model.CustomerName);
             Assert.AreEqual(_entity.LogoFileName, model.CustomerLogo);
+        }
+
+        [Test]
+        public void ShouldMapFromCustomerEdit()
+        {
+            var entity = Mapper.Map<Ents.Customer>(_model);
+
+            Assert.AreEqual(_model.CustomerId, entity.CustomerId);
+            Assert.AreEqual(_model.Name, entity.Name);
+            Assert.AreEqual(_model.LogoFileName, entity.LogoFileName);
+        }
+
+        [Test]
+        public void ShouldMapToCustomerEdit()
+        {
+            var model = Mapper.Map<Mods.CustomerEdit>(_entity);
+
+            Assert.AreEqual(_entity.CustomerId, model.CustomerId);
+            Assert.AreEqual(_entity.Name, model.Name);
+            Assert.AreEqual(_entity.LogoFileName, model.LogoFileName);
         }
     }
 }
