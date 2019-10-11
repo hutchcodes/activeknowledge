@@ -22,7 +22,7 @@ namespace AKS.Infrastructure.Services
 
             _logger.LogDebug($"New instance of {GetType().Name} was created");
         }
-        public async Task<CustomerEdit> GetGetCustomerForEdit(Guid customerId)
+        public async Task<CustomerEdit> GetCustomerForEdit(Guid customerId)
         {
             var spec = new CustomerSpecification(customerId);
             var customer = await _customerRepo.GetAsync(spec);

@@ -45,6 +45,7 @@ namespace AKS.App.Build
             services.AddScoped<IAppState, AppState>();
             services.AddScoped<HeaderApi, HeaderApi>();
             services.AddScoped<CustomerEditApi, CustomerEditApi>();
+            services.AddScoped<ProjectEditApi, ProjectEditApi>();
             services.AddScoped<ProjectViewApi, ProjectViewApi>();
             services.AddScoped<TopicViewApi, TopicViewApi>();
             services.AddScoped<CategoryViewApi, CategoryViewApi>();

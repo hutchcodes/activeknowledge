@@ -11,9 +11,12 @@ namespace AKS.App.Build.Api.Controllers
     public class CustomerController : ControllerBase
     {
         private readonly IHeaderService _headerService;
-        public CustomerController(IHeaderService headerService)
+        private readonly ICustomerService _customerService;
+
+        public CustomerController(IHeaderService headerService, ICustomerService customerService)
         {
             _headerService = headerService;
+            _customerService = customerService;
         }
 
         // GET: api/Customer/Header/1234
@@ -21,6 +24,19 @@ namespace AKS.App.Build.Api.Controllers
         public async Task<HeaderNavView> GetHeader(Guid customerId)
         {
             return await _headerService.GetHeaderForCustomerAsync(customerId);
+        }
+
+        [HttpGet("{customerId:Guid}", Name = "GetCustomerEdit")]
+        public async Task<CustomerEdit> GetCustomerEdit(Guid customerId)
+        {
+            return await _customerService.GetCustomerForEdit(customerId);
+        }
+
+        // GET: api/Customer/Header/1234
+        [HttpPost(Name = "UpdateCustomer")]
+        public async Task<CustomerEdit> UpdateCustomerEdit(CustomerEdit customer)
+        {
+            return await _customerService.UpdateCustomer(customer);
         }
     }
 }

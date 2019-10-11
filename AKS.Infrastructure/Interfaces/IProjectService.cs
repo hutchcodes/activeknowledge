@@ -8,5 +8,8 @@ namespace AKS.Infrastructure.Interfaces
     public interface IProjectService
     {
         Task<List<ProjectList>> GetProjetListForDisplayAsync(Guid customerId);
+
+        Task<ProjectEdit> GetProjectForEdit(Guid projectId);
+        Task<ProjectEdit> UpdateProject(ProjectEdit projectEdit);
     }
 }

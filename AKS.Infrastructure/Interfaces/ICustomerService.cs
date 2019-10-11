@@ -7,7 +7,7 @@ namespace AKS.Infrastructure.Interfaces
 {
     public interface ICustomerService
     {
-        Task<CustomerEdit> GetGetCustomerForEdit(Guid customerId);
+        Task<CustomerEdit> GetCustomerForEdit(Guid customerId);
         Task<CustomerEdit> UpdateCustomer(CustomerEdit customerEdit);
     }
 }

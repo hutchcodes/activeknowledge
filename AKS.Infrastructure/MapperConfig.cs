@@ -68,6 +68,12 @@ namespace AKS.Infrastructure
                 .ForMember(mod => mod.ProjectLogo, x => x.MapFrom(ent => ent.LogoFileName))
                 .ForMember(mod => mod.CustomerName, x => x.MapFrom(ent => ent.Customer!.Name))
                 .ForMember(mod => mod.CustomerLogo, x => x.MapFrom(ent => ent.Customer!.LogoFileName));
+            
+            _cfg.CreateMap<Ents.Project, Mods.ProjectEdit>();
+            _cfg.CreateMap<Mods.ProjectEdit, Ents.Project>()
+                .ForMember(ent => ent.Customer, x => x.Ignore())
+                .ForMember(ent => ent.CustomerId, x => x.Ignore())
+                ;
         }
 
         private static void ConfigTopicModel()

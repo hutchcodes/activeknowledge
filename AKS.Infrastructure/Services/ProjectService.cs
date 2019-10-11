@@ -22,12 +22,33 @@ namespace AKS.Infrastructure.Services
 
             _logger.LogDebug($"New instance of {GetType().Name} was created");
         }
+
         public async Task<List<ProjectList>> GetProjetListForDisplayAsync(Guid customerId)
         {
             var spec = new ProjectListSpecification(customerId);
             var projects = await _projectRepo.ListAsync(spec);
 
             return Mapper.Map<List<ProjectList>>(projects);
+        }
+
+        public async Task<ProjectEdit> GetProjectForEdit(Guid projectId)
+        {
+            var spec = new ProjectSpecification(projectId);
+            var project = await _projectRepo.GetAsync(spec);
+
+            return Mapper.Map<ProjectEdit>(project);
+        }
+
+        public async Task<ProjectEdit> UpdateProject(ProjectEdit projectEdit)
+        {
+            var spec = new ProjectSpecification(projectEdit.ProjectId);
+            var project = await _projectRepo.GetAsync(spec);
+
+            project = Mapper.Map(projectEdit, project);
+            await _projectRepo.UpdateAsync(project);
+
+            project = await _projectRepo.GetAsync(spec);
+            return Mapper.Map<ProjectEdit>(project);
         }
     }
 }
