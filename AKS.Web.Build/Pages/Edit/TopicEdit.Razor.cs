@@ -5,55 +5,48 @@ using Microsoft.AspNetCore.Components;
 using System;
 using System.Collections.Generic;
 using System.Linq;
-using System.Net.Http;
 using System.Threading.Tasks;
 
 namespace AKS.App.Core
 {
-    public class ProjectEditBase : ComponentBase
+    public class TopicEditBase : ComponentBase
     {
-
         [Parameter]
         public Guid ProjectId { get; set; }
+        [Parameter]
+        public Guid TopicId { get; set; }       
 
         [Inject]
-        public ProjectEditApi ProjectEditApi { get; set; } = null!;
+        TopicEditApi TopicEditApi { get; set; } = null!;
 
         [CascadingParameter] protected IAppState AppState { get; set; } = null!;
 
-        public ProjectEdit? Project { get; set; }
+        public TopicEdit Topic { get; set; } = new TopicEdit();
 
-        public string ProjectName { get; set; } = "";
+
         public override async Task SetParametersAsync(ParameterView parameters)
         {
             await base.SetParametersAsync(parameters);
-
             var headerTask = AppState.UpdateCustomerAndProject(null, ProjectId);
-            var projectTask = GetProject();
+            var topicTask = LoadTopic();
             await headerTask;
-            await projectTask;
-
+            await topicTask;
+            StateHasChanged();
         }
 
-        public async Task GetProject()
+        private async Task LoadTopic()
         {
-            Project = await ProjectEditApi.GetProject(ProjectId);
-            ProjectName = Project?.Name ?? "";
-            StateHasChanged();
+            Topic = await TopicEditApi.GetTopic(ProjectId, TopicId);
         }
 
         public async Task Save()
         {
-            if (Project != null)
-            {
-                Project.Name = ProjectName;
-            }
-            await ProjectEditApi.UpdateProject(Project);
+            Topic = await TopicEditApi.UpdateTopic(Topic);
         }
 
         public async Task Cancel()
         {
-            await GetProject();
+            await LoadTopic();
         }
     }
 }

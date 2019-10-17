@@ -8,16 +8,16 @@ namespace AKS.App.Build.Api.Controllers
 {
     [Route("api/[controller]")]
     [ApiController]
-    public class TopicController : ControllerBase
+    public class TopicEditController : ControllerBase
     {
         private readonly ITopicService _topicService;
-        public TopicController(ITopicService topciService)
+        public TopicEditController(ITopicService topciService)
         {
             _topicService = topciService;
         }
 
         // GET: api/Topic/1234/555
-        [HttpGet("{projectId:Guid}/{topicId:Guid}", Name = "Get")]
+        [HttpGet("{projectId:Guid}/{topicId:Guid}", Name = "GetTopicEdit")]
         public async Task<TopicEdit> Get(Guid projectId, Guid topicId)
         {
             return await _topicService.GetTopicForEdit(projectId, topicId);
@@ -25,9 +25,9 @@ namespace AKS.App.Build.Api.Controllers
 
         // POST: api/Topic/1234/555
         [HttpPost]
-        public async Task Post([FromBody] TopicEdit topic)
+        public async Task<TopicEdit> Post([FromBody] TopicEdit topic)
         {
-            await _topicService.SaveTopic(topic);
+            return await _topicService.SaveTopic(topic);
         }
 
         // PUT: api/Topic/1234/555

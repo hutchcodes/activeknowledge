@@ -10,50 +10,49 @@ using System.Threading.Tasks;
 
 namespace AKS.App.Core
 {
-    public class CustomerEditBase : ComponentBase
+    public class ProjectEditBase : ComponentBase
     {
 
         [Parameter]
-        public Guid CustomerId { get; set; }
+        public Guid ProjectId { get; set; }
 
         [Inject]
-        public CustomerEditApi CustomerEditApi { get; set; } = null!;
+        public ProjectEditApi ProjectEditApi { get; set; } = null!;
 
         [CascadingParameter] protected IAppState AppState { get; set; } = null!;
 
-        public CustomerEdit? Customer { get; set; }
+        public ProjectEdit Project { get; set; } = new ProjectEdit();
 
-        public string CustomerName { get; set; } = "";
+        public string ProjectName { get; set; } = "";
         public override async Task SetParametersAsync(ParameterView parameters)
         {
             await base.SetParametersAsync(parameters);
 
-            var headerTask = AppState.UpdateCustomerAndProject(CustomerId, null);
-            var customerTask = GetCustomer();
+            var headerTask = AppState.UpdateCustomerAndProject(null, ProjectId);
+            var projectTask = GetProject();
             await headerTask;
-            await customerTask;
+            await projectTask;
 
         }
 
-        public async Task GetCustomer()
+        public async Task GetProject()
         {
-            Customer = await CustomerEditApi.GetCustomer(CustomerId);
-            CustomerName = Customer?.Name ?? "";
+            Project = await ProjectEditApi.GetProject(ProjectId);
+            ProjectName = Project?.Name ?? "";
             StateHasChanged();
         }
 
         public async Task Save()
         {
-            if (Customer != null)
+            if (Project != null)
             {
-                Customer.Name = CustomerName;
+                Project = await ProjectEditApi.UpdateProject(Project);
             }
-            await CustomerEditApi.UpdateCustomer(Customer);
         }
 
         public async Task Cancel()
         {
-            await GetCustomer();
+            await GetProject();
         }
     }
 }

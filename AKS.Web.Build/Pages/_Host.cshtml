@@ -15,14 +15,16 @@
     <link rel="stylesheet" href="css/styles.css" />
     <title>AKS - Build</title>
 </head>
-<body class="d-flex flex-column">
+<body class="d-flex flex-column h-100">
     <app>
         @(await Html.RenderComponentAsync<App>(RenderMode.ServerPrerendered))
     </app>
 
-    <footer class="footer mt-5 py-2 bg-dark text-white">
+    <footer class="footer mt-auto py-3 bg-dark text-white">
         <div class="container">
-            CAPS &copy 2019
+            <span class="">
+                CAPS &copy @DateTime.Today.Year
+            </span>
         </div>
     </footer>
 

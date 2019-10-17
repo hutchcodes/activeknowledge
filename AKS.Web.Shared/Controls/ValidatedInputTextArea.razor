@@ -1,0 +1,12 @@
+﻿@using Microsoft.AspNetCore.Components.Forms
+@inherits InputText
+
+<label for="@AdditionalAttributes["id"].ToString()">@LabelText</label>
+<InputTextArea @attributes="AdditionalAttributes" 
+       class="@CssClass"
+       @bind-Value="CurrentValue" />
+<ValidationMessage For="ValueExpression" />
+
+@code{ 
+    [Parameter] public string LabelText { get; set; } = "";
+}

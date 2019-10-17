@@ -11,7 +11,7 @@ namespace AKS.Infrastructure.Interfaces
         Task<TopicEdit> GetTopicForEdit(Guid projectId, Guid topicId);
         Task<List<TopicList>> GetTopicListForProject(Guid projectId);
         Task<List<TopicList>> SearchTopics(Guid projectId, Guid? categoryId, string searchString);
-        Task SaveTopic(TopicEdit topicVM);
+        Task<TopicEdit> SaveTopic(TopicEdit topicVM);
 
         Task DeleteTopic(Guid projectId, Guid topicId);
     }

@@ -1,0 +1,18 @@
+﻿@page "/customer/{customerId:guid}/edit"
+@inherits AKS.App.Core.CustomerEditBase
+
+    <div role="group" class="container appcontent">
+        <div class="row nav-content" />
+        <EditForm Model="@Customer" OnValidSubmit="@Save" autocomplete="off">
+            <DataAnnotationsValidator />
+            <div class="form-row">
+                <div class="form-group col-md-4">
+                    <ValidatedInputText Id="customerName" @bind-Value="Customer.Name" class="form-control" LabelText="Customer Name" />
+                </div>
+
+            </div>
+            <button type="submit" class="btn btn-primary" >Save</button>
+            <button type="reset" @onclick="Cancel" class="btn btn-secondary">Cancel</button>
+
+        </EditForm>
+    </div>

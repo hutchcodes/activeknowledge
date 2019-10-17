@@ -31,14 +31,14 @@ namespace AKS.Infrastructure.Services
             var spec = new TopicSearchSpecification(projectId, categoryId, searchString);
             var topics = await _topicRepo.ListAsync(spec);
 
-            return Mapper.Map<List<TopicList>>(topics);            
+            return Mapper.Map<List<TopicList>>(topics);
         }
         public async Task<TopicView> GetTopicForDisplay(Guid projectId, Guid topicId)
         {
             var spec = new TopicDisplaySpecification(projectId, topicId);
             var topic = await _topicRepo.GetAsync(spec);
 
-            return Mapper.Map<TopicView>(topic);            
+            return Mapper.Map<TopicView>(topic);
         }
 
         public async Task<TopicEdit> GetTopicForEdit(Guid projectId, Guid topicId)
@@ -57,35 +57,16 @@ namespace AKS.Infrastructure.Services
             return Mapper.Map<List<TopicList>>(topics);
         }
 
-        public async Task SaveTopic(TopicEdit topicVM)
+        public async Task<TopicEdit> SaveTopic(TopicEdit topicVM)
         {
-            try
-            {
-                //var spec = new TopicEditSpecification(topicVM.ProjectId, topicVM.TopicId);
-                //var topic = await _topicRepo.GetAsync(spec);
+            var spec = new TopicEditSpecification(topicVM.ProjectId, topicVM.TopicId);
+            var topic = await _topicRepo.GetAsync(spec);
 
-                //Mapper.Instance.Map(topicVM, topic);
+            topic = Mapper.Instance.Map(topicVM, topic);
+            await _topicRepo.UpdateAsync(topic);
 
-                //_dbContext.Topics.Persist().InsertOrUpdate(topicVM);
-
-                await _topicRepo.UpdateAsync<TopicEdit>(topicVM);
-
-                //if (topic == null)
-                //{
-                //    topic = topicVM.ToTopicEntity(topic);
-                //    await _topicRepo.AddAsync(topic);
-                //}
-                //else
-                //{
-                //    topic = topicVM.ToTopicEntity(topic);
-                //    await _topicRepo.UpdateAsync(topic);
-                //}
-            }
-            catch (Exception ex)
-            {
-                Debug.WriteLine(ex.Message);
-                throw;
-            }
+            topic = await _topicRepo.GetAsync(spec);
+            return Mapper.Map<TopicEdit>(topic);
         }
 
         public async Task DeleteTopic(Guid projectId, Guid topicId)

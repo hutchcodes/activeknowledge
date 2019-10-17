@@ -1,4 +1,5 @@
-﻿using System;
+﻿using AKS.Common.Enums;
+using System;
 using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations.Schema;
 
@@ -24,6 +25,7 @@ namespace AKS.Infrastructure.Entities
         public int TopicTypeId { get; set; }
         public string Title { get; set; } = "";
         public string? Description { get; set; }
+        public TopicStatus TopicStatus { get; set; }
         public Guid? ImageResourceId { get; set; }
         public string? Content { get; set; }
         public Guid? FileResourceId { get; set; }

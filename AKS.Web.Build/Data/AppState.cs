@@ -71,13 +71,13 @@ namespace AKS.App.Build
 
         public event IAppState.AppStateChangeHandler? OnUpdateStatus;
 
-        private bool tocIsVisible = false;
+        private bool _tocIsVisible = false;
         public bool TocIsVisible
         {
-            get => tocIsVisible;
+            get => _tocIsVisible;
             set
             {
-                tocIsVisible = value;
+                _tocIsVisible = value;
                 OnUpdateStatus?.Invoke(this, new EventArgs());
             }
         }
@@ -87,5 +87,6 @@ namespace AKS.App.Build
         public string TocContentClass => TocIsVisible ? "col-lg-9" : "";
     }
 }
+
 
 

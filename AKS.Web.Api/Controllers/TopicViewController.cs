@@ -24,7 +24,7 @@ namespace AKS.App.Build.Api.Controllers
             return topicList;
         }
 
-        // GET: api/Topic/1234/555
+        // GET: api/TopicView/1234/555
         [HttpGet("{projectId:Guid}/{topicId:Guid}", Name = "GetTopicView")]
         public async Task<TopicView> GetTopicView(Guid projectId, Guid topicId)
         {

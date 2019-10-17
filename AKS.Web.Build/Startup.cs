@@ -48,6 +48,7 @@ namespace AKS.App.Build
             services.AddScoped<ProjectEditApi, ProjectEditApi>();
             services.AddScoped<ProjectViewApi, ProjectViewApi>();
             services.AddScoped<TopicViewApi, TopicViewApi>();
+            services.AddScoped<TopicEditApi, TopicEditApi>();
             services.AddScoped<CategoryViewApi, CategoryViewApi>();
         }
 

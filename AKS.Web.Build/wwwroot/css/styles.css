@@ -265,5 +265,9 @@ label {
     }
 }
 
+.validation-message {
+    font-size: .8em;
+    color: red;
+}
 
 /* The End */

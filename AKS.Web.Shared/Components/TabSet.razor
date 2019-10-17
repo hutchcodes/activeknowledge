@@ -1,43 +1,43 @@
-﻿@using AKS.App.Core.Data
-<!-- Display the tab headers -->
-<CascadingValue Value=this>
+﻿<CascadingValue Value=this>
     <ul class="nav nav-tabs">
-        @ChildContent
+
+        @foreach (TabPage tabPage in Pages)
+        {
+            <li class="nav-item">
+                @*the tabindex="" keeps the link styled as an active link despite the lack of an href attribute*@
+                <a class="nav-link @GetButtonClass(tabPage)" onclick="@((Action)(() => ActivatePage(tabPage)))" tabindex="">@tabPage.Text</a>
+            </li>
+        }
     </ul>
+    @ChildContent
 </CascadingValue>
-
-<!-- Display body for only the active tab -->
-<div class="nav-tabs-body p-4">
-    @*@ActiveTab?.ChildContent*@
-</div>
-
 @code {
-[Parameter] public RenderFragment? ChildContent { get; set; }
+    // Next line is needed so we are able to add <TabPage> components inside
+    [Parameter]
+    public RenderFragment ChildContent { get; set; } = null!;
 
-public ITab? ActiveTab { get; private set; }
+    public TabPageBase? ActivePage { get; set; }
 
-public void AddTab(ITab tab)
-{
-    if (ActiveTab == null)
+    private List<TabPageBase> Pages = new List<TabPageBase>();
+
+    internal void AddPage(TabPageBase tabPage)
     {
-        SetActivateTab(tab);
-    }
-}
-
-public void RemoveTab(ITab tab)
-{
-    if (ActiveTab == tab)
-    {
-        SetActivateTab(null);
-    }
-}
-
-public void SetActivateTab(ITab? tab)
-{
-    if (ActiveTab != tab)
-    {
-        ActiveTab = tab;
+        Pages.Add(tabPage);
+        if (Pages.Count == 1)
+        {
+            ActivePage = tabPage;
+        }
         StateHasChanged();
     }
-}
+
+    private string GetButtonClass(TabPageBase page)
+    {
+        return page == ActivePage ? "active" : "";
+    }
+    public void ActivatePage(TabPageBase page)
+    {
+        ActivePage = page;
+        StateHasChanged();
+    }
+
 }
