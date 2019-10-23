@@ -8,6 +8,7 @@ using Microsoft.AspNetCore.Hosting;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.Hosting;
 using Microsoft.Extensions.Logging;
+using Microsoft.Extensions.Configuration.AzureAppConfiguration;
 
 namespace AKS.App.Build
 {
@@ -23,8 +24,14 @@ namespace AKS.App.Build
             .UseEnvironment(Environments.Development)
                 .ConfigureWebHostDefaults(webBuilder =>
                 {
+                    webBuilder.ConfigureAppConfiguration((hostingContext, config) =>
+                    {
+                        var settings = config.Build();
+#if !DEBUG
+                        config.AddAzureAppConfiguration(settings["ConnectionStrings:AppConfig"]);
+#endif
+                    });
                     webBuilder.UseStartup<Startup>();
-
                 });
     }
 }
