@@ -5,7 +5,10 @@ using System.Threading.Tasks;
 using AKS.Infrastructure.Data;
 using AKS.Infrastructure.Data.Security;
 using Microsoft.AspNetCore.Hosting;
+using Microsoft.Azure.KeyVault;
+using Microsoft.Azure.Services.AppAuthentication;
 using Microsoft.Extensions.Configuration;
+using Microsoft.Extensions.Configuration.AzureAppConfiguration;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
 using Microsoft.Extensions.Logging;
@@ -14,6 +17,7 @@ namespace AKS.Api.Build
 {
     public static class Program
     {
+        static AzureServiceTokenProvider azureServiceTokenProvider = new AzureServiceTokenProvider();
         public static void Main(string[] args)
         {
             var host = CreateHostBuilder(args).Build();
@@ -25,8 +29,8 @@ namespace AKS.Api.Build
 
                 var aksContext = services.GetRequiredService<AKSContext>();
                 AKSContextSeed.SeedAsync(aksContext, loggerFactory).Wait();
-                var securityContext = services.GetRequiredService<SecurityContext>();
-                SecurityContextSeed.SeedAsync(securityContext, loggerFactory).Wait();
+                //var securityContext = services.GetRequiredService<SecurityContext>();
+                //SecurityContextSeed.SeedAsync(securityContext, loggerFactory).Wait();
             }
 
             host.Run();
@@ -36,6 +40,18 @@ namespace AKS.Api.Build
             Host.CreateDefaultBuilder(args)
                 .ConfigureWebHostDefaults(webBuilder =>
                 {
+                    webBuilder.ConfigureAppConfiguration((hostingContext, config) =>
+                    {
+                        var settings = config.Build();
+                        //#if !DEBUG
+                        var kvClient = new KeyVaultClient(new KeyVaultClient.AuthenticationCallback(azureServiceTokenProvider.KeyVaultTokenCallback));
+                        config.AddAzureAppConfiguration(options => {
+                            options.Connect(settings["ConnectionStrings:AppConfig"])
+                                    .UseAzureKeyVault(kvClient);
+                        });
+
+                        //#endif
+                    });
                     webBuilder.UseStartup<Startup>();
                 });
     }

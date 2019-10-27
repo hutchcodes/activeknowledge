@@ -129,8 +129,8 @@ namespace AKS.Api.Build
                 c.UseSqlServer(Configuration.GetConnectionString("AKSContext"));
             });
 
-            services.AddDbContext<SecurityContext>(c =>
-                c.UseInMemoryDatabase("SecurityDB"));
+            //services.AddDbContext<SecurityContext>(c =>
+            //    c.UseInMemoryDatabase("SecurityDB"));
 
             ConfigureServices(services);
         }
@@ -144,8 +144,8 @@ namespace AKS.Api.Build
                 // https://www.microsoft.com/en-us/download/details.aspx?id=54284
                 c.UseSqlServer(Configuration.GetConnectionString("AKSContext"));
             });
-            services.AddDbContext<SecurityContext>(c =>
-                c.UseInMemoryDatabase("SecurityDB"));
+            //services.AddDbContext<SecurityContext>(c =>
+            //    c.UseInMemoryDatabase("SecurityDB"));
 
             ConfigureServices(services);
         }
