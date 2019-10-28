@@ -1,0 +1,11 @@
+{
+  "solution": {
+    "path": "AKS.sln",
+    "projects": [
+      "AKS.Api.Build\\AKS.Api.Build.csproj",
+      "AKS.Common\\AKS.Common.csproj",
+      "AKS.Infrastructure.Tests\\AKS.Infrastructure.Tests.csproj",
+      "AKS.Infrastructure\\AKS.Infrastructure.csproj"
+    ]
+  }
+}

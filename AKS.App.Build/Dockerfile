@@ -7,6 +7,7 @@ FROM mcr.microsoft.com/dotnet/core/sdk:3.0-buster AS build
 WORKDIR /src
 COPY ["AKS.Api.Build.Client/AKS.Api.Build.Client.csproj", "AKS.Api.Build.Client/"]
 COPY ["AKS.App.Core/AKS.App.Core.csproj", "AKS.App.Core/"]
+COPY ["AKS.Common/AKS.Common.csproj", "AKS.Common/"]
 COPY ["AKS.App.Build/AKS.App.Build.csproj", "AKS.App.Build/"]
 RUN dotnet restore "AKS.App.Build/AKS.App.Build.csproj"
 COPY . .
