@@ -30,7 +30,7 @@ namespace AKS.App.Build
                     webBuilder.ConfigureAppConfiguration((hostingContext, config) =>
                     {
                         var settings = config.Build();
-#if DEBUG
+#if !DEBUG
                         var kvClient = new KeyVaultClient(new KeyVaultClient.AuthenticationCallback(azureServiceTokenProvider.KeyVaultTokenCallback));
                         config.AddAzureAppConfiguration(options => {
                             options.Connect(settings["ConnectionStrings:AppConfig"])
