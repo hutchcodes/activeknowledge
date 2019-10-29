@@ -17,6 +17,9 @@ using AKS.App.Build.Areas.Identity;
 using AKS.App.Build.Data;
 using AKS.App.Core.Data;
 using AKS.Api.Build.Client;
+using Microsoft.ApplicationInsights.Extensibility;
+using AKS.Common;
+using Microsoft.ApplicationInsights.AspNetCore.Extensions;
 
 namespace AKS.App.Build
 {
@@ -34,6 +37,9 @@ namespace AKS.App.Build
         public void ConfigureServices(IServiceCollection services)
         {
             services.AddSingleton<IConfiguration>(Configuration);
+            ITelemetryInitializer aiInit = new AppInsightsInitializer(Configuration.GetValue<string>("ApplicationInsights:Tags"));
+            services.AddSingleton<ITelemetryInitializer>(aiInit);
+
             services.AddDbContext<ApplicationDbContext>(options =>
                 options.UseSqlServer(
                     Configuration.GetConnectionString("DefaultConnection")));
@@ -51,6 +57,12 @@ namespace AKS.App.Build
             services.AddScoped<TopicViewApi, TopicViewApi>();
             services.AddScoped<TopicEditApi, TopicEditApi>();
             services.AddScoped<CategoryViewApi, CategoryViewApi>();
+
+            var aiOptions = new ApplicationInsightsServiceOptions
+            {
+                //DeveloperMode = true
+            };
+            services.AddApplicationInsightsTelemetry(aiOptions);
         }
 
 

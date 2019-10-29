@@ -12,6 +12,9 @@ using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
 using Microsoft.OpenApi.Models;
 using System.Text;
+using Microsoft.ApplicationInsights.AspNetCore.Extensions;
+using Microsoft.ApplicationInsights.Extensibility;
+using AKS.Common;
 
 namespace AKS.Api.Build
 {
@@ -57,12 +60,18 @@ namespace AKS.Api.Build
 
 
             _services = services;
+            var aiOptions = new ApplicationInsightsServiceOptions
+            {
+                //DeveloperMode = true
+            };
+            services.AddApplicationInsightsTelemetry(aiOptions);
         }
 
         private void ConfigureDI(IServiceCollection services)
         {
             services.AddSingleton<IConfiguration>(Configuration);
-
+            ITelemetryInitializer aiInit = new AppInsightsInitializer(Configuration.GetValue<string>("ApplicationInsights:Tags"));
+            services.AddSingleton<ITelemetryInitializer>(aiInit);
 
             services.AddScoped(typeof(IAsyncRepository<>), typeof(EfRepository<>));
             services.AddScoped<IProjectService, ProjectService>();

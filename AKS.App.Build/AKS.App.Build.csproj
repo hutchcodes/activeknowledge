@@ -6,9 +6,11 @@
     <DockerDefaultTargetOS>Linux</DockerDefaultTargetOS>
     <Nullable>enable</Nullable>
     <AssemblyName>AKS.App.Build</AssemblyName>
+    <ApplicationInsightsResourceId>/subscriptions/be1c0420-4621-443c-a2a9-7f55c266d6a9/resourcegroups/AKS-Dev-rg/providers/microsoft.insights/components/AKS.Non-Prod-ai</ApplicationInsightsResourceId>
   </PropertyGroup>
 
   <ItemGroup>
+    <PackageReference Include="Microsoft.ApplicationInsights.AspNetCore" Version="2.8.1" />
     <PackageReference Include="Microsoft.AspNetCore.Diagnostics.EntityFrameworkCore" Version="3.0.0-preview9.19424.4" />
     <PackageReference Include="Microsoft.AspNetCore.Identity.EntityFrameworkCore" Version="3.0.0-preview9.19424.4" />
     <PackageReference Include="Microsoft.AspNetCore.Identity.UI" Version="3.0.0-preview9.19424.4" />
@@ -25,6 +27,10 @@
   <ItemGroup>
     <ProjectReference Include="..\AKS.Api.Build.Client\AKS.Api.Build.Client.csproj" />
     <ProjectReference Include="..\AKS.App.Core\AKS.App.Core.csproj" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <WCFMetadata Include="Connected Services" />
   </ItemGroup>
 
 </Project>
