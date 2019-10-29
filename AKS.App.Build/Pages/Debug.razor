@@ -1,4 +1,6 @@
 ﻿@page "/debug"
+@using Microsoft.Extensions.Configuration
+@inject IConfiguration config
 
     <div role="document" class="container mt-5 appcontent">
         <div>
@@ -28,5 +30,16 @@
             <a href="topic/000004d2-0000-0000-0000-000000000000/0000022b-0000-0000-0000-000000000000">Topic View - Collection</a>
         </div>
 
+        <table>
+            <tr><th>Key</th><th>Value</th></tr>
+            <tr>
+                <td>AppSettings:AKSBuildApiBaseUrl</td>
+                <td>@(config.GetValue<string>("AppSettings:AKSBuildApiBaseUrl"))</td>
+            </tr>
+        </table>
 
     </div>
+
+@code {
+
+}
