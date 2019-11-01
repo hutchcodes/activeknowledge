@@ -16,7 +16,7 @@ namespace AKS.App.Build
 {
     public static class Program
     {
-        static AzureServiceTokenProvider azureServiceTokenProvider = new AzureServiceTokenProvider();
+        static readonly AzureServiceTokenProvider _azureServiceTokenProvider = new AzureServiceTokenProvider();
         public static void Main(string[] args)
         {
             CreateHostBuilder(args).Build().Run();
@@ -30,13 +30,13 @@ namespace AKS.App.Build
                     webBuilder.ConfigureAppConfiguration((hostingContext, config) =>
                     {
                         var settings = config.Build();
+
+                        var kvClient = new KeyVaultClient(new KeyVaultClient.AuthenticationCallback(_azureServiceTokenProvider.KeyVaultTokenCallback));
 #if !DEBUG
-                        var kvClient = new KeyVaultClient(new KeyVaultClient.AuthenticationCallback(azureServiceTokenProvider.KeyVaultTokenCallback));
                         config.AddAzureAppConfiguration(options => {
                             options.Connect(settings["ConnectionStrings:AppConfig"])
                                     .UseAzureKeyVault(kvClient);
                         });
-                        config.AddAzureAppConfiguration(settings["ConnectionStrings:AppConfig"]);
 #endif
                     });
                     webBuilder.UseStartup<Startup>();

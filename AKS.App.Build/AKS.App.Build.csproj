@@ -27,6 +27,7 @@
   <ItemGroup>
     <ProjectReference Include="..\AKS.Api.Build.Client\AKS.Api.Build.Client.csproj" />
     <ProjectReference Include="..\AKS.App.Core\AKS.App.Core.csproj" />
+    <ProjectReference Include="..\AKS.CKEditor\AKS.CKEditor.csproj" />
   </ItemGroup>
 
   <ItemGroup>

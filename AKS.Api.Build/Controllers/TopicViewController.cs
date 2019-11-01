@@ -17,7 +17,7 @@ namespace AKS.Api.Build.Controllers
             _topicService = topciService;
         }
 
-        [HttpGet("list/{projectId:Guid}", Name = "GetTopicsByProjectId")]
+        [HttpGet("list/{projectId:Guid}")]
         public async Task<List<TopicList>> GetTopicsByProjectId(Guid projectId)
         {
             var topicList = await _topicService.GetTopicListForProject(projectId);
@@ -25,11 +25,19 @@ namespace AKS.Api.Build.Controllers
         }
 
         // GET: api/TopicView/1234/555
-        [HttpGet("{projectId:Guid}/{topicId:Guid}", Name = "GetTopicView")]
+        [HttpGet("{projectId:Guid}/{topicId:Guid}")]
         public async Task<TopicView> GetTopicView(Guid projectId, Guid topicId)
         {
             var topic = await _topicService.GetTopicForDisplay(projectId, topicId);            
             return topic;
+        }
+
+        [HttpGet("search/{projectId:Guid}")]
+        [HttpGet("search/{projectId:Guid}/{search}")]
+        public async Task<List<TopicList>> SearchTopics(Guid projectId, Guid? categoryId, string search = "")
+        {
+            var topicList = await _topicService.SearchTopics(projectId, categoryId, search);
+            return topicList;
         }
     }
 }

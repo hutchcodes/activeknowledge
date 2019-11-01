@@ -1,0 +1,22 @@
+﻿@using AKS.Common.Models
+
+@switch (Topic.TopicTypeId)
+{
+    case 1:  //Content
+        <TopicEditDetailContent Topic="Topic" />
+        break;
+    case 2: //Colleciton
+        
+        break;
+    case 3: //Document
+        
+        break;
+    default:
+        <div>Unhandled Topic Type</div>
+        break;
+}
+
+@code{
+    [Parameter]
+    public TopicEdit Topic { get; set; } = new TopicEdit();
+}

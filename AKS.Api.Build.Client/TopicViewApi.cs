@@ -48,5 +48,26 @@ namespace AKS.Api.Build.Client
             var topicList = response.Data;
             return topicList;
         }
+
+        public async Task<List<TopicList>> SearchProjectTopics(Guid projectId, Guid? categoryId, string search)
+        {
+            var client = new RestClient(_aksBuildApiBaseUrl);
+            // client.Authenticator = new HttpBasicAuthenticator(username, password);
+
+            var request = new RestRequest("topicview/search/{projectId}/{search}", Method.GET);
+            request.AddUrlSegment("projectId", projectId);
+            request.AddUrlSegment("search", search);
+            if (categoryId.HasValue)
+            {
+                request.AddQueryParameter("categoryId", categoryId.ToString());
+            }
+
+            // easily add HTTP Headers
+            request.AddHeader("header", "value");
+
+            var response = await client.ExecuteTaskAsync<List<TopicList>>(request);
+            var topicList = response.Data;
+            return topicList;
+        }
     }
 }

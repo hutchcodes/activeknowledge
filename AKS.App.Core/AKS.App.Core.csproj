@@ -18,10 +18,13 @@
   </ItemGroup>
 
   <ItemGroup>
+    <Folder Include="NewFolder\" />
     <Folder Include="Shared\" />
   </ItemGroup>
 
   <ItemGroup>
+    <ProjectReference Include="..\AKS.Api.Build.Client\AKS.Api.Build.Client.csproj" />
+    <ProjectReference Include="..\AKS.CKEditor\AKS.CKEditor.csproj" />
     <ProjectReference Include="..\AKS.Common\AKS.Common.csproj" />
   </ItemGroup>
 

@@ -1,0 +1,60 @@
+﻿using System;
+using System.Collections.Generic;
+using System.Text;
+using System.Threading.Tasks;
+using Microsoft.AspNetCore.Components;
+using Microsoft.JSInterop;
+
+namespace AKS.CKEditor
+{
+    public class CKEditorControlBase : ComponentBase
+    {
+        [Parameter]
+        public string EditorContent { get; set; }
+
+        [Parameter]
+        public Action<string> EditorContentChanged { get; set; }
+
+
+        public string CKEditorId { get; } = $"ck{Guid.NewGuid().ToString().Replace("-", "")}";
+
+        [Parameter]
+        public Action<string> OnEditorChanged { get; set; }
+
+        [Inject]
+        protected IJSRuntime JsRuntime { get; set; }
+
+        protected override void OnAfterRender(bool firstRender)
+        {
+            base.OnAfterRender(firstRender);
+            CKEditorJsInterop.InitializeEditor(JsRuntime, CKEditorId);
+        }
+
+        private void ThisEditorUpdate(object sender, string editorText)
+        {
+            EditorContent = editorText;
+            OnEditorChanged?.Invoke(editorText);
+        }
+
+        public async Task<string> GetEditorText()
+        {
+            return await CKEditorJsInterop.GetData(JsRuntime, CKEditorId);
+        }
+        public async Task<string> InsertTopicFragment(dynamic topicFragmentInfo, string ckEditorCommandName)
+        {
+            var parameters = new CKEditorCommandParams
+            {
+                CKEditorId = CKEditorId,
+                CommandName = ckEditorCommandName,
+                Data = topicFragmentInfo
+            };
+
+            return await CKEditorJsInterop.ExecuteCKCommand(JsRuntime, parameters);
+        }
+
+        public async void Dispose()
+        {
+            await CKEditorJsInterop.DestroyCKEditor(JsRuntime, CKEditorId);
+        }
+    }
+}

@@ -1,0 +1,55 @@
+﻿@inherits TopicSearchModel
+@using Microsoft.AspNetCore.Components.Web
+
+@if (ShowSearch)
+{
+    <div>
+        <input type="text" @bind="SearchString" />
+        <button type="button" @onclick="Search" class="btn btn-primary">Search</button>
+    </div>
+}
+
+@if (Topics == null)
+{
+    <p><em>Loading...</em></p>
+}
+else
+{
+    <table class="table">
+        <thead>
+            <tr>
+                @if (ShowTopicSelected)
+                {
+                    <td></td>
+                }
+                <td>Name</td>
+                <td>Description</td>
+            </tr>
+        </thead>
+        <tbody>
+            @foreach (var topic in Topics)
+            {
+                <tr>
+                    @if (ShowTopicSelected)
+                    {
+                        <td><input type="checkbox" @bind="topic.IsSelected" /> </td>
+                    }
+                    <td><a href="@($"edit/topic/{topic.ProjectId}/{topic.TopicId}")">@topic.Title</a> </td>
+                    <td>@topic.Title</td>
+                </tr>
+            }
+        </tbody>
+    </table>
+}
+@if (DoSomethingAction != null)
+{
+    <div>
+        <button @onclick="DoSomething">Add</button>
+    </div>
+}
+@if (DeleteTopicFunc != null)
+{
+    <div>
+        <button @onclick="DeleteTopic" class="btn-xs btn-warn">Delete Topic</button>
+    </div>
+}

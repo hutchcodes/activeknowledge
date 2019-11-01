@@ -19,6 +19,8 @@ else
             </div>
             <div id="topicContent" role="document" class="col @AppState.TocContentClass">
                 <h2>@Topic.Title</h2>
+                <button type="submit" class="btn btn-primary">Save</button>
+                <button type="reset" @onclick="Cancel" class="btn btn-secondary">Cancel</button>
                 <TabSet>
                     <TabPage Text="Meta">
                         <EditForm Model="@Topic" OnValidSubmit="@Save" autocomplete="off">
@@ -44,14 +46,12 @@ else
                                     <ValidatedInputTextArea id="topicDescription" @bind-Value="Topic.Description" class="form-control" LabelText="Description" rows="4" />
                                 </div>
                             </div>
-
-                            <button type="submit" class="btn btn-primary">Save</button>
-                            <button type="reset" @onclick="Cancel" class="btn btn-secondary">Cancel</button>
-
                         </EditForm>
                     </TabPage>
                     <TabPage Text="Content">
-
+                        <div>
+                            <TopicEditDetail Topic="@Topic" />
+                        </div>
                     </TabPage>
                 </TabSet>
 
