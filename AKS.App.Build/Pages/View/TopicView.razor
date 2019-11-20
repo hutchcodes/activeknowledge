@@ -17,7 +17,10 @@ else
                 <TableOfContents />
             </div>
             <div id="topicContent" role="document" class="col @AppState.TocContentClass">
-                <h1>@Topic.Title</h1>
+                <div>
+                    <button type="button" class="btn btn-outline-primary btn-sm float-left mt-2 mr-2" title="Edit Topic" @onclick="EditTopic"><i class="icon-edit-2 left"></i></button>
+                    <h1 clase="my-2">@Topic.Title</h1>
+                </div>
                 <p class="description">
                     @Topic.Description
                 </p>

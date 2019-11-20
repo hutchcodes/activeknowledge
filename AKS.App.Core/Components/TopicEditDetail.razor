@@ -1,15 +1,15 @@
 ﻿@using AKS.Common.Models
+@using AKS.Common.Enums
 
-@switch (Topic.TopicTypeId)
+@switch (Topic.TopicType)
 {
-    case 1:  //Content
+    case TopicType.Content:  //Content
         <TopicEditDetailContent Topic="Topic" />
         break;
-    case 2: //Colleciton
+    case TopicType.Collection: //Colleciton
         
         break;
-    case 3: //Document
-        
+    case TopicType.Document: //Document
         break;
     default:
         <div>Unhandled Topic Type</div>

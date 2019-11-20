@@ -1,5 +1,6 @@
 ﻿using AKS.Api.Build.Client;
 using AKS.App.Core.Data;
+using AKS.Common.Enums;
 using AKS.Common.Models;
 using Microsoft.AspNetCore.Components;
 using System;
@@ -17,6 +18,9 @@ namespace AKS.App.Core
 
         [Inject]
         public TopicViewApi TopicViewApi { get; set; } = null!;
+
+        [Inject]
+        public NavigationManager NavMan { get; set; } = null!;
 
         [CascadingParameter] protected IAppState AppState { get; set; } = null!;
 
@@ -38,12 +42,24 @@ namespace AKS.App.Core
             StateHasChanged();
         }
 
-        public static string GetTopicTypeDescription(int topicTypeId)
+        public void NewTopic()
         {
-            return topicTypeId switch
+            NavMan.NavigateTo($"/topic/{ProjectId}/new");
+        }
+
+        public void EditTopic(Guid topicId)
+        {
+            NavMan.NavigateTo($"/topic/{ProjectId}/{topicId}/edit");
+        }
+
+        public static string GetTopicTypeDescription(TopicType topicType)
+        {
+            return topicType switch
             {
-                1 => "Content",
-                2 => "Collection",
+                TopicType.Content => "Content",
+                TopicType.Collection => "Collection",
+                TopicType.Document => "Document",
+                TopicType.Fragment => "Fragment",
                 _ => "unknown",
             };
         }

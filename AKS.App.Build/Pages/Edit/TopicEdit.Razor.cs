@@ -18,22 +18,45 @@ namespace AKS.App.Core
 
         [Inject]
         TopicEditApi TopicEditApi { get; set; } = null!;
+        
+        [Inject]
+        NavigationManager NavMan { get; set; } = null!;
 
         [CascadingParameter] protected IAppState AppState { get; set; } = null!;
 
         public TopicEdit Topic { get; set; } = new TopicEdit();
 
-
         public override async Task SetParametersAsync(ParameterView parameters)
         {
             await base.SetParametersAsync(parameters);
             var headerTask = AppState.UpdateCustomerAndProject(null, ProjectId);
-            var topicTask = LoadTopic();
+            
+            var lastSegment = new Uri(NavMan.Uri).Segments[^1].ToLower();
+            if (lastSegment == "new")
+            {
+                NewTopic();
+            }
+            else
+            {
+                var topicTask = LoadTopic();
+                await topicTask;
+            }
+            
             await headerTask;
-            await topicTask;
+  
             StateHasChanged();
         }
 
+        private void NewTopic()
+        {
+            Topic = new TopicEdit
+            {
+                ProjectId = this.ProjectId,
+                TopicId = Guid.NewGuid(),
+                TopicType = Common.Enums.TopicType.Content,
+                TopicStatus = Common.Enums.TopicStatus.New
+            };
+        }
         private async Task LoadTopic()
         {
             Topic = await TopicEditApi.GetTopic(ProjectId, TopicId);
@@ -41,12 +64,34 @@ namespace AKS.App.Core
 
         public async Task Save()
         {
-            Topic = await TopicEditApi.UpdateTopic(Topic);
+            if (Topic.TopicStatus == Common.Enums.TopicStatus.New)
+            {
+                Topic = await TopicEditApi.UpdateTopic(Topic);
+                NavMan.NavigateTo($"/topic/{Topic.ProjectId}/{Topic.TopicId}/edit");
+            }
+            else
+            {
+                Topic = await TopicEditApi.UpdateTopic(Topic);
+            }
+                
         }
 
         public async Task Cancel()
         {
-            await LoadTopic();
+            if (Topic.TopicStatus == Common.Enums.TopicStatus.New)
+            {
+                NewTopic();
+            }
+            else
+            {
+                await LoadTopic();
+            }
+        }
+
+        public async Task DeleteTopic()
+        {
+            await TopicEditApi.DeleteTopic(ProjectId, TopicId);
+            NavMan.NavigateTo($"/project/{ProjectId}");
         }
     }
 }

@@ -12,6 +12,9 @@
         </div>
         <div id="tocContent" role="document" class="col @AppState.TocContentClass" >
             <div class="row">
+                <div class="col mb-4">
+                    <button type="button" class="btn btn-outline-secondary" @onclick="NewTopic">Add Topic</button>
+                </div>
                 <div class="col mb-4 text-right">
                     Sort options:
                     <div class="btn-group" role="group" aria-label="Sort options">
@@ -24,6 +27,7 @@
             <table class="table table-hover">
                 <thead>
                     <tr>
+                        <th></th>
                         <th class="col-6">Topic</th>
                         <th class="col-1"></th>
                         <th class="col-1">Rating</th>
@@ -35,11 +39,12 @@
                     @foreach (var topic in TopicList)
                     {
                         <tr>
+                            <td><button type="button" class="btn btn-outline-primary btn-sm" title="Edit Topic" @onclick="(() => EditTopic(topic.TopicId))"><i class="icon-edit-2 left"></i></button></td>
                             <td><a href="topic/@topic.ProjectId/@topic.TopicId">@topic.Title</a></td>
                             <td><a href="#" class="text-secondary"><i class="icon-info" data-toggle="tooltip" title="@topic.Description"></i></a></td>
                             <td>3</td>
                             <td>6</td>
-                            <td>@GetTopicTypeDescription(topic.TopicTypeId)</td>
+                            <td>@GetTopicTypeDescription(topic.TopicType)</td>
                         </tr>
                     }
                 </tbody>

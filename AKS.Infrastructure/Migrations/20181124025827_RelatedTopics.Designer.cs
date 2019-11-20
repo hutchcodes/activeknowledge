@@ -204,7 +204,7 @@ namespace AKS.Infrastructure.Migrations
 
                     b.Property<string>("TopicContent");
 
-                    b.Property<int>("TopicTypeId");
+                    b.Property<int>("TopicType");
 
                     b.HasKey("TopicId");
 

@@ -90,7 +90,7 @@ namespace AKS.Infrastructure.Migrations
                 {
                     TopicId = table.Column<Guid>(nullable: false),
                     ProjectId = table.Column<Guid>(nullable: false),
-                    TopicTypeId = table.Column<int>(nullable: false),
+                    TopicType = table.Column<int>(nullable: false),
                     Name = table.Column<string>(maxLength: 50, nullable: false),
                     Description = table.Column<string>(maxLength: 200, nullable: true),
                     ImageResourceId = table.Column<Guid>(nullable: true),

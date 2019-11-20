@@ -60,10 +60,18 @@ namespace AKS.Infrastructure.Services
         public async Task<TopicEdit> SaveTopic(TopicEdit topicVM)
         {
             var spec = new TopicEditSpecification(topicVM.ProjectId, topicVM.TopicId);
-            var topic = await _topicRepo.GetAsync(spec);
-
-            topic = Mapper.Instance.Map(topicVM, topic);
-            await _topicRepo.UpdateAsync(topic);
+            Topic topic;
+            if (topicVM.TopicStatus == Common.Enums.TopicStatus.New)
+            {
+                topic = Mapper.Instance.Map< Topic>(topicVM);
+                await _topicRepo.AddAsync(topic);
+            }
+            else
+            {
+                topic = await _topicRepo.GetAsync(spec);
+                topic = Mapper.Instance.Map(topicVM, topic);
+                await _topicRepo.UpdateAsync(topic);
+            }
 
             topic = await _topicRepo.GetAsync(spec);
             return Mapper.Map<TopicEdit>(topic);

@@ -24,7 +24,7 @@ namespace AKS.Infrastructure.Tests.Mappers
             {
                 ProjectId = projectId,
                 TopicId = topicId1,
-                TopicTypeId = 2,
+                TopicType = Common.Enums.TopicType.Collection,
                 Title = "Test Title",
                 Description = "Test description",
                 Content = "Test content",
@@ -33,7 +33,7 @@ namespace AKS.Infrastructure.Tests.Mappers
             {
                 ProjectId = projectId,
                 TopicId = topicId2,
-                TopicTypeId = 3,
+                TopicType = Common.Enums.TopicType.Document,
                 Title = "Test Title",
                 Description = "Test description",
                 Content = "Test content",
@@ -47,7 +47,7 @@ namespace AKS.Infrastructure.Tests.Mappers
             {
                 ProjectId = Guid.NewGuid(),
                 TopicId = topicId1,
-                TopicTypeId = 2,
+                TopicType = Common.Enums.TopicType.Document,
                 Title = "Test Title",
                 Description = "Test description",
                 Content = "Test content",
@@ -79,7 +79,7 @@ namespace AKS.Infrastructure.Tests.Mappers
             Assert.AreEqual(_entity1.TopicId, topicModel.TopicId);
             Assert.AreEqual(_entity1.Title, topicModel.Title);
             Assert.AreEqual(_entity1.Description, topicModel.Description);
-            Assert.AreEqual(_entity1.TopicTypeId, topicModel.TopicTypeId);
+            Assert.AreEqual(_entity1.TopicType, topicModel.TopicType);
         }
 
         [Test]
@@ -92,7 +92,7 @@ namespace AKS.Infrastructure.Tests.Mappers
             Assert.AreEqual(_entity1.Title, topicModel.Title);
             Assert.AreEqual(_entity1.Description, topicModel.Description);
             Assert.AreEqual(_entity1.DocumentName, topicModel.DocumentName);
-            Assert.AreEqual(_entity1.TopicTypeId, topicModel.TopicTypeId);
+            Assert.AreEqual(_entity1.TopicType, topicModel.TopicType);
 
             Assert.AreEqual(_entity1.CollectionElements.Count, topicModel.CollectionElements.Count);
             Assert.AreEqual(_entity1.CollectionElements.First().CollectionElementTopics.First().TopicId, topicModel.CollectionElements.First().ElementTopics.First().TopicId);
@@ -110,7 +110,7 @@ namespace AKS.Infrastructure.Tests.Mappers
             Assert.AreEqual(_entity1.Title, topicModel.Title);
             Assert.AreEqual(_entity1.Description, topicModel.Description);
             Assert.AreEqual(_entity1.DocumentName, topicModel.DocumentName);
-            Assert.AreEqual(_entity1.TopicTypeId, topicModel.TopicTypeId);
+            Assert.AreEqual(_entity1.TopicType, topicModel.TopicType);
 
             //We test the actual mapping separately, 
             //here we'll just verify that something comes over
@@ -129,7 +129,7 @@ namespace AKS.Infrastructure.Tests.Mappers
             Assert.AreEqual(_model.Title, topicEntity.Title);
             Assert.AreEqual(_model.Description, topicEntity.Description);
             Assert.AreEqual(_model.DocumentName, topicEntity.DocumentName);
-            Assert.AreEqual(_model.TopicTypeId, topicEntity.TopicTypeId);
+            Assert.AreEqual(_model.TopicType, topicEntity.TopicType);
 
             //We test the actual mapping separately, 
             //here we'll just verify that something comes over

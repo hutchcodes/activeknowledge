@@ -1,4 +1,5 @@
-﻿using System;
+﻿using AKS.Common.Enums;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
@@ -12,7 +13,7 @@ namespace AKS.Common.Models
         public Guid TopicId { get; set; }
         public string? Title { get; set; }
         public string? Description { get; set; }
-        public int TopicTypeId { get; set; }
+        public TopicType TopicType { get; set; }
 
     }
 }

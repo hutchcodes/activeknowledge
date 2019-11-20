@@ -224,7 +224,7 @@ namespace AKS.Infrastructure.Migrations
                         .IsRequired()
                         .HasMaxLength(50);
 
-                    b.Property<int>("TopicTypeId");
+                    b.Property<int>("TopicType");
 
                     b.HasKey("TopicId");
 

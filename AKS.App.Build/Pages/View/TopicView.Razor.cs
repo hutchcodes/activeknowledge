@@ -19,6 +19,12 @@ namespace AKS.App.Core
         [Inject]
         TopicViewApi TopicViewApi { get; set; } = null!;
 
+        [Inject]
+        TopicEditApi TopicEditApi { get; set; } = null!;
+
+        [Inject]
+        NavigationManager NavMan { get; set; } = null!;
+
         [CascadingParameter] protected IAppState AppState { get; set; } = null!;
 
         public TopicView? Topic { get; set; }
@@ -37,6 +43,11 @@ namespace AKS.App.Core
         private async Task LoadTopic()
         {
             Topic = await TopicViewApi.GetTopic(ProjectId, TopicId);
+        }
+
+        public void EditTopic()
+        {
+            NavMan.NavigateTo($"/topic/{ProjectId}/{TopicId}/edit");
         }
     }
 }

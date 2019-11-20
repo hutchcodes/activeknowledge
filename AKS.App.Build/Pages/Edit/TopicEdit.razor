@@ -1,4 +1,5 @@
 ﻿@page "/topic/{projectId:guid}/{topicId:guid}/edit"
+@page "/topic/{projectId:guid}/new"
 @inherits AKS.App.Core.TopicEditBase
 @using AKS.App.Core.Components
 @using AKS.Common.Enums
@@ -18,9 +19,11 @@ else
                 <TableOfContents />
             </div>
             <div id="topicContent" role="document" class="col @AppState.TocContentClass">
-                <h2>@Topic.Title</h2>
-                <button type="submit" class="btn btn-primary">Save</button>
-                <button type="reset" @onclick="Cancel" class="btn btn-secondary">Cancel</button>
+                <div>
+                    <button type="button" class="btn btn-outline-primary btn-sm float-left mt-2 mr-2" title="Edit Topic" @onclick="DeleteTopic"><i class="icon-trash left"></i></button>
+                    <h2 clase="my-2">@Topic.Title</h2>
+                </div>
+
                 <TabSet>
                     <TabPage Text="Meta">
                         <EditForm Model="@Topic" OnValidSubmit="@Save" autocomplete="off">
@@ -32,12 +35,13 @@ else
                                 <div class="form-group col-md-4" />
 
                                 <div class="form-group col-md-4">
-                                    <label for="topicStatus">Status</label>
-                                    <InputSelect id="topicStatus" @bind-Value="Topic.TopicStatus" class="form-control">
-                                        <option value="@TopicStatus.Edited">Edited</option>
-                                        <option value="@TopicStatus.ReadyForReview">Ready For Review</option>
-                                        <option value="@TopicStatus.ReadyToPublish">Ready To Publish</option>
-                                        <option value="@TopicStatus.Published">Published</option>
+                                    <label for="topicType">Status</label>
+                                    <InputSelect id="topicType" @bind-Value="Topic.TopicType" class="form-control">
+                                        <option value="@TopicType.Content">Content</option>
+                                        <option value="@TopicType.Collection">Collection</option>
+                                        <option value="@TopicType.Document">Document</option>
+                                        <option value="@TopicType.Fragment">Fragment</option>
+
                                     </InputSelect>
                                 </div>
                             </div>
@@ -45,7 +49,21 @@ else
                                 <div class="form-group col-md-4">
                                     <ValidatedInputTextArea id="topicDescription" @bind-Value="Topic.Description" class="form-control" LabelText="Description" rows="4" />
                                 </div>
+                                <div class="form-group col-md-4" />
+
+                                <div class="form-group col-md-4">
+                                    <label for="topicStatus">Status</label>
+                                    <InputSelect id="topicStatus" @bind-Value="Topic.TopicStatus" class="form-control">
+                                        <option value="@TopicStatus.New">New</option>
+                                        <option value="@TopicStatus.Edited">Edited</option>
+                                        <option value="@TopicStatus.ReadyForReview">Ready For Review</option>
+                                        <option value="@TopicStatus.ReadyToPublish">Ready To Publish</option>
+                                        <option value="@TopicStatus.Published">Published</option>
+                                    </InputSelect>
+                                </div>
                             </div>
+                            <button type="submit" class="btn btn-primary">Save</button>
+                            <button type="reset" @onclick="Cancel" class="btn btn-secondary">Cancel</button>
                         </EditForm>
                     </TabPage>
                     <TabPage Text="Content">

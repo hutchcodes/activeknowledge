@@ -63,8 +63,8 @@ namespace AKS.Api.Build.Client
             // easily add HTTP Headers
             request.AddHeader("header", "value");
 
-            await client.ExecuteTaskAsync(request);
-            
+            var response = await client.ExecuteTaskAsync<TopicEdit>(request);
+
             return;
         }
     }

@@ -38,10 +38,10 @@ namespace AKS.Api.Build.Controllers
         }
 
         // DELETE: api/Topic/1234/555
-        [HttpDelete("{projectId:int}/{topicId:int}")]
-        public void Delete(Guid projectId, Guid topicId)
+        [HttpDelete("{projectId:Guid}/{topicId:Guid}")]
+        public async Task Delete(Guid projectId, Guid topicId)
         {
-            _topicService.DeleteTopic(projectId, topicId);
+            await _topicService.DeleteTopic(projectId, topicId);
         }
     }
 }
