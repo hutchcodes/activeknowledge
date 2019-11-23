@@ -20,9 +20,6 @@ namespace AKS.App.Core
         TopicViewApi TopicViewApi { get; set; } = null!;
 
         [Inject]
-        TopicEditApi TopicEditApi { get; set; } = null!;
-
-        [Inject]
         NavigationManager NavMan { get; set; } = null!;
 
         [CascadingParameter] protected IAppState AppState { get; set; } = null!;

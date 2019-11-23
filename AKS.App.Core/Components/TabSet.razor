@@ -12,7 +12,7 @@
     @ChildContent
 </CascadingValue>
 @code {
-    // Next line is needed so we are able to add <TabPage> components inside
+        // Next line is needed so we are able to add <TabPage> components inside
     [Parameter]
     public RenderFragment ChildContent { get; set; } = null!;
 
@@ -34,10 +34,36 @@
     {
         return page == ActivePage ? "active" : "";
     }
-    public void ActivatePage(TabPageBase page)
+    public void ActivatePage(TabPageBase? page)
     {
         ActivePage = page;
         StateHasChanged();
     }
+
+    public void RemoveTab(TabPageBase page)
+    {
+        if (ActivePage == page)
+        {
+            var pageIndex = Pages.IndexOf(page);
+            Pages.Remove(page);
+            if (Pages.Count == 0)
+            {
+                page = null;
+            }
+            else
+            {
+                if (Pages.Count > pageIndex)
+                {
+                    page = Pages[pageIndex];
+                }
+                else
+                {
+                    page = Pages[pageIndex -1];
+                }
+            }
+            ActivatePage(page);
+        }
+    }
+
 
 }

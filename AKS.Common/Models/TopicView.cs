@@ -19,6 +19,6 @@ namespace AKS.Common.Models
 
         public List<TopicLink> RelatedTopics { get; set;  } = new List<TopicLink>();
         public List<Tag> Tags { get; set; } = new List<Tag>();
-        public List<CollectionElement> CollectionElements { get; set; } = new List<CollectionElement>();
+        public List<CollectionElementView> CollectionElements { get; set; } = new List<CollectionElementView>();
     }
 }

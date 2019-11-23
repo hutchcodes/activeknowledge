@@ -12,11 +12,11 @@ namespace AKS.App.Core.Components
         [CascadingParameter]
         private TabSet? Parent { get; set; }
 
-        [Parameter]
-        public RenderFragment ChildContent { get; set; } = null!;
+        [Parameter] public RenderFragment ChildContent { get; set; } = null!;
 
-        [Parameter]
-        public string Text { get; set; } = "";
+        [Parameter] public string Text { get; set; } = "";
+        [Parameter] public bool ShowDelete { get; set; }
+        [Parameter] public Action? Delete { get; set; }
 
         protected bool IsActive { get { return Parent?.ActivePage == this; } }
 

@@ -61,14 +61,14 @@ namespace AKS.Infrastructure
         private static void ConfigProjectModel()
         {
             _cfg.CreateMap<Ents.Project, Mods.ProjectList>()
-                .ForMember(mod => mod.TopicCount, x=> x.Ignore())
+                .ForMember(mod => mod.TopicCount, x => x.Ignore())
                 ;
             _cfg.CreateMap<Ents.Project, Mods.HeaderNavView>()
                 .ForMember(mod => mod.ProjectName, x => x.MapFrom(ent => ent.Name))
                 .ForMember(mod => mod.ProjectLogo, x => x.MapFrom(ent => ent.LogoFileName))
                 .ForMember(mod => mod.CustomerName, x => x.MapFrom(ent => ent.Customer!.Name))
                 .ForMember(mod => mod.CustomerLogo, x => x.MapFrom(ent => ent.Customer!.LogoFileName));
-            
+
             _cfg.CreateMap<Ents.Project, Mods.ProjectEdit>();
             _cfg.CreateMap<Mods.ProjectEdit, Ents.Project>()
                 .ForMember(ent => ent.Customer, x => x.Ignore())
@@ -98,14 +98,27 @@ namespace AKS.Infrastructure
 
         private static void CollectionElementConfig()
         {
-            _cfg.CreateMap<Ents.CollectionElement, Mods.CollectionElement>()
+            _cfg.CreateMap<Ents.CollectionElement, Mods.CollectionElementView>()
+                .ForMember(mod => mod.ElementTopics, y => y.MapFrom(ent => ent.CollectionElementTopics))
+            ;
+            _cfg.CreateMap<Ents.CollectionElementTopic, Mods.CollectionElementTopicView>()
+                .ForMember(mod => mod.Topic, y => y.MapFrom(ent => ent.Topic))
+            ;
+
+            _cfg.CreateMap<Ents.CollectionElement, Mods.CollectionElementEdit>()
                 .ForMember(mod => mod.ElementTopics, y => y.MapFrom(ent => ent.CollectionElementTopics))
                 .ReverseMap()
             ;
-            _cfg.CreateMap<Ents.CollectionElementTopic, Mods.CollectionElementTopic>()
+            _cfg.CreateMap<Ents.CollectionElementTopic, Mods.CollectionElementTopicList>()
                 .ForMember(mod => mod.Topic, y => y.MapFrom(ent => ent.Topic))
-                .ReverseMap()
-                .ForMember(mod => mod.Topic, y => y.Ignore());
+            ;
+
+            _cfg.CreateMap<Mods.CollectionElementTopicList, Ents.CollectionElementTopic>()
+                .ForMember(ent => ent.ProjectId, y => y.MapFrom(mod => mod.ProjectId))
+                .ForMember(ent => ent.TopicId, y => y.MapFrom(mod => mod.TopicId))
+                .ForMember(ent => ent.Order, y => y.MapFrom(mod => mod.Order))
+                .ForMember(ent => ent.Topic, y => y.Ignore())
+                .ForMember(ent => ent.CollectionElement, y=> y.Ignore())
             ;
         }
 
@@ -137,7 +150,7 @@ namespace AKS.Infrastructure
         {
             _cfg.CreateMap<Mods.TopicEdit, Ents.Topic>()
                 .ForMember(ent => ent.RelatedToTopics, y => y.Ignore())
-                .ForMember(ent => ent.CollectionElements, y => y.Ignore())
+                .ForMember(ent => ent.CollectionElements, y => y.MapFrom(mod => mod.CollectionElements))
                 .ForMember(ent => ent.DefaultCategoryId, y => y.Ignore())
                 .ForMember(ent => ent.FileResourceId, y => y.Ignore())
                 .ForMember(ent => ent.TopicFragmentChildren, y => y.Ignore())
@@ -145,14 +158,9 @@ namespace AKS.Infrastructure
                 .ForMember(ent => ent.ImageResourceId, y => y.Ignore())
                 .ForMember(ent => ent.RelatedFromTopics, y => y.Ignore())
                 .ForMember(ent => ent.TopicTags, y => y.MapFrom(mod => mod.Tags))
-                .ForMember(ent => ent.CategoryTopics, y=> y.Ignore())
+                .ForMember(ent => ent.CategoryTopics, y => y.Ignore())
                 .ForMember(ent => ent.CollectionElementTopics, y => y.Ignore())
                 .ConstructUsing((mod, ent) => new Ents.Topic())
-            ;
-
-            _cfg.CreateMap<Mods.CollectionElement, Ents.CollectionElement>()
-                .ForMember(ent => ent.Topic, y => y.Ignore())
-                .ForMember(ent => ent.CollectionElementTopics, y => y.Ignore())
             ;
 
             _cfg.CreateMap<Mods.TopicView, Ents.Topic>()

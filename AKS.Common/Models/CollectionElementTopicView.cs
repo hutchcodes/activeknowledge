@@ -5,7 +5,7 @@ using System.Threading.Tasks;
 
 namespace AKS.Common.Models
 {
-    public class CollectionElementTopic
+    public class CollectionElementTopicView
     {
         public Guid CollectionElementId { get; set; }
         public Guid ProjectId { get; set; }

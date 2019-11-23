@@ -56,6 +56,7 @@ namespace AKS.App.Core
                 TopicType = Common.Enums.TopicType.Content,
                 TopicStatus = Common.Enums.TopicStatus.New
             };
+            TopicId = Topic.TopicId;
         }
         private async Task LoadTopic()
         {

@@ -32,7 +32,7 @@
 
 @code {
     [CascadingParameter] CollectionTopicViewTabSet? ContainerTabSet { get; set; }
-    [Parameter] public CollectionElement? CollectionElement { get; set; }
+    [Parameter] public CollectionElementView? CollectionElement { get; set; }
     public TopicView? CurrentTopic { get; private set; }
 
     string? TitleCssClass => ContainerTabSet?.ActiveTab == this ? "active" : null;
@@ -60,7 +60,7 @@
         }
     }
 
-    void Activate(CollectionElementTopic cet)
+    void Activate(CollectionElementTopicView cet)
     {
         ShowDropDownClass = string.Empty;
         CurrentTopic = cet.Topic;

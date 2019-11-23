@@ -63,6 +63,7 @@ namespace AKS.Infrastructure.Services
             Topic topic;
             if (topicVM.TopicStatus == Common.Enums.TopicStatus.New)
             {
+                topicVM.TopicStatus = Common.Enums.TopicStatus.Edited;
                 topic = Mapper.Instance.Map< Topic>(topicVM);
                 await _topicRepo.AddAsync(topic);
             }

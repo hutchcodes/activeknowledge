@@ -5,12 +5,12 @@ using System.Threading.Tasks;
 
 namespace AKS.Common.Models
 {
-    public class CollectionElement
+    public class CollectionElementView
     {
         public Guid ProjectId { get; set; }
         public Guid TopicId { get; set; }
         public Guid CollectionElementId { get; set; }
         public string? Name { get; set; }
-        public List<CollectionElementTopic> ElementTopics { get; set; } = new List<CollectionElementTopic>();
+        public List<CollectionElementTopicView> ElementTopics { get; set; } = new List<CollectionElementTopicView>();
     }
 }

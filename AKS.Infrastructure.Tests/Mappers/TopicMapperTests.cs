@@ -54,9 +54,9 @@ namespace AKS.Infrastructure.Tests.Mappers
                 DocumentName = "DocName",
             };
             _model.Tags.Add(new Mods.Tag { ProjectId = projectId, TagId = Guid.NewGuid(), Name = "Tag1" });
-            var modCollectionElement = new Mods.CollectionElement { ProjectId = projectId, CollectionElementId = Guid.NewGuid(), Name = "TestCollectionElement", TopicId = topicId1 };
+            var modCollectionElement = new Mods.CollectionElementEdit { ProjectId = projectId, CollectionElementId = Guid.NewGuid(), Name = "TestCollectionElement", TopicId = topicId1 };
             _model.CollectionElements.Add(modCollectionElement);
-            modCollectionElement.ElementTopics.Add(new Mods.CollectionElementTopic { ProjectId = projectId, CollectionElementId = Guid.NewGuid(), TopicId = Guid.NewGuid(), Order = 2, Topic = new Mods.TopicView { TopicId = Guid.NewGuid() } });
+            modCollectionElement.ElementTopics.Add(new Mods.CollectionElementTopicList { ProjectId = projectId, CollectionElementId = Guid.NewGuid(), TopicId = Guid.NewGuid(), Order = 2, Topic = new Mods.TopicList { TopicId = Guid.NewGuid() } });
         }
 
         [Test]
