@@ -18,6 +18,8 @@ namespace AKS.Infrastructure.Specifications
             AddInclude(x => x.CollectionElements);
             AddInclude($"{nameof(Topic.CollectionElements)}.{nameof(CollectionElement.CollectionElementTopics)}");
             AddInclude($"{nameof(Topic.CollectionElements)}.{nameof(CollectionElement.CollectionElementTopics)}.{nameof(CollectionElementTopic.Topic)}");
+            AddInclude($"{nameof(Topic.CollectionElements)}.{nameof(CollectionElement.CollectionElementTopics)}.{nameof(CollectionElementTopic.Topic)}.{nameof(Topic.TopicFragmentChildren)}");
+            AddInclude($"{nameof(Topic.CollectionElements)}.{nameof(CollectionElement.CollectionElementTopics)}.{nameof(CollectionElementTopic.Topic)}.{nameof(Topic.TopicFragmentChildren)}.{nameof(IReferencedTopic.ChildTopic)}");
 
             AddInclude(x => x.TopicFragmentChildren);
             AddInclude($"{nameof(Topic.TopicFragmentChildren)}.{nameof(IReferencedTopic.ChildTopic)}");

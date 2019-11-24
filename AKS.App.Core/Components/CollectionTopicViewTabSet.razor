@@ -23,7 +23,7 @@
         {
             ActiveTab = tab;
         }
-       // StateHasChanged();
+        InvokeAsync(this.StateHasChanged);
     }
 
     public void AddTab(ICollectionItemTab tab)
