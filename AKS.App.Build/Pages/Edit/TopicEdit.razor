@@ -20,7 +20,8 @@ else
             </div>
             <div id="topicContent" role="document" class="col @AppState.TocContentClass">
                 <div>
-                    <button type="button" class="btn btn-outline-primary btn-sm float-right mt-2" title="Edit Topic" @onclick="DeleteTopic"><i class="icon-trash left"></i></button>
+                    <button type="button" class="btn btn-outline-primary btn-sm float-right mt-2 ml-1" title="Edit Topic" @onclick="DeleteTopic"><i class="icon-trash left p-0"></i></button>
+                    <a href="/topic/@Topic.ProjectId/@Topic.TopicId" class="float-right mt-2 text-secondary"><i class="icon-eye btn btn-outline-primary btn-sm" data-toggle="tooltip" title="View Topic"></i></a>
                     <h2 clase="my-2">@Topic.Title</h2>
                 </div>
 
