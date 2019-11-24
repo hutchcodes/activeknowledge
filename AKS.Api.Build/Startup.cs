@@ -64,7 +64,7 @@ namespace AKS.Api.Build
             {
                 //DeveloperMode = true
             };
-            services.AddApplicationInsightsTelemetry(aiOptions);
+            services.AddApplicationInsightsTelemetry();
         }
 
         private void ConfigureDI(IServiceCollection services)

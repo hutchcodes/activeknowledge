@@ -62,7 +62,7 @@ namespace AKS.App.Build
             {
                 //DeveloperMode = true
             };
-            services.AddApplicationInsightsTelemetry(aiOptions);
+            services.AddApplicationInsightsTelemetry();
         }
 
 
