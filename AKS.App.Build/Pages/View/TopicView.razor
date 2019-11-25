@@ -24,15 +24,13 @@ else
                 <p class="description">
                     @Topic.Description
                 </p>
-                <div class="tags">
-                    <TopicTags Topic="Topic"/>
-                </div>
-                <hr>
                 <div>
                     <TopicDetail Topic="Topic" />
                 </div>
+                <hr>
                 <aside class="row justify-content-between">
                     <div class="relatedTopics col-lg-6 col-md-12">
+                        <TopicTags Topic="Topic" />
                         <RelatedTopics Topic="Topic" />
                     </div>
                     <div class="commentsRating col-lg-5 col-md-12">
