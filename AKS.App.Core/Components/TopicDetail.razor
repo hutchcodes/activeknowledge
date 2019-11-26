@@ -12,6 +12,11 @@
     case TopicType.Document: //Document
         <TopicDetailDocument Topic="Topic" />
         break;
+    case TopicType.Fragment: //Document
+        <div class="jagged-border">
+            <TopicDetailContent Topic="Topic" />
+        </div>
+        break;
     default:
         <div>Unhandled Topic Type</div>
         break;
