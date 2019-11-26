@@ -48,13 +48,18 @@ namespace AKS.App.Core.Components
         protected void InsertTopicFragment(List<TopicList> topics)
         {
             if (topics.Count == 1)
-            {
+            {                
                 var topicFragment = topics.First();
                 TopicContentEditor.InsertTopicFragment(topicFragment, _ckEditorCommandName);
 
                 IsAddingTopics = false;
             }
             StateHasChanged();
+        }
+
+        public void TopicContentEditor_OnEditorChanged(string content)
+        {
+            Topic.Content = content;
         }
     }
 }

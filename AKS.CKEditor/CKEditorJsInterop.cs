@@ -6,7 +6,8 @@ namespace AKS.CKEditor
 {
     public static class CKEditorJsInterop
     {
-        public static event EventHandler<string> EditorUpdate;
+        public class EditorUpdateEventData { public string ckEditorId; public string editorText; }
+        public static event EventHandler<EditorUpdateEventData> EditorUpdate;
 
         private static string EditorText { get; set; }
 
@@ -25,11 +26,16 @@ namespace AKS.CKEditor
             return jsruntime.InvokeAsync<string>("ckEditorJsInterop.executeCKCommand", parameters);
         }
 
-        [JSInvokable]      
-        public static Task<bool> UpdateText(string editorText)
+        [JSInvokable("CKEditorUpdateText")]      
+        public static Task<bool> UpdateText(string ckEditorId, string editorText)
         {
             EditorText = editorText;
-            EditorUpdate?.Invoke(null, editorText);
+            var editorUpdateEventData = new EditorUpdateEventData
+            {
+                ckEditorId = ckEditorId,
+                editorText = editorText
+            };
+            EditorUpdate?.Invoke(null, editorUpdateEventData);
 
             return Task.FromResult(true);
         }

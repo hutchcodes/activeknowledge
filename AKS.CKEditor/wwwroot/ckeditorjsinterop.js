@@ -19,6 +19,9 @@ window.ckEditorJsInterop = {
             .create(textArea)
             .then(editor => {
                 window.ckEditorJsInterop.instances[params.ckEditorId] = editor;
+                editor.model.document.on('change:data', () => {
+                    DotNet.invokeMethodAsync("AKS.CKEditor", 'CKEditorUpdateText', params.ckEditorId, editor.getData());
+                });
                 console.log("Created CKEditor #" + params.ckEditorId);
             })
             .catch(error => {

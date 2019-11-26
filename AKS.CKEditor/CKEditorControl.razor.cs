@@ -12,9 +12,6 @@ namespace AKS.CKEditor
         [Parameter]
         public string EditorContent { get; set; }
 
-        [Parameter]
-        public Action<string> EditorContentChanged { get; set; }
-
 
         public string CKEditorId { get; } = $"ck{Guid.NewGuid().ToString().Replace("-", "")}";
 
@@ -28,13 +25,17 @@ namespace AKS.CKEditor
         {
             base.OnAfterRender(firstRender);
             CKEditorJsInterop.InitializeEditor(JsRuntime, CKEditorId);
+            CKEditorJsInterop.EditorUpdate += CKEditorJsInterop_EditorUpdate;
         }
 
-        private void ThisEditorUpdate(object sender, string editorText)
+        private void CKEditorJsInterop_EditorUpdate(object sender, CKEditorJsInterop.EditorUpdateEventData e)
         {
-            EditorContent = editorText;
-            OnEditorChanged?.Invoke(editorText);
+            if (e.ckEditorId == CKEditorId)
+            {
+                OnEditorChanged?.Invoke(e.editorText);
+            }
         }
+
 
         public async Task<string> GetEditorText()
         {
