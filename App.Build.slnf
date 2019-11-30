@@ -5,6 +5,7 @@
       "AKS.Api.Build.Client\\AKS.Api.Build.Client.csproj",
       "AKS.App.Build\\AKS.App.Build.csproj",
       "AKS.App.Core\\AKS.App.Core.csproj",
+      "AKS.CKEditor\\AKS.CKEditor.csproj",
       "AKS.Common\\AKS.Common.csproj"
     ]
   }

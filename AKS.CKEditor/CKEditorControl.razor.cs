@@ -24,8 +24,11 @@ namespace AKS.CKEditor
         protected override void OnAfterRender(bool firstRender)
         {
             base.OnAfterRender(firstRender);
-            CKEditorJsInterop.InitializeEditor(JsRuntime, CKEditorId);
-            CKEditorJsInterop.EditorUpdate += CKEditorJsInterop_EditorUpdate;
+            if (firstRender)
+            {
+                CKEditorJsInterop.InitializeEditor(JsRuntime, CKEditorId);
+                CKEditorJsInterop.EditorUpdate += CKEditorJsInterop_EditorUpdate;
+            }
         }
 
         private void CKEditorJsInterop_EditorUpdate(object sender, CKEditorJsInterop.EditorUpdateEventData e)
