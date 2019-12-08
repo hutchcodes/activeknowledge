@@ -43,15 +43,15 @@ namespace AKS.Api.Build
                     webBuilder.ConfigureAppConfiguration((hostingContext, config) =>
                     {
                         var settings = config.Build();
-                        //#if !DEBUG
+
                         var kvClient = new KeyVaultClient(new KeyVaultClient.AuthenticationCallback(_azureServiceTokenProvider.KeyVaultTokenCallback));
                         config.AddAzureAppConfiguration(options =>
                         {
                             options.Connect(settings["ConnectionStrings:AppConfig"])
                                     .UseAzureKeyVault(kvClient);
                         });
-
-                        //#endif
+                        config.AddJsonFile($"appSettings.{hostingContext.HostingEnvironment.EnvironmentName}.json", 
+                            optional: true, reloadOnChange: true);
                     });
                     webBuilder.UseStartup<Startup>();
                 });

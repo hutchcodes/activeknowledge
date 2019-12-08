@@ -15,6 +15,7 @@ using System.Text;
 using Microsoft.ApplicationInsights.AspNetCore.Extensions;
 using Microsoft.ApplicationInsights.Extensibility;
 using AKS.Common;
+using System;
 
 namespace AKS.Api.Build
 {
@@ -26,7 +27,10 @@ namespace AKS.Api.Build
         {
             MapperConfig.ConfigMappers();
             Configuration = configuration;
+
+            ConfigSettings.LoadConfigs(configuration, ConfigSettings.ApiType.Build);
         }
+
 
         public IConfiguration Configuration { get; }
 
@@ -46,15 +50,16 @@ namespace AKS.Api.Build
             // Add memory cache services
             services.AddMemoryCache();
 
-            #region CORS Policy
             //TODO: CORS is WideOpen
+            #region CORS Policy
             services.AddCors(options =>
             {
                 options.AddPolicy("WideOpenCors",
                     builder =>
                         builder.AllowAnyHeader()
                         .AllowAnyMethod()
-                        .AllowAnyOrigin());
+                        .AllowAnyOrigin())
+                ;
             });
             #endregion
 
@@ -86,6 +91,7 @@ namespace AKS.Api.Build
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.
         public void Configure(IApplicationBuilder app, IWebHostEnvironment env)
         {
+            app.UseCors("WideOpenCors");
             if (env.IsDevelopment())
             {
                 app.UseDeveloperExceptionPage();

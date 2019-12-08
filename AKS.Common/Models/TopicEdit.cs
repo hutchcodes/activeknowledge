@@ -26,5 +26,6 @@ namespace AKS.Common.Models
         public List<Tag> Tags { get; set; } = new List<Tag>();
         public List<CollectionElementEdit> CollectionElements { get; set; } = new List<CollectionElementEdit>();
 
+        public List<TopicFragmentLink> FragmentsUsed { get; set; } = new List<TopicFragmentLink>();
     }
 }

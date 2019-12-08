@@ -30,6 +30,7 @@ namespace AKS.Infrastructure
             ConfigCategoryTreeModel();
             CollectionElementConfig();
             ConfigTopicEntity();
+            ConfigFragments();
 
             Mapper.Initialize(_cfg);
             Mapper.AssertConfigurationIsValid();
@@ -83,17 +84,25 @@ namespace AKS.Infrastructure
                 .ForMember(mod => mod.IsSelected, y => y.Ignore())
             ;
             _cfg.CreateMap<Ents.Topic, Mods.TopicView>()
-                .BeforeMap((ent, mod) => TopicCleaner.CleanTopicContent(ent))
+                .BeforeMap((ent, mod) => TopicCleaner.CompileTopicForView(ent))
                 .ForMember(mod => mod.CollectionElements, y => y.MapFrom(ent => ent.CollectionElements))
                 .ForMember(mod => mod.RelatedTopics, y => y.MapFrom(ent => ent.RelatedToTopics.Select(x => x.ChildTopic)))
                 .ForMember(mod => mod.Tags, y => y.MapFrom(ent => ent.TopicTags));
             ;
             _cfg.CreateMap<Ents.Topic, Mods.TopicEdit>()
+                .BeforeMap((ent, mod) => TopicCleaner.DetokenizeTopicContent(ent))
                 .ForMember(mod => mod.RelatedTopics, y => y.MapFrom(ent => ent.RelatedToTopics.Select(x => x.ChildTopic)))
                 .ForMember(mod => mod.CollectionElements, y => y.MapFrom(ent => ent.CollectionElements))
                 .ForMember(mod => mod.Tags, y => y.MapFrom(ent => ent.TopicTags))
-                .ReverseMap()
+                .ForMember(mod => mod.FragmentsUsed, y => y.MapFrom(ent => ent.TopicFragmentChildren))
             ;
+
+            //_cfg.CreateMap<Mods.TopicEdit, Ents.Topic>()
+            //    //.ForMember(ent => ent.RelatedToTopics.First()., y => y.MapFrom(mod => mod.RelatedTopics))
+            //    .ForMember(ent => ent.CollectionElements, y => y.MapFrom(mod => mod.CollectionElements))
+            //    .ForMember(ent => ent.TopicTags, y => y.MapFrom(mod => mod.Tags))
+            //    .AfterMap((mod, ent) => TopicCleaner.TokenizeTopicContent(ent));
+            //;
         }
 
         private static void CollectionElementConfig()
@@ -118,7 +127,7 @@ namespace AKS.Infrastructure
                 .ForMember(ent => ent.TopicId, y => y.MapFrom(mod => mod.TopicId))
                 .ForMember(ent => ent.Order, y => y.MapFrom(mod => mod.Order))
                 .ForMember(ent => ent.Topic, y => y.Ignore())
-                .ForMember(ent => ent.CollectionElement, y=> y.Ignore())
+                .ForMember(ent => ent.CollectionElement, y => y.Ignore())
             ;
         }
 
@@ -149,11 +158,12 @@ namespace AKS.Infrastructure
         private static void ConfigTopicEntity()
         {
             _cfg.CreateMap<Mods.TopicEdit, Ents.Topic>()
+                .BeforeMap((mod, ent) => TopicCleaner.TokenizeTopicContent(mod))
                 .ForMember(ent => ent.RelatedToTopics, y => y.Ignore())
                 .ForMember(ent => ent.CollectionElements, y => y.MapFrom(mod => mod.CollectionElements))
                 .ForMember(ent => ent.DefaultCategoryId, y => y.Ignore())
                 .ForMember(ent => ent.FileResourceId, y => y.Ignore())
-                .ForMember(ent => ent.TopicFragmentChildren, y => y.Ignore())
+                .ForMember(ent => ent.TopicFragmentChildren, y => y.MapFrom(mod => mod.FragmentsUsed))
                 .ForMember(ent => ent.TopicFragmentsParents, y => y.Ignore())
                 .ForMember(ent => ent.ImageResourceId, y => y.Ignore())
                 .ForMember(ent => ent.RelatedFromTopics, y => y.Ignore())
@@ -161,6 +171,7 @@ namespace AKS.Infrastructure
                 .ForMember(ent => ent.CategoryTopics, y => y.Ignore())
                 .ForMember(ent => ent.CollectionElementTopics, y => y.Ignore())
                 .ConstructUsing((mod, ent) => new Ents.Topic())
+                
             ;
 
             _cfg.CreateMap<Mods.TopicView, Ents.Topic>()
@@ -170,6 +181,24 @@ namespace AKS.Infrastructure
         }
 
         #endregion
+
+        private static void ConfigFragments()
+        {
+            _cfg.CreateMap<Mods.TopicFragmentLink, Ents.TopicFragment>()
+                .ForMember(ent => ent.ProjectId, y => y.MapFrom(mod => mod.ProjectId))
+                .ForMember(ent => ent.ChildTopicId, y => y.MapFrom(mod => mod.TopicId))
+                .ForMember(ent => ent.ParentTopicId, y => y.MapFrom(mod => mod.ParentTopicId))
+                .ForMember(ent => ent.ChildTopic, y => y.Ignore())
+                .ForMember(ent => ent.ParentTopic, y => y.Ignore())
+                ;
+            _cfg.CreateMap<Ents.TopicFragment, Mods.TopicFragmentLink>()
+                .ForMember(mod => mod.ProjectId, y=> y.MapFrom(ent => ent.ProjectId))
+                .ForMember(mod => mod.ParentTopicId, y=> y.MapFrom(ent => ent.ParentTopicId))
+                .ForMember(mod => mod.TopicId, y=> y.MapFrom(ent => ent.ChildTopicId))
+                .ForMember(mod => mod.Title, y=> y.MapFrom(ent => ent.ChildTopic!.Title))
+                .ForMember(mod => mod.Description, y=> y.MapFrom(ent => ent.ChildTopic!.Description))
+            ;
+        }
     }
 }
 
