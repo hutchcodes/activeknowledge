@@ -1,4 +1,5 @@
 ﻿using AKS.Common.Models;
+using AKS.Common;
 using Microsoft.AspNetCore.Components;
 using System;
 using System.Collections.Generic;
@@ -19,11 +20,13 @@ namespace AKS.App.Core.Components
         private string _ckEditorCommandName = "";
 
         [Parameter]
-        public TopicEdit Topic { get; set; } = null!;
+        public TopicEdit Topic { get; set; }
 
         public CKEditor.CKEditorControl TopicContentEditor { get; set; } = null!;
 
         public bool IsAddingTopics { get; set; }
+
+        public string ContentImageUploadUrl { get; set; } = "";
 
         private void SelectTopicFragmentAction(string commandName)
         {
@@ -32,10 +35,15 @@ namespace AKS.App.Core.Components
             StateHasChanged();
         }
 
-        public override Task SetParametersAsync(ParameterView parameters)
+        public override async Task SetParametersAsync(ParameterView parameters)
         {
-            JSInterop.AKSInterop.SelectTopicAction = SelectTopicFragmentAction;
-            return base.SetParametersAsync(parameters);
+            await base.SetParametersAsync(parameters);
+            if (Topic != null)
+            {
+                ContentImageUploadUrl = $"{ConfigSettings.BuildApiBaseUrl}ContentImage/{Topic.ProjectId}/{Topic.TopicId}/";
+
+                JSInterop.AKSInterop.SelectTopicAction = SelectTopicFragmentAction;
+            }
         }
 
         protected void CloseModal()

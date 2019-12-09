@@ -7,6 +7,11 @@ using Microsoft.AspNetCore.Mvc;
 using Microsoft.Net.Http.Headers;
 using AKS.Infrastructure.Enums;
 using AKS.Infrastructure.Interfaces;
+using Microsoft.AspNetCore.Http;
+using Microsoft.AspNetCore.Mvc.ModelBinding;
+using AKS.Infrastructure.DTO;
+using AKS.Api.Build.Data;
+using AKS.Common;
 
 namespace AKS.Api.Build
 {
@@ -15,6 +20,16 @@ namespace AKS.Api.Build
     public class ProjectImageController : ControllerBase
     {
         private readonly IFileStorageRepository _fileStorage;
+        private readonly string[] _supportedMimeTypes =
+{
+            "image/png",
+            "image/jpeg",
+            "image/jpg",
+            "image/gif",
+            "image/bmp",
+            "image/webp",
+            "image/tiff"
+        };
 
         public ProjectImageController(IFileStorageRepository fileStorage)
         {
@@ -22,10 +37,10 @@ namespace AKS.Api.Build
         }
 
         [HttpGet]
-        [Route("api/[controller]/{projectId}/{*slug}"), HttpGet]
-        public async Task<IActionResult> GetImage(Guid projectId, string slug)
+        [Route("api/[controller]/{projectId}/{imageId}/{*slug}"), HttpGet]
+        public async Task<IActionResult> GetImage(Guid projectId, Guid imageId, string slug)
         {
-            var doc = await _fileStorage.GetDocument(FileStorageType.ProjectImages, $"{projectId}/{slug}");
+            var doc = await _fileStorage.GetDocument(FileStorageType.ProjectImages, $"{projectId}/{imageId}/{slug}");
 
             if (doc == null)
             {
@@ -36,7 +51,35 @@ namespace AKS.Api.Build
             return file;
         }
 
+        [HttpPost, RequestSizeLimit(2 * 1024 * 1024)]
+        [Route("api/[controller]/{projectId}")]
+        public async Task<IActionResult> PostImage(Guid projectId, IFormFile upload)
+        {
+            if (!_supportedMimeTypes.Contains(upload.ContentType.ToLower()))
+            {
+                throw new UnsupportedContentTypeException($"{upload.ContentType} Unsupported file type");
+            }
 
+            var stream = upload.OpenReadStream();
 
+            var imageId = Guid.NewGuid();
+
+            var document = new Document()
+            {
+                Content = stream,
+                ContentType = upload.ContentType,
+                Name = upload.FileName,
+                ProjectId = projectId,
+                DocumentId = imageId
+            };
+
+            var key = $"{projectId}/{imageId}/{upload.FileName}";
+
+            await _fileStorage.UploadDocument(FileStorageType.ProjectImages, key, document);
+
+            var response = new CKEUploadSuccess($"{ConfigSettings.ThisApiBaseUrl}ContentImage/{projectId}/{imageId}/{upload.FileName}");
+
+            return Ok(response);
+        }
     }
 }

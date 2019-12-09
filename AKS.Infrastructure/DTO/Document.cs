@@ -8,6 +8,7 @@ namespace AKS.Infrastructure.DTO
 {
     public class Document
     {
+        public Guid DocumentId { get; set; }
         public Guid? CustomerId { get; set; }
         public Guid? ProjectId { get; set; }
         public Guid? TopicId { get; set; }

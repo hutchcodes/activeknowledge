@@ -5,6 +5,8 @@ window.ckEditorJsInterop = {
     instances: [],
     initializeCKEditor: function (params) {
         console.log(params.ckEditorId);
+        console.log(params.contentImageUploadUrl);
+        ClassicEditor.defaultConfig.simpleUpload.uploadUrl = params.contentImageUploadUrl;
 
         for(var key in window.ckEditorJsInterop.instances){
             var editor = window.ckEditorJsInterop.instances[key];
@@ -18,7 +20,7 @@ window.ckEditorJsInterop = {
         ClassicEditor
             .create(textArea)
             .then(editor => {
-                window.ckEditorJsInterop.instances[params.ckEditorId] = editor;
+                window.ckEditorJsInterop.instances[params.ckEditorId] = editor;                
                 window.ckEditor = editor;
                 editor.model.document.on('change:data', () => {
                     DotNet.invokeMethodAsync("AKS.CKEditor", 'CKEditorUpdateText', params.ckEditorId, editor.getData());

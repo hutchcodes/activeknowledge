@@ -12,21 +12,23 @@ namespace AKS.CKEditor
         [Parameter]
         public string EditorContent { get; set; }
 
-
-        public string CKEditorId { get; } = $"ck{Guid.NewGuid().ToString().Replace("-", "")}";
-
         [Parameter]
         public Action<string> OnEditorChanged { get; set; }
 
+        [Parameter]
+        public string ContentImageUploadUrl { get; set; }
+
         [Inject]
         protected IJSRuntime JsRuntime { get; set; }
+
+        public string CKEditorId { get; } = $"ck{Guid.NewGuid().ToString().Replace("-", "")}";
 
         protected override void OnAfterRender(bool firstRender)
         {
             base.OnAfterRender(firstRender);
             if (firstRender)
             {
-                CKEditorJsInterop.InitializeEditor(JsRuntime, CKEditorId);
+                CKEditorJsInterop.InitializeEditor(JsRuntime, CKEditorId, ContentImageUploadUrl);
                 CKEditorJsInterop.EditorUpdate += CKEditorJsInterop_EditorUpdate;
             }
         }
@@ -38,7 +40,6 @@ namespace AKS.CKEditor
                 OnEditorChanged?.Invoke(e.editorText);
             }
         }
-
 
         public async Task<string> GetEditorText()
         {

@@ -28,6 +28,7 @@ namespace AKS.App.Build
         public Startup(IConfiguration configuration)
         {
             Configuration = configuration;
+            ConfigSettings.LoadConfigs(configuration, ConfigSettings.ApiType.Build);
         }
 
         public IConfiguration Configuration { get; }

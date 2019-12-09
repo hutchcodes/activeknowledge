@@ -11,9 +11,9 @@ namespace AKS.CKEditor
 
         private static string EditorText { get; set; }
 
-        public static ValueTask<string> InitializeEditor(IJSRuntime jsruntime, string ckEditorId)
+        public static ValueTask<string> InitializeEditor(IJSRuntime jsruntime, string ckEditorId, string contentImageUploadUrl)
         {
-            return jsruntime.InvokeAsync<string>("ckEditorJsInterop.initializeCKEditor", new { ckEditorId });
+            return jsruntime.InvokeAsync<string>("ckEditorJsInterop.initializeCKEditor", new { ckEditorId, contentImageUploadUrl });
         }
 
         public static ValueTask<string> GetData(IJSRuntime jsruntime, string ckEditorId)
@@ -28,6 +28,20 @@ namespace AKS.CKEditor
 
         [JSInvokable("CKEditorUpdateText")]      
         public static Task<bool> UpdateText(string ckEditorId, string editorText)
+        {
+            EditorText = editorText;
+            var editorUpdateEventData = new EditorUpdateEventData
+            {
+                ckEditorId = ckEditorId,
+                editorText = editorText
+            };
+            EditorUpdate?.Invoke(null, editorUpdateEventData);
+
+            return Task.FromResult(true);
+        }
+
+        [JSInvokable("CKEditorContentImageUploadUrl")]
+        public static Task<bool> GetUpdloadUrl(string ckEditorId, string editorText)
         {
             EditorText = editorText;
             var editorUpdateEventData = new EditorUpdateEventData

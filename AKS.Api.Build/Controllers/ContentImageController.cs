@@ -37,22 +37,23 @@ namespace AKS.Api.Build.Controllers
         }
 
         [HttpGet]
-        [Route("api/[controller]/{projectId}/{topicId}/{*slug}")]
-        public async Task<IActionResult> GetImage(Guid projectId, Guid topicId, string slug)
+        [Route("api/[controller]/{projectId}/{topicId}/{imageId}/{*slug}")]
+        public async Task<IActionResult> GetImage(Guid projectId, Guid topicId, Guid imageId, string slug)
         {
-            var doc = await _fileStorage.GetDocument(FileStorageType.ContentImages, $"{projectId}/{topicId}/{slug}");
+            var doc = await _fileStorage.GetDocument(FileStorageType.ContentImages, $"{projectId}/{topicId}/{imageId}/{slug}");
 
             if (doc == null)
             {
                 return NotFound();
             }
+
             var file = File(doc.Content, doc.ContentType, doc.LastModified, new EntityTagHeaderValue(doc.ETag));
             return file;
         }
 
         [HttpPost, RequestSizeLimit(2 * 1024 * 1024)]
-        [Route("api/[controller]/{projectId}/{topicId}/{*slug}")]
-        public async Task<IActionResult> PostImage(Guid projectId, Guid topicId, string slug, IFormFile upload)
+        [Route("api/[controller]/{projectId}/{topicId}")]
+        public async Task<IActionResult> PostImage(Guid projectId, Guid topicId, IFormFile upload)
         {
             if (!_supportedMimeTypes.Contains(upload.ContentType.ToLower()))
             {
@@ -61,8 +62,10 @@ namespace AKS.Api.Build.Controllers
 
             var stream = upload.OpenReadStream();
 
+            var imageId = Guid.NewGuid();
             var document = new Document()
             {
+                DocumentId = imageId,
                 Content = stream,
                 ContentType = upload.ContentType,
                 Name = upload.FileName,
@@ -70,11 +73,11 @@ namespace AKS.Api.Build.Controllers
                 TopicId = topicId
             };
 
-            var key = $"{projectId}/{topicId}/{slug}";
+            var key = $"{projectId}/{topicId}/{imageId}/{upload.FileName}";
 
             await _fileStorage.UploadDocument(FileStorageType.ContentImages, key, document);
 
-            var response = new CKEUploadSuccess($"{ConfigSettings.ThisApiBaseUrl}ContentImage/{projectId}/{topicId}/{slug}");
+            var response = new CKEUploadSuccess($"{ConfigSettings.ThisApiBaseUrl}ContentImage/{projectId}/{topicId}/{imageId}/{upload.FileName}");
 
             return Ok(response);
         }

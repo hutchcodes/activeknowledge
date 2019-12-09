@@ -1,6 +1,11 @@
 ﻿@inherits TopicEditDetailContentBase
 @using Microsoft.AspNetCore.Components.Web
-<AKS.CKEditor.CKEditorControl @ref="TopicContentEditor" EditorContent="@Topic.Content" OnEditorChanged="TopicContentEditor_OnEditorChanged" />
+<AKS.CKEditor.CKEditorControl 
+    @ref="TopicContentEditor" 
+    EditorContent="@Topic.Content" 
+    OnEditorChanged="TopicContentEditor_OnEditorChanged" 
+    ContentImageUploadUrl="@ContentImageUploadUrl"
+/>
 
 @if (IsAddingTopics)
 {
