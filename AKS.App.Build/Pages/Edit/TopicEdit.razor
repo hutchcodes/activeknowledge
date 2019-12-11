@@ -22,6 +22,8 @@ else
                 <div>
                     <button type="button" class="btn btn-outline-primary btn-sm float-right mt-2 ml-1" title="Edit Topic" @onclick="DeleteTopic"><i class="icon-trash left p-0"></i></button>
                     <a href="/topic/@Topic.ProjectId/@Topic.TopicId" class="float-right mt-2 text-secondary"><i class="icon-eye btn btn-outline-primary btn-sm" data-toggle="tooltip" title="View Topic"></i></a>
+                    <button type="button" class="btn btn-outline-primary btn-sm float-right mt-2 ml-1" title="Edit Topic" @onclick="Cancel"><i class="icon-rotate-ccw left p-0"></i></button>
+                    <button type="button" class="btn btn-outline-primary btn-sm float-right mt-2 ml-1" title="Edit Topic" @onclick="Save"><i class="icon-save left p-0"></i></button>
                     <h2 clase="my-2">@Topic.Title</h2>
                 </div>
 

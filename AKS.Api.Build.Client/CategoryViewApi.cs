@@ -1,4 +1,6 @@
-﻿using AKS.Common.Models;
+﻿using AKS.Common;
+using AKS.Common.Models;
+using Microsoft.AspNetCore.Components;
 using Microsoft.Extensions.Configuration;
 using RestSharp;
 using System;
@@ -10,25 +12,16 @@ namespace AKS.Api.Build.Client
 {
     public class CategoryViewApi
     {
-        readonly string _aksBuildApiBaseUrl;
+        private readonly HttpClient _http;
 
-        public CategoryViewApi(IConfiguration configuration) 
+        public CategoryViewApi(HttpClient http) 
         {
-            _aksBuildApiBaseUrl = configuration.GetValue<string>("AppSettings:AKSBuildApiBaseUrl");
+            _http = http;
         }
         public async Task<CategoryTreeView> GetCategoryTreeForProject(Guid projectId)
         {
-            var client = new RestClient(_aksBuildApiBaseUrl);
-            // client.Authenticator = new HttpBasicAuthenticator(username, password);
+            var categoryTree = await _http.GetJsonAsync<CategoryTreeView>($"categoryview/project/{projectId}");
 
-            var request = new RestRequest("categoryview/project/{projectId}", Method.GET);
-            request.AddUrlSegment("projectId", projectId); 
-
-            // easily add HTTP Headers
-            //request.AddHeader("header", "value");
-
-            var response = await client.ExecuteTaskAsync<CategoryTreeView>(request);
-            var categoryTree = response.Data;
             return categoryTree;
         }
     }

@@ -1,0 +1,15 @@
+﻿@inject Microsoft.AspNetCore.Components.NavigationManager navMan
+
+@page "/"
+
+@code{
+    protected override void OnAfterRender(bool firstRender)
+    {
+        //https://localhost:44331/customer/0000007b-0000-0000-0000-000000000000
+        navMan.NavigateTo("/customer/0000007b-0000-0000-0000-000000000000");
+    }
+    protected override void OnInitialized()
+    {
+        //navMan.NavigateTo("/customer/0000007b-0000-0000-0000-000000000000");
+    }
+}

@@ -31,12 +31,12 @@ namespace AKS.App.Build
                     {
                         var settings = config.Build();
 
-                        var kvClient = new KeyVaultClient(new KeyVaultClient.AuthenticationCallback(_azureServiceTokenProvider.KeyVaultTokenCallback));
+                        //var kvClient = new KeyVaultClient(new KeyVaultClient.AuthenticationCallback(_azureServiceTokenProvider.KeyVaultTokenCallback));
 
-                        config.AddAzureAppConfiguration(options => {
-                            options.Connect(settings["ConnectionStrings:AppConfig"])
-                                    .UseAzureKeyVault(kvClient);
-                        });
+                        //config.AddAzureAppConfiguration(options => {
+                        //    options.Connect(settings["ConnectionStrings:AppConfig"])
+                        //            .UseAzureKeyVault(kvClient);
+                        //});
                         config.AddJsonFile($"appSettings.{hostingContext.HostingEnvironment.EnvironmentName}.json", 
                             optional: true, reloadOnChange: true);
                     });

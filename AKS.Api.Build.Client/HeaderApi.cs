@@ -1,4 +1,6 @@
-﻿using AKS.Common.Models;
+﻿using AKS.Common;
+using AKS.Common.Models;
+using Microsoft.AspNetCore.Components;
 using Microsoft.Extensions.Configuration;
 using RestSharp;
 using System;
@@ -10,41 +12,21 @@ namespace AKS.Api.Build.Client
 {
     public class HeaderApi
     {
-        readonly string _aksBuildApiBaseUrl;
+        private readonly HttpClient _http;
 
-        public HeaderApi(IConfiguration configuration) 
+        public HeaderApi(HttpClient http) 
         {
-            _aksBuildApiBaseUrl = configuration.GetValue<string>("AppSettings:AKSBuildApiBaseUrl");
+            _http = http;
         }
         public async Task<HeaderNavView> GetHeaderForProject(Guid projectId)
         {
-            var client = new RestClient(_aksBuildApiBaseUrl);
-            // client.Authenticator = new HttpBasicAuthenticator(username, password);
-
-            var request = new RestRequest("header/project/{projectId}", Method.GET);
-            request.AddUrlSegment("projectId", projectId); 
-
-            // easily add HTTP Headers
-            //request.AddHeader("header", "value");
-
-            var response = await client.ExecuteTaskAsync<HeaderNavView>(request);
-            var headerNav = response.Data;
+            var headerNav = await _http.GetJsonAsync<HeaderNavView>($"header/project/{projectId}");
             return headerNav;
         }
 
         public async Task<HeaderNavView> GetHeaderForCustomer(Guid customerId)
         {
-            var client = new RestClient(_aksBuildApiBaseUrl);
-            // client.Authenticator = new HttpBasicAuthenticator(username, password);
-
-            var request = new RestRequest("header/customer/{customerId}", Method.GET);
-            request.AddUrlSegment("customerId", customerId);
-
-            // easily add HTTP Headers
-            //request.AddHeader("header", "value");
-
-            var response = await client.ExecuteTaskAsync<HeaderNavView>(request);
-            var headerNav = response.Data;
+            var headerNav = await _http.GetJsonAsync<HeaderNavView>($"header/customer/{customerId}");
             return headerNav;
         }
     }

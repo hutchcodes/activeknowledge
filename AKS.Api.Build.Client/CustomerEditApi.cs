@@ -1,4 +1,6 @@
-﻿using AKS.Common.Models;
+﻿using AKS.Common;
+using AKS.Common.Models;
+using Microsoft.AspNetCore.Components;
 using Microsoft.Extensions.Configuration;
 using RestSharp;
 using System;
@@ -11,41 +13,22 @@ namespace AKS.Api.Build.Client
     public class CustomerEditApi
     {
         readonly string _aksBuildApiBaseUrl;
+        private readonly HttpClient _http;
 
-        public CustomerEditApi(IConfiguration configuration)
+        public CustomerEditApi(HttpClient http)
         {
-            _aksBuildApiBaseUrl = configuration.GetValue<string>("AppSettings:AKSBuildApiBaseUrl");
+            _http = http;
         }        
 
         public async Task<CustomerEdit> GetCustomer(Guid customerId)
         {
-            var client = new RestClient(_aksBuildApiBaseUrl);
-            // client.Authenticator = new HttpBasicAuthenticator(username, password);
-
-            var request = new RestRequest("customer/{customerId}", Method.GET);
-            request.AddUrlSegment("customerId", customerId);
-
-            // easily add HTTP Headers
-            request.AddHeader("header", "value");
-
-            var response = await client.ExecuteTaskAsync<CustomerEdit>(request);
-            var customer = response.Data;
+            var customer = await _http.GetJsonAsync<CustomerEdit>("customer/{customerId}");
             return customer;
         }
 
         public async Task<CustomerEdit> UpdateCustomer(CustomerEdit customerEdit)
         {
-            var client = new RestClient(_aksBuildApiBaseUrl);
-            // client.Authenticator = new HttpBasicAuthenticator(username, password);
-
-            var request = new RestRequest("customer", Method.POST);
-            request.AddJsonBody(customerEdit);
-
-            // easily add HTTP Headers
-            request.AddHeader("header", "value");
-
-            var response = await client.ExecuteTaskAsync<CustomerEdit>(request);
-            var customer = response.Data;
+            var customer = await _http.PostJsonAsync<CustomerEdit>("customer", customerEdit);
             return customer;
         }
     }
