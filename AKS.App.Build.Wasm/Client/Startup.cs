@@ -13,7 +13,7 @@ namespace AKS.App.Build.Wasm.Client
     {
         public Startup()
         {
-            ConfigSettings.BuildApiBaseUrl = "https://localhost:44368/api/";
+            ConfigSettings.BuildApiBaseUrl = "https://aks-dev-build-api-wa.azurewebsites.net/api/";
         }
         public void ConfigureServices(IServiceCollection services)
         {
