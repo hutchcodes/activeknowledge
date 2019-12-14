@@ -6,12 +6,13 @@ using System.Threading.Tasks;
 using Microsoft.EntityFrameworkCore;
 using AKS.Common.Models;
 using AutoMapper.EntityFrameworkCore;
+using AutoMapper;
 
 namespace AKS.Infrastructure.Data
 {
     public class TopicRepository : EfRepository<Infrastructure.Entities.Topic>
     {
-        public TopicRepository(AKSContext dbContext) : base(dbContext)
+        public TopicRepository(AKSContext dbContext, IMapper mapper) : base(dbContext, mapper)
         {
 
         }

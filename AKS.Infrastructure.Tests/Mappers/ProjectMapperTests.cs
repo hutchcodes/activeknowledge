@@ -29,7 +29,8 @@ namespace AKS.Infrastructure.Tests.Mappers
         [Test]
         public void ShouldMapProjectList()
         {
-            var model = Mapper.Map<Mods.ProjectList>(_entity);
+            var mapper = MapperConfig.GetMapperConfig().CreateMapper();
+            var model = mapper.Map<Mods.ProjectList>(_entity);
 
             Assert.AreEqual(_entity.ProjectId, model.ProjectId);
             Assert.AreEqual(_entity.Name, model.Name);
@@ -38,7 +39,8 @@ namespace AKS.Infrastructure.Tests.Mappers
         [Test]
         public void ShouldMapProjectHeaderNav()
         {
-            var model = Mapper.Map<Mods.HeaderNavView>(_entity);
+            var mapper = MapperConfig.GetMapperConfig().CreateMapper();
+            var model = mapper.Map<Mods.HeaderNavView>(_entity);
 
             Assert.AreEqual(_entity.ProjectId, model.ProjectId);
             Assert.AreEqual(_entity.Name, model.ProjectName);

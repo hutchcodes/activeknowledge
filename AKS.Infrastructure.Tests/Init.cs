@@ -11,7 +11,7 @@ public class MySetUpClass
     [OneTimeSetUp]
     public void RunBeforeAnyTests()
     {
-        MapperConfig.ConfigMappers();
+        // ...
     }
 
     [OneTimeTearDown]

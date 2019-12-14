@@ -16,6 +16,7 @@ using Microsoft.ApplicationInsights.AspNetCore.Extensions;
 using Microsoft.ApplicationInsights.Extensibility;
 using AKS.Common;
 using System;
+using AutoMapper;
 
 namespace AKS.Api.Build
 {
@@ -25,7 +26,6 @@ namespace AKS.Api.Build
 
         public Startup(IConfiguration configuration)
         {
-            MapperConfig.ConfigMappers();
             Configuration = configuration;
 
             ConfigSettings.LoadConfigs(configuration, ConfigSettings.ApiType.Build);
@@ -70,6 +70,7 @@ namespace AKS.Api.Build
                 //DeveloperMode = true
             };
             services.AddApplicationInsightsTelemetry();
+
         }
 
         private void ConfigureDI(IServiceCollection services)
@@ -77,6 +78,7 @@ namespace AKS.Api.Build
             services.AddSingleton<IConfiguration>(Configuration);
             ITelemetryInitializer aiInit = new AppInsightsInitializer(Configuration.GetValue<string>("ApplicationInsights:Tags"));
             services.AddSingleton<ITelemetryInitializer>(aiInit);
+            services.AddSingleton<IMapper>(MapperConfig.GetMapperConfig().CreateMapper());
 
             services.AddScoped(typeof(IAsyncRepository<>), typeof(EfRepository<>));
             services.AddScoped<IProjectService, ProjectService>();

@@ -27,7 +27,8 @@ namespace AKS.Infrastructure.Tests.Mappers
         [Test]
         public void ShouldMapCollectionElement()
         {
-            var model = Mapper.Map<Mods.CollectionElementView>(_entity);
+            var mapper = MapperConfig.GetMapperConfig().CreateMapper();
+            var model = mapper.Map<Mods.CollectionElementView>(_entity);
 
             Assert.AreEqual(_entity.ProjectId, model.ProjectId);
             Assert.AreEqual(_entity.CollectionElementId, model.CollectionElementId);

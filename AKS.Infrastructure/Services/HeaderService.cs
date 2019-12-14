@@ -12,11 +12,13 @@ namespace AKS.Infrastructure.Services
     public class HeaderService : IHeaderService
     {
         private readonly ILogger<HeaderService> _logger;
+        private readonly IMapper _mapper;
         private readonly IAsyncRepository<Customer> _customerRepo;
         private readonly IAsyncRepository<Project> _projectRepo;
-        public HeaderService(ILoggerFactory loggerFactory, IAsyncRepository<Customer> customerRepo, IAsyncRepository<Project> projectRepo)
+        public HeaderService(IMapper mapper, ILoggerFactory loggerFactory, IAsyncRepository<Customer> customerRepo, IAsyncRepository<Project> projectRepo)
         {
             _logger = loggerFactory.CreateLogger<HeaderService>();
+            _mapper = mapper;
             _customerRepo = customerRepo;
             _projectRepo = projectRepo;
 
@@ -28,7 +30,7 @@ namespace AKS.Infrastructure.Services
             var spec = new ProjectHeaderSpecification(projectId);
             var project = await _projectRepo.GetAsync(spec);
 
-            return Mapper.Map<HeaderNavView>(project);
+            return _mapper.Map<HeaderNavView>(project);
         }
 
         public async Task<HeaderNavView> GetHeaderForCustomerAsync(Guid customerId)
@@ -36,7 +38,7 @@ namespace AKS.Infrastructure.Services
             var spec = new CustomerHeaderSpecification(customerId);
             var customer = await _customerRepo.GetAsync(spec);
 
-            return Mapper.Map<HeaderNavView>(customer);            
+            return _mapper.Map<HeaderNavView>(customer);            
         }
     }
 }

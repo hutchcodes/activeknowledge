@@ -37,7 +37,8 @@ namespace AKS.Infrastructure.Tests.Mappers
         [Test]
         public void ShouldMapCustomerHeaderNav()
         {
-            var model = Mapper.Map<Mods.HeaderNavView>(_entity);
+            var mapper = MapperConfig.GetMapperConfig().CreateMapper();
+            var model = mapper.Map<Mods.HeaderNavView>(_entity);
 
             Assert.AreEqual(_entity.CustomerId, model.CustomerId);
             Assert.AreEqual(_entity.Name, model.CustomerName);
@@ -47,7 +48,8 @@ namespace AKS.Infrastructure.Tests.Mappers
         [Test]
         public void ShouldMapFromCustomerEdit()
         {
-            var entity = Mapper.Map<Ents.Customer>(_model);
+            var mapper = MapperConfig.GetMapperConfig().CreateMapper();
+            var entity = mapper.Map<Ents.Customer>(_model);
 
             Assert.AreEqual(_model.CustomerId, entity.CustomerId);
             Assert.AreEqual(_model.Name, entity.Name);
@@ -57,7 +59,8 @@ namespace AKS.Infrastructure.Tests.Mappers
         [Test]
         public void ShouldMapToCustomerEdit()
         {
-            var model = Mapper.Map<Mods.CustomerEdit>(_entity);
+            var mapper = MapperConfig.GetMapperConfig().CreateMapper();
+            var model = mapper.Map<Mods.CustomerEdit>(_entity);
 
             Assert.AreEqual(_entity.CustomerId, model.CustomerId);
             Assert.AreEqual(_entity.Name, model.Name);

@@ -1,6 +1,7 @@
 using System;
 using System.Collections.Generic;
 using System.Linq;
+using AKS.Common;
 using AutoMapper;
 using NUnit.Framework;
 using Ents = AKS.Infrastructure.Entities;
@@ -62,7 +63,8 @@ namespace AKS.Infrastructure.Tests.Mappers
         [Test]
         public void ShouldMapToTopicLink()
         {
-            var model = Mapper.Map<Mods.TopicLink>(_entity1);
+            var mapper = MapperConfig.GetMapperConfig().CreateMapper();
+            var model = mapper.Map<Mods.TopicLink>(_entity1);
 
             Assert.AreEqual(_entity1.ProjectId, model.ProjectId);
             Assert.AreEqual(_entity1.TopicId, model.TopicId);
@@ -73,7 +75,8 @@ namespace AKS.Infrastructure.Tests.Mappers
         [Test]
         public void ShouldMapToTopicList()
         {
-            var topicModel = Mapper.Map<Mods.TopicList>(_entity1);
+            var mapper = MapperConfig.GetMapperConfig().CreateMapper();
+            var topicModel = mapper.Map<Mods.TopicList>(_entity1);
 
             Assert.AreEqual(_entity1.ProjectId, topicModel.ProjectId);
             Assert.AreEqual(_entity1.TopicId, topicModel.TopicId);
@@ -85,7 +88,8 @@ namespace AKS.Infrastructure.Tests.Mappers
         [Test]
         public void ShouldMapToTopicView()
         {
-            var topicModel = Mapper.Map<Ents.Topic, Mods.TopicView>(_entity1);
+            var mapper = MapperConfig.GetMapperConfig().CreateMapper();
+            var topicModel = mapper.Map<Ents.Topic, Mods.TopicView>(_entity1);
 
             Assert.AreEqual(_entity1.ProjectId, topicModel.ProjectId);
             Assert.AreEqual(_entity1.TopicId, topicModel.TopicId);
@@ -103,7 +107,8 @@ namespace AKS.Infrastructure.Tests.Mappers
         [Test]
         public void ShouldMapToTopicEdit()
         {
-            var topicModel = Mapper.Map<Ents.Topic, Mods.TopicEdit>(_entity1);
+            var mapper = MapperConfig.GetMapperConfig().CreateMapper();
+            var topicModel = mapper.Map<Ents.Topic, Mods.TopicEdit>(_entity1);
 
             Assert.AreEqual(_entity1.ProjectId, topicModel.ProjectId);
             Assert.AreEqual(_entity1.TopicId, topicModel.TopicId);
@@ -122,7 +127,9 @@ namespace AKS.Infrastructure.Tests.Mappers
         [Test]
         public void ShouldMapFromTopicEdit()
         {
-            var topicEntity = Mapper.Map<Mods.TopicEdit, Ents.Topic>(_model);
+            ConfigSettings.BuildApiBaseUrl = "http://foo.com";
+            var mapper = MapperConfig.GetMapperConfig().CreateMapper();
+            var topicEntity = mapper.Map<Mods.TopicEdit, Ents.Topic>(_model);
 
             Assert.AreEqual(_model.ProjectId, topicEntity.ProjectId);
             Assert.AreEqual(_model.TopicId, topicEntity.TopicId);

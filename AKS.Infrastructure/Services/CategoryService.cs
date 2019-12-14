@@ -14,10 +14,12 @@ namespace AKS.Infrastructure.Services
     public class CategoryService : ICategoryService
     {
         private readonly ILogger<CategoryService> _logger;
+        private readonly IMapper _mapper;
         private readonly IAsyncRepository<Category> _categoryRepo;
-        public CategoryService(ILoggerFactory loggerFactory, IAsyncRepository<Category> categoryRepo)
+        public CategoryService(IMapper mapper, ILoggerFactory loggerFactory, IAsyncRepository<Category> categoryRepo)
         {
             _logger = loggerFactory.CreateLogger<CategoryService>();
+            _mapper = mapper;
             _categoryRepo = categoryRepo;
 
             _logger.LogDebug($"New instance of {GetType().Name} was created");
@@ -30,7 +32,7 @@ namespace AKS.Infrastructure.Services
 
             var catTree = new CategoryTreeView
             {
-                Categories = Mapper.Map<List<CategoryTreeView>>(categories)
+                Categories = _mapper.Map<List<CategoryTreeView>>(categories)
             };
 
             return catTree;

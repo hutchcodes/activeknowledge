@@ -14,10 +14,12 @@ namespace AKS.Infrastructure.Services
     public class CustomerService : ICustomerService 
     {
         private readonly ILogger<ProjectService> _logger;
+        private readonly IMapper _mapper;
         private readonly IAsyncRepository<Customer> _customerRepo;
-        public CustomerService(ILoggerFactory loggerFactory, IAsyncRepository<Customer> customerRepo)
+        public CustomerService(IMapper mapper, ILoggerFactory loggerFactory, IAsyncRepository<Customer> customerRepo)
         {
             _logger = loggerFactory.CreateLogger<ProjectService>();
+            _mapper = mapper;
             _customerRepo = customerRepo;
 
             _logger.LogDebug($"New instance of {GetType().Name} was created");
@@ -27,7 +29,7 @@ namespace AKS.Infrastructure.Services
             var spec = new CustomerSpecification(customerId);
             var customer = await _customerRepo.GetAsync(spec);
 
-            return Mapper.Map<CustomerEdit>(customer);
+            return _mapper.Map<CustomerEdit>(customer);
         }
 
         public async Task<CustomerEdit> UpdateCustomer(CustomerEdit customerEdit)
@@ -35,11 +37,11 @@ namespace AKS.Infrastructure.Services
             var spec = new CustomerSpecification(customerEdit.CustomerId);
             var customer = await _customerRepo.GetAsync(spec);
             
-            customer = Mapper.Map(customerEdit, customer);
+            customer = _mapper.Map(customerEdit, customer);
             await _customerRepo.UpdateAsync(customer);
 
             customer = await _customerRepo.GetAsync(spec);
-            return Mapper.Map<CustomerEdit>(customer);
+            return _mapper.Map<CustomerEdit>(customer);
         }
     }
 }

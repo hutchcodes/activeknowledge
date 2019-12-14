@@ -1,5 +1,6 @@
 ﻿using AKS.Infrastructure.Entities;
 using AKS.Infrastructure.Interfaces;
+using AutoMapper;
 using AutoMapper.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore;
 using System;
@@ -13,10 +14,12 @@ namespace AKS.Infrastructure.Data
     public class EfRepository<T> : IAsyncRepository<T> where T: BaseEntity
     {
         protected readonly AKSContext _dbContext;
+        private readonly IMapper _mapper;
 
-        public EfRepository(AKSContext dbContext)
+        public EfRepository(AKSContext dbContext, IMapper mapper)
         {
             _dbContext = dbContext;
+            _mapper = mapper;
         }
         public async Task<T> AddAsync(T entity)
         {
@@ -76,7 +79,7 @@ namespace AKS.Infrastructure.Data
 
         public virtual async Task UpdateAsync<TFrom>(TFrom model)
         {
-            _dbContext.Set<T>().Persist().InsertOrUpdate(typeof(TFrom), model);
+            _dbContext.Set<T>().Persist(_mapper).InsertOrUpdate(typeof(TFrom), model);
 
             await _dbContext.SaveChangesAsync();
         }

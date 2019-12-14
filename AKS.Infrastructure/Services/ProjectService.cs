@@ -14,10 +14,12 @@ namespace AKS.Infrastructure.Services
     public class ProjectService : IProjectService 
     {
         private readonly ILogger<ProjectService> _logger;
+        private readonly IMapper _mapper;
         private readonly IAsyncRepository<Project> _projectRepo;
-        public ProjectService(ILoggerFactory loggerFactory, IAsyncRepository<Project> projectRepo)
+        public ProjectService(IMapper mapper, ILoggerFactory loggerFactory, IAsyncRepository<Project> projectRepo)
         {
             _logger = loggerFactory.CreateLogger<ProjectService>();
+            _mapper = mapper;
             _projectRepo = projectRepo;
 
             _logger.LogDebug($"New instance of {GetType().Name} was created");
@@ -28,7 +30,7 @@ namespace AKS.Infrastructure.Services
             var spec = new ProjectListSpecification(customerId);
             var projects = await _projectRepo.ListAsync(spec);
 
-            return Mapper.Map<List<ProjectList>>(projects);
+            return _mapper.Map<List<ProjectList>>(projects);
         }
 
         public async Task<ProjectEdit> GetProjectForEdit(Guid projectId)
@@ -36,7 +38,7 @@ namespace AKS.Infrastructure.Services
             var spec = new ProjectSpecification(projectId);
             var project = await _projectRepo.GetAsync(spec);
 
-            return Mapper.Map<ProjectEdit>(project);
+            return _mapper.Map<ProjectEdit>(project);
         }
 
         public async Task<ProjectEdit> UpdateProject(ProjectEdit projectEdit)
@@ -44,11 +46,11 @@ namespace AKS.Infrastructure.Services
             var spec = new ProjectSpecification(projectEdit.ProjectId);
             var project = await _projectRepo.GetAsync(spec);
 
-            project = Mapper.Map(projectEdit, project);
+            project = _mapper.Map(projectEdit, project);
             await _projectRepo.UpdateAsync(project);
 
             project = await _projectRepo.GetAsync(spec);
-            return Mapper.Map<ProjectEdit>(project);
+            return _mapper.Map<ProjectEdit>(project);
         }
     }
 }

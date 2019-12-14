@@ -49,7 +49,8 @@ namespace AKS.Infrastructure.Tests.Mappers
         [Test]
         public void ShouldMapEntityTagToModel()
         {
-            var model = Mapper.Map<Mods.Tag>(_entity);
+            var mapper = MapperConfig.GetMapperConfig().CreateMapper();
+            var model = mapper.Map<Mods.Tag>(_entity);
 
             Assert.AreEqual(_entity.ProjectId, model.ProjectId);
             Assert.AreEqual(_entity.TagId, model.TagId);
@@ -59,7 +60,8 @@ namespace AKS.Infrastructure.Tests.Mappers
         [Test]
         public void ShouldMapModelTagToEntity()
         {
-            var entity = Mapper.Map<Ents.TopicTag>(_model);
+            var mapper = MapperConfig.GetMapperConfig().CreateMapper();
+            var entity = mapper.Map<Ents.TopicTag>(_model);
 
             Assert.AreEqual(_model.ProjectId, entity.ProjectId);
             Assert.AreEqual(_model.TopicId, entity.TopicId);
