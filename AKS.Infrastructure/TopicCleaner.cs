@@ -1,6 +1,7 @@
 ﻿using AKS.Common;
 using System;
 using System.Collections.Generic;
+using System.Linq;
 using System.Text;
 using Ents = AKS.Infrastructure.Entities;
 using Mods = AKS.Common.Models;
@@ -28,7 +29,7 @@ namespace AKS.Infrastructure
             }
             ReplaceApiUrlWithToken(topic);
             ReplaceProjectIdWithToken(topic);
-            //AddFragmentEntityForFragments(topic);
+            AddFragmentEntityForFragments(topic);
         }
 
         internal static void DetokenizeTopicContent(Ents.Topic topic)
@@ -63,27 +64,34 @@ namespace AKS.Infrastructure
 
         private static void ReplaceFragmentTokenWithContents(Ents.Topic topic)
         {
-            if (string.IsNullOrEmpty(topic.Content))
+            try
             {
-                return;
-            }
-            var contentHtml = new HtmlAgilityPack.HtmlDocument();
-            contentHtml.LoadHtml(topic.Content);
+                if (string.IsNullOrEmpty(topic.Content))
+                {
+                    return;
+                }
+                var contentHtml = new HtmlAgilityPack.HtmlDocument();
+                contentHtml.LoadHtml(topic.Content);
 
-            foreach (var frag in topic.TopicFragmentChildren)
+                foreach (var frag in topic.TopicFragmentChildren)
+                {
+                    var fragmentNodes = contentHtml.DocumentNode.SelectNodes($"//topicfragment[@topicid='{frag.ChildTopicId}']");
+                    if (fragmentNodes == null)
+                    {
+                        continue;
+                    }
+                    foreach (var fragNode in fragmentNodes)
+                    {
+                        fragNode.InnerHtml = frag.ChildTopic?.Content ?? "";
+                    }
+                }
+
+                topic.Content = contentHtml.DocumentNode.OuterHtml;
+            }
+            catch(Exception ex)
             {
-                var fragmentNodes = contentHtml.DocumentNode.SelectNodes($"//fragment[@topicid='{frag.ChildTopicId}']");
-                if (fragmentNodes == null)
-                {
-                    continue;
-                }
-                foreach (var fragNode in fragmentNodes)
-                {
-                    fragNode.InnerHtml = frag.ChildTopic?.Content;
-                }
+                Console.WriteLine(ex);
             }
-
-            topic.Content = contentHtml.DocumentNode.OuterHtml;
         }
 
 
@@ -113,7 +121,10 @@ namespace AKS.Infrastructure
                     TopicId = fragmentId
                 };
 
-                topic.FragmentsUsed.Add(fragment);
+                if (!topic.FragmentsUsed.Any(x => x.TopicId == fragmentId))
+                {
+                    topic.FragmentsUsed.Add(fragment);
+                }
             }
         }
     }
