@@ -1,4 +1,5 @@
 ﻿using AKS.Common;
+using HtmlAgilityPack;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -36,6 +37,7 @@ namespace AKS.Infrastructure
         {
             ReplaceProjectTokenWithId(topic);
             ReplaceApiTokenWithUrl(topic);
+            ReplaceTopicLinkTokenWithLink(topic);
         }
 
         private static Ents.Topic ReplaceProjectTokenWithId(Ents.Topic topic)
@@ -94,6 +96,38 @@ namespace AKS.Infrastructure
             }
         }
 
+        private static void ReplaceTopicLinkTokenWithLink(Ents.Topic topic)
+        {
+            if (string.IsNullOrEmpty(topic.Content))
+            {
+                return;
+            }
+            var contentHtml = new HtmlAgilityPack.HtmlDocument();
+            contentHtml.LoadHtml(topic.Content);
+
+            //Eventually we should have a list of topics we link to
+            //foreach (var frag in topic.TopicFragmentChildren)
+            {
+                var topicLinkNodes = contentHtml.DocumentNode.SelectNodes($"//topiclink");
+                if (topicLinkNodes == null)
+                {
+                    //continue;
+                    return;
+                }
+                foreach (var topicLinkNode in topicLinkNodes)
+                {
+                    var topicId = topicLinkNode.Attributes["topicid"].Value;
+                    var topicTitle = topicLinkNode.Attributes["title"].Value;
+                    
+                    var topicLink = $"<a href='topic/{topic.ProjectId}/{topicId}'>{topicTitle}</a>";
+                    var newNode = HtmlNode.CreateNode(topicLink);
+
+                    topicLinkNode.ParentNode.ReplaceChild(newNode, topicLinkNode);
+                }
+            }
+
+            topic.Content = contentHtml.DocumentNode.OuterHtml;
+        }
 
         private static void AddFragmentEntityForFragments(Mods.TopicEdit topic)
         {
