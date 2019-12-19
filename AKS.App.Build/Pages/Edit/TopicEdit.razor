@@ -20,10 +20,11 @@ else
             </div>
             <div id="topicContent" role="document" class="col @AppState.TocContentClass">
                 <div>
-                    <button type="button" class="btn btn-outline-primary btn-sm float-right mt-2 ml-1" title="Edit Topic" @onclick="DeleteTopic"><i class="icon-trash left p-0"></i></button>
-                    <a href="/topic/@Topic.ProjectId/@Topic.TopicId" class="float-right mt-2 text-secondary"><i class="icon-eye btn btn-outline-primary btn-sm" data-toggle="tooltip" title="View Topic"></i></a>
-                    <button type="button" class="btn btn-outline-primary btn-sm float-right mt-2 ml-1" title="Edit Topic" @onclick="Cancel"><i class="icon-rotate-ccw left p-0"></i></button>
-                    <button type="button" class="btn btn-outline-primary btn-sm float-right mt-2 ml-1" title="Edit Topic" @onclick="Save"><i class="icon-save left p-0"></i></button>
+                    <a href="#" class="float-right mt-2 ml-1 text-secondary" @onclick="DeleteTopic" @onclick:preventDefault><i class="icon-trash btn btn-outline-primary btn-sm" data-toggle="tooltip" title="Delete Topic"></i></a>
+                    <a href="/topic/@Topic.ProjectId/@Topic.TopicId" class="float-right mt-2 ml-1 text-secondary"><i class="icon-eye btn btn-outline-primary btn-sm" data-toggle="tooltip" title="View Topic"></i></a>
+                    <a href="#" class="float-right mt-2 ml-1 text-secondary" @onclick="Cancel" @onclick:preventDefault><i class="icon-rotate-ccw btn btn-outline-primary btn-sm" data-toggle="tooltip" title="Cancel Changes"></i></a>
+                    <a href="#" class="float-right mt-2 ml-1 text-secondary" @onclick="Save" @onclick:preventDefault><i class="icon-save btn btn-outline-primary btn-sm" data-toggle="tooltip" title="Cancel Changes"></i></a>
+
                     <h2 clase="my-2">@Topic.Title</h2>
                 </div>
 
@@ -65,8 +66,6 @@ else
                                     </InputSelect>
                                 </div>
                             </div>
-                            <button type="submit" class="btn btn-primary">Save</button>
-                            <button type="reset" @onclick="Cancel" class="btn btn-secondary">Cancel</button>
                         </EditForm>
                     </TabPage>
                     <TabPage Text="Content">

@@ -1,6 +1,6 @@
 ﻿@page "/debug"
 @using Microsoft.Extensions.Configuration
-@inject IConfiguration config
+@*@inject IConfiguration config*@
 
     <div role="document" class="container mt-5 appcontent">
         <div>
@@ -37,7 +37,7 @@
             <tr><th>Key</th><th>Value</th></tr>
             <tr>
                 <td>AppSettings:AKSBuildApiBaseUrl</td>
-                <td>@(config.GetValue<string>("AppSettings:AKSBuildApiBaseUrl"))</td>
+                @*<td>@(config.GetValue<string>("AppSettings:AKSBuildApiBaseUrl"))</td>*@
             </tr>
         </table>
 

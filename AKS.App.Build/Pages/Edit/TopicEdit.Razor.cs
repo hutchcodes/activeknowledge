@@ -2,6 +2,7 @@
 using AKS.App.Core.Data;
 using AKS.Common.Models;
 using Microsoft.AspNetCore.Components;
+using Microsoft.JSInterop;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -21,6 +22,9 @@ namespace AKS.App.Core
         
         [Inject]
         NavigationManager NavMan { get; set; } = null!;
+
+        [Inject]
+        protected IJSRuntime JsRuntime { get; set; } = null;
 
         [CascadingParameter] protected IAppState AppState { get; set; } = null!;
 
@@ -91,8 +95,12 @@ namespace AKS.App.Core
 
         public async Task DeleteTopic()
         {
-            await TopicEditApi.DeleteTopic(ProjectId, TopicId);
-            NavMan.NavigateTo($"/project/{ProjectId}");
+            bool confirmed = await JsRuntime.InvokeAsync<bool>("confirm",  "Are you sure?");
+            if (confirmed)
+            {
+                await TopicEditApi.DeleteTopic(ProjectId, TopicId);
+                NavMan.NavigateTo($"/project/{ProjectId}");
+            }
         }
     }
 }

@@ -1,0 +1,41 @@
+﻿@page "/"
+@namespace AKS.App.Build.SSB.Server.Pages
+@addTagHelper *, Microsoft.AspNetCore.Mvc.TagHelpers
+@{
+    Layout = null;
+}
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>AKS.App.Build.SSB.Server</title>
+    <base href="~/" />
+    <link href="_content/AKS.App.Build/css/bootstrap/bootstrap.min.css" rel="stylesheet" />
+    <link href="_content/AKS.App.Build/css/styles.css" rel="stylesheet" />
+    <!--Adding something here? You also need to add it in CSB/wwroot/index.html-->
+</head>
+<body>
+    <app>
+        <component type="typeof(AKS.App.Build.App.App)" render-mode="ServerPrerendered" />
+    </app>
+
+    <div id="blazor-error-ui">
+        <environment include="Staging,Production">
+            An error has occurred. This application may no longer respond until reloaded.
+        </environment>
+        <environment include="Development">
+            An unhandled exception has occurred. See browser dev tools for details.
+        </environment>
+        <a href="" class="reload">Reload</a>
+        <a class="dismiss">🗙</a>
+    </div>
+
+    <script src="_framework/blazor.server.js"></script>
+    <script src="_content/AKS.CKEditor/ckeditor_aks.js"></script>
+    <script src="_content/AKS.CKEditor/ckeditorjsinterop.js"></script>
+    <script src="_content/AKS.App.Core/aksinterop.js"></script>
+    <!--Adding something here? You also need to add it in CSB/wwroot/index.html-->
+</body>
+</html>
