@@ -7,16 +7,16 @@ EXPOSE 443
 
 FROM mcr.microsoft.com/dotnet/core/sdk:3.1-buster AS build
 WORKDIR /src
-COPY ["AKS.App.Build.SSB.Host/AKS.App.Build.SSB.Host.csproj", "AKS.App.Build.SSB.Host/"]
-RUN dotnet restore "AKS.App.Build.SSB.Host/AKS.App.Build.SSB.Host.csproj"
+COPY ["AKS.App.Build.SSB.Server/AKS.App.Build.SSB.Server.csproj", "AKS.App.Build.SSB.Server/"]
+RUN dotnet restore "AKS.App.Build.SSB.Server/AKS.App.Build.SSB.Server.csproj"
 COPY . .
-WORKDIR "/src/AKS.App.Build.SSB.Host"
-RUN dotnet build "AKS.App.Build.SSB.Host.csproj" -c Release -o /app/build
+WORKDIR "/src/AKS.App.Build.SSB.Server"
+RUN dotnet build "AKS.App.Build.SSB.Server.csproj" -c Release -o /app/build
 
 FROM build AS publish
-RUN dotnet publish "AKS.App.Build.SSB.Host.csproj" -c Release -o /app/publish
+RUN dotnet publish "AKS.App.Build.SSB.Server.csproj" -c Release -o /app/publish
 
 FROM base AS final
 WORKDIR /app
 COPY --from=publish /app/publish .
-ENTRYPOINT ["dotnet", "AKS.App.Build.SSB.Host.dll"]
+ENTRYPOINT ["dotnet", "AKS.App.Build.SSB.Server.dll"]

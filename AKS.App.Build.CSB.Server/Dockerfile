@@ -7,15 +7,16 @@ EXPOSE 443
 
 FROM mcr.microsoft.com/dotnet/core/sdk:3.1-buster AS build
 WORKDIR /src
-COPY ["AKS.App.Build.Wasm/Server/AKS.App.Build.CSB.Server.csproj", "AKS.App.Build.Wasm/Server/"]
-COPY ["AKS.App.Build.Wasm/Client/AKS.App.Build.CSB.csproj", "AKS.App.Build.Wasm/Client/"]
+COPY ["AKS.App.Build.CSB.Server/AKS.App.Build.CSB.Server.csproj", "AKS.App.Build.CSB.Server"]
+COPY ["AKS.App.Build.CSB/AKS.App.Build.CSB.csproj", "AKS.App.Build.CSB"]
 COPY ["AKS.CKEditor/AKS.CKEditor.csproj", "AKS.CKEditor/"]
 COPY ["AKS.Api.Build.Client/AKS.Api.Build.Client.csproj", "AKS.Api.Build.Client/"]
 COPY ["AKS.Common/AKS.Common.csproj", "AKS.Common/"]
+COPY ["AKS.App.Build/AKS.App.Build.csproj", "AKS.App.Build/"]
 COPY ["AKS.App.Core/AKS.App.Core.csproj", "AKS.App.Core/"]
 RUN dotnet restore "AKS.App.Build.Wasm/Server/AKS.App.Build.CSB.Server.csproj"
 COPY . .
-WORKDIR "/src/AKS.App.Build.Wasm/Server"
+WORKDIR "/src/AKS.App.Build.CSB.Server"
 RUN dotnet build "AKS.App.Build.CSB.Server.csproj" -c Release -o /app/build
 
 FROM build AS publish
