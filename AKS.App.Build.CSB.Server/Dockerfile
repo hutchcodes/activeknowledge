@@ -7,8 +7,8 @@ EXPOSE 443
 
 FROM mcr.microsoft.com/dotnet/core/sdk:3.1-buster AS build
 WORKDIR /src
-COPY ["AKS.App.Build.CSB.Server/AKS.App.Build.CSB.Server.csproj", "AKS.App.Build.CSB.Server"]
-COPY ["AKS.App.Build.CSB/AKS.App.Build.CSB.csproj", "AKS.App.Build.CSB"]
+COPY ["AKS.App.Build.CSB.Server/AKS.App.Build.CSB.Server.csproj", "AKS.App.Build.CSB.Server/"]
+COPY ["AKS.App.Build.CSB/AKS.App.Build.CSB.csproj", "AKS.App.Build.CSB/"]
 COPY ["AKS.CKEditor/AKS.CKEditor.csproj", "AKS.CKEditor/"]
 COPY ["AKS.Api.Build.Client/AKS.Api.Build.Client.csproj", "AKS.Api.Build.Client/"]
 COPY ["AKS.Common/AKS.Common.csproj", "AKS.Common/"]
