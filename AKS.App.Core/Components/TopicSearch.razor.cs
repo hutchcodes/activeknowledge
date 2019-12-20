@@ -21,7 +21,7 @@ namespace AKS.App.Core.Components
         public bool ShowTopicSelected { get; set; } = false;
 
         [Parameter]
-        public Action<List<TopicList>>? DoSomethingAction { get; set; }
+        public Action<List<TopicList>>? AddTopicsAction { get; set; }
 
         [Parameter]
         public Func<List<TopicList>, Task>? DeleteTopicFunc { get; set; }
@@ -34,6 +34,9 @@ namespace AKS.App.Core.Components
         public Guid? CategoryId { get; set; }
         [Parameter]
         public string SearchString { get; set; } = "";
+
+        [Parameter] public bool ShowAdd { get; set; }
+        [Parameter] public bool ShowDelete { get; set; }
 
         protected override async Task OnParametersSetAsync()
         {
@@ -56,9 +59,9 @@ namespace AKS.App.Core.Components
             StateHasChanged();
         }
 
-        protected void DoSomething()
+        protected void AddTopics()
         {
-            DoSomethingAction?.Invoke(Topics.Where(x => x.IsSelected).ToList());
+            AddTopicsAction?.Invoke(Topics.Where(x => x.IsSelected).ToList());
         }
 
         protected async Task DeleteTopic()

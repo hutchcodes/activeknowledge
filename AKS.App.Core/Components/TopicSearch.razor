@@ -41,15 +41,15 @@ else
         </tbody>
     </table>
 }
-@if (DoSomethingAction != null)
-{
-    <div>
-        <button @onclick="DoSomething">Add</button>
-    </div>
-}
-@if (DeleteTopicFunc != null)
-{
-    <div>
-        <button @onclick="DeleteTopic" class="btn-xs btn-warn">Delete Topic</button>
-    </div>
-}
+<div class="modal-footer">
+    @if (ShowAdd)
+    {
+        <button @onclick="AddTopics" class="btn btn-primary">Add</button>
+
+    }
+    @if (ShowDelete)
+    {
+        <button @onclick="DeleteTopic" class="btn btn-warn">Delete Topic</button>
+    }
+</div>
+

@@ -1,0 +1,92 @@
+﻿@using Microsoft.AspNetCore.Components.Web
+@using AKS.Common.Models
+
+@if (IsShowing)
+{
+    @*<div class="modal" tabindex="-1" role="dialog">
+        <div class="modal-dialog" role="document">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h5 class="modal-title">Title</h5>
+                    <button type="button" class="close" @onclick="CloseModal" aria-label="Close">
+                        <span aria-hidden="true">&times;</span>
+                    </button>
+                </div>
+                <div class="modal-body">
+                    <TopicSearch ProjectId="@ProjectId"
+                                 CategoryId="@CategoryId"
+                                 ShowSearch="@ShowSearch"
+                                 ShowTopicSelected="@ShowTopicSelected"
+                                 SearchString="@SearchString"
+                                 AddTopicsAction="@AddTopic"
+                                 DeleteTopicFunc="@DeleteTopic" />
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
+                    <button type="button" class="btn btn-primary">Save changes</button>
+                </div>
+            </div>
+        </div>
+    </div>*@
+
+    <div class="modal" tabindex="-1" style="display:block" role="dialog">
+            <div class="modal-dialog">
+                <div class="modal-content">
+                    <div class="modal-header">
+                        <h3 class="modal-title">@Title</h3>
+                        <button type="button" class="close" @onclick="CloseModal">
+                            <span aria-hidden="true">&times;</span>
+                        </button>
+                    </div>
+                    <TopicSearch ProjectId="@ProjectId"
+                                 CategoryId="@CategoryId"
+                                 ShowSearch="@ShowSearch"
+                                 ShowTopicSelected="@ShowTopicSelected"
+                                 SearchString="@SearchString"
+                                 AddTopicsAction="@AddTopic"
+                                 DeleteTopicFunc="@DeleteTopic"
+                                 ShowAdd="@(AddTopicsAction!=null)"
+                                 ShowDelete="@(DeleteTopicFunc!=null)"
+                                 />
+                </div>
+            </div>
+        </div>
+}
+
+@code
+{
+    private bool IsShowing { get; set; }
+    [Parameter] public string Title { get; set; } = "Add Topic";
+    [Parameter] public Guid? ProjectId { get; set; }
+    [Parameter] public Guid? CategoryId { get; set; }
+    [Parameter] public bool ShowSearch { get; set; }
+    [Parameter] public bool ShowTopicSelected { get; set; }
+    [Parameter] public string SearchString { get; set; } = "";
+    [Parameter] public Action<List<TopicList>>? AddTopicsAction { get; set; }
+    [Parameter] public Func<List<TopicList>, Task>? DeleteTopicFunc { get; set; }
+
+    public void ShowModal()
+    {
+        IsShowing = true;
+    }
+
+    public void CloseModal()
+    {
+        IsShowing = false;
+    }
+
+    private void AddTopic(List<TopicList> topics)
+    {
+        CloseModal();
+        AddTopicsAction?.Invoke(topics);
+    }
+
+    private Task DeleteTopic(List<TopicList> topics)
+    {
+        if (DeleteTopicFunc == null)
+        {
+            return Task.CompletedTask;
+        }
+        return DeleteTopicFunc.Invoke(topics);
+    }
+}

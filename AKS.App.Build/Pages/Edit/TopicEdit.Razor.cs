@@ -24,7 +24,7 @@ namespace AKS.App.Core
         NavigationManager NavMan { get; set; } = null!;
 
         [Inject]
-        protected IJSRuntime JsRuntime { get; set; } = null;
+        protected IJSRuntime JsRuntime { get; set; } = null!;
 
         [CascadingParameter] protected IAppState AppState { get; set; } = null!;
 

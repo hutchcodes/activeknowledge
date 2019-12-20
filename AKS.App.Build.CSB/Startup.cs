@@ -13,7 +13,8 @@ namespace AKS.App.Build.CSB
     {
         public Startup()
         {
-            ConfigSettings.BuildApiBaseUrl = "https://aks-dev-build-api-wa.azurewebsites.net/api/";
+            //ConfigSettings.BuildApiBaseUrl = "https://aks-dev-build-api-wa.azurewebsites.net/api/";
+            ConfigSettings.BuildApiBaseUrl = "https://localhost:44368/api/";
         }
         public void ConfigureServices(IServiceCollection services)
         {

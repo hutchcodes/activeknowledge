@@ -8,16 +8,15 @@ using System.Threading.Tasks;
 
 namespace AKS.App.Core.Components
 {
-    public class TopicEditDetailCollectionBase : ComponentBase
+    public partial class TopicEditDetailCollection : ComponentBase
     {
         [Parameter] public TopicEdit Topic { get; set; } = null!;
 
         protected bool IsAddingElements { get; set; }
-        protected bool IsAddingTopics { get; set; }
         protected CollectionElementEdit? NewCollectionElement { get; set; }
 
         private CollectionElementEdit? _currentElement;
-
+        private TopicSearchModal TopicSearcher { get; set; } = null!;
         protected void AddElement()
         {
             IsAddingElements = true;
@@ -43,14 +42,9 @@ namespace AKS.App.Core.Components
         protected void AddTopic(CollectionElementEdit currentElement)
         {
             _currentElement = currentElement;
-            IsAddingTopics = true;
+            TopicSearcher.ShowModal();
         }
 
-        protected void CloseModal()
-        {
-            IsAddingElements = false;
-            IsAddingTopics = false;
-        }
         protected void AddTopicToElement(List<TopicList> topics)
         {
             if (_currentElement == null) return;
@@ -65,8 +59,6 @@ namespace AKS.App.Core.Components
                 };
                 _currentElement.ElementTopics.Add(collectionElementTopic);
             }
-
-            IsAddingTopics = false;
             StateHasChanged();
         }
 
