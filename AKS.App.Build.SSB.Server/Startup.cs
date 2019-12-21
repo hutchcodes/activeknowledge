@@ -4,6 +4,8 @@ using System.Linq;
 using System.Net.Http;
 using System.Threading.Tasks;
 using AKS.Common;
+using Blazorise.Bootstrap;
+using Blazorise.Icons.FontAwesome;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Components;
 using Microsoft.AspNetCore.Hosting;
@@ -58,6 +60,10 @@ namespace AKS.App.Build.SSB.Server
             app.UseStaticFiles();
 
             app.UseRouting();
+
+            app.ApplicationServices
+              .UseBootstrapProviders()
+              .UseFontAwesomeIcons();
 
             app.UseEndpoints(endpoints =>
             {

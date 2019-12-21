@@ -1,19 +1,22 @@
 ﻿@using Microsoft.AspNetCore.Components.Web
 @using AKS.Common.Models
 
-<h4>Related topics</h4>
-<a href="#" class="mt-2 ml-1 text-secondary" @onclick="ShowAddRelatedTopic" @onclick:preventDefault><i class="icon-plus btn btn-outline-primary btn-sm" data-toggle="tooltip" title="Add Related TOpic"></i></a>
-<div>
-    <ul class="list-unstyled">
+<h4>Related topics <a href="#" class="mt-2 ml-1 text-secondary" @onclick="ShowAddRelatedTopic" @onclick:preventDefault><i class="icon-plus btn btn-outline-primary btn-sm" data-toggle="tooltip" title="Add Related TOpic"></i></a></h4>
+
+<Table>
+    <TableBody>
         @foreach (var rt in Topic.RelatedTopics)
         {
-            <li>
-                <a href="/topic/@Topic.ProjectId/@rt.TopicId" class="d-block text-truncate">
-                    <i class="icon-arrow-right"></i>
-                    @rt.Title
-                </a>
-            </li>
+            <TableRow>
+                <TableRowCell>
+                    <a href="/topic/@Topic.ProjectId/@rt.TopicId" class="d-block text-truncate">
+                        <i class="icon-arrow-right"></i>
+                        @rt.Title
+                    </a>
+                </TableRowCell>
+            </TableRow>
         }
-    </ul>
-</div>
+    </TableBody>
+</Table>
+
 <TopicSearchModal @ref="TopicSearcher" ProjectId="@Topic.ProjectId" AddTopicsAction="AddRelatedTopic" ShowSearch="true" ShowTopicSelected="true" />

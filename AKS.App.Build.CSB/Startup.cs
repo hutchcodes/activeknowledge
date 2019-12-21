@@ -1,6 +1,8 @@
 using AKS.Api.Build.Client;
 using AKS.App.Core.Data;
 using AKS.Common;
+using Blazorise.Bootstrap;
+using Blazorise.Icons.FontAwesome;
 using Microsoft.AspNetCore.Components.Builder;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
@@ -24,7 +26,7 @@ namespace AKS.App.Build.CSB
 
             var http = new HttpClient();
             http.BaseAddress = new Uri(ConfigSettings.BuildApiBaseUrl);
-            
+
             services.AddSingleton<HttpClient>(http);
 
             DIConfig.ConfigureServices(services);
@@ -38,6 +40,10 @@ namespace AKS.App.Build.CSB
 
         public void Configure(IComponentsApplicationBuilder app)
         {
+            app.Services
+                .UseBootstrapProviders()
+                .UseFontAwesomeIcons();
+
             app.AddComponent<AKS.App.Build.App.App>("app");
         }
     }

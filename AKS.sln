@@ -23,7 +23,7 @@ Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "AKS.App.Build.CSB", "AKS.Ap
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "AKS.App.Build.CSB.Server", "AKS.App.Build.CSB.Server\AKS.App.Build.CSB.Server.csproj", "{25152023-32DF-48CB-9125-887D2E855D18}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "AKS.App.Build.SSB.Server", "AKS.App.Build.SSB.Server\AKS.App.Build.SSB.Server.csproj", "{60F53619-8C60-4FCE-8EAD-3E2CA7A8BAF9}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "AKS.App.Build.SSB.Server", "AKS.App.Build.SSB.Server\AKS.App.Build.SSB.Server.csproj", "{60F53619-8C60-4FCE-8EAD-3E2CA7A8BAF9}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
