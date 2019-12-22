@@ -34,7 +34,7 @@ else
                     {
                         <td><input type="checkbox" @bind="topic.IsSelected" /> </td>
                     }
-                    <td><a href="@($"edit/topic/{topic.ProjectId}/{topic.TopicId}")">@topic.Title</a> </td>
+                    <td><a href="@($"/topic/{topic.ProjectId}/{topic.TopicId}")" target="_blank">@topic.Title</a> </td>
                     <td>@topic.Title</td>
                 </tr>
             }

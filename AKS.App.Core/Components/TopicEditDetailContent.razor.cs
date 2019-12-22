@@ -9,18 +9,19 @@ using System.Threading.Tasks;
 
 namespace AKS.App.Core.Components
 {
-    public class TopicEditDetailContentBase : ComponentBase
+    public partial class TopicEditDetailContent : ComponentBase
     {
-        public TopicEditDetailContentBase()
+        public TopicEditDetailContent()
         {
             InsertTopicFragmentAction = InsertTopicFragment;
 
         }
 
         private string _ckEditorCommandName = "";
+        private TopicSearchModal TopicSearcher { get; set; } = null!;
 
         [Parameter]
-        public TopicEdit Topic { get; set; }
+        public TopicEdit Topic { get; set; } = null!;
 
         public CKEditor.CKEditorControl TopicContentEditor { get; set; } = null!;
 
@@ -31,7 +32,7 @@ namespace AKS.App.Core.Components
         private void SelectTopicFragmentAction(string commandName)
         {
             _ckEditorCommandName = commandName;
-            IsAddingTopics = true;
+            TopicSearcher.ShowModal();
             StateHasChanged();
         }
 
@@ -48,7 +49,7 @@ namespace AKS.App.Core.Components
 
         protected void CloseModal()
         {
-            IsAddingTopics = false;
+            TopicSearcher.CloseModal();
         }
 
         protected Action<List<TopicList>> InsertTopicFragmentAction;
@@ -59,8 +60,6 @@ namespace AKS.App.Core.Components
             {                
                 var topicFragment = topics.First();
                 TopicContentEditor.InsertTopicFragment(topicFragment, _ckEditorCommandName);
-
-                IsAddingTopics = false;
             }
             StateHasChanged();
         }
