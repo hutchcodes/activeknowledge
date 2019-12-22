@@ -6,9 +6,12 @@
 </div>
 <div role="group" class="col-lg-7">
     <ol class="breadcrumb bg-light">
-        <li class="breadcrumb-item"><a href="#">Home</a></li>
-        <li class="breadcrumb-item"><a href="#">Library</a></li>
-        <li class="breadcrumb-item active" aria-current="page">Data</li>
+        <li class="breadcrumb-item"><a href="customer/@AppState.CustomerId">Home</a></li>
+        @if (AppState.ProjectId != Guid.Empty)
+        {
+            <li class="breadcrumb-item"><a href="project/@AppState.ProjectId">@AppState.HeaderNav?.ProjectName</a></li>
+        }
+        @*<li class="breadcrumb-item active" aria-current="page">Data</li>*@
     </ol>
 </div>
 <div role="group" class="col-lg-2">
