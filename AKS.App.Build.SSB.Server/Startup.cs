@@ -22,7 +22,7 @@ namespace AKS.App.Build.SSB.Server
         {
             Configuration = configuration;
             //ConfigSettings.BuildApiBaseUrl = "https://aks-dev-build-api-wa.azurewebsites.net/api/";
-            ConfigSettings.BuildApiBaseUrl = "https://localhost:44368/api/";
+            ConfigSettings.BuildApiBaseUrl = "https://localhost:44301/api/";
         }
 
         public IConfiguration Configuration { get; }
