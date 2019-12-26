@@ -1,6 +1,7 @@
 ﻿@page "/project/{projectId:guid}"
-@inherits AKS.App.Core.ProjectTopicListBase
+@inherits ProjectTopicListBase
 @using AKS.App.Core.Components
+@using AKS.Common.Models
 
 <div role="group" class="container flex-fill appcontent">
     <div role="group" class="row nav-content">
@@ -10,8 +11,33 @@
         <div role="group" id="tocView" class="@AppState.TocCollapsedClass toc col-lg-3">
             <TableOfContents />
         </div>
-        <div id="tocContent" role="document" class="col @AppState.TocContentClass" >
-            <div class="row">
+        <div id="tocContent" role="document" class="col @AppState.TocContentClass">
+
+            <DataGrid TItem="TopicList"
+                      Data="@Topics"
+                      Editable="true"
+                      PageSize="5"
+                      ShowPager="true"
+                      Filterable="true"
+                      @*@bind-SelectedRow="@selectedEmployee" *@>
+                
+                <DataGridCommandColumn TItem="TopicList" Editable="true" DeleteCommandAllowed="false">
+                    <NewCommandTemplate>
+                        <button type="button" class="btn btn-outline-secondary btn-sm" @onclick="NewTopic"><i class="icon-plus left"></i></button>
+                    </NewCommandTemplate>
+                    <EditCommandTemplate>
+                        <button type="button" class="btn btn-outline-primary btn-sm" title="Edit Topic" @onclick="(() => EditTopic(context.Item.TopicId))"><i class="icon-edit-2 left"></i></button>
+                    </EditCommandTemplate>
+                    <ClearFilterCommandTemplate/>
+                </DataGridCommandColumn>
+                <DataGridColumn TItem="TopicList" Field="@nameof(TopicList.Title)" Caption="Title" Editable="false" />
+                <DataGridColumn TItem="TopicList" Field="@nameof(TopicList.Description)" Caption="Description" Editable="false" />
+                <DataGridColumn TItem="TopicList" Field="@nameof(TopicList.TopicType)" Caption="Topic Type" Editable="false" >
+                    <DisplayTemplate>@GetTopicTypeDescription(context.TopicType)</DisplayTemplate>
+                </DataGridColumn>
+            </DataGrid>
+
+            @*<div class="row">
                 <div class="col mb-4">
                     <button type="button" class="btn btn-outline-secondary" @onclick="NewTopic">Add Topic</button>
                 </div>
@@ -36,7 +62,7 @@
                     </tr>
                 </thead>
                 <tbody>
-                    @foreach (var topic in TopicList)
+                    @foreach (var topic in Topics)
                     {
                         <tr>
                             <td><button type="button" class="btn btn-outline-primary btn-sm" title="Edit Topic" @onclick="(() => EditTopic(topic.TopicId))"><i class="icon-edit-2 left"></i></button></td>
@@ -61,7 +87,7 @@
                         <a class="page-link" href="#">Next</a>
                     </li>
                 </ul>
-            </nav>
+            </nav>*@
         </div>
     </div>
 </div>

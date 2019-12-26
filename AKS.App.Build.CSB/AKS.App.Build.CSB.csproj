@@ -8,7 +8,9 @@
 
   <ItemGroup>
     <PackageReference Include="Blazorise.Bootstrap" Version="0.8.7.2" />
+    <PackageReference Include="Blazorise.DataGrid" Version="0.8.7.2" />
     <PackageReference Include="Blazorise.Icons.FontAwesome" Version="0.8.7.2" />
+    <PackageReference Include="Microsoft.AspNet.WebApi.Client" Version="5.2.7" />
     <PackageReference Include="Microsoft.AspNetCore.Blazor" Version="3.1.0-preview4.19579.2" />
     <PackageReference Include="Microsoft.AspNetCore.Blazor.Build" Version="3.1.0-preview4.19579.2" PrivateAssets="all" />
     <PackageReference Include="Microsoft.AspNetCore.Blazor.HttpClient" Version="3.1.0-preview4.19579.2" />

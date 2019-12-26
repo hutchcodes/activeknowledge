@@ -16,7 +16,7 @@ namespace AKS.App.Build
         {
             services.AddBlazorise(options =>
             {
-                options.ChangeTextOnKeyPress = true; // optional
+                //options.ChangeTextOnKeyPress = true; // optional
             })
             .AddBootstrapProviders()
             .AddFontAwesomeIcons();

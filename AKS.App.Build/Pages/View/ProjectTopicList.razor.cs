@@ -11,7 +11,7 @@ using System.Threading.Tasks;
 
 namespace AKS.App.Core
 {
-    public class ProjectTopicListBase : ComponentBase
+    public partial class ProjectTopicListBase : ComponentBase
     {
         [Parameter]
         public Guid ProjectId { get; set; }
@@ -24,7 +24,7 @@ namespace AKS.App.Core
 
         [CascadingParameter] protected IAppState AppState { get; set; } = null!;
 
-        public List<TopicList> TopicList { get; set; } = new List<TopicList>();
+        public List<TopicList> Topics { get; set; } = new List<TopicList>();
         public override async Task SetParametersAsync(ParameterView parameters)
         {
             await base.SetParametersAsync(parameters);
@@ -38,7 +38,7 @@ namespace AKS.App.Core
         
         public async Task GetTopicList()
         {
-            TopicList = await TopicViewApi.GetTopicListByProjectId(ProjectId);
+            Topics = await TopicViewApi.GetTopicListByProjectId(ProjectId);
             StateHasChanged();
         }
 
