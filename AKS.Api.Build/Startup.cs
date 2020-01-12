@@ -17,6 +17,8 @@ using Microsoft.ApplicationInsights.Extensibility;
 using AKS.Common;
 using System;
 using AutoMapper;
+using Microsoft.AspNetCore.Authentication.AzureADB2C.UI;
+using Microsoft.AspNetCore.Authentication;
 
 namespace AKS.Api.Build
 {
@@ -39,6 +41,8 @@ namespace AKS.Api.Build
         {
             ConfigureDI(services);
 
+            services.AddAuthentication(AzureADB2CDefaults.BearerAuthenticationScheme)
+                .AddAzureADB2CBearer(options => Configuration.Bind("AzureAdB2C", options));
             services.AddControllers();
 
             // Register the Swagger generator, defining 1 or more Swagger documents
@@ -115,6 +119,7 @@ namespace AKS.Api.Build
 
             app.UseRouting();
 
+            app.UseAuthentication();
             app.UseAuthorization();
 
             app.UseEndpoints(endpoints =>

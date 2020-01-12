@@ -1,0 +1,23 @@
+<Project Sdk="Microsoft.NET.Sdk.Web">
+
+  <PropertyGroup>
+    <TargetFramework>netcoreapp3.1</TargetFramework>
+    <UserSecretsId>aspnet-AKS.App.Build.Server-18410A45-78E2-4286-9A67-97E41C8CF465</UserSecretsId>
+  </PropertyGroup>
+
+
+  <ItemGroup>
+    <PackageReference Include="Microsoft.AspNetCore.Authentication.AzureADB2C.UI" Version="3.1.0" />
+    <PackageReference Include="Microsoft.AspNetCore.Authentication.Cookies" Version="2.2.0" />
+    <PackageReference Include="Microsoft.AspNetCore.Blazor" Version="3.1.0-preview4.19579.2" />
+    <PackageReference Include="Microsoft.AspNetCore.Blazor.Server" Version="3.1.0-preview4.19579.2" />
+    <PackageReference Include="Microsoft.Extensions.Logging.Debug" Version="3.1.0" />
+    <PackageReference Include="Microsoft.VisualStudio.Web.CodeGeneration.Design" Version="3.1.0" />
+  </ItemGroup>
+
+
+  <ItemGroup>
+    <ProjectReference Include="..\AKS.App.Build.CSB\AKS.App.Build.CSB.csproj" />
+  </ItemGroup>
+
+</Project>

@@ -16,6 +16,7 @@ namespace AKS.App.Core.Data
 
         public Guid ProjectId { get; }
 
+        public AKSUser User { get; set; }
         public HeaderNavView? HeaderNav { get; set; }
         public CategoryTreeView CategoryTree { get; set; } 
 

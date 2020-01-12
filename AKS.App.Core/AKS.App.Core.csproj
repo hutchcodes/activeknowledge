@@ -10,6 +10,9 @@
     <PackageReference Include="Blazorise.Bootstrap" Version="0.8.7.2" />
     <PackageReference Include="Blazorise.DataGrid" Version="0.8.7.2" />
     <PackageReference Include="Blazorise.Icons.FontAwesome" Version="0.8.7.2" />
+    <PackageReference Include="Microsoft.AspNetCore.Authentication.Cookies" Version="2.2.0" />
+    <PackageReference Include="Microsoft.AspNetCore.Authorization" Version="3.1.0" />
+    <PackageReference Include="Microsoft.AspNetCore.Components.Authorization" Version="3.1.0" />
     <PackageReference Include="Microsoft.CodeAnalysis.Analyzers" Version="2.9.8">
       <PrivateAssets>all</PrivateAssets>
       <IncludeAssets>runtime; build; native; contentfiles; analyzers; buildtransitive</IncludeAssets>

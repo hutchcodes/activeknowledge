@@ -25,6 +25,8 @@ Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "AKS.App.Build.CSB.Server", 
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "AKS.App.Build.SSB.Server", "AKS.App.Build.SSB.Server\AKS.App.Build.SSB.Server.csproj", "{60F53619-8C60-4FCE-8EAD-3E2CA7A8BAF9}"
 EndProject
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "AKS.App.Build.Server", "AKS.App.Build.Server\AKS.App.Build.Server.csproj", "{A7B83A65-E757-4AD5-966B-E034F4F04D22}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -75,6 +77,10 @@ Global
 		{60F53619-8C60-4FCE-8EAD-3E2CA7A8BAF9}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{60F53619-8C60-4FCE-8EAD-3E2CA7A8BAF9}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{60F53619-8C60-4FCE-8EAD-3E2CA7A8BAF9}.Release|Any CPU.Build.0 = Release|Any CPU
+		{A7B83A65-E757-4AD5-966B-E034F4F04D22}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{A7B83A65-E757-4AD5-966B-E034F4F04D22}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{A7B83A65-E757-4AD5-966B-E034F4F04D22}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{A7B83A65-E757-4AD5-966B-E034F4F04D22}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE

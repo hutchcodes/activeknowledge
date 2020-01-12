@@ -1,10 +1,13 @@
-﻿<Router AppAssembly="@typeof(AKS.App.Build.App.App).Assembly">
+﻿
+<Router AppAssembly="@typeof(AKS.App.Build.App.App).Assembly">
     <Found Context="routeData">
-        <RouteView RouteData="@routeData" DefaultLayout="@typeof(AKS.App.Build.Shared.MainLayout)" />
+        <AuthorizeRouteView RouteData="@routeData" DefaultLayout="@typeof(AKS.App.Build.Shared.MainLayout)" />
     </Found>
     <NotFound>
-        <LayoutView Layout="@typeof(AKS.App.Build.Shared.MainLayout)">
-            <p>Sorry, there's nothing at this address.</p>
-        </LayoutView>
+        <CascadingAuthenticationState>
+            <LayoutView Layout="@typeof(AKS.App.Build.Shared.MainLayout)">
+                <p>Sorry, there's nothing at this address.</p>
+            </LayoutView>
+        </CascadingAuthenticationState>
     </NotFound>
 </Router>

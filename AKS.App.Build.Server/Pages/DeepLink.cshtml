@@ -1,0 +1,15 @@
+﻿@page
+@model DeepLinkModel
+
+@{
+    ViewData["Title"] = "Home page";
+}
+
+@if (User.Identity.IsAuthenticated)
+{
+<app></app>
+}
+else
+{
+<div>You're not logged in</div>
+}
