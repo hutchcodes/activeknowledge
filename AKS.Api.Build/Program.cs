@@ -3,7 +3,6 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
 using AKS.Infrastructure.Data;
-using AKS.Infrastructure.Data.Security;
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.Azure.KeyVault;
 using Microsoft.Azure.Services.AppAuthentication;
@@ -47,6 +46,7 @@ namespace AKS.Api.Build
                         var kvClient = new KeyVaultClient(new KeyVaultClient.AuthenticationCallback(_azureServiceTokenProvider.KeyVaultTokenCallback));
                         config.AddAzureAppConfiguration(options =>
                         {
+                            //options.Connect(settings["ConnectionStrings:AppConfig-Prod"])
                             options.Connect(settings["ConnectionStrings:AppConfig"])
                                     .UseAzureKeyVault(kvClient);
                         });

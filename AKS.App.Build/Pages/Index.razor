@@ -1,12 +1,15 @@
-﻿@inject Microsoft.AspNetCore.Components.NavigationManager navMan
+﻿@using  AKS.App.Core.Data
+@inject Microsoft.AspNetCore.Components.NavigationManager navMan
+@inject IAppState AppState
 
 @page "/"
 
 @code{
     protected override void OnAfterRender(bool firstRender)
     {
+        var customerUrl = "/customer/" + AppState.User.CustomerId.ToString();
         //https://localhost:44331/customer/0000007b-0000-0000-0000-000000000000
-        navMan.NavigateTo("/customer/0000007b-0000-0000-0000-000000000000");
+        navMan.NavigateTo(customerUrl);
     }
     protected override void OnInitialized()
     {

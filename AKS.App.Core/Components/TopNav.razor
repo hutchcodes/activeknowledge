@@ -28,17 +28,13 @@
 
                         <AuthorizeView>
                             <NotAuthorized>
-                                <button class="btn btn-primary"
-                                        >
+                                <button class="btn btn-primary">
                                     Login
                                 </button>
                             </NotAuthorized>
                             <Authorized>
-                                <span class="mr-5">Welcome <b>@AppState.User.FirstName).FirstName)</b></span>
-                                <button class="btn btn-primary"
-                                        >
-                                    Logout
-                                </button>
+                                <span class="mr-5">Welcome <b>@AppState.User.FirstName</b></span>
+                                <a href="/AzureADB2C/Account/SignOut" class="btn btn-primary">Logout</a>
                             </Authorized>
                         </AuthorizeView>
                     </div>

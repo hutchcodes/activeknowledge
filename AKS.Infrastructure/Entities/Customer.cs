@@ -10,6 +10,8 @@ namespace AKS.Infrastructure.Entities
         public Customer()
         {
             Projects = new HashSet<Project>();
+            Users = new HashSet<User>();
+            Groups = new HashSet<Group>();
         }
 
         public Guid CustomerId { get; set; }
@@ -18,5 +20,7 @@ namespace AKS.Infrastructure.Entities
         public Guid? CustomCssId { get; set; }
 
         public virtual ICollection<Project> Projects { get; set; }
+        public virtual ICollection<User> Users { get; set; }
+        public virtual ICollection<Group> Groups { get; set; }
     }
 }

@@ -1,4 +1,5 @@
-﻿using AKS.Common.Models;
+﻿using AKS.App.Core.Data;
+using AKS.Common.Models;
 using Microsoft.AspNetCore.Components;
 using Microsoft.AspNetCore.Components.Authorization;
 using System;
@@ -13,19 +14,22 @@ namespace AKS.Common
     public class CustomAuthenticationProvider : AuthenticationStateProvider
     {
         private readonly HttpClient _httpClient;
+        private readonly IAppState _appState;
 
-        public CustomAuthenticationProvider(HttpClient httpClient)
+        public CustomAuthenticationProvider(HttpClient httpClient, IAppState appState)
         {
             _httpClient = httpClient;
+            _appState = appState;
         }
 
         public override async Task<AuthenticationState> GetAuthenticationStateAsync()
         {
             ClaimsPrincipal user;
             var http = new HttpClient();
-            http.BaseAddress = new Uri("https://localhost:44303/");
-            var result = await http.GetJsonAsync<AKSUser>("api/user/GetUser");
+            http.BaseAddress = new Uri("https://localhost:44301/");
+            var result = await http.GetJsonAsync<AKSUserOld>("api/user/GetUser");
             Console.WriteLine($"UserName: {result.UserName}");
+            _appState.User = result;
             if (result.UserName != "")
             {
                 var identity = new ClaimsIdentity(new[]

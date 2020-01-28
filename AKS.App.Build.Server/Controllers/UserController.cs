@@ -14,9 +14,9 @@ namespace AKS.App.Build.Server.Controllers
     public class UserController : ControllerBase
     {
         [HttpGet("GetUser")]
-        public AKSUser GetUser()
+        public AKSUserOld GetUser()
         {
-            return new AKSUser(User);            
+            return new AKSUserOld(User);            
         }
     }
 }

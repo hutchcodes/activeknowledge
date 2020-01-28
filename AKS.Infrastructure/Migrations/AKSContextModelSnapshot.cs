@@ -15,51 +15,59 @@ namespace AKS.Infrastructure.Migrations
         {
 #pragma warning disable 612, 618
             modelBuilder
-                .HasAnnotation("ProductVersion", "2.1.8-servicing-32085")
+                .HasAnnotation("ProductVersion", "3.1.0")
                 .HasAnnotation("Relational:MaxIdentifierLength", 128)
                 .HasAnnotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn);
 
             modelBuilder.Entity("AKS.Infrastructure.Entities.Category", b =>
                 {
                     b.Property<Guid>("CategoryId")
-                        .ValueGeneratedOnAdd();
+                        .HasColumnType("uniqueidentifier");
 
-                    b.Property<Guid?>("CategoryId1");
+                    b.Property<Guid>("ProjectId")
+                        .HasColumnType("uniqueidentifier");
 
                     b.Property<string>("Name")
                         .IsRequired()
+                        .HasColumnType("nvarchar(50)")
                         .HasMaxLength(50);
 
-                    b.Property<int>("Order");
+                    b.Property<int>("Order")
+                        .HasColumnType("int");
 
-                    b.Property<Guid?>("ParentCategoryId");
+                    b.Property<Guid?>("ParentCategoryId")
+                        .HasColumnType("uniqueidentifier");
 
-                    b.Property<Guid>("ProjectId");
+                    b.HasKey("CategoryId", "ProjectId");
 
-                    b.HasKey("CategoryId");
-
-                    b.HasIndex("CategoryId1");
+                    b.HasIndex("ParentCategoryId", "ProjectId");
 
                     b.ToTable("Category");
                 });
 
             modelBuilder.Entity("AKS.Infrastructure.Entities.CategoryTopic", b =>
                 {
-                    b.Property<Guid>("ProjectId");
+                    b.Property<Guid>("ProjectId")
+                        .HasColumnType("uniqueidentifier");
 
-                    b.Property<Guid>("ParentCategoryId");
+                    b.Property<Guid>("CategoryId")
+                        .HasColumnType("uniqueidentifier");
 
-                    b.Property<Guid>("TopicId");
+                    b.Property<Guid>("TopicId")
+                        .HasColumnType("uniqueidentifier");
 
-                    b.Property<Guid?>("CategoryId");
+                    b.Property<int>("Order")
+                        .HasColumnType("int");
 
-                    b.Property<int>("Order");
-
-                    b.HasKey("ProjectId", "ParentCategoryId", "TopicId");
+                    b.HasKey("ProjectId", "CategoryId", "TopicId");
 
                     b.HasIndex("CategoryId");
 
                     b.HasIndex("TopicId");
+
+                    b.HasIndex("CategoryId", "ProjectId");
+
+                    b.HasIndex("TopicId", "ProjectId");
 
                     b.ToTable("CategoryTopic");
                 });
@@ -67,42 +75,51 @@ namespace AKS.Infrastructure.Migrations
             modelBuilder.Entity("AKS.Infrastructure.Entities.CollectionElement", b =>
                 {
                     b.Property<Guid>("CollectionElementId")
-                        .ValueGeneratedOnAdd();
+                        .HasColumnType("uniqueidentifier");
+
+                    b.Property<Guid>("ProjectId")
+                        .HasColumnType("uniqueidentifier");
 
                     b.Property<string>("Name")
                         .IsRequired()
+                        .HasColumnType("nvarchar(50)")
                         .HasMaxLength(50);
 
-                    b.Property<Guid>("ProjectId");
+                    b.Property<Guid>("TopicId")
+                        .HasColumnType("uniqueidentifier");
 
-                    b.Property<Guid>("TopicId");
-
-                    b.HasKey("CollectionElementId");
+                    b.HasKey("CollectionElementId", "ProjectId");
 
                     b.HasIndex("TopicId");
+
+                    b.HasIndex("TopicId", "ProjectId");
 
                     b.ToTable("CollectionElement");
                 });
 
             modelBuilder.Entity("AKS.Infrastructure.Entities.CollectionElementTopic", b =>
                 {
-                    b.Property<Guid>("ProjectId");
+                    b.Property<Guid>("ProjectId")
+                        .HasColumnType("uniqueidentifier");
 
-                    b.Property<Guid>("CollectionElementId");
+                    b.Property<Guid>("CollectionElementId")
+                        .HasColumnType("uniqueidentifier");
 
-                    b.Property<Guid?>("TopicId");
+                    b.Property<Guid>("TopicId")
+                        .HasColumnType("uniqueidentifier");
 
-                    b.Property<Guid?>("CollectionElementId1");
-
-                    b.Property<int>("Order");
+                    b.Property<int>("Order")
+                        .HasColumnType("int");
 
                     b.HasKey("ProjectId", "CollectionElementId", "TopicId");
 
                     b.HasIndex("CollectionElementId");
 
-                    b.HasIndex("CollectionElementId1");
-
                     b.HasIndex("TopicId");
+
+                    b.HasIndex("CollectionElementId", "ProjectId");
+
+                    b.HasIndex("TopicId", "ProjectId");
 
                     b.ToTable("CollectionElementTopic");
                 });
@@ -110,14 +127,17 @@ namespace AKS.Infrastructure.Migrations
             modelBuilder.Entity("AKS.Infrastructure.Entities.Customer", b =>
                 {
                     b.Property<Guid>("CustomerId")
-                        .ValueGeneratedOnAdd();
+                        .HasColumnType("uniqueidentifier");
 
-                    b.Property<Guid?>("CustomCssId");
+                    b.Property<Guid?>("CustomCssId")
+                        .HasColumnType("uniqueidentifier");
 
-                    b.Property<string>("LogoFileName");
+                    b.Property<string>("LogoFileName")
+                        .HasColumnType("nvarchar(max)");
 
                     b.Property<string>("Name")
                         .IsRequired()
+                        .HasColumnType("nvarchar(50)")
                         .HasMaxLength(50);
 
                     b.HasKey("CustomerId");
@@ -125,17 +145,71 @@ namespace AKS.Infrastructure.Migrations
                     b.ToTable("Customer");
                 });
 
+            modelBuilder.Entity("AKS.Infrastructure.Entities.Group", b =>
+                {
+                    b.Property<Guid>("GroupId")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("uniqueidentifier");
+
+                    b.Property<bool>("CanCreateProject")
+                        .HasColumnType("bit");
+
+                    b.Property<bool>("CanEditCustomer")
+                        .HasColumnType("bit");
+
+                    b.Property<bool>("CanManageAccess")
+                        .HasColumnType("bit");
+
+                    b.Property<Guid>("CustomerId")
+                        .HasColumnType("uniqueidentifier");
+
+                    b.Property<string>("GroupName")
+                        .IsRequired()
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<bool>("IsActive")
+                        .HasColumnType("bit");
+
+                    b.HasKey("GroupId");
+
+                    b.HasIndex("CustomerId");
+
+                    b.ToTable("Groups");
+                });
+
+            modelBuilder.Entity("AKS.Infrastructure.Entities.GroupProjectPermission", b =>
+                {
+                    b.Property<Guid>("GroupId")
+                        .HasColumnType("uniqueidentifier");
+
+                    b.Property<Guid>("ProjectId")
+                        .HasColumnType("uniqueidentifier");
+
+                    b.Property<bool>("CanEdit")
+                        .HasColumnType("bit");
+
+                    b.Property<bool>("CanRead")
+                        .HasColumnType("bit");
+
+                    b.HasKey("GroupId", "ProjectId");
+
+                    b.ToTable("GroupProjectPermissions");
+                });
+
             modelBuilder.Entity("AKS.Infrastructure.Entities.Project", b =>
                 {
                     b.Property<Guid>("ProjectId")
-                        .ValueGeneratedOnAdd();
+                        .HasColumnType("uniqueidentifier");
 
-                    b.Property<Guid>("CustomerId");
+                    b.Property<Guid>("CustomerId")
+                        .HasColumnType("uniqueidentifier");
 
-                    b.Property<string>("LogoFileName");
+                    b.Property<string>("LogoFileName")
+                        .HasColumnType("nvarchar(max)");
 
                     b.Property<string>("Name")
                         .IsRequired()
+                        .HasColumnType("nvarchar(50)")
                         .HasMaxLength(50);
 
                     b.HasKey("ProjectId");
@@ -145,55 +219,44 @@ namespace AKS.Infrastructure.Migrations
                     b.ToTable("Project");
                 });
 
-            modelBuilder.Entity("AKS.Infrastructure.Entities.ReferencedFragment", b =>
-                {
-                    b.Property<Guid>("ProjectId");
-
-                    b.Property<Guid>("ParentTopicId");
-
-                    b.Property<Guid>("ChildTopicId");
-
-                    b.HasKey("ProjectId", "ParentTopicId", "ChildTopicId");
-
-                    b.HasIndex("ChildTopicId");
-
-                    b.HasIndex("ParentTopicId");
-
-                    b.ToTable("TopicFragment");
-                });
-
             modelBuilder.Entity("AKS.Infrastructure.Entities.RelatedTopic", b =>
                 {
-                    b.Property<Guid>("ProjectId");
+                    b.Property<Guid>("ProjectId")
+                        .HasColumnType("uniqueidentifier");
 
-                    b.Property<Guid>("ParentTopicId");
+                    b.Property<Guid>("ParentTopicId")
+                        .HasColumnType("uniqueidentifier");
 
-                    b.Property<Guid>("ChildTopicId");
+                    b.Property<Guid>("ChildTopicId")
+                        .HasColumnType("uniqueidentifier");
 
                     b.HasKey("ProjectId", "ParentTopicId", "ChildTopicId");
 
                     b.HasIndex("ChildTopicId");
 
                     b.HasIndex("ParentTopicId");
+
+                    b.HasIndex("ChildTopicId", "ProjectId");
+
+                    b.HasIndex("ParentTopicId", "ProjectId");
 
                     b.ToTable("RelatedTopic");
                 });
 
             modelBuilder.Entity("AKS.Infrastructure.Entities.Tag", b =>
                 {
-                    b.Property<Guid>("TagId");
+                    b.Property<Guid>("TagId")
+                        .HasColumnType("uniqueidentifier");
 
-                    b.Property<Guid>("ProjectId");
+                    b.Property<Guid>("ProjectId")
+                        .HasColumnType("uniqueidentifier");
 
                     b.Property<string>("Name")
                         .IsRequired()
+                        .HasColumnType("nvarchar(50)")
                         .HasMaxLength(50);
 
-                    b.Property<Guid?>("TopicId");
-
                     b.HasKey("TagId", "ProjectId");
-
-                    b.HasIndex("TopicId");
 
                     b.ToTable("Tag");
                 });
@@ -201,117 +264,278 @@ namespace AKS.Infrastructure.Migrations
             modelBuilder.Entity("AKS.Infrastructure.Entities.Topic", b =>
                 {
                     b.Property<Guid>("TopicId")
-                        .ValueGeneratedOnAdd();
+                        .HasColumnType("uniqueidentifier");
 
-                    b.Property<string>("Content");
+                    b.Property<Guid>("ProjectId")
+                        .HasColumnType("uniqueidentifier");
 
-                    b.Property<Guid?>("DefaultCategoryId");
+                    b.Property<string>("Content")
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<Guid?>("DefaultCategoryId")
+                        .HasColumnType("uniqueidentifier");
 
                     b.Property<string>("Description")
+                        .HasColumnType("nvarchar(200)")
                         .HasMaxLength(200);
 
-                    b.Property<string>("DocumentName");
+                    b.Property<string>("DocumentName")
+                        .HasColumnType("nvarchar(max)");
 
-                    b.Property<Guid?>("FileResourceId");
+                    b.Property<Guid?>("FileResourceId")
+                        .HasColumnType("uniqueidentifier");
 
-                    b.Property<Guid?>("ImageResourceId");
-
-                    b.Property<Guid>("ProjectId");
+                    b.Property<Guid?>("ImageResourceId")
+                        .HasColumnType("uniqueidentifier");
 
                     b.Property<string>("Title")
                         .IsRequired()
+                        .HasColumnType("nvarchar(50)")
                         .HasMaxLength(50);
 
-                    b.Property<int>("TopicType");
+                    b.Property<int>("TopicStatus")
+                        .HasColumnType("int");
 
-                    b.HasKey("TopicId");
+                    b.Property<int>("TopicType")
+                        .HasColumnType("int");
+
+                    b.HasKey("TopicId", "ProjectId");
 
                     b.ToTable("Topic");
                 });
 
+            modelBuilder.Entity("AKS.Infrastructure.Entities.TopicFragment", b =>
+                {
+                    b.Property<Guid>("ProjectId")
+                        .HasColumnType("uniqueidentifier");
+
+                    b.Property<Guid>("ParentTopicId")
+                        .HasColumnType("uniqueidentifier");
+
+                    b.Property<Guid>("ChildTopicId")
+                        .HasColumnType("uniqueidentifier");
+
+                    b.HasKey("ProjectId", "ParentTopicId", "ChildTopicId");
+
+                    b.HasIndex("ChildTopicId");
+
+                    b.HasIndex("ParentTopicId");
+
+                    b.HasIndex("ChildTopicId", "ProjectId");
+
+                    b.HasIndex("ParentTopicId", "ProjectId");
+
+                    b.ToTable("TopicFragment");
+                });
+
+            modelBuilder.Entity("AKS.Infrastructure.Entities.TopicTag", b =>
+                {
+                    b.Property<Guid>("ProjectId")
+                        .HasColumnType("uniqueidentifier");
+
+                    b.Property<Guid>("TopicId")
+                        .HasColumnType("uniqueidentifier");
+
+                    b.Property<Guid>("TagId")
+                        .HasColumnType("uniqueidentifier");
+
+                    b.HasKey("ProjectId", "TopicId", "TagId");
+
+                    b.HasIndex("TagId", "ProjectId");
+
+                    b.HasIndex("TopicId", "ProjectId");
+
+                    b.ToTable("TopicTag");
+                });
+
+            modelBuilder.Entity("AKS.Infrastructure.Entities.User", b =>
+                {
+                    b.Property<Guid>("UserId")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("uniqueidentifier");
+
+                    b.Property<Guid>("CustomerId")
+                        .HasColumnType("uniqueidentifier");
+
+                    b.Property<string>("DisplayName")
+                        .IsRequired()
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<string>("Email")
+                        .IsRequired()
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<string>("FirstName")
+                        .IsRequired()
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<string>("LastName")
+                        .IsRequired()
+                        .HasColumnType("nvarchar(max)");
+
+                    b.HasKey("UserId");
+
+                    b.HasIndex("CustomerId");
+
+                    b.ToTable("Users");
+                });
+
+            modelBuilder.Entity("AKS.Infrastructure.Entities.UserGroup", b =>
+                {
+                    b.Property<Guid>("UserId")
+                        .HasColumnType("uniqueidentifier");
+
+                    b.Property<Guid>("GroupId")
+                        .HasColumnType("uniqueidentifier");
+
+                    b.HasKey("UserId", "GroupId");
+
+                    b.HasIndex("GroupId");
+
+                    b.ToTable("UserGroup");
+                });
+
             modelBuilder.Entity("AKS.Infrastructure.Entities.Category", b =>
                 {
-                    b.HasOne("AKS.Infrastructure.Entities.Category")
+                    b.HasOne("AKS.Infrastructure.Entities.Category", "ParentCategory")
                         .WithMany("Categories")
-                        .HasForeignKey("CategoryId1");
+                        .HasForeignKey("ParentCategoryId", "ProjectId")
+                        .HasConstraintName("FK_Category_Category");
                 });
 
             modelBuilder.Entity("AKS.Infrastructure.Entities.CategoryTopic", b =>
                 {
-                    b.HasOne("AKS.Infrastructure.Entities.Category")
-                        .WithMany("Topics")
-                        .HasForeignKey("CategoryId");
+                    b.HasOne("AKS.Infrastructure.Entities.Category", "Category")
+                        .WithMany("CategoryTopics")
+                        .HasForeignKey("CategoryId", "ProjectId")
+                        .HasConstraintName("FK_CategoryTopic_Category")
+                        .IsRequired();
 
                     b.HasOne("AKS.Infrastructure.Entities.Topic", "Topic")
-                        .WithMany()
-                        .HasForeignKey("TopicId")
-                        .OnDelete(DeleteBehavior.Cascade);
+                        .WithMany("CategoryTopics")
+                        .HasForeignKey("TopicId", "ProjectId")
+                        .HasConstraintName("FK_CategoryTopic_Topic")
+                        .IsRequired();
                 });
 
             modelBuilder.Entity("AKS.Infrastructure.Entities.CollectionElement", b =>
                 {
                     b.HasOne("AKS.Infrastructure.Entities.Topic", "Topic")
                         .WithMany("CollectionElements")
-                        .HasForeignKey("TopicId")
-                        .OnDelete(DeleteBehavior.Cascade);
+                        .HasForeignKey("TopicId", "ProjectId")
+                        .HasConstraintName("FK_CollectionElement_Topic")
+                        .IsRequired();
                 });
 
             modelBuilder.Entity("AKS.Infrastructure.Entities.CollectionElementTopic", b =>
                 {
                     b.HasOne("AKS.Infrastructure.Entities.CollectionElement", "CollectionElement")
-                        .WithMany()
-                        .HasForeignKey("CollectionElementId")
-                        .OnDelete(DeleteBehavior.Restrict);
-
-                    b.HasOne("AKS.Infrastructure.Entities.CollectionElement")
-                        .WithMany("ElementTopics")
-                        .HasForeignKey("CollectionElementId1");
+                        .WithMany("CollectionElementTopics")
+                        .HasForeignKey("CollectionElementId", "ProjectId")
+                        .HasConstraintName("FK_CollectionElementTopic_CollectionElement")
+                        .IsRequired();
 
                     b.HasOne("AKS.Infrastructure.Entities.Topic", "Topic")
-                        .WithMany()
-                        .HasForeignKey("TopicId")
-                        .OnDelete(DeleteBehavior.Restrict);
+                        .WithMany("CollectionElementTopics")
+                        .HasForeignKey("TopicId", "ProjectId")
+                        .HasConstraintName("FK_CollectionElementTopic_Topic")
+                        .IsRequired();
+                });
+
+            modelBuilder.Entity("AKS.Infrastructure.Entities.Group", b =>
+                {
+                    b.HasOne("AKS.Infrastructure.Entities.Customer", "Customer")
+                        .WithMany("Groups")
+                        .HasForeignKey("CustomerId")
+                        .HasConstraintName("FK_Group_Customer")
+                        .IsRequired();
+                });
+
+            modelBuilder.Entity("AKS.Infrastructure.Entities.GroupProjectPermission", b =>
+                {
+                    b.HasOne("AKS.Infrastructure.Entities.Group", "Group")
+                        .WithMany("GroupProjectPermissions")
+                        .HasForeignKey("GroupId")
+                        .HasConstraintName("FK_GroupProjectPermission_Group")
+                        .IsRequired();
                 });
 
             modelBuilder.Entity("AKS.Infrastructure.Entities.Project", b =>
                 {
                     b.HasOne("AKS.Infrastructure.Entities.Customer", "Customer")
-                        .WithMany()
+                        .WithMany("Projects")
                         .HasForeignKey("CustomerId")
-                        .OnDelete(DeleteBehavior.Cascade);
-                });
-
-            modelBuilder.Entity("AKS.Infrastructure.Entities.ReferencedFragment", b =>
-                {
-                    b.HasOne("AKS.Infrastructure.Entities.Topic", "ChildTopic")
-                        .WithMany("FragmentReferencedBy")
-                        .HasForeignKey("ChildTopicId")
-                        .OnDelete(DeleteBehavior.Restrict);
-
-                    b.HasOne("AKS.Infrastructure.Entities.Topic", "ParentTopic")
-                        .WithMany("ReferencedFragments")
-                        .HasForeignKey("ParentTopicId")
-                        .OnDelete(DeleteBehavior.Cascade);
+                        .HasConstraintName("FK_Project_Customer")
+                        .IsRequired();
                 });
 
             modelBuilder.Entity("AKS.Infrastructure.Entities.RelatedTopic", b =>
                 {
-                    b.HasOne("AKS.Infrastructure.Entities.Topic", "ChildTopic")
-                        .WithMany("RelatedFromTopics")
-                        .HasForeignKey("ChildTopicId")
-                        .OnDelete(DeleteBehavior.Restrict);
-
                     b.HasOne("AKS.Infrastructure.Entities.Topic", "ParentTopic")
                         .WithMany("RelatedToTopics")
-                        .HasForeignKey("ParentTopicId")
-                        .OnDelete(DeleteBehavior.Cascade);
+                        .HasForeignKey("ChildTopicId", "ProjectId")
+                        .HasConstraintName("FK_RelatedTopic_Topic")
+                        .IsRequired();
+
+                    b.HasOne("AKS.Infrastructure.Entities.Topic", "ChildTopic")
+                        .WithMany("RelatedFromTopics")
+                        .HasForeignKey("ParentTopicId", "ProjectId")
+                        .HasConstraintName("FK_RelatedTopic_ParentTopic")
+                        .IsRequired();
                 });
 
-            modelBuilder.Entity("AKS.Infrastructure.Entities.Tag", b =>
+            modelBuilder.Entity("AKS.Infrastructure.Entities.TopicFragment", b =>
                 {
-                    b.HasOne("AKS.Infrastructure.Entities.Topic")
-                        .WithMany("Tags")
-                        .HasForeignKey("TopicId");
+                    b.HasOne("AKS.Infrastructure.Entities.Topic", "ChildTopic")
+                        .WithMany("TopicFragmentsParents")
+                        .HasForeignKey("ChildTopicId", "ProjectId")
+                        .HasConstraintName("FK_Fragment_Topic")
+                        .IsRequired();
+
+                    b.HasOne("AKS.Infrastructure.Entities.Topic", "ParentTopic")
+                        .WithMany("TopicFragmentChildren")
+                        .HasForeignKey("ParentTopicId", "ProjectId")
+                        .HasConstraintName("FK_Topic_Fragment")
+                        .IsRequired();
+                });
+
+            modelBuilder.Entity("AKS.Infrastructure.Entities.TopicTag", b =>
+                {
+                    b.HasOne("AKS.Infrastructure.Entities.Tag", "Tag")
+                        .WithMany("TopicTags")
+                        .HasForeignKey("TagId", "ProjectId")
+                        .HasConstraintName("FK_TopicTag_Tag")
+                        .IsRequired();
+
+                    b.HasOne("AKS.Infrastructure.Entities.Topic", "Topic")
+                        .WithMany("TopicTags")
+                        .HasForeignKey("TopicId", "ProjectId")
+                        .HasConstraintName("FK_TopicTag_Topic")
+                        .IsRequired();
+                });
+
+            modelBuilder.Entity("AKS.Infrastructure.Entities.User", b =>
+                {
+                    b.HasOne("AKS.Infrastructure.Entities.Customer", "Customer")
+                        .WithMany("Users")
+                        .HasForeignKey("CustomerId")
+                        .HasConstraintName("FK_User_Customer")
+                        .IsRequired();
+                });
+
+            modelBuilder.Entity("AKS.Infrastructure.Entities.UserGroup", b =>
+                {
+                    b.HasOne("AKS.Infrastructure.Entities.Group", "Group")
+                        .WithMany("UserGroups")
+                        .HasForeignKey("GroupId")
+                        .HasConstraintName("FK_UserGroup_Group")
+                        .IsRequired();
+
+                    b.HasOne("AKS.Infrastructure.Entities.User", "User")
+                        .WithMany("UserGroups")
+                        .HasForeignKey("UserId")
+                        .HasConstraintName("FK_UerGroup_User")
+                        .IsRequired();
                 });
 #pragma warning restore 612, 618
         }

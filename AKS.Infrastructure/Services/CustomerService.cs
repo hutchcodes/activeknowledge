@@ -43,5 +43,20 @@ namespace AKS.Infrastructure.Services
             customer = await _customerRepo.GetAsync(spec);
             return _mapper.Map<CustomerEdit>(customer);
         }
+
+        public async Task<CustomerEdit> CreateCustomer(CustomerEdit customerEdit)
+        {
+            var spec = new CustomerSpecification(customerEdit.CustomerId);
+            var customer = await _customerRepo.GetAsync(spec);
+
+            if (customer == null)
+            {
+                customer = _mapper.Map<Entities.Customer>(customerEdit);
+                await _customerRepo.AddAsync(customer);
+                customer = await _customerRepo.GetAsync(spec);
+            }
+
+            return _mapper.Map<CustomerEdit>(customer);
+        }
     }
 }

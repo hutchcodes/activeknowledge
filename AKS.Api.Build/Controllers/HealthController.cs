@@ -7,7 +7,6 @@ using Microsoft.AspNetCore.Mvc;
 namespace AKS.Api.Build.Controllers
 {
     [Route("api/[controller]")]
-    [Route("/")]
     public class HealthController : Controller
     {
         [HttpGet]

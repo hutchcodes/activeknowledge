@@ -2,7 +2,6 @@ using AKS.Infrastructure.Interfaces;
 using AKS.Infrastructure;
 using AKS.Infrastructure.Blobs;
 using AKS.Infrastructure.Data;
-using AKS.Infrastructure.Data.Security;
 using AKS.Infrastructure.Services;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
@@ -19,6 +18,11 @@ using System;
 using AutoMapper;
 using Microsoft.AspNetCore.Authentication.AzureADB2C.UI;
 using Microsoft.AspNetCore.Authentication;
+using Microsoft.AspNetCore.Authentication.OpenIdConnect;
+using System.Threading.Tasks;
+using System.Security.Claims;
+using AKS.Common.Enums;
+using AKS.Api.Build.Helpers;
 
 namespace AKS.Api.Build
 {
@@ -41,9 +45,43 @@ namespace AKS.Api.Build
         {
             ConfigureDI(services);
 
-            services.AddAuthentication(AzureADB2CDefaults.BearerAuthenticationScheme)
-                .AddAzureADB2CBearer(options => Configuration.Bind("AzureAdB2C", options));
-            services.AddControllers();
+            services.AddAuthentication(AzureADB2CDefaults.AuthenticationScheme)
+                .AddAzureADB2C(options => Configuration.Bind("AzureAdB2C", options));
+
+            var sp = services.BuildServiceProvider();
+
+            services.Configure<OpenIdConnectOptions>(AzureADB2CDefaults.OpenIdScheme, options =>
+            {
+                options.TokenValidationParameters = new Microsoft.IdentityModel.Tokens.TokenValidationParameters
+                {
+                    ValidateIssuer = false
+
+                };
+                options.Events = new OpenIdConnectEvents
+                {
+                    OnTicketReceived = context =>
+                    {
+                        //Do the on successful stuff
+                        var userUpdateHelper = new UserUpdateHelper(sp);
+                        return userUpdateHelper.CreateUpdateUser(context.Principal);
+
+                        //return Task.CompletedTask;
+                    },
+                    OnAuthenticationFailed = context =>
+                    {
+                        //Do the on fail stuff
+                        //context.Response.Redirect("/LoginFailed");
+                        //context.HandleResponse();
+                        return Task.CompletedTask;
+                    }
+                };
+            });
+
+            services.Configure<CookiePolicyOptions>(options =>
+            {
+                options.CheckConsentNeeded = context => true;
+                options.MinimumSameSitePolicy = Microsoft.AspNetCore.Http.SameSiteMode.None;
+            });
 
             // Register the Swagger generator, defining 1 or more Swagger documents
             services.AddSwaggerGen(c =>
@@ -75,10 +113,16 @@ namespace AKS.Api.Build
             };
             services.AddApplicationInsightsTelemetry();
 
+            services.AddRazorPages();
         }
 
         private void ConfigureDI(IServiceCollection services)
         {
+            //services.AddScoped<IClaimsTransformation, UserInfoClaims>();
+            services.AddScoped<IUserService, UserService>();
+            services.AddScoped<IGroupService, GroupService>();
+
+
             services.AddSingleton<IConfiguration>(Configuration);
             ITelemetryInitializer aiInit = new AppInsightsInitializer(Configuration.GetValue<string>("ApplicationInsights:Tags"));
             services.AddSingleton<ITelemetryInitializer>(aiInit);
@@ -112,10 +156,13 @@ namespace AKS.Api.Build
             }
             else
             {
+                app.UseExceptionHandler("/Error");
                 app.UseHsts();
             }
 
             app.UseHttpsRedirection();
+            app.UseStaticFiles();
+            app.UseClientSideBlazorFiles<App.Build.CSB.Startup>();
 
             app.UseRouting();
 
@@ -124,7 +171,9 @@ namespace AKS.Api.Build
 
             app.UseEndpoints(endpoints =>
             {
+                endpoints.MapRazorPages();
                 endpoints.MapControllers();
+                endpoints.MapFallbackToPage("/DeepLink");
             });
         }
 

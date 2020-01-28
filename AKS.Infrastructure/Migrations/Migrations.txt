@@ -1,5 +1,9 @@
-﻿Set the startup project to AKS.Share.Web
+﻿May need to install EF CLI
+dotnet tool install --global dotnet-ef
 
-Add-Migration [MigrationName] -Context AKSContext
-Update-Database -Context AKSContext
+Navigate to the solution folder
+
+dotnet ef migrations add {MigrationName} --startup-project AKS.Api.Build --project AKS.Infrastructure
+
+dotnet ef database update --startup-project AKS.Api.Build --project AKS.Infrastructure
 

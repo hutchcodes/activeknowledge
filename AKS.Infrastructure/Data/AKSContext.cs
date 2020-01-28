@@ -28,6 +28,10 @@ namespace AKS.Infrastructure.Data
         public virtual DbSet<TopicFragment> TopicFragments { get; set; } = null!;
         public virtual DbSet<TopicTag> TopicTags { get; set; } = null!;
 
+        public virtual DbSet<User> Users { get; set; } = null!;
+        public virtual DbSet<Group> Groups { get; set; } = null!;
+        public virtual DbSet<GroupProjectPermission> GroupProjectPermissions { get; set; } = null!;
+
         protected override void OnConfiguring(DbContextOptionsBuilder optionsBuilder)
         {
             if (!optionsBuilder.IsConfigured)
@@ -214,6 +218,56 @@ namespace AKS.Infrastructure.Data
                     .HasForeignKey(d => new { d.TopicId, d.ProjectId })
                     .OnDelete(DeleteBehavior.ClientSetNull)
                     .HasConstraintName("FK_TopicTag_Topic");
+            });
+
+            modelBuilder.Entity<User>(entity =>
+            {
+                entity.HasKey(e => new { e.UserId });
+
+                entity.HasOne(d => d.Customer)
+                    .WithMany(p => p!.Users)
+                    .HasForeignKey(d => new { d.CustomerId })
+                    .OnDelete(DeleteBehavior.ClientSetNull)
+                    .HasConstraintName("FK_User_Customer");
+            });
+
+            modelBuilder.Entity<Group>(entity =>
+            {
+                entity.HasKey(e => new { e.GroupId });
+
+                entity.HasOne(d => d.Customer)
+                    .WithMany(p => p!.Groups)
+                    .HasForeignKey(d => new { d.CustomerId })
+                    .OnDelete(DeleteBehavior.ClientSetNull)
+                    .HasConstraintName("FK_Group_Customer");
+            });
+
+            modelBuilder.Entity<UserGroup>(entity =>
+            {
+                entity.HasKey(e => new { e.UserId, e.GroupId });
+
+                entity.HasOne(d => d.User)
+                    .WithMany(p => p!.UserGroups)
+                    .HasForeignKey(d => new { d.UserId })
+                    .OnDelete(DeleteBehavior.ClientSetNull)
+                    .HasConstraintName("FK_UerGroup_User");
+
+                entity.HasOne(d => d.Group)
+                    .WithMany(p => p!.UserGroups)
+                    .HasForeignKey(d => new { d.GroupId })
+                    .OnDelete(DeleteBehavior.ClientSetNull)
+                    .HasConstraintName("FK_UserGroup_Group");
+            });
+
+            modelBuilder.Entity<GroupProjectPermission>(entity =>
+            {
+                entity.HasKey(e => new { e.GroupId, e.ProjectId });
+
+                entity.HasOne(d => d.Group)
+                    .WithMany(p => p!.GroupProjectPermissions)
+                    .HasForeignKey(d => new { d.GroupId })
+                    .OnDelete(DeleteBehavior.ClientSetNull)
+                    .HasConstraintName("FK_GroupProjectPermission_Group");
             });
 
             OnModelCreatingPartial(modelBuilder);

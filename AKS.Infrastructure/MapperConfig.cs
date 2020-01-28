@@ -31,6 +31,8 @@ namespace AKS.Infrastructure
             ConfigTopicEntity(cfg);
             ConfigFragments(cfg);
 
+            ConfigPermissions(cfg);
+
             var config = new MapperConfiguration(cfg);
             config.AssertConfigurationIsValid();
 
@@ -56,6 +58,8 @@ namespace AKS.Infrastructure
             cfg.CreateMap<Mods.CustomerEdit, Ents.Customer>()
                 .ForMember(ent => ent.Projects, x => x.Ignore())
                 .ForMember(ent => ent.CustomCssId, x => x.Ignore())
+                .ForMember(ent => ent.Groups, x=> x.Ignore())
+                .ForMember(ent => ent.Users, x=> x.Ignore())
             ;
         }
 
@@ -171,7 +175,7 @@ namespace AKS.Infrastructure
                 .ForMember(ent => ent.CategoryTopics, y => y.Ignore())
                 .ForMember(ent => ent.CollectionElementTopics, y => y.Ignore())
                 .ConstructUsing((mod, ent) => new Ents.Topic())
-                
+
             ;
 
             cfg.CreateMap<Mods.TopicView, Ents.Topic>()
@@ -192,12 +196,66 @@ namespace AKS.Infrastructure
                 .ForMember(ent => ent.ParentTopic, y => y.Ignore())
                 ;
             cfg.CreateMap<Ents.TopicFragment, Mods.TopicFragmentLink>()
-                .ForMember(mod => mod.ProjectId, y=> y.MapFrom(ent => ent.ProjectId))
-                .ForMember(mod => mod.ParentTopicId, y=> y.MapFrom(ent => ent.ParentTopicId))
-                .ForMember(mod => mod.TopicId, y=> y.MapFrom(ent => ent.ChildTopicId))
-                .ForMember(mod => mod.Title, y=> y.MapFrom(ent => ent.ChildTopic!.Title))
-                .ForMember(mod => mod.Description, y=> y.MapFrom(ent => ent.ChildTopic!.Description))
+                .ForMember(mod => mod.ProjectId, y => y.MapFrom(ent => ent.ProjectId))
+                .ForMember(mod => mod.ParentTopicId, y => y.MapFrom(ent => ent.ParentTopicId))
+                .ForMember(mod => mod.TopicId, y => y.MapFrom(ent => ent.ChildTopicId))
+                .ForMember(mod => mod.Title, y => y.MapFrom(ent => ent.ChildTopic!.Title))
+                .ForMember(mod => mod.Description, y => y.MapFrom(ent => ent.ChildTopic!.Description))
             ;
+        }
+
+        private static void ConfigPermissions(MapperConfigurationExpression cfg)
+        {
+            cfg.CreateMap<Ents.User, Mods.AKSUser>()
+                .ForMember(mod => mod.CustomerPermissions, y => y.MapFrom(ent => GetCustomerPermissions(ent.UserGroups)))
+                .ForMember(mod => mod.ProjectPermissions, y => y.MapFrom(ent => GetProjectPermissions(ent.UserGroups)))
+            ;
+        }
+
+        private static List<Mods.CustomerPermission> GetCustomerPermissions(ICollection<Ents.UserGroup> userGroups)
+        {
+            var customerPermissions = new List<Mods.CustomerPermission>();
+            foreach (var ug in userGroups)
+            {
+                if (ug.Group != null)
+                {
+
+                    var customerPermission = customerPermissions.FirstOrDefault(x => x.CustomerId == ug.Group.CustomerId);
+                    if (customerPermission == null)
+                    {
+                        customerPermission = new Mods.CustomerPermission();
+                        customerPermissions.Add(customerPermission);
+                    }
+                    customerPermission.CanManageAccess = customerPermission.CanManageAccess || ug.Group.CanManageAccess;
+                    customerPermission.CanEditCustomer = customerPermission.CanEditCustomer || ug.Group.CanEditCustomer;
+                    customerPermission.CanCreateProject = customerPermission.CanCreateProject || ug.Group.CanCreateProject;
+                }
+
+            }
+            return customerPermissions;
+        }
+
+        private static List<Mods.ProjectPermission> GetProjectPermissions(ICollection<Ents.UserGroup> userGroups)
+        {
+            var projectPermissions = new List<Mods.ProjectPermission>();
+            foreach (var ug in userGroups)
+            {
+                if (ug.Group != null)
+                {
+                    foreach (var pp in ug.Group.GroupProjectPermissions)
+                    {
+                        var projectPermission = projectPermissions.FirstOrDefault(x => x.ProjectId == pp.ProjectId);
+                        if (projectPermission == null)
+                        {
+                            projectPermission = new Mods.ProjectPermission();
+                            projectPermissions.Add(projectPermission);
+                        }
+                        projectPermission.CanRead = projectPermission.CanRead || pp.CanRead;
+                        projectPermission.CanEdit = projectPermission.CanEdit || pp.CanEdit;
+                    }
+                }
+            }
+            return projectPermissions;
         }
     }
 }

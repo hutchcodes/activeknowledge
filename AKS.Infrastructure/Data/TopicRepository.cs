@@ -25,7 +25,6 @@ namespace AKS.Infrastructure.Data
                 _dbContext.Entry(ce).State = EntityState.Modified;
             }
             
-
             await _dbContext.SaveChangesAsync();
         }
     }

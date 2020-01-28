@@ -9,5 +9,6 @@ namespace AKS.Infrastructure.Interfaces
     {
         Task<CustomerEdit> GetCustomerForEdit(Guid customerId);
         Task<CustomerEdit> UpdateCustomer(CustomerEdit customerEdit);
+        Task<CustomerEdit> CreateCustomer(CustomerEdit customerEdit);
     }
 }

@@ -2,7 +2,6 @@
 using AKS.Common.Models;
 using Microsoft.AspNetCore.Components;
 using Microsoft.Extensions.Configuration;
-using RestSharp;
 using System;
 using System.Collections.Generic;
 using System.Net.Http;
