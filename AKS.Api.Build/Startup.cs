@@ -23,6 +23,7 @@ using System.Threading.Tasks;
 using System.Security.Claims;
 using AKS.Common.Enums;
 using AKS.Api.Build.Helpers;
+using Microsoft.AspNetCore.HttpOverrides;
 
 namespace AKS.Api.Build
 {
@@ -162,6 +163,13 @@ namespace AKS.Api.Build
 
             app.UseHttpsRedirection();
             app.UseStaticFiles();
+
+            app.Use((context, next) =>
+            {
+                context.Request.Scheme = "https";
+                return next();
+            });            
+
             app.UseClientSideBlazorFiles<App.Build.CSB.Startup>();
 
             app.UseRouting();
