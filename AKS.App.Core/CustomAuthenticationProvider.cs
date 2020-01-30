@@ -26,7 +26,7 @@ namespace AKS.Common
         {
             ClaimsPrincipal user;
             var http = new HttpClient();
-            http.BaseAddress = new Uri("https://localhost:44301/");
+            http.BaseAddress = new Uri("https://build.activeknowledge.app/");
             var result = await http.GetJsonAsync<AKSUserOld>("api/user/GetUser");
             Console.WriteLine($"UserName: {result.UserName}");
             _appState.User = result;
