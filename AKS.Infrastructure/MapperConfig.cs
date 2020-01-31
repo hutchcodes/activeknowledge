@@ -163,7 +163,7 @@ namespace AKS.Infrastructure
         {
             cfg.CreateMap<Mods.TopicEdit, Ents.Topic>()
                 .BeforeMap((mod, ent) => TopicCleaner.TokenizeTopicContent(mod))
-                .ForMember(ent => ent.RelatedToTopics, y => y.Ignore())
+                .ForMember(ent => ent.RelatedToTopics, y => y.MapFrom(mod => mod.RelatedTopics))
                 .ForMember(ent => ent.CollectionElements, y => y.MapFrom(mod => mod.CollectionElements))
                 .ForMember(ent => ent.DefaultCategoryId, y => y.Ignore())
                 .ForMember(ent => ent.FileResourceId, y => y.Ignore())
@@ -175,8 +175,22 @@ namespace AKS.Infrastructure
                 .ForMember(ent => ent.CategoryTopics, y => y.Ignore())
                 .ForMember(ent => ent.CollectionElementTopics, y => y.Ignore())
                 .ConstructUsing((mod, ent) => new Ents.Topic())
-
             ;
+
+            cfg.CreateMap<Mods.TopicLink, Ents.RelatedTopic>()
+                .ForMember(ent => ent.ProjectId, y => y.MapFrom(mod => mod.ProjectId))
+                .ForMember(ent => ent.ChildTopicId, y => y.MapFrom(mod => mod.TopicId))
+                .ForMember(ent => ent.ParentTopicId, y => y.Ignore())
+                .ForMember(ent => ent.ChildTopic, y => y.Ignore())
+                .ForMember(ent => ent.ParentTopic, y => y.Ignore())
+            ;
+            //_cfg.CreateMap<Mods.TopicEdit, Ents.Topic>()
+            //    //.ForMember(ent => ent.RelatedToTopics.First()., y => y.MapFrom(mod => mod.RelatedTopics))
+            //    .ForMember(ent => ent.CollectionElements, y => y.MapFrom(mod => mod.CollectionElements))
+            //    .ForMember(ent => ent.TopicTags, y => y.MapFrom(mod => mod.Tags))
+            //    .AfterMap((mod, ent) => TopicCleaner.TokenizeTopicContent(ent));
+            //;
+
 
             cfg.CreateMap<Mods.TopicView, Ents.Topic>()
                 .ForMember(ent => ent.ProjectId, y => y.MapFrom(mod => mod.ProjectId))

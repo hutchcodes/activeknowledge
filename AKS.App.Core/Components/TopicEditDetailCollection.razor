@@ -1,36 +1,44 @@
 ﻿@using Microsoft.AspNetCore.Components.Web
 
-    <TabSet>
-        @foreach (var element in Topic.CollectionElements)
-        {
-            <TabPage Text="@element.Name" ShowDelete="true" >
-                <table class="table">
-                    <thead>
+@if (IsAddingElements)
+{
+    <input @bind="NewCollectionElement.Name" />
+    <button @onclick="AddElementToTopic" type="button" class="btn btn-outline-primary btn-sm" title="Add Collection Element"><i class="icon-check left"></i></button>
+}
+else
+{
+    <button @onclick="AddElement" type="button" class="btn btn-outline-primary btn-sm" title="Add Collection Element"><i class="icon-plus left"></i></button>
+}
+<TabSet>
+    @foreach (var element in Topic.CollectionElements)
+    {
+        <TabPage Text="@element.Name" ShowDelete="true">
+            <table class="table">
+                <thead>
+                    <tr>
+                        <td>
+                            <button type="button" class="btn btn-outline-primary btn-sm" title="Add Topic" @onclick="@(() => AddTopic(element))"><i class="icon-plus left"></i></button>
+                        </td>
+                        <td>Topic Name</td>
+                        <td>Topic Description</td>
+                        <td></td>
+                    </tr>
+                </thead>
+                <tbody>
+                    @foreach (var topic in element.ElementTopics)
+                    {
                         <tr>
-                            <td>
-                                <button type="button" class="btn btn-outline-primary btn-sm" title="Add Topic" @onclick="@(() => AddTopic(element))"><i class="icon-plus left"></i></button>
-                            </td>
-                            <td>Topic Name</td>
-                            <td>Topic Description</td>
-                            <td></td>
+                            <td><button type="button" class="btn btn-outline-primary btn-sm" title="Remove Topic" @onclick="@(() => RemoveTopic(element, topic))"><i class="icon-trash left"></i></button></td>
+                            <td><a href='@($"/edit/topic/{topic.ProjectId}/{topic.TopicId}")'>@topic.Topic?.Title </a></td>
+                            <td>@topic.Topic?.Description</td>
                         </tr>
-                    </thead>
-                    <tbody>
-                        @foreach (var topic in element.ElementTopics)
-                        {
-                            <tr>
-                                <td><button type="button" class="btn btn-outline-primary btn-sm" title="Remove Topic" @onclick="@(() => RemoveTopic(element, topic))"><i class="icon-trash left"></i></button></td>
-                                <td><a href='@($"/edit/topic/{topic.ProjectId}/{topic.TopicId}")'>@topic.Topic?.Title </a></td>
-                                <td>@topic.Topic?.Description</td>
-                            </tr>
-                        }
-                    </tbody>
-                </table>
-            </TabPage>
-        }
-    </TabSet>
+                    }
+                </tbody>
+            </table>
+        </TabPage>
+    }
+</TabSet>
 
-<TopicSearchModal @ref="TopicSearcher" ProjectId="@Topic.ProjectId" 
-                  ShowSearch="true" ShowTopicSelected="true" 
-                  AddTopicsAction="@AddTopicToElement"
-                  />
+<TopicSearchModal @ref="TopicSearcher" ProjectId="@Topic.ProjectId"
+                  ShowSearch="true" ShowTopicSelected="true"
+                  AddTopicsAction="@AddTopicToElement" />
