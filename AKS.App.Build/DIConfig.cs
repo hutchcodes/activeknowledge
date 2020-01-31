@@ -29,6 +29,7 @@ namespace AKS.App.Build
             services.AddScoped<TopicViewApi, TopicViewApi>();
             services.AddScoped<TopicEditApi, TopicEditApi>();
             services.AddScoped<CategoryViewApi, CategoryViewApi>();
+            services.AddScoped<UserApi, UserApi>();
         }
 
     }

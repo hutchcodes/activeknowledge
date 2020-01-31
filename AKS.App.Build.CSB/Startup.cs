@@ -27,7 +27,7 @@ namespace AKS.App.Build.CSB
             //services.AddSingleton<ITelemetryInitializer>(aiInit);
 
             var http = new HttpClient();
-            //http.BaseAddress = new Uri(ConfigSettings.BuildApiBaseUrl);
+            http.BaseAddress = new Uri(ConfigSettings.BuildApiBaseUrl);
 
             services.AddSingleton<HttpClient>(http);
 

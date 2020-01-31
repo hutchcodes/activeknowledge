@@ -1,4 +1,5 @@
-﻿using AKS.App.Core.Data;
+﻿using AKS.Api.Build.Client;
+using AKS.App.Core.Data;
 using AKS.Common.Models;
 using Microsoft.AspNetCore.Components;
 using Microsoft.AspNetCore.Components.Authorization;
@@ -13,21 +14,19 @@ namespace AKS.Common
 {
     public class CustomAuthenticationProvider : AuthenticationStateProvider
     {
-        private readonly HttpClient _httpClient;
+        private readonly UserApi _userApi;
         private readonly IAppState _appState;
 
-        public CustomAuthenticationProvider(HttpClient httpClient, IAppState appState)
+        public CustomAuthenticationProvider(UserApi userApi, IAppState appState)
         {
-            _httpClient = httpClient;
+            _userApi = userApi;
             _appState = appState;
         }
 
         public override async Task<AuthenticationState> GetAuthenticationStateAsync()
         {
             ClaimsPrincipal user;
-            var http = new HttpClient();
-            http.BaseAddress = new Uri("https://build.activeknowledge.app/");
-            var result = await http.GetJsonAsync<AKSUserOld>("api/user/GetUser");
+            var result = await _userApi.GetCurrentUser();
             Console.WriteLine($"UserName: {result.UserName}");
             _appState.User = result;
             if (result.UserName != "")
