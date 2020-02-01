@@ -10,10 +10,12 @@ using Microsoft.Net.Http.Headers;
 using AKS.Infrastructure.DTO;
 using AKS.Infrastructure.Enums;
 using AKS.Infrastructure.Interfaces;
+using Microsoft.AspNetCore.Authorization;
 
 namespace AKS.Api.Build
 {
-    //[RoutePrefix("api/[controller]")]
+    [Authorize]
+    [Route("api/[controller]")]
     [ApiController]
     public class ContentDocumentController : ControllerBase
     {

@@ -12,10 +12,12 @@ using Microsoft.AspNetCore.Mvc.ModelBinding;
 using AKS.Infrastructure.DTO;
 using AKS.Api.Build.Data;
 using AKS.Common;
+using Microsoft.AspNetCore.Authorization;
 
 namespace AKS.Api.Build
 {
-    //[RoutePrefix("api/[controller]")]
+    [Authorize]
+    [Route("api/[controller]")]
     [ApiController]
     public class ProjectImageController : ControllerBase
     {

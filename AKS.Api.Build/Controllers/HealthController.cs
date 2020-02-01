@@ -7,7 +7,8 @@ using Microsoft.AspNetCore.Mvc;
 namespace AKS.Api.Build.Controllers
 {
     [Route("api/[controller]")]
-    public class HealthController : Controller
+    [ApiController]
+    public class HealthController : ControllerBase
     {
         [HttpGet]
         public string Index()

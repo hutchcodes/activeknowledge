@@ -6,9 +6,11 @@ using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using AKS.Infrastructure.Interfaces;
 using AKS.Common.Models;
+using Microsoft.AspNetCore.Authorization;
 
 namespace AKS.Api.Build.Controllers
 {
+    [Authorize]
     [Route("api/[controller]")]
     [ApiController]
     public class ProjectController : ControllerBase

@@ -2,10 +2,12 @@
 using System.Threading.Tasks;
 using AKS.Common.Models;
 using AKS.Infrastructure.Interfaces;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 
 namespace AKS.Api.Build.Controllers
 {
+    [Authorize]
     [Route("api/[controller]")]
     [ApiController]
     public class CustomerController : ControllerBase

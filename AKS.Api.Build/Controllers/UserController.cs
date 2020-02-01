@@ -4,6 +4,7 @@ using System.Linq;
 using System.Security.Claims;
 using System.Threading.Tasks;
 using AKS.Common.Models;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 
@@ -13,10 +14,18 @@ namespace AKS.Api.Build.Controllers
     [ApiController]
     public class UserController : ControllerBase
     {
+        [AllowAnonymous]
         [HttpGet("GetUser")]
-        public AKSUserOld GetUser()
+        public AKSUser GetUser()
         {
-            return new AKSUserOld(User);            
+            return new AKSUser(User);            
+        }
+
+        [AllowAnonymous]
+        [HttpGet("GetCurrentUser")]
+        public AKSUser GetCurrentUser()
+        {
+            return new AKSUser(User);
         }
     }
 }

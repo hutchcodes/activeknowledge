@@ -12,9 +12,12 @@ using AKS.Api.Build.Helpers;
 using AKS.Infrastructure.DTO;
 using AKS.Infrastructure.Enums;
 using AKS.Infrastructure.Interfaces;
+using Microsoft.AspNetCore.Authorization;
 
 namespace AKS.Api.Build
 {
+    [Authorize]
+    [Route("api/[controller]")]
     [ApiController]
     public class CustomerLogoController : ControllerBase
     {

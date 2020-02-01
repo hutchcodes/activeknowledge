@@ -84,7 +84,7 @@ namespace AKS.Infrastructure.Services
                     dbUser = new User();
                     dbUser.CustomerId = Guid.Parse(UserClaimHelper.GetClaimValue(principal, UserClaimType.CustomerId));
                     dbUser.UserId = Guid.Parse(UserClaimHelper.GetClaimValue(principal, UserClaimType.UserId));
-                    dbUser.DisplayName = UserClaimHelper.GetClaimValue(principal, UserClaimType.UserName);
+                    dbUser.UserName = UserClaimHelper.GetClaimValue(principal, UserClaimType.UserName);
                     dbUser.FirstName = UserClaimHelper.GetClaimValue(principal, UserClaimType.FirstName);
                     dbUser.LastName = UserClaimHelper.GetClaimValue(principal, UserClaimType.LastName);
 
@@ -92,7 +92,7 @@ namespace AKS.Infrastructure.Services
                 }
                 else
                 {
-                    dbUser.DisplayName = UserClaimHelper.GetClaimValue(principal, UserClaimType.UserName);
+                    dbUser.UserName = UserClaimHelper.GetClaimValue(principal, UserClaimType.UserName);
                     dbUser.FirstName = UserClaimHelper.GetClaimValue(principal, UserClaimType.FirstName);
                     dbUser.LastName = UserClaimHelper.GetClaimValue(principal, UserClaimType.LastName);
 

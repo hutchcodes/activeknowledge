@@ -42,7 +42,6 @@ namespace AKS.Api.Build
                     webBuilder.ConfigureAppConfiguration((hostingContext, config) =>
                     {
                         var settings = config.Build();
-
                         var kvClient = new KeyVaultClient(new KeyVaultClient.AuthenticationCallback(_azureServiceTokenProvider.KeyVaultTokenCallback));
                         config.AddAzureAppConfiguration(options =>
                         {

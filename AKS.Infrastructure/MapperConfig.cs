@@ -221,6 +221,13 @@ namespace AKS.Infrastructure
         private static void ConfigPermissions(MapperConfigurationExpression cfg)
         {
             cfg.CreateMap<Ents.User, Mods.AKSUser>()
+                .ForMember(mod => mod.UserId, y => y.MapFrom(ent => ent.UserId))
+                .ForMember(mod => mod.CustomerId, y => y.MapFrom(ent => ent.CustomerId))
+                .ForMember(mod => mod.UserId, y => y.MapFrom(ent => ent.UserId))
+                .ForMember(mod => mod.FirstName, y => y.MapFrom(ent => ent.FirstName))
+                .ForMember(mod => mod.LastName, y => y.MapFrom(ent => ent.LastName))
+                .ForMember(mod => mod.UserName, y => y.MapFrom(ent => ent.UserName))
+                .ForMember(mod => mod.Email, y => y.MapFrom(ent => ent.Email))
                 .ForMember(mod => mod.CustomerPermissions, y => y.MapFrom(ent => GetCustomerPermissions(ent.UserGroups)))
                 .ForMember(mod => mod.ProjectPermissions, y => y.MapFrom(ent => GetProjectPermissions(ent.UserGroups)))
             ;

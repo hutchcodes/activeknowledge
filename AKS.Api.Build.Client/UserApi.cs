@@ -17,9 +17,9 @@ namespace AKS.Api.Build.Client
             _http = http;
         }
 
-        public async Task<AKSUserOld> GetCurrentUser()
+        public async Task<AKSUser> GetCurrentUser()
         {
-            return await _http.GetJsonAsync<AKSUserOld>("user/GetUser");
+            return await _http.GetJsonAsync<AKSUser>("user/GetCurrentUser");
         }
     }
 }

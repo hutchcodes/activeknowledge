@@ -23,7 +23,7 @@ namespace AKS.App.Build
 
         public Guid ProjectId { get; private set; }
 
-        public AKSUserOld User { get; set; } = new AKSUserOld();
+        public AKSUser User { get; set; } = new AKSUser();
         public HeaderNavView? HeaderNav { get; set; }
         public CategoryTreeView CategoryTree { get; set; } = new CategoryTreeView();
 

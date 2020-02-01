@@ -4,12 +4,15 @@ using System.Linq;
 using System.Threading.Tasks;
 using AKS.Common.Models;
 using AKS.Infrastructure.Interfaces;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 
 namespace AKS.Api.Build.Controllers
 {
+    [Authorize]
     [Route("api/[controller]")]
-    public class HeaderController : Controller
+    [ApiController]
+    public class HeaderController : ControllerBase
     {
         private readonly IHeaderService _headerService;
         public HeaderController(IHeaderService headerService)
