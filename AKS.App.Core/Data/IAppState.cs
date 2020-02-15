@@ -18,9 +18,9 @@ namespace AKS.App.Core.Data
 
         public AKSUser User { get; set; }
         public HeaderNavView? HeaderNav { get; set; }
-        public CategoryTreeView CategoryTree { get; set; } 
+        public CategoryTree CategoryTree { get; set; } 
 
-        public Task UpdateCustomerAndProject(Guid? customerId, Guid? projectId);
+        public Task UpdateCustomerAndProject(Guid? customerId, Guid? projectId, bool forceReload = false);
 
         public delegate void AppStateChangeHandler(object sender, EventArgs e);
         public event AppStateChangeHandler? OnUpdateStatus;

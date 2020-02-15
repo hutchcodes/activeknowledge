@@ -9,17 +9,24 @@ using System.Threading.Tasks;
 
 namespace AKS.Api.Build.Client
 {
-    public class CategoryViewApi
+    public class CategoryEditApi
     {
         private readonly HttpClient _http;
 
-        public CategoryViewApi(HttpClient http) 
+        public CategoryEditApi(HttpClient http) 
         {
             _http = http;
         }
         public async Task<CategoryTree> GetCategoryTreeForProject(Guid projectId)
         {
-            var categoryTree = await _http.GetJsonAsync<CategoryTree>($"categoryview/project/{projectId}");
+            var categoryTree = await _http.GetJsonAsync<CategoryTree>($"categoryedit/project/{projectId}");
+
+            return categoryTree;
+        }
+
+        public async Task<CategoryTree> SaveCategoryTree(CategoryTree categoryTree)
+        {
+            categoryTree = await _http.PostJsonAsync<CategoryTree>($"categoryedit", categoryTree);
 
             return categoryTree;
         }

@@ -58,8 +58,8 @@ namespace AKS.Infrastructure
             cfg.CreateMap<Mods.CustomerEdit, Ents.Customer>()
                 .ForMember(ent => ent.Projects, x => x.Ignore())
                 .ForMember(ent => ent.CustomCssId, x => x.Ignore())
-                .ForMember(ent => ent.Groups, x=> x.Ignore())
-                .ForMember(ent => ent.Users, x=> x.Ignore())
+                .ForMember(ent => ent.Groups, x => x.Ignore())
+                .ForMember(ent => ent.Users, x => x.Ignore())
             ;
         }
 
@@ -151,9 +151,34 @@ namespace AKS.Infrastructure
 
         private static void ConfigCategoryTreeModel(MapperConfigurationExpression cfg)
         {
-            cfg.CreateMap<Ents.Category, Mods.CategoryTreeView>()
+            cfg.CreateMap<Ents.Category, Mods.CategoryTree>()
                 .ForMember(mod => mod.Categories, x => x.MapFrom(ent => ent.Categories))
-                .ForMember(mod => mod.Topics, x => x.MapFrom(ent => ent.CategoryTopics.Select(y => y.Topic)));
+                .ForMember(mod => mod.Topics, x => x.MapFrom(ent => ent.CategoryTopics.Select(y => y.Topic)))
+                .ForMember(mod => mod.ProjectId, x => x.MapFrom(ent => ent.ProjectId))
+                .ForMember(mod => mod.CategoryId, x => x.MapFrom(ent => ent.CategoryId))
+                .ReverseMap();
+
+            cfg.CreateMap<Mods.CategoryTree, Ents.Category>()
+               .ForMember(ent => ent.Categories, x => x.MapFrom(mod => mod.Categories))
+               //.ForMember(ent => ent.CategoryTopics, x => x.MapFrom(mod => mod.Topics.Select(y => y.Topic)))
+               .ForMember(ent => ent.ProjectId, x => x.MapFrom(mod => mod.ProjectId))
+               .ForMember(ent => ent.CategoryId, x => x.MapFrom(mod => mod.CategoryId))
+               .ForMember(ent => ent.Name, x => x.MapFrom(mod => mod.Name))
+               .ForMember(ent => ent.ParentCategoryId, x => x.Ignore())
+               .ForMember(ent => ent.Order, x => x.Ignore())
+               .ForMember(ent => ent.ParentCategory, x => x.Ignore())
+               .ForMember(ent => ent.CategoryTopics, x => x.Ignore())
+               .ReverseMap();
+
+            //cfg.CreateMap<Mods.CategoryTree, Ents.Category>()
+            //    .ForMember(ent => ent.Categories, x => x.MapFrom(mod => mod.Categories))
+            //    .ForMember(ent => ent.CategoryTopics, x => x.MapFrom(mod => mod.Topics))
+            //    ;
+
+            //cfg.CreateMap<Mods.TopicLink, Ents.CategoryTopic>()
+            //    .ForMember(ent => ent.ProjectId, x => x.MapFrom(mod => mod.ProjectId))
+            //    .ForMember(ent => ent.TopicId, x => x.MapFrom(mod => mod.TopicId))
+            //    ;
         }
         #endregion
 

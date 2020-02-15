@@ -17,8 +17,8 @@ namespace AKS.App.Build.CSB
     {
         public Startup()
         {
-            ConfigSettings.BuildApiBaseUrl = "https://build.activeknowledge.app/api/";
-            //ConfigSettings.BuildApiBaseUrl = "https://localhost:44301/api/";
+            //ConfigSettings.BuildApiBaseUrl = "https://build.activeknowledge.app/api/";
+            ConfigSettings.BuildApiBaseUrl = "https://localhost:44301/api/";
         }
         public void ConfigureServices(IServiceCollection services)
         {

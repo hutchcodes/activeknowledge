@@ -1,0 +1,11 @@
+﻿@using AKS.Common.Models
+
+<a href="/topic/@Topic.ProjectId/@Topic.TopicId" class="d-block text-truncate">
+    <i class="icon-arrow-right"></i>
+    @Topic.Title
+</a>
+
+@code{
+    [Parameter]
+    public TopicLink Topic { get; set; } = new TopicLink();
+}

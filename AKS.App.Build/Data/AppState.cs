@@ -25,10 +25,15 @@ namespace AKS.App.Build
 
         public AKSUser User { get; set; } = new AKSUser();
         public HeaderNavView? HeaderNav { get; set; }
-        public CategoryTreeView CategoryTree { get; set; } = new CategoryTreeView();
+        public CategoryTree CategoryTree { get; set; } = new CategoryTree();
 
-        public async Task UpdateCustomerAndProject(Guid? customerId, Guid? projectId)
+        public async Task UpdateCustomerAndProject(Guid? customerId, Guid? projectId, bool forceReload = false)
         {
+            if (forceReload)
+            {
+                CustomerId = Guid.Empty;
+                ProjectId = Guid.Empty;
+            }
             if (projectId != null)
             {
                 await LoadProjectInfo(projectId.Value);
@@ -51,7 +56,7 @@ namespace AKS.App.Build
             var getCategoryTreeTask = _categoryViewApi.GetCategoryTreeForProject(projectId);
 
             HeaderNav = await getHeaderTask;
-            CategoryTree = await getCategoryTreeTask ?? new CategoryTreeView(); ;
+            CategoryTree = await getCategoryTreeTask ?? new CategoryTree(); ;
             CustomerId = HeaderNav.CustomerId;
             OnUpdateStatus?.Invoke(this, new EventArgs());
         }
@@ -67,7 +72,7 @@ namespace AKS.App.Build
             var getHeaderTask = _headerApiClient.GetHeaderForCustomer(customerId);
 
             HeaderNav = await getHeaderTask;
-            CategoryTree = new CategoryTreeView(); ;
+            CategoryTree = new CategoryTree(); ;
         }
 
         public event IAppState.AppStateChangeHandler? OnUpdateStatus;

@@ -1,0 +1,19 @@
+﻿@typeparam TItem
+
+<CascadingValue Name="Root" Value="this">
+    <CascadingValue Name="Parent" Value="this">
+        <CascadingValue Name="DisplayTemplate" Value="@DisplayTemplate">
+            <CascadingValue Name="ChildTemplate" Value="@ChildTemplate">
+                <CascadingValue Name="TopicTemplate" Value="@TopicTemplate">
+                    <ul class="treeview list-unstyled">
+                        @foreach (var item in Items)
+                        {
+                            @ChildTemplate(item)
+                        }
+                    </ul>
+                </CascadingValue>
+            </CascadingValue>
+        </CascadingValue>
+    </CascadingValue>
+</CascadingValue>
+

@@ -49,7 +49,7 @@ namespace AKS.Infrastructure.Tests.Mappers
         public void ShouldMapCategories()
         {
             var mapper = MapperConfig.GetMapperConfig().CreateMapper();
-            var model = mapper.Map<Mods.CategoryTreeView>(_entity);
+            var model = mapper.Map<Mods.CategoryTree>(_entity);
 
             Assert.AreEqual(_entity.CategoryId, model.CategoryId);
             Assert.AreEqual(_entity.Name, model.Name);

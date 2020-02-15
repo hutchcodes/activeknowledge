@@ -3,10 +3,17 @@
 
         @foreach (TabPage tabPage in Pages)
         {
-            <li class="nav-item">
-                @*the tabindex="" keeps the link styled as an active link despite the lack of an href attribute*@
-                <a class="nav-link @GetButtonClass(tabPage)" onclick="@((Action)(() => ActivatePage(tabPage)))" tabindex="">@tabPage.Text</a>
-            </li>
+        <li class="nav-item">
+            @*the tabindex="" keeps the link styled as an active link despite the lack of an href attribute*@
+            <a class="nav-link @GetButtonClass(tabPage)" @onclick="@((Action)(() => ActivatePage(tabPage)))" tabindex="">
+                @tabPage.Text
+                @if (tabPage.ShowDelete)
+                {
+                    <a tabindex="" @onclick="(() => RemoveTab(tabPage))" class="mt-2 ml-1 text-secondary"><i class="icon-trash btn btn-sm" data-toggle="tooltip" title="Delete Topic"></i></a>
+                }
+            </a>
+
+        </li>
         }
     </ul>
     @ChildContent

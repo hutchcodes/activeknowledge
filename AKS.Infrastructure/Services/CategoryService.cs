@@ -25,17 +25,45 @@ namespace AKS.Infrastructure.Services
             _logger.LogDebug($"New instance of {GetType().Name} was created");
         }
 
-        public async Task<CategoryTreeView> GetCategoryTreeAsync(Guid projectId, Guid? categoryId, Guid? topicId)
+        public async Task<CategoryTree> GetCategoryTreeAsync(Guid projectId, Guid? categoryId, Guid? topicId)
         {
             var spec = new CategoryListSpecification(projectId);
             var categories = await _categoryRepo.ListAsync(spec);
 
-            var catTree = new CategoryTreeView
+            var catTree = new CategoryTree
             {
-                Categories = _mapper.Map<List<CategoryTreeView>>(categories)
+                Categories = _mapper.Map<List<CategoryTree>>(categories)
             };
 
             return catTree;
+        }
+
+        public async Task<CategoryTree> SaveCategoryTreeAsync(CategoryTree categoryTree)
+        {
+            var spec = new CategoryListSpecification(categoryTree.ProjectId);
+            try
+            {
+                foreach(var cat in categoryTree.Categories)
+                {
+                    await _categoryRepo.UpdateAsync<CategoryTree>(cat);
+                }
+                               
+            }
+            catch (Exception ex)
+            {
+
+            }
+            var categories = await _categoryRepo.ListAsync(spec);
+            var catTree = new CategoryTree
+            {
+                Categories = _mapper.Map<List<CategoryTree>>(categories)
+            };
+            return catTree;
+        }
+
+        private int List<T>(List<T> categories)
+        {
+            throw new NotImplementedException();
         }
     }
 }

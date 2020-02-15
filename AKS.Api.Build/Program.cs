@@ -45,8 +45,8 @@ namespace AKS.Api.Build
                         var kvClient = new KeyVaultClient(new KeyVaultClient.AuthenticationCallback(_azureServiceTokenProvider.KeyVaultTokenCallback));
                         config.AddAzureAppConfiguration(options =>
                         {
-                            //options.Connect(settings["ConnectionStrings:AppConfig-Prod"])
-                            options.Connect(settings["ConnectionStrings:AppConfig"])
+                            options.Connect(settings["ConnectionStrings:AppConfig-Prod"])
+                            //options.Connect(settings["ConnectionStrings:AppConfig"])
                                     .UseAzureKeyVault(kvClient);
                         });
                         config.AddJsonFile($"appSettings.{hostingContext.HostingEnvironment.EnvironmentName}.json", 

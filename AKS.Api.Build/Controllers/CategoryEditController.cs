@@ -12,18 +12,25 @@ namespace AKS.Api.Build.Controllers
     [Authorize]
     [Route("api/[controller]")]
     [ApiController]
-    public class CategoryViewController : ControllerBase
+    public class CategoryEditController : ControllerBase
     {
         private readonly ICategoryService _categoryService;
-        public CategoryViewController(ICategoryService categoryService)
+        public CategoryEditController(ICategoryService categoryService)
         {
             _categoryService = categoryService;
         }
 
         [HttpGet("project/{projectId:Guid}")]
-        public async Task<CategoryTree> GetHeaderForProject(Guid projectId)
+        public async Task<CategoryTree> GetCategoryTreeForProject(Guid projectId)
         {
             var categoryTree = await _categoryService.GetCategoryTreeAsync(projectId);
+            return categoryTree;
+        }
+
+        [HttpPost]
+        public async Task<CategoryTree> SaveCategoryTreeForProject(CategoryTree categoryTree)
+        {
+            categoryTree = await _categoryService.SaveCategoryTreeAsync(categoryTree);
             return categoryTree;
         }
     }

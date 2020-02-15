@@ -6,6 +6,7 @@ namespace AKS.Infrastructure.Interfaces
 {
     public interface ICategoryService
     {
-        Task<CategoryTreeView> GetCategoryTreeAsync(Guid projectId, Guid? categoryId = null, Guid? topicId = null);
+        Task<CategoryTree> GetCategoryTreeAsync(Guid projectId, Guid? categoryId = null, Guid? topicId = null);
+        Task<CategoryTree> SaveCategoryTreeAsync(CategoryTree categoryTree);
     }
 }

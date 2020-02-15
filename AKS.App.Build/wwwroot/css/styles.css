@@ -315,3 +315,17 @@ label {
     right: 0.75rem;
     top: 0.5rem;
 }
+
+.tree-item-text {
+    display:inline-block;
+}
+.tree-insert-below {
+    display: table;
+}
+.can-drop {
+    border-bottom: 2px solid lightblue
+}
+
+.no-drop {
+    background-color: lightpink;
+}
