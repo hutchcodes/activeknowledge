@@ -7,7 +7,7 @@
     <button @onclick="(() => AddCategory(null))">Add Category</button>
     <button @onclick="Save">Save</button>
 
-    <TreeEditItemRoot Items="CategoryTree.Categories" TItem="CategoryTree">
+    <TreeEditItemRoot Items="CategoryTrees" TItem="CategoryTree">
         <DisplayTemplate Context="category">
             @category.Name
             <button @onclick="(() => AddCategory(category))" class="btn btn-sm btn-outline-primary">+C</button>

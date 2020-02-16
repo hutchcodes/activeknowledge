@@ -17,18 +17,18 @@ namespace AKS.Api.Build.Client
         {
             _http = http;
         }
-        public async Task<CategoryTree> GetCategoryTreeForProject(Guid projectId)
+        public async Task<List<CategoryTree>> GetCategoryTreeForProject(Guid projectId)
         {
-            var categoryTree = await _http.GetJsonAsync<CategoryTree>($"categoryedit/project/{projectId}");
+            var categoryTree = await _http.GetJsonAsync<List<CategoryTree>>($"categoryedit/project/{projectId}");
 
             return categoryTree;
         }
 
-        public async Task<CategoryTree> SaveCategoryTree(CategoryTree categoryTree)
+        public async Task<List<CategoryTree>> SaveCategoryTree(Guid projectId, List<CategoryTree> categoryTrees)
         {
-            categoryTree = await _http.PostJsonAsync<CategoryTree>($"categoryedit", categoryTree);
+            categoryTrees = await _http.PostJsonAsync<List<CategoryTree>>($"categoryedit/project/{projectId}", categoryTrees);
 
-            return categoryTree;
+            return categoryTrees;
         }
     }
 }

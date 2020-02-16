@@ -9,6 +9,8 @@ namespace AKS.Common.Models
     {
         public Guid ProjectId { get; set; }
         public Guid CategoryId { get; set; }
+        public Guid? ParentCategoryId { get; set; }
+        public int Order { get; set; }
         public string? Name { get; set; }
         public List<CategoryTree> Categories { get; set; } = new List<CategoryTree>();
         public List<TopicLink> Topics { get; set; } = new List<TopicLink>();

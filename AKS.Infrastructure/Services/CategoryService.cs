@@ -6,6 +6,7 @@ using AKS.Infrastructure.Entities;
 using AKS.Infrastructure.Interfaces;
 using AKS.Infrastructure.Specifications;
 using AKS.Common.Models;
+using AKS.Common.Extensions;
 using AutoMapper;
 using Microsoft.Extensions.Logging;
 
@@ -25,45 +26,65 @@ namespace AKS.Infrastructure.Services
             _logger.LogDebug($"New instance of {GetType().Name} was created");
         }
 
-        public async Task<CategoryTree> GetCategoryTreeAsync(Guid projectId, Guid? categoryId, Guid? topicId)
+        public async Task<List<CategoryTree>> GetCategoryTreeAsync(Guid projectId, Guid? categoryId, Guid? topicId)
         {
             var spec = new CategoryListSpecification(projectId);
             var categories = await _categoryRepo.ListAsync(spec);
 
-            var catTree = new CategoryTree
-            {
-                Categories = _mapper.Map<List<CategoryTree>>(categories)
-            };
+            var categoryTrees = _mapper.Map<List<CategoryTree>>(categories);
 
-            return catTree;
+            return GetTreeOfCategories(categoryTrees);
         }
 
-        public async Task<CategoryTree> SaveCategoryTreeAsync(CategoryTree categoryTree)
+        public async Task<List<CategoryTree>> SaveCategoryTreeAsync(Guid projectId, List<CategoryTree> categoryTrees)
         {
-            var spec = new CategoryListSpecification(categoryTree.ProjectId);
-            try
+            var flat = GetFlatListOfCategories(categoryTrees);
+            foreach (var cat in flat)
             {
-                foreach(var cat in categoryTree.Categories)
-                {
-                    await _categoryRepo.UpdateAsync<CategoryTree>(cat);
-                }
-                               
+                cat.ProjectId = projectId;
+                await _categoryRepo.UpdateAsync<CategoryTree>(cat);
             }
-            catch (Exception ex)
-            {
 
-            }
+            var spec = new CategoryListSpecification(projectId);
             var categories = await _categoryRepo.ListAsync(spec);
-            var catTree = new CategoryTree
-            {
-                Categories = _mapper.Map<List<CategoryTree>>(categories)
-            };
-            return catTree;
+
+            categoryTrees = _mapper.Map<List<CategoryTree>>(categories);
+
+            return GetTreeOfCategories(categoryTrees);
         }
 
-        private int List<T>(List<T> categories)
+        private List<CategoryTree> GetFlatListOfCategories(List<CategoryTree> categoryTree, Guid? parentCategoryId = null)
         {
-            throw new NotImplementedException();
+            var flat = new List<CategoryTree>();
+            for (var i= 0; i < categoryTree.Count; i++)
+            {
+                var cat = categoryTree[i];
+                cat.ParentCategoryId = parentCategoryId;
+                cat.Order = i;
+                flat.Add(cat);
+                flat.AddRange(GetFlatListOfCategories(cat.Categories, cat.CategoryId));
+                cat.Categories.Clear();
+            }
+            return flat;
+        }
+
+        private List<CategoryTree> GetTreeOfCategories(List<CategoryTree> flat)
+        {
+            var categoryTrees = new List<CategoryTree>();
+
+            var catDic = flat.ToDictionary(c => c.CategoryId, c => c);
+            foreach (var cat in flat)
+            {
+                if (cat.ParentCategoryId.HasValue)
+                {
+                    catDic[cat.ParentCategoryId.Value].Categories.AddAtPosition(cat, cat.Order);
+                }
+                else
+                {
+                    categoryTrees.AddAtPosition(cat, cat.Order);
+                }
+            }
+            return categoryTrees;
         }
     }
 }

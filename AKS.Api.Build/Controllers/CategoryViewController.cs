@@ -21,7 +21,7 @@ namespace AKS.Api.Build.Controllers
         }
 
         [HttpGet("project/{projectId:Guid}")]
-        public async Task<CategoryTree> GetHeaderForProject(Guid projectId)
+        public async Task<List<CategoryTree>> GetHeaderForProject(Guid projectId)
         {
             var categoryTree = await _categoryService.GetCategoryTreeAsync(projectId);
             return categoryTree;

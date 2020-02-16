@@ -1,6 +1,7 @@
 ﻿using AKS.Api.Build.Client;
 using AKS.App.Core.Data;
 using AKS.Common.Models;
+using AKS.Common.Extensions;
 using Microsoft.AspNetCore.Components;
 using System;
 using System.Collections.Generic;
@@ -20,7 +21,7 @@ namespace AKS.App.Core
 
         [CascadingParameter] protected IAppState AppState { get; set; } = null!;
 
-        public CategoryTree CategoryTree { get; set; } = new CategoryTree();
+        public List<CategoryTree> CategoryTrees { get; set; } = new List<CategoryTree>();
 
         public override async Task SetParametersAsync(ParameterView parameters)
         {
@@ -35,7 +36,7 @@ namespace AKS.App.Core
 
         public async Task GetCategoryTree()
         {
-            CategoryTree = await CategoryEditApi.GetCategoryTreeForProject(ProjectId);
+            CategoryTrees = await CategoryEditApi.GetCategoryTreeForProject(ProjectId);
 
             var t1 = new CategoryTree { Name = "Test 1", ProjectId = ProjectId, CategoryId = Guid.NewGuid() };
             var t2 = new CategoryTree { Name = "Test 2", ProjectId = ProjectId, CategoryId = Guid.NewGuid() };
@@ -43,20 +44,22 @@ namespace AKS.App.Core
             var t12 = new CategoryTree { Name = "Test 1.2", ProjectId = ProjectId, CategoryId = Guid.NewGuid() };
             var t121 = new CategoryTree { Name = "Test 1.2.1", ProjectId = ProjectId, CategoryId = Guid.NewGuid() };
 
-            CategoryTree.Categories.Add(t1);
-            CategoryTree.Categories.Add(t2);
-            t1.Categories.Add(t11);
-            t1.Categories.Add(t12);
-            t12.Categories.Add(t121);
-
+            if (!CategoryTrees.Any())
+            {
+                CategoryTrees.Add(t1);
+                CategoryTrees.Add(t2);
+                t1.Categories.Add(t11);
+                t1.Categories.Add(t12);
+                t12.Categories.Add(t121);
+            }
             StateHasChanged();
         }
 
         public async Task Save()
         {
-            if (CategoryTree != null)
+            if (CategoryTrees != null)
             {
-                CategoryTree = await CategoryEditApi.SaveCategoryTree(CategoryTree);
+                CategoryTrees = await CategoryEditApi.SaveCategoryTree(ProjectId, CategoryTrees);
             }
         }
 
@@ -72,11 +75,15 @@ namespace AKS.App.Core
 
         public void AddCategory(CategoryTree? category)
         {
-            if(category == null)
+            var newCat = new CategoryTree { Name = "Test", ProjectId = ProjectId, CategoryId = Guid.NewGuid() };
+            if (category == null)
             {
-                category = CategoryTree;
+                CategoryTrees.Add(newCat);
             }
-            category.Categories.Add(new CategoryTree { Name = "Test", ProjectId = ProjectId, CategoryId = Guid.NewGuid() });
+            else
+            {
+                category.Categories.Add(newCat);
+            }
         }
 
         public void AddTopic(CategoryTree category)

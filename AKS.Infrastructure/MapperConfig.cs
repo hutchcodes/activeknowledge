@@ -152,6 +152,7 @@ namespace AKS.Infrastructure
         private static void ConfigCategoryTreeModel(MapperConfigurationExpression cfg)
         {
             cfg.CreateMap<Ents.Category, Mods.CategoryTree>()
+                //.EqualityComparison((mod, ent) => (mod.CategoryId == ent.CategoryId && mod.ProjectId == ent.ProjectId))
                 .ForMember(mod => mod.Categories, x => x.MapFrom(ent => ent.Categories))
                 .ForMember(mod => mod.Topics, x => x.MapFrom(ent => ent.CategoryTopics.Select(y => y.Topic)))
                 .ForMember(mod => mod.ProjectId, x => x.MapFrom(ent => ent.ProjectId))
@@ -159,13 +160,14 @@ namespace AKS.Infrastructure
                 .ReverseMap();
 
             cfg.CreateMap<Mods.CategoryTree, Ents.Category>()
+               //.EqualityComparison((mod, ent) => (mod.CategoryId == ent.CategoryId && mod.ProjectId == ent.ProjectId))
                .ForMember(ent => ent.Categories, x => x.MapFrom(mod => mod.Categories))
                //.ForMember(ent => ent.CategoryTopics, x => x.MapFrom(mod => mod.Topics.Select(y => y.Topic)))
                .ForMember(ent => ent.ProjectId, x => x.MapFrom(mod => mod.ProjectId))
                .ForMember(ent => ent.CategoryId, x => x.MapFrom(mod => mod.CategoryId))
                .ForMember(ent => ent.Name, x => x.MapFrom(mod => mod.Name))
-               .ForMember(ent => ent.ParentCategoryId, x => x.Ignore())
-               .ForMember(ent => ent.Order, x => x.Ignore())
+               .ForMember(ent => ent.ParentCategoryId, x => x.MapFrom(mod=>mod.ParentCategoryId))
+               .ForMember(ent => ent.Order, x => x.MapFrom(mod => mod.Order))
                .ForMember(ent => ent.ParentCategory, x => x.Ignore())
                .ForMember(ent => ent.CategoryTopics, x => x.Ignore())
                .ReverseMap();

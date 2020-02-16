@@ -13,7 +13,7 @@ namespace AKS.App.Core.Components
         public ITreeEditItem<TItem>? Parent { get; }
         public Guid Id { get; }
         }
-    partial class TreeEditItemRoot<TItem> : ITreeEditItem<TItem> 
+    public partial class TreeEditItemRoot<TItem> : ComponentBase, ITreeEditItem<TItem> 
     {
         [Parameter] public RenderFragment<TItem>? DisplayTemplate { get; set; }
         [Parameter] public RenderFragment<TItem>? ChildTemplate { get; set; }

@@ -21,17 +21,17 @@ namespace AKS.Api.Build.Controllers
         }
 
         [HttpGet("project/{projectId:Guid}")]
-        public async Task<CategoryTree> GetCategoryTreeForProject(Guid projectId)
+        public async Task<List<CategoryTree>> GetCategoryTreeForProject(Guid projectId)
         {
-            var categoryTree = await _categoryService.GetCategoryTreeAsync(projectId);
-            return categoryTree;
+            var categoryTrees = await _categoryService.GetCategoryTreeAsync(projectId);
+            return categoryTrees;
         }
 
-        [HttpPost]
-        public async Task<CategoryTree> SaveCategoryTreeForProject(CategoryTree categoryTree)
+        [HttpPost("project/{projectId:Guid}")]
+        public async Task<List<CategoryTree>> SaveCategoryTreeForProject(Guid projectId, List<CategoryTree> categoryTrees)
         {
-            categoryTree = await _categoryService.SaveCategoryTreeAsync(categoryTree);
-            return categoryTree;
+            categoryTrees = await _categoryService.SaveCategoryTreeAsync(projectId, categoryTrees);
+            return categoryTrees;
         }
     }
 }

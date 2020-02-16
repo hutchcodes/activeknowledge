@@ -80,7 +80,6 @@ namespace AKS.Infrastructure.Data
         public virtual async Task UpdateAsync<TFrom>(TFrom model)
         {
             _dbContext.Set<T>().Persist(_mapper).InsertOrUpdate(typeof(TFrom), model);
-
             await _dbContext.SaveChangesAsync();
         }
 
