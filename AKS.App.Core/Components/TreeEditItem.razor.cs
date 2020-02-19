@@ -10,15 +10,13 @@ namespace AKS.App.Core.Components
 {
     public partial class TreeEditItem<TItem> : ITreeEditItem<TItem>
     {
-        [CascadingParameter(Name = "Root")] public TreeEditItemRoot<TItem> Root { get; set; } = null!;
-        [CascadingParameter(Name = "DisplayTemplate")] public RenderFragment<TItem>? DisplayTemplate { get; set; }
-        [CascadingParameter(Name = "ChildTemplate")] public RenderFragment<TItem>? ChildTemplate { get; set; }
-        [CascadingParameter(Name = "TopicTemplate")] public RenderFragment<TopicLink>? TopicTemplate { get; set; }
+        [CascadingParameter(Name = "TreeEditOptions")] public TreeEditOptions<TItem> Options { get; set; } = null!;
         [CascadingParameter(Name = "Parent")] public ITreeEditItem<TItem> Parent { get; set; } = null!;
+
         public Guid Id { get; } = Guid.NewGuid();
         [Parameter] public TItem Item { get; set; }
         [Parameter] public IList<TItem> Items { get; set; } = new List<TItem>();
-        [Parameter] public IList<TopicLink> Topics { get; set; } = new List<TopicLink>();
+        [Parameter] public IList<CategoryTopicList> Topics { get; set; } = new List<CategoryTopicList>();
         [Parameter] public Func<object?, object?, bool> CanDrop { get; set; } = new Func<object?, object?, bool>((x, y) => true);
 
 
@@ -26,22 +24,36 @@ namespace AKS.App.Core.Components
         bool ShowInsertAbove = false;
         bool isExpanded = true;
 
+        protected override void OnParametersSet()
+        {
+            base.OnParametersSet();
+            Console.WriteLine(Options.DisplayTemplate);
+        }
+
         private void ToggleExpandCollapse()
         {
             isExpanded = !isExpanded;
         }
 
+        private async Task RemoveItem(TItem item)
+        {
+            if (Options.RemoveItemAction != null)
+            {
+                await Options.RemoveItemAction.Invoke(Parent.Item, item);
+            }
+        }
+
         private void HandleDragStart(TreeEditItem<TItem> selectedItem)
         {
-            Root.Payload = selectedItem;
+            Options.Root.Payload = selectedItem;
         }
 
         private void HandleDragEnter()
         {
-            Root.CurrentNode = this;
-            if (this == Root.Payload || Root.Payload == null) return;
+            Options.Root.CurrentNode = this;
+            if (this == Options.Root.Payload || Options.Root.Payload == null) return;
 
-            if (CanDrop(Root.Payload.Item, Item))
+            if (CanDrop(Options.Root.Payload.Item, Item))
             {
                 ShowInsertBelow = true;
             }
@@ -61,7 +73,7 @@ namespace AKS.App.Core.Components
             ITreeEditItem<TItem>? parent = Parent;
             while (parent != null)
             {
-                if (parent == Root?.Payload)
+                if (parent == Options.Root?.Payload)
                 {
                     return true;
                 }
@@ -74,26 +86,26 @@ namespace AKS.App.Core.Components
         {
             ShowInsertBelow = false;
 
-            if (Root?.Payload == null || this == Root.Payload) return;
+            if (Options.Root?.Payload == null || this == Options.Root.Payload) return;
             if (IsLoopInChain()) return;
 
-            if (CanDrop(Root.Payload.Item, Item))
+            if (CanDrop(Options.Root.Payload.Item, Item))
             {
-                Root.Payload.Parent?.Items.Remove(Root.Payload.Item);
-                Root.Payload.Parent = this;
-                Items.Add(Root.Payload.Item);
+                Options.Root.Payload.Parent?.Items.Remove(Options.Root.Payload.Item);
+                Options.Root.Payload.Parent = this;
+                Items.Add(Options.Root.Payload.Item);
             }
-            await Root.UpdateJobAsync();
+            await Options.Root.UpdateJobAsync();
 
         }
 
         #region Drag Before
         private void HandleDragEnterBefore()
         {
-            Root.CurrentNode = this;
-            if (this == Root.Payload || Root.Payload == null) return;
+            Options.Root.CurrentNode = this;
+            if (this == Options.Root.Payload || Options.Root.Payload == null) return;
 
-            if (CanDrop(Root.Payload.Item, Item))
+            if (CanDrop(Options.Root.Payload.Item, Item))
             {
                 ShowInsertAbove = true;
             }
@@ -113,17 +125,17 @@ namespace AKS.App.Core.Components
             Console.WriteLine("Drop Before");
             ShowInsertAbove = false;
 
-            if (Root?.Payload == null || this == Root.Payload) return;
+            if (Options.Root?.Payload == null || this == Options.Root.Payload) return;
             if (IsLoopInChain()) return;
 
-            if (CanDrop(Root.Payload.Item, Item))
+            if (CanDrop(Options.Root.Payload.Item, Item))
             {
-                Root.Payload.Parent?.Items.Remove(Root.Payload.Item);
-                Root.Payload.Parent = this;
+                Options.Root.Payload.Parent?.Items.Remove(Options.Root.Payload.Item);
+                Options.Root.Payload.Parent = this;
                 var index = Parent.Items.IndexOf(Item);
-                Parent.Items.Insert(index, Root.Payload.Item);
+                Parent.Items.Insert(index, Options.Root.Payload.Item);
             }
-            await Root.UpdateJobAsync();
+            await Options.Root.UpdateJobAsync();
 
         }
         #endregion

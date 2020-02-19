@@ -7,12 +7,14 @@ namespace AKS.Infrastructure.Specifications
 {
     public class CategoryListSpecification : BaseSpecification<Category>
     {
-        public CategoryListSpecification(Guid projectId) : base(x => x.ProjectId == projectId && x.ParentCategoryId == null)
+        public CategoryListSpecification(Guid projectId) : base(x => x.ProjectId == projectId)
         {
             AddInclude($"{nameof(Category.CategoryTopics)}.{nameof(CategoryTopic.Topic)}");
-            AddInclude($"{nameof(Category.Categories)}.{nameof(Category.CategoryTopics)}.{nameof(CategoryTopic.Topic)}");
-            AddInclude($"{nameof(Category.Categories)}.{nameof(Category.Categories)}.{nameof(Category.CategoryTopics)}.{nameof(CategoryTopic.Topic)}");
-            AddInclude($"{nameof(Category.Categories)}.{nameof(Category.Categories)}.{nameof(Category.Categories)}.{nameof(Category.CategoryTopics)}.{nameof(CategoryTopic.Topic)}");
+        }
+
+        public CategoryListSpecification(Guid projectId, Guid parentCategoryId) : base(x => x.ProjectId == projectId && x.ParentCategoryId == parentCategoryId)
+        {
+            AddInclude($"{nameof(Category.CategoryTopics)}.{nameof(CategoryTopic.Topic)}");
         }
     }
 }

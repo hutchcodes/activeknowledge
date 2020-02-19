@@ -18,7 +18,7 @@ namespace AKS.App.Core.Data
 
         public AKSUser User { get; set; }
         public HeaderNavView? HeaderNav { get; set; }
-        public CategoryTree CategoryTree { get; set; } 
+        public List<CategoryTree> CategoryTree { get; set; } 
 
         public Task UpdateCustomerAndProject(Guid? customerId, Guid? projectId, bool forceReload = false);
 

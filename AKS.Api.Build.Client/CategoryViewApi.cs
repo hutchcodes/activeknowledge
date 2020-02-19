@@ -1,7 +1,6 @@
 ﻿using AKS.Common;
 using AKS.Common.Models;
 using Microsoft.AspNetCore.Components;
-using Microsoft.Extensions.Configuration;
 using System;
 using System.Collections.Generic;
 using System.Net.Http;
@@ -17,11 +16,11 @@ namespace AKS.Api.Build.Client
         {
             _http = http;
         }
-        public async Task<CategoryTree> GetCategoryTreeForProject(Guid projectId)
+        public async Task<List<CategoryTree>> GetCategoryTreeForProject(Guid projectId)
         {
-            var categoryTree = await _http.GetJsonAsync<CategoryTree>($"categoryview/project/{projectId}");
+            var categoryTrees = await _http.GetJsonAsync<List<CategoryTree>>($"categoryview/project/{projectId}");
 
-            return categoryTree;
+            return categoryTrees;
         }
     }
 }

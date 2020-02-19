@@ -32,37 +32,87 @@ namespace AKS.Infrastructure.Services
             var categories = await _categoryRepo.ListAsync(spec);
 
             var categoryTrees = _mapper.Map<List<CategoryTree>>(categories);
-
             return GetTreeOfCategories(categoryTrees);
         }
 
         public async Task<List<CategoryTree>> SaveCategoryTreeAsync(Guid projectId, List<CategoryTree> categoryTrees)
         {
-            var flat = GetFlatListOfCategories(categoryTrees);
-            foreach (var cat in flat)
-            {
-                cat.ProjectId = projectId;
-                await _categoryRepo.UpdateAsync<CategoryTree>(cat);
-            }
-
+            //var flat = GetFlatListOfCategories(projectId, categoryTrees);
             var spec = new CategoryListSpecification(projectId);
             var categories = await _categoryRepo.ListAsync(spec);
+            try
+            {
+                foreach(var cat in categoryTrees)
+                {
+                    await _categoryRepo.UpdateAsync(cat);
+                }
+            }
+            catch (Exception ex)
+            {
+                throw;
+            }
+
+            categories = await _categoryRepo.ListAsync(spec);
 
             categoryTrees = _mapper.Map<List<CategoryTree>>(categories);
 
             return GetTreeOfCategories(categoryTrees);
         }
 
-        private List<CategoryTree> GetFlatListOfCategories(List<CategoryTree> categoryTree, Guid? parentCategoryId = null)
+        public async Task<List<CategoryTree>> SaveCategoryTreeAsync(Guid projectId, CategoryTree categoryTree)
+        {
+            categoryTree.ProjectId = projectId;
+            try
+            {
+                await _categoryRepo.UpdateAsync(categoryTree);
+            }
+            catch (Exception ex)
+            {
+                throw;
+            }
+
+            var spec = new CategoryListSpecification(projectId);
+            var categories = await _categoryRepo.ListAsync(spec);
+
+            var categoryTrees = _mapper.Map<List<CategoryTree>>(categories);
+
+            return GetTreeOfCategories(categoryTrees);
+        }
+
+        public async Task DeleteCategoryTreeAsync(Guid projectId, Guid categoryId)
+        {
+            return;
+            var listSpec = new CategoryListSpecification(projectId, categoryId);
+            var children = await _categoryRepo.ListAsync(listSpec);
+
+            foreach (var c in children)
+            {
+                await DeleteCategoryTreeAsync(projectId, c.CategoryId);
+            }
+
+            var spec = new CategorySpecification(projectId, categoryId);
+            var category = await _categoryRepo.GetAsync(spec);
+            try
+            {
+                await _categoryRepo.DeleteAsync(category);
+            }
+            catch (Exception ex)
+            {
+                throw;
+            }
+        }
+
+        private List<CategoryTree> GetFlatListOfCategories(Guid projectId, List<CategoryTree> categoryTree, Guid? parentCategoryId = null)
         {
             var flat = new List<CategoryTree>();
-            for (var i= 0; i < categoryTree.Count; i++)
+            for (var i = 0; i < categoryTree.Count; i++)
             {
                 var cat = categoryTree[i];
+                cat.ProjectId = projectId;
                 cat.ParentCategoryId = parentCategoryId;
                 cat.Order = i;
                 flat.Add(cat);
-                flat.AddRange(GetFlatListOfCategories(cat.Categories, cat.CategoryId));
+                flat.AddRange(GetFlatListOfCategories(projectId, cat.Categories, cat.CategoryId));
                 cat.Categories.Clear();
             }
             return flat;
@@ -72,6 +122,7 @@ namespace AKS.Infrastructure.Services
         {
             var categoryTrees = new List<CategoryTree>();
 
+            flat.ForEach(x => x.Categories.Clear());
             var catDic = flat.ToDictionary(c => c.CategoryId, c => c);
             foreach (var cat in flat)
             {

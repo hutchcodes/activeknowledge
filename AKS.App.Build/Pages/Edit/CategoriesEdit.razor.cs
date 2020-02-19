@@ -86,11 +86,45 @@ namespace AKS.App.Core
             }
         }
 
+        public async Task RemoveCategory(CategoryTree? parent, CategoryTree category)
+        {
+            Console.WriteLine($"RemoveCategory: {parent?.Name} - {category.Name}");
+            await CategoryEditApi.DeleteCategory(ProjectId, category.CategoryId);
+            if (parent != null)
+            {
+                Console.WriteLine("RemoveFromParent");
+                
+                parent.Categories.Remove(category);
+            }
+            else
+            {
+                Console.WriteLine("RemoveFromRoot");
+                CategoryTrees.Remove(category);
+            }
+            StateHasChanged();
+        }
+
         public void AddTopic(CategoryTree category)
         {
             Console.WriteLine("here");
-            category.Topics.Add(new TopicLink() { Title = "TestTopic" });
+            //category.Topics.Add(new CategoryTopicList() { Title = "TestTopic" });
+            var topic = new TopicList
+            {
+                ProjectId = Guid.Parse("74171969-a00a-424f-8683-a9e0d0e252e8"),
+                TopicId = Guid.Parse("b60faad7-7d07-4801-9b5e-e59bbeb5884f"),
+                TopicType = Common.Enums.TopicType.Content,
+                Title = "NewTopic"
+            };
+
+            var ctl = new CategoryTopicList(topic);
+
+            category.Topics.Add(ctl);
             Console.WriteLine("There");
+        }
+
+        public void RemoveTopic(CategoryTree category, CategoryTopicList topic)
+        {
+            category.Topics.Remove(topic);
         }
 
     }

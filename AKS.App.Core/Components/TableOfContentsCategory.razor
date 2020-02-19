@@ -10,7 +10,7 @@
                 }
                 @foreach (var top in Category.Topics)
                 {
-                    <li><a href="/topic/@top.ProjectId/@top.TopicId"><i class="icon-file-text"></i>@top.Title</a></li>
+                    <li><a href="/topic/@top.ProjectId/@top.TopicId"><i class="icon-file-text"></i>@top.Topic?.Title</a></li>
                 }
             </ul>
         </li>

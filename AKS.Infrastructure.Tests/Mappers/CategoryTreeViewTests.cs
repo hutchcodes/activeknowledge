@@ -58,7 +58,7 @@ namespace AKS.Infrastructure.Tests.Mappers
             Assert.AreEqual(_entity.Categories.First().Name, model.Categories.First().Name);
 
             Assert.AreEqual(_entity.CategoryTopics.First().Topic.TopicId, model.Topics.First().TopicId);
-            Assert.AreEqual(_entity.CategoryTopics.First().Topic.Title, model.Topics.First().Title);
+            Assert.AreEqual(_entity.CategoryTopics.First().Topic.Title, model.Topics.First().Topic.Title);
 
         }
     }

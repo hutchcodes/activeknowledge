@@ -24,6 +24,7 @@ using System.Security.Claims;
 using AKS.Common.Enums;
 using AKS.Api.Build.Helpers;
 using Microsoft.AspNetCore.HttpOverrides;
+using AutoMapper.EquivalencyExpression;
 
 namespace AKS.Api.Build
 {
@@ -45,6 +46,13 @@ namespace AKS.Api.Build
         public void ConfigureServices(IServiceCollection services)
         {
             ConfigureDI(services);
+
+            services.AddAutoMapper((serviceProvider, automapper) =>
+            {
+                automapper.AddProfile<MapperProfile>();
+                automapper.AddCollectionMappers();
+                automapper.UseEntityFrameworkCoreModel<AKSContext>(serviceProvider);
+            }, typeof(AKSContext).Assembly);
 
             services.AddAuthentication(AzureADB2CDefaults.AuthenticationScheme)
                 .AddAzureADB2C(options => Configuration.Bind("AzureAdB2C", options));
@@ -107,6 +115,21 @@ namespace AKS.Api.Build
             #endregion
 
 
+            //services.AddAutoMapper((serviceProvider, automapper) =>
+            //{
+            //    automapper.AddProfile(typeof(MapperProfile));
+            //    automapper.AddCollectionMappers();
+            //    automapper.UseEntityFrameworkCoreModel<AKSContext>(serviceProvider);
+            //}, typeof(AKSContext).Assembly);
+
+            //services.AddAutoMapper((serviceProvider, automapper) =>
+            //{
+            //    automapper.AddProfile<MapperProfile>();
+            //    automapper.AddCollectionMappers();
+            //    automapper.UseEntityFrameworkCoreModel<AKSContext>(serviceProvider);
+            //}, typeof(AKSContext).Assembly);
+            //services.AddSingleton<IMapper>(MapperConfig.GetMapperConfig().CreateMapper());
+
             _services = services;
             var aiOptions = new ApplicationInsightsServiceOptions
             {
@@ -127,7 +150,7 @@ namespace AKS.Api.Build
             services.AddSingleton<IConfiguration>(Configuration);
             ITelemetryInitializer aiInit = new AppInsightsInitializer(Configuration.GetValue<string>("ApplicationInsights:Tags"));
             services.AddSingleton<ITelemetryInitializer>(aiInit);
-            services.AddSingleton<IMapper>(MapperConfig.GetMapperConfig().CreateMapper());
+            //services.AddSingleton<IMapper>(MapperConfig.GetMapperConfig().CreateMapper());
 
             services.AddScoped(typeof(IAsyncRepository<>), typeof(EfRepository<>));
             services.AddScoped<IProjectService, ProjectService>();

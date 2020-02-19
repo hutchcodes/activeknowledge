@@ -7,12 +7,6 @@ namespace AKS.Infrastructure.Entities
     [Table("Category")]
     public partial class Category : BaseEntity
     {
-        public Category()
-        {
-            CategoryTopics = new HashSet<CategoryTopic>();
-            Categories = new HashSet<Category>();
-        }
-
         public Guid CategoryId { get; set; }
         public Guid ProjectId { get; set; }
         public string? Name { get; set; }
@@ -20,7 +14,7 @@ namespace AKS.Infrastructure.Entities
         public Guid? ParentCategoryId { get; set; }
 
         public Category? ParentCategory { get; set; }
-        public ICollection<CategoryTopic> CategoryTopics { get; set; }
-        public ICollection<Category> Categories { get; set; }
+        public virtual ICollection<CategoryTopic> CategoryTopics { get; set; } = new HashSet<CategoryTopic>();
+        public virtual ICollection<Category> Categories { get; set; } = new HashSet<Category>();
     }
 }

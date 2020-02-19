@@ -7,17 +7,19 @@
     <button @onclick="(() => AddCategory(null))">Add Category</button>
     <button @onclick="Save">Save</button>
 
-    <TreeEditItemRoot Items="CategoryTrees" TItem="CategoryTree">
+    <TreeEditItemRoot Items="CategoryTrees" TItem="CategoryTree" RemoveItemAction="RemoveCategory">
         <DisplayTemplate Context="category">
             @category.Name
             <button @onclick="(() => AddCategory(category))" class="btn btn-sm btn-outline-primary">+C</button>
             <button @onclick="(() => AddTopic(category))" class="btn btn-sm btn-outline-primary">+T</button>
+
+
         </DisplayTemplate>
         <ChildTemplate Context="category">
             <TreeEditItem TItem="CategoryTree" Item="category" Items="category.Categories" Topics="category.Topics" CanDrop="CanDrop" />
         </ChildTemplate>
         <TopicTemplate Context="topic">
-            <TopicLinkView Topic="topic" />
+            @*<TopicLinkView Topic="topic.Topic" />*@
         </TopicTemplate>
     </TreeEditItemRoot>
 

@@ -8,7 +8,7 @@ namespace AKS.Common.Extensions
     {
         public static void AddAtPosition<T>(this List<T> myList, T value, int order)
         {
-            if (order < myList.Count)
+            if (order >= myList.Count)
             {
                 myList.Add(value);
             }

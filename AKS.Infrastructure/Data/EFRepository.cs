@@ -11,7 +11,7 @@ using System.Threading.Tasks;
 
 namespace AKS.Infrastructure.Data
 {
-    public class EfRepository<T> : IAsyncRepository<T> where T: BaseEntity
+    public class EfRepository<T> : IAsyncRepository<T> where T : BaseEntity
     {
         protected readonly AKSContext _dbContext;
         private readonly IMapper _mapper;
@@ -33,6 +33,12 @@ namespace AKS.Infrastructure.Data
             _dbContext.Set<T>().Remove(entity);
             await _dbContext.SaveChangesAsync();
         }
+        public async Task DeleteAsync<TFrom>(TFrom model) where TFrom : class
+        {
+            _dbContext.Set<T>().Persist(_mapper).Remove(model);
+            await _dbContext.SaveChangesAsync();
+        }
+
         public async Task<T> GetAsync(ISpecification<T> spec)
         {
             IQueryable<T> secondaryResult = ApplyIncludeFromSpecification(spec);
@@ -77,7 +83,7 @@ namespace AKS.Infrastructure.Data
             await _dbContext.SaveChangesAsync();
         }
 
-        public virtual async Task UpdateAsync<TFrom>(TFrom model)
+        public virtual async Task UpdateAsync<TFrom>(TFrom model) where TFrom : class
         {
             _dbContext.Set<T>().Persist(_mapper).InsertOrUpdate(typeof(TFrom), model);
             await _dbContext.SaveChangesAsync();

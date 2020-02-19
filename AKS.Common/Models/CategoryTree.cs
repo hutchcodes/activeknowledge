@@ -13,6 +13,6 @@ namespace AKS.Common.Models
         public int Order { get; set; }
         public string? Name { get; set; }
         public List<CategoryTree> Categories { get; set; } = new List<CategoryTree>();
-        public List<TopicLink> Topics { get; set; } = new List<TopicLink>();
+        public List<CategoryTopicList> Topics { get; set; } = new List<CategoryTopicList>();
     }
 }

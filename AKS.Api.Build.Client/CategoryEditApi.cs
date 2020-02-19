@@ -1,7 +1,6 @@
 ﻿using AKS.Common;
 using AKS.Common.Models;
 using Microsoft.AspNetCore.Components;
-using Microsoft.Extensions.Configuration;
 using System;
 using System.Collections.Generic;
 using System.Net.Http;
@@ -29,6 +28,11 @@ namespace AKS.Api.Build.Client
             categoryTrees = await _http.PostJsonAsync<List<CategoryTree>>($"categoryedit/project/{projectId}", categoryTrees);
 
             return categoryTrees;
+        }
+
+        public async Task DeleteCategory(Guid projectId, Guid categoryId)
+        {
+            await _http.DeleteAsync($"categoryedit/project/{projectId}/{categoryId}");
         }
     }
 }

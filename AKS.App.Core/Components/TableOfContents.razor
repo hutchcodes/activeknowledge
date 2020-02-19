@@ -2,7 +2,7 @@
 
 <div role="group" id="tocIndex">
     <ul id="toc">
-        @foreach (var cat in AppState.CategoryTree.Categories)
+        @foreach (var cat in AppState.CategoryTree)
         {
           <TableOfContentsCategory Category="@cat" />
         }

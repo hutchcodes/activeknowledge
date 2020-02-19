@@ -24,34 +24,35 @@
                     <i class="icon-plus-circle" @onclick="ToggleExpandCollapse"></i>
                 }
             </span>
-        <span class="tree-item-text"
-              ondragover="event.preventDefault();"
-              @ondrop="HandleDrop" @ondrop:stopPropagation="true"
-              @ondragenter="HandleDragEnter" @ondragenter:stopPropagation="true"
-              @ondragleave="HandleDragLeave" @ondragleave:stopPropagation="true">
-            @if (DisplayTemplate != null)
-            {
-                @DisplayTemplate(Item)
-            }
-            else
-            {
-                @Item?.ToString()
-            }
-            @if (ShowInsertBelow)
-            {
-            <div class="tree-insert-below">
-                <i class="icon-corner-down-right" />
-            </div>
-            }
-        </span>
+            <span class="tree-item-text"
+                  ondragover="event.preventDefault();"
+                  @ondrop="HandleDrop" @ondrop:stopPropagation="true"
+                  @ondragenter="HandleDragEnter" @ondragenter:stopPropagation="true"
+                  @ondragleave="HandleDragLeave" @ondragleave:stopPropagation="true">
+                @if (Options.DisplayTemplate != null)
+                {
+                    @Options.DisplayTemplate(Item)
+                    <button @onclick="(() => RemoveItem(Item))" class="btn btn-sm btn-outline-primary">D</button>
+                }
+                else
+                {
+                    @Item?.ToString()
+                }
+                @if (ShowInsertBelow)
+                {
+                    <div class="tree-insert-below">
+                        <i class="icon-corner-down-right" />
+                    </div>
+                }
+            </span>
             @if (isExpanded)
             {
                 <ul style="list-style:none" role="group">
                     @foreach (var n in Items)
                     {
-                        @if (ChildTemplate != null)
+                        @if (Options.ChildTemplate != null)
                         {
-                            @ChildTemplate(n)
+                            @Options.ChildTemplate(n)
                         }
                         else
                         {
@@ -61,13 +62,13 @@
                     @foreach (var t in Topics)
                     {
                         <div>foo</div>
-                        @if (TopicTemplate != null)
+                        @if (Options.TopicTemplate != null)
                         {
-                            @TopicTemplate(t)
+                            @Options.TopicTemplate(t)
                         }
                         else
                         {
-                            @t.Title
+                            @t.Topic.Title
                         }
                     }
                 </ul>

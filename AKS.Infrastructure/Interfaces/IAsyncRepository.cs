@@ -12,7 +12,8 @@ namespace AKS.Infrastructure.Interfaces
         Task<List<T>> ListAsync(ISpecification<T> spec);
         Task<T> AddAsync(T entity);
         Task UpdateAsync(T entity);
-        Task UpdateAsync<TFrom>(TFrom model);
+        Task UpdateAsync<TFrom>(TFrom model) where TFrom : class;
         Task DeleteAsync(T entity);
+        Task DeleteAsync<TFrom>(TFrom entity) where TFrom : class;
     }
 }

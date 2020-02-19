@@ -33,5 +33,11 @@ namespace AKS.Api.Build.Controllers
             categoryTrees = await _categoryService.SaveCategoryTreeAsync(projectId, categoryTrees);
             return categoryTrees;
         }
+
+        [HttpDelete("project/{projectId:Guid}/{categoryId:Guid}")]
+        public async Task SaveCategoryTreeForProject(Guid projectId, Guid categoryId)
+        {
+            await _categoryService.DeleteCategoryTreeAsync(projectId, categoryId);
+        }
     }
 }
