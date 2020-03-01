@@ -7,7 +7,7 @@ namespace AKS.Infrastructure.Entities
     public class GroupProjectPermission
     {
         public Guid GroupId { get; set; }
-        public Group? Group { get; set; }
+        public virtual Group? Group { get; set; }
         public Guid ProjectId { get; set; }
         
         public bool CanRead { get; set; }

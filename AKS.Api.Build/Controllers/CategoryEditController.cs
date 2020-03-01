@@ -15,9 +15,12 @@ namespace AKS.Api.Build.Controllers
     public class CategoryEditController : ControllerBase
     {
         private readonly ICategoryService _categoryService;
-        public CategoryEditController(ICategoryService categoryService)
+        private readonly ICategoryTopicService _categoryTopicService;
+
+        public CategoryEditController(ICategoryService categoryService, ICategoryTopicService categoryTopicService)
         {
             _categoryService = categoryService;
+            _categoryTopicService = categoryTopicService;
         }
 
         [HttpGet("project/{projectId:Guid}")]
@@ -34,10 +37,28 @@ namespace AKS.Api.Build.Controllers
             return categoryTrees;
         }
 
-        [HttpDelete("project/{projectId:Guid}/{categoryId:Guid}")]
-        public async Task SaveCategoryTreeForProject(Guid projectId, Guid categoryId)
+        [HttpPost]
+        public async Task SaveCategoryTreeForProject(CategoryTree categoryTree)
+        {
+            await _categoryService.SaveCategoryTreeAsync(categoryTree);
+        }
+
+        [HttpDelete("{projectId:Guid}/{categoryId:Guid}")]
+        public async Task DeleteCategoryTreeForProject(Guid projectId, Guid categoryId)
         {
             await _categoryService.DeleteCategoryTreeAsync(projectId, categoryId);
+        }
+
+        [HttpPost("topic")]
+        public async Task SaveCategoryTopic(List<CategoryTopicList> topics)
+        {
+            await _categoryTopicService.SaveCategoryTopicsAsync(topics);
+        }
+        
+        [HttpDelete("{projectId:Guid}/{categoryId:Guid}/topic/{topicId}")]
+        public async Task DeleteCategoryTopic(Guid projectId, Guid categoryId, Guid topicId)
+        {
+            await _categoryTopicService.DeleteCategoryTopicAsync(projectId, categoryId, topicId);
         }
     }
 }

@@ -5,7 +5,7 @@ using System.ComponentModel.DataAnnotations.Schema;
 namespace AKS.Infrastructure.Entities
 {
     [Table("CategoryTopic")]
-    public partial class CategoryTopic
+    public partial class CategoryTopic: BaseEntity
     {
         public Guid ProjectId { get; set; }
         public Guid CategoryId { get; set; }

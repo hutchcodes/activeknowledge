@@ -9,7 +9,7 @@ namespace AKS.Infrastructure.Interfaces
     {
         Task<List<CategoryTree>> GetCategoryTreeAsync(Guid projectId, Guid? categoryId = null, Guid? topicId = null);
         Task<List<CategoryTree>> SaveCategoryTreeAsync(Guid projectId, List<CategoryTree> categoryTree);
-        Task<List<CategoryTree>> SaveCategoryTreeAsync(Guid projectId, CategoryTree categoryTree);
+        Task SaveCategoryTreeAsync(CategoryTree categoryTree);
         Task DeleteCategoryTreeAsync(Guid projectId, Guid categoryId);
     }
 }

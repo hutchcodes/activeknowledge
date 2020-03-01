@@ -7,20 +7,22 @@
     <button @onclick="(() => AddCategory(null))">Add Category</button>
     <button @onclick="Save">Save</button>
 
-    <TreeEditItemRoot Items="CategoryTrees" TItem="CategoryTree" RemoveItemAction="RemoveCategory">
+    <TreeEditItemRoot Items="CategoryTrees" TItem="CategoryTree" RemoveItemAction="RemoveCategory" ItemUpdatedAction="SaveCategory" RemoveTopicAction="RemoveTopic" EditItemSaveAction="SaveCategory">
         <DisplayTemplate Context="category">
-            @category.Name
-            <button @onclick="(() => AddCategory(category))" class="btn btn-sm btn-outline-primary">+C</button>
-            <button @onclick="(() => AddTopic(category))" class="btn btn-sm btn-outline-primary">+T</button>
-
-
+                @category.Name
+                <button @onclick="(() => AddCategory(category))" class="btn btn-sm btn-outline-primary">+C</button>
+                <button @onclick="(() => AddTopic(category))" class="btn btn-sm btn-outline-primary">+T</button>
         </DisplayTemplate>
+        <EditTemplate Context="category">
+            <input type="text" @bind-value="category.Name" />
+        </EditTemplate>
         <ChildTemplate Context="category">
             <TreeEditItem TItem="CategoryTree" Item="category" Items="category.Categories" Topics="category.Topics" CanDrop="CanDrop" />
         </ChildTemplate>
         <TopicTemplate Context="topic">
-            @*<TopicLinkView Topic="topic.Topic" />*@
+            <TopicLinkView Topic="topic.Topic" />            
         </TopicTemplate>
     </TreeEditItemRoot>
 
+    <TopicSearchModal @ref="TopicSearch" ProjectId="ProjectId" ShowSearch="true" AddTopicsActionAsync="AddTopicsAsync" ShowTopicSelected="true" />
 </div>

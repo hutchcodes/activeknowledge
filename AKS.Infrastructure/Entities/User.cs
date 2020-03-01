@@ -12,7 +12,7 @@ namespace AKS.Infrastructure.Entities
         }
         public Guid UserId { get; set; }
         public Guid CustomerId { get; set; }
-        public Customer? Customer { get; set; }
+        public virtual Customer? Customer { get; set; }
         public string UserName { get; set; } = "";
         public string DisplayName { get; set; } = "";
         public string FirstName { get; set; } = "";

@@ -114,22 +114,6 @@ namespace AKS.Api.Build
             });
             #endregion
 
-
-            //services.AddAutoMapper((serviceProvider, automapper) =>
-            //{
-            //    automapper.AddProfile(typeof(MapperProfile));
-            //    automapper.AddCollectionMappers();
-            //    automapper.UseEntityFrameworkCoreModel<AKSContext>(serviceProvider);
-            //}, typeof(AKSContext).Assembly);
-
-            //services.AddAutoMapper((serviceProvider, automapper) =>
-            //{
-            //    automapper.AddProfile<MapperProfile>();
-            //    automapper.AddCollectionMappers();
-            //    automapper.UseEntityFrameworkCoreModel<AKSContext>(serviceProvider);
-            //}, typeof(AKSContext).Assembly);
-            //services.AddSingleton<IMapper>(MapperConfig.GetMapperConfig().CreateMapper());
-
             _services = services;
             var aiOptions = new ApplicationInsightsServiceOptions
             {
@@ -150,13 +134,13 @@ namespace AKS.Api.Build
             services.AddSingleton<IConfiguration>(Configuration);
             ITelemetryInitializer aiInit = new AppInsightsInitializer(Configuration.GetValue<string>("ApplicationInsights:Tags"));
             services.AddSingleton<ITelemetryInitializer>(aiInit);
-            //services.AddSingleton<IMapper>(MapperConfig.GetMapperConfig().CreateMapper());
 
             services.AddScoped(typeof(IAsyncRepository<>), typeof(EfRepository<>));
             services.AddScoped<IProjectService, ProjectService>();
             services.AddScoped<ITopicService, TopicService>();
             services.AddScoped<IFileStorageRepository, BlobStorageRepository>();
             services.AddScoped<ICategoryService, CategoryService>();
+            services.AddScoped<ICategoryTopicService, CategoryTopicService>();
             services.AddScoped<IHeaderService, HeaderService>();
             services.AddScoped<ICustomerService, CustomerService>();
             services.AddScoped<IProjectService, ProjectService>();
@@ -228,7 +212,9 @@ namespace AKS.Api.Build
             {
                 // Requires LocalDB which can be installed with SQL Server Express 2016
                 // https://www.microsoft.com/en-us/download/details.aspx?id=54284
-                c.UseSqlServer(Configuration.GetConnectionString("AKSContext"));
+                c.UseSqlServer(Configuration.GetConnectionString("AKSContext"))
+                //.UseLazyLoadingProxies()
+                ;
             });
 
             //services.AddDbContext<SecurityContext>(c =>

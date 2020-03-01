@@ -15,8 +15,9 @@
                          ShowTopicSelected="@ShowTopicSelected"
                          SearchString="@SearchString"
                          AddTopicsAction="@AddTopic"
+                         AddTopicsActionAsync="@AddTopicAsync"
                          DeleteTopicFunc="@DeleteTopic"
-                         ShowAdd="@(AddTopicsAction!=null)"
+                         ShowAdd="@(AddTopicsAction != null || AddTopicsActionAsync != null)"
                          ShowDelete="@(DeleteTopicFunc!=null)" />
         </ModalBody>
     </ModalContent>
@@ -32,6 +33,7 @@
     [Parameter] public bool ShowTopicSelected { get; set; }
     [Parameter] public string SearchString { get; set; } = "";
     [Parameter] public Action<List<TopicList>>? AddTopicsAction { get; set; }
+    [Parameter] public Func<List<TopicList>, Task>? AddTopicsActionAsync { get; set; }
     [Parameter] public Func<List<TopicList>, Task>? DeleteTopicFunc { get; set; }
 
     public void ShowModal()
@@ -48,6 +50,15 @@
     {
         CloseModal();
         AddTopicsAction?.Invoke(topics);
+    }
+
+    private async Task AddTopicAsync(List<TopicList> topics)
+    {
+        CloseModal();
+        if (AddTopicsActionAsync != null)
+        {
+            await AddTopicsActionAsync.Invoke(topics);
+        }
     }
 
     private Task DeleteTopic(List<TopicList> topics)

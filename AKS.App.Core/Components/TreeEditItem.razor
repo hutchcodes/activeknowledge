@@ -1,7 +1,7 @@
 ﻿@typeparam TItem
 
 <CascadingValue Name="Parent" Value="this">
-    <li role="treeitem" draggable="true" class="dropBeforeClass" style="padding-top:10px; border: 1px solid red;"
+    <li role="treeitem" draggable="true" class="dropBeforeClass" 
         @ondragstart="@(() => HandleDragStart(this))" @ondragstart:stopPropagation="true"
         ondragover="event.preventDefault();"
         @ondrop="HandleDropBefore" @ondrop:stopPropagation="true"
@@ -28,11 +28,18 @@
                   ondragover="event.preventDefault();"
                   @ondrop="HandleDrop" @ondrop:stopPropagation="true"
                   @ondragenter="HandleDragEnter" @ondragenter:stopPropagation="true"
-                  @ondragleave="HandleDragLeave" @ondragleave:stopPropagation="true">
-                @if (Options.DisplayTemplate != null)
+                  @ondragleave="HandleDragLeave" @ondragleave:stopPropagation="true"
+                  @ondblclick="EditItem">
+                @if (Options.DisplayTemplate != null && !IsEditingItem)
                 {
                     @Options.DisplayTemplate(Item)
                     <button @onclick="(() => RemoveItem(Item))" class="btn btn-sm btn-outline-primary">D</button>
+                    <button @onclick="EditItem" class="btn btn-sm btn-outline-primary">E</button>
+                }
+                else if (Options.EditTemplate != null && IsEditingItem)
+                {
+                    @Options.EditTemplate(Item);
+                    <button @onclick="EditItemSave" class="btn btn-sm btn-outline-primary">Save</button>
                 }
                 else
                 {
@@ -47,31 +54,31 @@
             </span>
             @if (isExpanded)
             {
-                <ul style="list-style:none" role="group">
-                    @foreach (var n in Items)
-                    {
-                        @if (Options.ChildTemplate != null)
-                        {
-                            @Options.ChildTemplate(n)
-                        }
-                        else
-                        {
-                            @n.ToString();
-                        }
-                    }
-                    @foreach (var t in Topics)
-                    {
-                        <div>foo</div>
-                        @if (Options.TopicTemplate != null)
-                        {
-                            @Options.TopicTemplate(t)
-                        }
-                        else
-                        {
-                            @t.Topic.Title
-                        }
-                    }
-                </ul>
+        <ul style="list-style:none" role="group">
+            @foreach (var n in Items)
+            {
+                @if (Options.ChildTemplate != null)
+                {
+                    @Options.ChildTemplate(n)
+                }
+                else
+                {
+                    @n.ToString();
+                }
+            }
+            @foreach (var t in Topics)
+            {
+                @if (Options.TopicTemplate != null)
+                {
+                    @Options.TopicTemplate(t)
+                    <button @onclick="(() => RemoveTopic(Item, t))" class="btn btn-sm btn-outline-primary">Dt</button>
+                }
+                else
+                {
+                    @t.Topic?.Title
+                }
+            }
+        </ul>
             }
         </div>
     </li>

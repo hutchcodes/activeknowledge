@@ -17,12 +17,12 @@ namespace AKS.Infrastructure.Services
         private readonly ILogger<CategoryService> _logger;
         private readonly IMapper _mapper;
         private readonly IAsyncRepository<Category> _categoryRepo;
+
         public CategoryService(IMapper mapper, ILoggerFactory loggerFactory, IAsyncRepository<Category> categoryRepo)
         {
             _logger = loggerFactory.CreateLogger<CategoryService>();
             _mapper = mapper;
             _categoryRepo = categoryRepo;
-
             _logger.LogDebug($"New instance of {GetType().Name} was created");
         }
 
@@ -37,9 +37,6 @@ namespace AKS.Infrastructure.Services
 
         public async Task<List<CategoryTree>> SaveCategoryTreeAsync(Guid projectId, List<CategoryTree> categoryTrees)
         {
-            //var flat = GetFlatListOfCategories(projectId, categoryTrees);
-            var spec = new CategoryListSpecification(projectId);
-            var categories = await _categoryRepo.ListAsync(spec);
             try
             {
                 foreach(var cat in categoryTrees)
@@ -52,16 +49,15 @@ namespace AKS.Infrastructure.Services
                 throw;
             }
 
-            categories = await _categoryRepo.ListAsync(spec);
-
+            var spec = new CategoryListSpecification(projectId);
+            var categories = await _categoryRepo.ListAsync(spec);
             categoryTrees = _mapper.Map<List<CategoryTree>>(categories);
 
             return GetTreeOfCategories(categoryTrees);
         }
 
-        public async Task<List<CategoryTree>> SaveCategoryTreeAsync(Guid projectId, CategoryTree categoryTree)
+        public async Task SaveCategoryTreeAsync(CategoryTree categoryTree)
         {
-            categoryTree.ProjectId = projectId;
             try
             {
                 await _categoryRepo.UpdateAsync(categoryTree);
@@ -70,18 +66,10 @@ namespace AKS.Infrastructure.Services
             {
                 throw;
             }
-
-            var spec = new CategoryListSpecification(projectId);
-            var categories = await _categoryRepo.ListAsync(spec);
-
-            var categoryTrees = _mapper.Map<List<CategoryTree>>(categories);
-
-            return GetTreeOfCategories(categoryTrees);
         }
 
         public async Task DeleteCategoryTreeAsync(Guid projectId, Guid categoryId)
         {
-            return;
             var listSpec = new CategoryListSpecification(projectId, categoryId);
             var children = await _categoryRepo.ListAsync(listSpec);
 
@@ -113,7 +101,6 @@ namespace AKS.Infrastructure.Services
                 cat.Order = i;
                 flat.Add(cat);
                 flat.AddRange(GetFlatListOfCategories(projectId, cat.Categories, cat.CategoryId));
-                cat.Categories.Clear();
             }
             return flat;
         }

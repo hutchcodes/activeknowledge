@@ -14,6 +14,6 @@ namespace AKS.Infrastructure.Interfaces
         Task UpdateAsync(T entity);
         Task UpdateAsync<TFrom>(TFrom model) where TFrom : class;
         Task DeleteAsync(T entity);
-        Task DeleteAsync<TFrom>(TFrom entity) where TFrom : class;
+        Task DeleteAsync<TFrom>(TFrom model) where TFrom : class;
     }
 }

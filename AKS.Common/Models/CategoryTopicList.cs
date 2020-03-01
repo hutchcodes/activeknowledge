@@ -21,5 +21,6 @@ namespace AKS.Common.Models
         public Guid TopicId { get; set; }
         public TopicList? Topic { get; set; }
         public int Order { get; set; }
+        public bool IsDeleted { get; set; }
     }
 }

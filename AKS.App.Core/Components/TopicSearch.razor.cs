@@ -24,6 +24,9 @@ namespace AKS.App.Core.Components
         public Action<List<TopicList>>? AddTopicsAction { get; set; }
 
         [Parameter]
+        public Func<List<TopicList>, Task>? AddTopicsActionAsync { get; set; }
+
+        [Parameter]
         public Func<List<TopicList>, Task>? DeleteTopicFunc { get; set; }
 
         [Parameter]
@@ -59,9 +62,13 @@ namespace AKS.App.Core.Components
             StateHasChanged();
         }
 
-        protected void AddTopics()
+        protected async Task AddTopics()
         {
             AddTopicsAction?.Invoke(Topics.Where(x => x.IsSelected).ToList());
+            if (AddTopicsActionAsync != null)
+            {
+                await AddTopicsActionAsync.Invoke(Topics.Where(x => x.IsSelected).ToList());
+            }
         }
 
         protected async Task DeleteTopic()

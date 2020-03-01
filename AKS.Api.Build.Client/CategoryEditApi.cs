@@ -30,9 +30,24 @@ namespace AKS.Api.Build.Client
             return categoryTrees;
         }
 
+        public async Task SaveCategory(CategoryTree categoryTrees)
+        {
+            await _http.PostJsonAsync($"categoryedit/", categoryTrees);
+            return;
+        }
+
         public async Task DeleteCategory(Guid projectId, Guid categoryId)
         {
-            await _http.DeleteAsync($"categoryedit/project/{projectId}/{categoryId}");
+            await _http.DeleteAsync($"categoryedit/{projectId}/{categoryId}");
+        }
+
+        public async Task SaveCategoryTopics(List<CategoryTopicList> topics)
+        {
+            await _http.PostJsonAsync($"categoryedit/topic/", topics);
+        }
+        public async Task DeleteCategoryTopic(Guid projectId, Guid categoryId, Guid topicId)
+        {
+            await _http.DeleteAsync($"categoryedit/{projectId}/{categoryId}/topic/{topicId}");
         }
     }
 }

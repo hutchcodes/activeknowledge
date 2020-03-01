@@ -23,7 +23,8 @@ namespace AKS.App.Core.Components
         bool ShowInsertBelow = false;
         bool ShowInsertAbove = false;
         bool isExpanded = true;
-
+        bool IsEditingItem = false;
+        
         protected override void OnParametersSet()
         {
             base.OnParametersSet();
@@ -40,6 +41,31 @@ namespace AKS.App.Core.Components
             if (Options.RemoveItemAction != null)
             {
                 await Options.RemoveItemAction.Invoke(Parent.Item, item);
+            }
+        }
+
+        private async Task RemoveTopic(TItem item, CategoryTopicList topic)
+        {
+            if (Options.RemoveTopicAction != null)
+            {
+                await Options.RemoveTopicAction.Invoke(item, topic);
+            }
+        }
+
+        private void EditItem()
+        {
+            if (Options.EditTemplate != null && Options.EditItemSaveAction != null)
+            {
+                IsEditingItem = true;
+            }
+        }
+
+        private async Task EditItemSave()
+        {
+            IsEditingItem = false;
+            if (Options.EditItemSaveAction != null)
+            {
+                await Options.EditItemSaveAction.Invoke(Item);
             }
         }
 
@@ -94,6 +120,10 @@ namespace AKS.App.Core.Components
                 Options.Root.Payload.Parent?.Items.Remove(Options.Root.Payload.Item);
                 Options.Root.Payload.Parent = this;
                 Items.Add(Options.Root.Payload.Item);
+                if (Options.ItemUpdatedAction != null)
+                {
+                    await Options.ItemUpdatedAction.Invoke(Item, Options.Root.Payload.Item);
+                }
             }
             await Options.Root.UpdateJobAsync();
 
@@ -134,6 +164,11 @@ namespace AKS.App.Core.Components
                 Options.Root.Payload.Parent = this;
                 var index = Parent.Items.IndexOf(Item);
                 Parent.Items.Insert(index, Options.Root.Payload.Item);
+                StateHasChanged();
+                if (Options.ItemUpdatedAction != null)
+                {
+                    await Options.ItemUpdatedAction.Invoke(Parent.Item, Options.Root.Payload.Item);
+                }
             }
             await Options.Root.UpdateJobAsync();
 

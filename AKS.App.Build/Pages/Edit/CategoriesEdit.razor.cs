@@ -8,6 +8,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Net.Http;
 using System.Threading.Tasks;
+using AKS.App.Core.Components;
 
 namespace AKS.App.Core
 {
@@ -22,16 +23,16 @@ namespace AKS.App.Core
         [CascadingParameter] protected IAppState AppState { get; set; } = null!;
 
         public List<CategoryTree> CategoryTrees { get; set; } = new List<CategoryTree>();
+        public TopicSearchModal TopicSearch { get; set; } = null!;
 
         public override async Task SetParametersAsync(ParameterView parameters)
         {
             await base.SetParametersAsync(parameters);
-
+            Console.WriteLine("Set Params");
             var headerTask = AppState.UpdateCustomerAndProject(null, ProjectId);
             var categoryTask = GetCategoryTree();
             await headerTask;
             await categoryTask;
-
         }
 
         public async Task GetCategoryTree()
@@ -51,6 +52,11 @@ namespace AKS.App.Core
                 t1.Categories.Add(t11);
                 t1.Categories.Add(t12);
                 t12.Categories.Add(t121);
+
+                await SaveCategory(null, t1);
+                await SaveCategory(t1, t11);
+                await SaveCategory(t12, t121);
+                Console.WriteLine("Added new categories");
             }
             StateHasChanged();
         }
@@ -60,6 +66,7 @@ namespace AKS.App.Core
             if (CategoryTrees != null)
             {
                 CategoryTrees = await CategoryEditApi.SaveCategoryTree(ProjectId, CategoryTrees);
+                Console.WriteLine("Save whole thing");
             }
         }
 
@@ -73,9 +80,10 @@ namespace AKS.App.Core
             return true;
         }
 
-        public void AddCategory(CategoryTree? category)
+        public async Task AddCategory(CategoryTree? category)
         {
-            var newCat = new CategoryTree { Name = "Test", ProjectId = ProjectId, CategoryId = Guid.NewGuid() };
+            var newCat = new CategoryTree { Name = "Test", ProjectId = ProjectId, CategoryId = Guid.NewGuid(), ParentCategoryId = category?.CategoryId };
+
             if (category == null)
             {
                 CategoryTrees.Add(newCat);
@@ -84,46 +92,98 @@ namespace AKS.App.Core
             {
                 category.Categories.Add(newCat);
             }
+            await SaveCategory(category, newCat);
+        }
+
+        public async Task SaveCategory( CategoryTree category)
+        {
+            var catsToSave = new List<CategoryTree>();
+            catsToSave.Add(category);
+
+            await CategoryEditApi.SaveCategoryTree(ProjectId, catsToSave);
+        }
+        public async Task SaveCategory(CategoryTree? parentCategory, CategoryTree category)
+        {
+            Console.WriteLine($"save {category.Name}");
+            category.ParentCategoryId = parentCategory?.CategoryId;
+
+            var catsToSave = new List<CategoryTree>();
+            catsToSave.Add(category);
+
+            var reorderCategories = parentCategory?.Categories ?? CategoryTrees;
+
+            foreach (var cat in reorderCategories)
+            {
+                if (cat.Order != reorderCategories.IndexOf(cat))
+                {
+                    cat.Order = reorderCategories.IndexOf(cat);
+                    catsToSave.Add(cat);
+                }
+            }
+
+            await CategoryEditApi.SaveCategoryTree(ProjectId, catsToSave);
         }
 
         public async Task RemoveCategory(CategoryTree? parent, CategoryTree category)
         {
-            Console.WriteLine($"RemoveCategory: {parent?.Name} - {category.Name}");
-            await CategoryEditApi.DeleteCategory(ProjectId, category.CategoryId);
+            await CategoryEditApi.DeleteCategory(category.ProjectId, category.CategoryId);
             if (parent != null)
             {
-                Console.WriteLine("RemoveFromParent");
-                
                 parent.Categories.Remove(category);
             }
             else
             {
-                Console.WriteLine("RemoveFromRoot");
                 CategoryTrees.Remove(category);
             }
             StateHasChanged();
         }
 
+        private CategoryTree? _currentCategory;
         public void AddTopic(CategoryTree category)
         {
-            Console.WriteLine("here");
-            //category.Topics.Add(new CategoryTopicList() { Title = "TestTopic" });
-            var topic = new TopicList
-            {
-                ProjectId = Guid.Parse("74171969-a00a-424f-8683-a9e0d0e252e8"),
-                TopicId = Guid.Parse("b60faad7-7d07-4801-9b5e-e59bbeb5884f"),
-                TopicType = Common.Enums.TopicType.Content,
-                Title = "NewTopic"
-            };
-
-            var ctl = new CategoryTopicList(topic);
-
-            category.Topics.Add(ctl);
-            Console.WriteLine("There");
+            _currentCategory = category;
+            TopicSearch.ShowModal();
         }
 
-        public void RemoveTopic(CategoryTree category, CategoryTopicList topic)
+        public async Task AddTopicsAsync(List<TopicList> topics)
         {
+            if (_currentCategory == null) return;
+            foreach (var t in topics)
+            {
+                Console.WriteLine(t.Title);
+                var ctl = new CategoryTopicList(t);
+                _currentCategory.Topics.Add(ctl);
+                await SaveTopic(_currentCategory, ctl);
+            }
+            _currentCategory = null;
+            StateHasChanged();
+        }
+
+
+        public async Task SaveTopic(CategoryTree category, CategoryTopicList topic)
+        {
+            topic.CategoryId = category.CategoryId;
+
+            var topicsToSave = new List<CategoryTopicList>();
+            topicsToSave.Add(topic);
+
+            foreach (var top in category.Topics.Where(x => x != topic))
+            {
+                if (top.Order != category.Topics.IndexOf(top))
+                {
+                    top.Order = category.Topics.IndexOf(top);
+                    topicsToSave.Add(top);
+                }
+            }
+
+            await CategoryEditApi.SaveCategoryTopics(topicsToSave);
+        }
+
+        public async Task RemoveTopic(CategoryTree category, CategoryTopicList topic)
+        {
+            Console.WriteLine("Cat " +category.Name);
+            Console.WriteLine("Topic " + topic.Topic?.Title);
+            await CategoryEditApi.DeleteCategoryTopic(category.ProjectId, category.CategoryId, topic.TopicId);
             category.Topics.Remove(topic);
         }
 

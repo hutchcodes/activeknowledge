@@ -11,8 +11,13 @@ namespace AKS.App.Core.Components
     {
         public TreeEditItemRoot<TItem> Root { get; set; } = null!;
         public RenderFragment<TItem>? DisplayTemplate { get; set; }
+        public RenderFragment<TItem>? EditTemplate { get; set; }
         public RenderFragment<TItem>? ChildTemplate { get; set; }
         public RenderFragment<CategoryTopicList>? TopicTemplate { get; set; }
         public Func<TItem, TItem, Task>? RemoveItemAction { get; set; }
+        public Func<TItem, TItem, Task>? ItemUpdatedAction { get; set; }
+        public Func<TItem, Task>? EditItemSaveAction { get; set; }
+        public Func<TItem, CategoryTopicList, Task>? RemoveTopicAction { get; set; }
+
     }
 }

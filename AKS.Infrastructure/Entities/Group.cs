@@ -13,7 +13,7 @@ namespace AKS.Infrastructure.Entities
 
         public Guid GroupId { get; set; }
         public Guid CustomerId { get; set; }
-        public Customer Customer { get; set; }
+        public virtual Customer Customer { get; set; }
         public string GroupName { get; set; } = "";
         public bool IsActive { get; set; }
         public virtual ICollection<UserGroup> UserGroups { get; set; }

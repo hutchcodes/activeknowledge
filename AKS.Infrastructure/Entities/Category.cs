@@ -13,7 +13,7 @@ namespace AKS.Infrastructure.Entities
         public int Order { get; set; }
         public Guid? ParentCategoryId { get; set; }
 
-        public Category? ParentCategory { get; set; }
+        public virtual Category? ParentCategory { get; set; }
         public virtual ICollection<CategoryTopic> CategoryTopics { get; set; } = new HashSet<CategoryTopic>();
         public virtual ICollection<Category> Categories { get; set; } = new HashSet<Category>();
     }
