@@ -3,9 +3,8 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
 using AKS.Infrastructure.Data;
+using Azure.Identity;
 using Microsoft.AspNetCore.Hosting;
-using Microsoft.Azure.KeyVault;
-using Microsoft.Azure.Services.AppAuthentication;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.Configuration.AzureAppConfiguration;
 using Microsoft.Extensions.DependencyInjection;
@@ -16,7 +15,6 @@ namespace AKS.Api.Build
 {
     public static class Program
     {
-        static readonly AzureServiceTokenProvider _azureServiceTokenProvider = new AzureServiceTokenProvider();
         public static void Main(string[] args)
         {
             var host = CreateHostBuilder(args).Build();
@@ -42,14 +40,17 @@ namespace AKS.Api.Build
                     webBuilder.ConfigureAppConfiguration((hostingContext, config) =>
                     {
                         var settings = config.Build();
-                        var kvClient = new KeyVaultClient(new KeyVaultClient.AuthenticationCallback(_azureServiceTokenProvider.KeyVaultTokenCallback));
+                        var connection = settings.GetConnectionString("AppConfig");
                         config.AddAzureAppConfiguration(options =>
                         {
-                            //options.Connect(settings["ConnectionStrings:AppConfig-Prod"])
                             options.Connect(settings["ConnectionStrings:AppConfig"])
-                                    .UseAzureKeyVault(kvClient);
+                                    .ConfigureKeyVault(kv =>
+                                    {
+                                        kv.SetCredential(new DefaultAzureCredential());
+                                    });
                         });
-                        config.AddJsonFile($"appSettings.{hostingContext.HostingEnvironment.EnvironmentName}.json", 
+
+                        config.AddJsonFile($"appSettings.{hostingContext.HostingEnvironment.EnvironmentName}.json",
                             optional: true, reloadOnChange: true);
                     });
                     webBuilder.UseStartup<Startup>();
