@@ -41,13 +41,15 @@ namespace AKS.Api.Build
                     {
                         var settings = config.Build();
                         var connection = settings.GetConnectionString("AppConfig");
+
+                        var credentials = GetDefaultAzureCredential();
                         config.AddAzureAppConfiguration(options =>
                         {
-                            options.Connect(settings["ConnectionStrings:AppConfig"])
-                                    .ConfigureKeyVault(kv =>
-                                    {
-                                        kv.SetCredential(new DefaultAzureCredential());
-                                    });
+                            options.Connect(connection)
+                                .ConfigureKeyVault(kv =>
+                                {
+                                    kv.SetCredential(credentials);
+                                });
                         });
 
                         config.AddJsonFile($"appSettings.{hostingContext.HostingEnvironment.EnvironmentName}.json",
@@ -55,5 +57,17 @@ namespace AKS.Api.Build
                     });
                     webBuilder.UseStartup<Startup>();
                 });
+
+        private static DefaultAzureCredential GetDefaultAzureCredential() => new DefaultAzureCredential(new DefaultAzureCredentialOptions
+        {
+            //be explicit about this to prevent frustration
+            ExcludeManagedIdentityCredential = false,
+            ExcludeAzureCliCredential = false,
+            ExcludeSharedTokenCacheCredential = true,
+            ExcludeVisualStudioCodeCredential = true,
+            ExcludeInteractiveBrowserCredential = true,
+            ExcludeEnvironmentCredential = true,
+            ExcludeVisualStudioCredential = true
+        });
     }
 }
