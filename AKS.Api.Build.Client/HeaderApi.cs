@@ -19,13 +19,13 @@ namespace AKS.Api.Build.Client
         }
         public async Task<HeaderNavView> GetHeaderForProject(Guid projectId)
         {
-            var headerNav = await _http.GetJsonAsync<HeaderNavView>($"header/project/{projectId}");
+            var headerNav = await _http.GetJsonAsync<HeaderNavView>($"api/header/project/{projectId}");
             return headerNav;
         }
 
         public async Task<HeaderNavView> GetHeaderForCustomer(Guid customerId)
         {
-            var headerNav = await _http.GetJsonAsync<HeaderNavView>($"header/customer/{customerId}");
+            var headerNav = await _http.GetJsonAsync<HeaderNavView>($"api/header/customer/{customerId}");
             return headerNav;
         }
     }

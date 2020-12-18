@@ -11,20 +11,19 @@ using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc.ModelBinding;
 using AKS.Infrastructure.DTO;
 using AKS.Api.Build.Data;
-using Microsoft.Extensions.Configuration;
 using AKS.Common;
 using Microsoft.AspNetCore.Authorization;
 
-namespace AKS.Api.Build.Controllers
+namespace AKS.Api.Build
 {
-    //[Authorize]
+    [Authorize]
     [Route("api/[controller]")]
     [ApiController]
-    public class ContentImageController : ControllerBase
+    public class ProjectImageController : ControllerBase
     {
         private readonly IFileStorageRepository _fileStorage;
         private readonly string[] _supportedMimeTypes =
-        {
+{
             "image/png",
             "image/jpeg",
             "image/jpg",
@@ -33,16 +32,17 @@ namespace AKS.Api.Build.Controllers
             "image/webp",
             "image/tiff"
         };
-        public ContentImageController(IFileStorageRepository fileStorage)
+
+        public ProjectImageController(IFileStorageRepository fileStorage)
         {
             _fileStorage = fileStorage;
         }
 
         [HttpGet]
-        [Route("api/[controller]/{projectId}/{topicId}/{imageId}/{*slug}")]
-        public async Task<IActionResult> GetImage(Guid projectId, Guid topicId, Guid imageId, string slug)
+        [Route("api/[controller]/{projectId}/{imageId}/{*slug}"), HttpGet]
+        public async Task<IActionResult> GetImage(Guid projectId, Guid imageId, string slug)
         {
-            var doc = await _fileStorage.GetDocument(FileStorageType.ContentImages, $"{projectId}/{topicId}/{imageId}/{slug}");
+            var doc = await _fileStorage.GetDocument(FileStorageType.ProjectImages, $"{projectId}/{imageId}/{slug}");
 
             if (doc == null)
             {
@@ -54,8 +54,8 @@ namespace AKS.Api.Build.Controllers
         }
 
         [HttpPost, RequestSizeLimit(2 * 1024 * 1024)]
-        [Route("api/[controller]/{projectId}/{topicId}")]
-        public async Task<IActionResult> PostImage(Guid projectId, Guid topicId, IFormFile upload)
+        [Route("api/[controller]/{projectId}")]
+        public async Task<IActionResult> PostImage(Guid projectId, IFormFile upload)
         {
             if (!_supportedMimeTypes.Contains(upload.ContentType.ToLower()))
             {
@@ -65,21 +65,21 @@ namespace AKS.Api.Build.Controllers
             var stream = upload.OpenReadStream();
 
             var imageId = Guid.NewGuid();
+
             var document = new Document()
             {
-                DocumentId = imageId,
                 Content = stream,
                 ContentType = upload.ContentType,
                 Name = upload.FileName,
                 ProjectId = projectId,
-                TopicId = topicId
+                DocumentId = imageId
             };
 
-            var key = $"{projectId}/{topicId}/{imageId}/{upload.FileName}";
+            var key = $"{projectId}/{imageId}/{upload.FileName}";
 
-            await _fileStorage.UploadDocument(FileStorageType.ContentImages, key, document);
+            await _fileStorage.UploadDocument(FileStorageType.ProjectImages, key, document);
 
-            var response = new CKEUploadSuccess($"{ConfigSettings.ThisApiBaseUrl}ContentImage/{projectId}/{topicId}/{imageId}/{upload.FileName}");
+            var response = new CKEUploadSuccess($"{ConfigSettings.ThisApiBaseUrl}ContentImage/{projectId}/{imageId}/{upload.FileName}");
 
             return Ok(response);
         }
