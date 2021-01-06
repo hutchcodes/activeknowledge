@@ -17,6 +17,9 @@ namespace AKS.App.Client
             var builder = WebAssemblyHostBuilder.CreateDefault(args);
             builder.RootComponents.Add<App>("app");
 
+/*            builder.Services.AddHttpClient("AKS.Build.App.ServerAPI", client => client.BaseAddress = new Uri(builder.HostEnvironment.BaseAddress))
+               .AddHttpMessageHandler<BaseAddressAuthorizationMessageHandler>();*/
+
             builder.Services.AddScoped(sp => new HttpClient { BaseAddress = new Uri(builder.HostEnvironment.BaseAddress) });
 
             AKS.App.Build.DIConfig.ConfigureServices(builder.Services);

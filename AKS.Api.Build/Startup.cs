@@ -177,7 +177,7 @@ namespace AKS.Api.Build
                 return next();
             });            
 
-            app.UseClientSideBlazorFiles<App.Build.CSB.Startup>();
+            //app.UseClientSideBlazorFiles<App.Build.CSB.Startup>();
 
             app.UseRouting();
 

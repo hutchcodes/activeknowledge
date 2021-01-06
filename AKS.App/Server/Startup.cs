@@ -7,7 +7,7 @@ using AKS.Infrastructure.Interfaces;
 using AKS.Infrastructure.Services;
 using AutoMapper;
 using AutoMapper.EquivalencyExpression;
-using Microsoft.AspNetCore.Authentication.AzureADB2C.UI;
+using Microsoft.AspNetCore.Authentication.JwtBearer;
 using Microsoft.AspNetCore.Authentication.OpenIdConnect;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
@@ -17,6 +17,7 @@ using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
+using Microsoft.Identity.Web;
 using System.Linq;
 using System.Threading.Tasks;
 
@@ -45,11 +46,13 @@ namespace AKS.App.Server
                 automapper.UseEntityFrameworkCoreModel<AKSContext>(serviceProvider);
             }, typeof(AKSContext).Assembly);
 
+            services.AddAuthentication(JwtBearerDefaults.AuthenticationScheme)
+               .AddMicrosoftIdentityWebApi(Configuration.GetSection("AzureAdB2C"));
 
             //services.AddAuthentication(AzureADB2CDefaults.AuthenticationScheme)
-                           // .AddAzureADB2C(options => Configuration.Bind("AzureAdB2C", options));
+            // .AddAzureADB2C(options => Configuration.Bind("AzureAdB2C", options));
 
-            var sp = services.BuildServiceProvider();
+            /*var sp = services.BuildServiceProvider();
 
             services.Configure<OpenIdConnectOptions>(AzureADB2CDefaults.OpenIdScheme, options =>
             {
@@ -76,7 +79,7 @@ namespace AKS.App.Server
                         return Task.CompletedTask;
                     }
                 };
-            });
+            });*/
 
 
             services.Configure<CookiePolicyOptions>(options =>
