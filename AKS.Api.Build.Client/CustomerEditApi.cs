@@ -21,13 +21,13 @@ namespace AKS.Api.Build.Client
 
         public async Task<CustomerEdit> GetCustomer(Guid customerId)
         {
-            var customer = await _http.GetJsonAsync<CustomerEdit>("customer/{customerId}");
+            var customer = await _http.GetJsonAsync<CustomerEdit>("api/customer/{customerId}");
             return customer;
         }
 
         public async Task<CustomerEdit> UpdateCustomer(CustomerEdit customerEdit)
         {
-            var customer = await _http.PostJsonAsync<CustomerEdit>("customer", customerEdit);
+            var customer = await _http.PostJsonAsync<CustomerEdit>("api/customer", customerEdit);
             return customer;
         }
     }

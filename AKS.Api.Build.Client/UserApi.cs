@@ -19,7 +19,7 @@ namespace AKS.Api.Build.Client
 
         public async Task<AKSUser> GetCurrentUser()
         {
-            return await _http.GetJsonAsync<AKSUser>("user/GetCurrentUser");
+            return await _http.GetJsonAsync<AKSUser>("api/user/GetCurrentUser");
         }
     }
 }

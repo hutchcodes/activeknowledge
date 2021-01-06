@@ -20,7 +20,7 @@ namespace AKS.Api.Build.Client
 
         public async Task<List<ProjectList>> GetProjectListByCustomer(Guid customerId)
         {
-            var projectList = await _http.GetJsonAsync<List<ProjectList>>($"project/list/{customerId}");
+            var projectList = await _http.GetJsonAsync<List<ProjectList>>($"api/project/list/{customerId}");
             return projectList;
         }
     }

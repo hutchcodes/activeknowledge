@@ -19,19 +19,19 @@ namespace AKS.Api.Build.Client
         }
         public async Task<TopicView> GetTopic(Guid projectId, Guid topicId)
         {
-            var topic = await _http.GetJsonAsync<TopicView>($"topicview/{projectId}/{topicId}");
+            var topic = await _http.GetJsonAsync<TopicView>($"api/topicview/{projectId}/{topicId}");
             return topic;
         }
 
         public async Task<List<TopicList>> GetTopicListByProjectId(Guid projectId)
         {
-            var topicList = await _http.GetJsonAsync<List<TopicList>>($"topicview/list/{projectId}");
+            var topicList = await _http.GetJsonAsync<List<TopicList>>($"api/topicview/list/{projectId}");
             return topicList;
         }
 
         public async Task<List<TopicList>> SearchProjectTopics(Guid projectId, Guid? categoryId, string search)
         {
-            var resource = $"topicview/search/{projectId}/{search}";
+            var resource = $"api/topicview/search/{projectId}/{search}";
             if (categoryId.HasValue)
             {
                 resource += $"?categoryId=categoryId";

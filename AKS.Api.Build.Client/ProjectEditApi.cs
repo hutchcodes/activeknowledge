@@ -20,14 +20,14 @@ namespace AKS.Api.Build.Client
 
         public async Task<ProjectEdit> GetProject(Guid projectId)
         {
-            var project = await _http.GetJsonAsync<ProjectEdit>($"project/{projectId}");
+            var project = await _http.GetJsonAsync<ProjectEdit>($"api/project/{projectId}");
 
             return project;
         }
 
         public async Task<ProjectEdit> UpdateProject(ProjectEdit projectEdit)
         {
-            var project = await _http.PostJsonAsync<ProjectEdit>($"project", projectEdit);
+            var project = await _http.PostJsonAsync<ProjectEdit>($"api/project", projectEdit);
 
             return project;
         }

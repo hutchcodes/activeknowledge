@@ -10,7 +10,7 @@ using Microsoft.AspNetCore.Authorization;
 
 namespace AKS.Api.Build.Controllers
 {
-    [Authorize]
+    //[Authorize]
     [Route("api/[controller]")]
     [ApiController]
     public class ProjectController : ControllerBase

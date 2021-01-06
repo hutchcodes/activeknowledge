@@ -18,7 +18,7 @@ namespace AKS.Api.Build.Client
         }
         public async Task<List<CategoryTree>> GetCategoryTreeForProject(Guid projectId)
         {
-            var categoryTrees = await _http.GetJsonAsync<List<CategoryTree>>($"categoryview/project/{projectId}");
+            var categoryTrees = await _http.GetJsonAsync<List<CategoryTree>>($"api/categoryview/project/{projectId}");
 
             return categoryTrees;
         }
