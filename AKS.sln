@@ -21,11 +21,16 @@ Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "AKS.App.Build", "AKS.App.Bu
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "AKS.App.Build.CSB", "AKS.App.Build.CSB\AKS.App.Build.CSB.csproj", "{91B396D0-3EB0-40B0-B13A-611DD17D5C86}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "AKS.App.Server", "AKS.App\Server\AKS.App.Server.csproj", "{50941E7B-B53D-417F-832D-7898F7C4C3A9}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "AKS.App.Server", "AKS.App\Server\AKS.App.Server.csproj", "{50941E7B-B53D-417F-832D-7898F7C4C3A9}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "AKS.App.Client", "AKS.App\Client\AKS.App.Client.csproj", "{DF99DC29-7711-4BAE-B0F8-3D2EC49B017B}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "AKS.App.Client", "AKS.App\Client\AKS.App.Client.csproj", "{DF99DC29-7711-4BAE-B0F8-3D2EC49B017B}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "AKS.App.Shared", "AKS.App\Shared\AKS.App.Shared.csproj", "{B137DBC0-A8F4-457B-BC07-C492269EE42C}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "AKS.App.Shared", "AKS.App\Shared\AKS.App.Shared.csproj", "{B137DBC0-A8F4-457B-BC07-C492269EE42C}"
+EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Solution Items", "Solution Items", "{BA9CE7B7-D5DA-4AF6-B701-871351FE51AA}"
+	ProjectSection(SolutionItems) = preProject
+		Getting Started.md = Getting Started.md
+	EndProjectSection
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution

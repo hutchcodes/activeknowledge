@@ -1,3 +1,4 @@
+using AKS.Api.Build.Helpers;
 using AKS.Common;
 using AKS.Infrastructure;
 using AKS.Infrastructure.Blobs;
@@ -6,14 +7,18 @@ using AKS.Infrastructure.Interfaces;
 using AKS.Infrastructure.Services;
 using AutoMapper;
 using AutoMapper.EquivalencyExpression;
+using Microsoft.AspNetCore.Authentication.AzureADB2C.UI;
+using Microsoft.AspNetCore.Authentication.OpenIdConnect;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.AspNetCore.HttpsPolicy;
 using Microsoft.AspNetCore.ResponseCompression;
+using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
 using System.Linq;
+using System.Threading.Tasks;
 
 namespace AKS.App.Server
 {
@@ -40,9 +45,9 @@ namespace AKS.App.Server
                 automapper.UseEntityFrameworkCoreModel<AKSContext>(serviceProvider);
             }, typeof(AKSContext).Assembly);
 
-            /*
-            services.AddAuthentication(AzureADB2CDefaults.AuthenticationScheme)
-                            .AddAzureADB2C(options => Configuration.Bind("AzureAdB2C", options));
+
+            //services.AddAuthentication(AzureADB2CDefaults.AuthenticationScheme)
+                           // .AddAzureADB2C(options => Configuration.Bind("AzureAdB2C", options));
 
             var sp = services.BuildServiceProvider();
 
@@ -72,7 +77,7 @@ namespace AKS.App.Server
                     }
                 };
             });
-            */
+
 
             services.Configure<CookiePolicyOptions>(options =>
             {
@@ -153,6 +158,52 @@ namespace AKS.App.Server
                 endpoints.MapControllers();
                 endpoints.MapFallbackToFile("index.html");
             });
+        }
+
+        public void ConfigureDevelopmentServices(IServiceCollection services)
+        {
+            // use in-memory database
+            ConfigureTestingServices(services);
+
+            // use real database
+            // ConfigureProductionServices(services);
+
+        }
+
+        public void ConfigureTestingServices(IServiceCollection services)
+        {
+            // use in-memory database
+            //services.AddDbContext<AKSContext>(c =>
+            //    c.UseInMemoryDatabase("AKSDB"));
+
+            services.AddDbContext<AKSContext>(c =>
+            {
+                // Requires LocalDB which can be installed with SQL Server Express 2016
+                // https://www.microsoft.com/en-us/download/details.aspx?id=54284
+                c.UseSqlServer(Configuration.GetConnectionString("AKSContext"))
+                //.UseLazyLoadingProxies()
+                ;
+            });
+
+            //services.AddDbContext<SecurityContext>(c =>
+            //    c.UseInMemoryDatabase("SecurityDB"));
+
+            ConfigureServices(services);
+        }
+
+        public void ConfigureProductionServices(IServiceCollection services)
+        {
+            // use real database
+            services.AddDbContext<AKSContext>(c =>
+            {
+                // Requires LocalDB which can be installed with SQL Server Express 2016
+                // https://www.microsoft.com/en-us/download/details.aspx?id=54284
+                c.UseSqlServer(Configuration.GetConnectionString("AKSContext"));
+            });
+            //services.AddDbContext<SecurityContext>(c =>
+            //    c.UseInMemoryDatabase("SecurityDB"));
+
+            ConfigureServices(services);
         }
     }
 }
