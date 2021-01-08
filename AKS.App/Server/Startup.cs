@@ -49,10 +49,10 @@ namespace AKS.App.Server
             services.AddAuthentication(JwtBearerDefaults.AuthenticationScheme)
                .AddMicrosoftIdentityWebApi(Configuration.GetSection("AzureAdB2C"));
 
-            //services.AddAuthentication(AzureADB2CDefaults.AuthenticationScheme)
-            // .AddAzureADB2C(options => Configuration.Bind("AzureAdB2C", options));
+            services.AddAuthentication(AzureADB2CDefaults.AuthenticationScheme)
+             .AddAzureADB2C(options => Configuration.Bind("AzureAdB2C", options));
 
-            /*var sp = services.BuildServiceProvider();
+            var sp = services.BuildServiceProvider();
 
             services.Configure<OpenIdConnectOptions>(AzureADB2CDefaults.OpenIdScheme, options =>
             {
@@ -79,7 +79,7 @@ namespace AKS.App.Server
                         return Task.CompletedTask;
                     }
                 };
-            });*/
+            });
 
 
             services.Configure<CookiePolicyOptions>(options =>

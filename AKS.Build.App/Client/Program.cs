@@ -27,7 +27,8 @@ namespace AKS.Build.App.Client
             builder.Services.AddMsalAuthentication(options =>
             {
                 builder.Configuration.Bind("AzureAdB2C", options.ProviderOptions.Authentication);
-                options.ProviderOptions.DefaultAccessTokenScopes.Add("https://ActiveKnowledgeAppB2C.onmicrosoft.com/8d43c546-36da-49e8-828a-36bd600db8ff/BuildContent");
+//                options.ProviderOptions.DefaultAccessTokenScopes.Add("https://ActiveKnowledgeAppB2C.onmicrosoft.com/230d2366-a2d3-436f-8646-c9b5708939bb/AKS.Build.API.ReadWrite");
+                options.ProviderOptions.DefaultAccessTokenScopes.Add("https://ActiveKnowledgeAppB2C.onmicrosoft.com/40f499c4-fc43-4d1e-9f66-2a5625fe4b67/API.Access");
             });
 
             AKS.App.Build.DIConfig.ConfigureServices(builder.Services);
